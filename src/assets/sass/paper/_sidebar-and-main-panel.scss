@@ -126,14 +126,9 @@
   }
 
   &,
-  &[data-background-color="white"] {
-    @include sidebar-background-color($white-background-color, $default-color);
-  }
-  &[data-background-color="black"] {
-    @include sidebar-background-color($black-background-color, $white-color);
-  }
-  &[data-background-color="darkblue"] {
-    @include sidebar-background-color($darkblue-background-color, $white-color);
+
+  &[data-background-color="darkred"] {
+    @include sidebar-background-color($darkred-background-color, $white-color);
   }
 
   &[data-active-color="primary"] {

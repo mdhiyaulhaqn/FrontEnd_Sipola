@@ -8,9 +8,7 @@
     <tbody>
     <tr v-for="(item, index) in data" :key="index">
       <slot :row="item">
-        <td v-for="(column, index) in columns"
-            :key="index"
-            v-if="hasValue(item, column)">
+        <td v-for="(column, index) in columns" :key="index" >
           {{itemValue(item, column)}}
         </td>
       </slot>
@@ -26,7 +24,7 @@ export default {
     data: Array,
     type: {
       type: String, // striped | hover
-      default: "striped"
+      default: ""
     },
     title: {
       type: String,

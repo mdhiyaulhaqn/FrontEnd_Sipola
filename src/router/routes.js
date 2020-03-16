@@ -15,7 +15,7 @@ const routes = [
   {
     path: "/",
     component: DashboardLayout,
-    redirect: "/dashboard",
+    redirect: "/quotation",
     children: [
       {
         path: "dashboard",
@@ -48,8 +48,8 @@ const routes = [
         component: Typography
       },
       {
-        path: "table-list",
-        name: "table-list",
+        path: "quotation",
+        name: "quotation",
         component: TableList
       }
     ]

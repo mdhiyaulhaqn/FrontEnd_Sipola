@@ -16,6 +16,13 @@
           {{title}}
         </a>
       </div>
+      <div class="logo">
+        <div class = "user-profile">
+           <h5> I Made Adisurya Nugraha</h5>
+        <h5>Sales Marketing</h5>
+        </div>
+      </div>
+      
       <slot>
 
       </slot>
@@ -43,13 +50,13 @@ export default {
   props: {
     title: {
       type: String,
-      default: "SIPOLA"
+      default: 'SIPOLA'
     },
     backgroundColor: {
       type: String,
-      default: "darkblue",
+      default: "darkred",
       validator: value => {
-        let acceptedValues = ["white", "black", "darkblue"];
+        let acceptedValues = ["white", "black","darkred"];
         return acceptedValues.indexOf(value) !== -1;
       }
     },
@@ -98,8 +105,8 @@ export default {
   },
   data() {
     return {
-      linkHeight: 65,
-      activeLinkIndex: 0,
+      linkHeight: 61.5,
+      activeLinkIndex: 80,
       windowWidth: 0,
       isWindows: false,
       hasAutoHeight: false,
@@ -133,4 +140,9 @@ export default {
 };
 </script>
 <style>
+.user-profile{
+  color:white;
+  text-align: center;
+  font-size: 12px;
+}
 </style>

@@ -1,21 +1,14 @@
 <template>
     <div class="row">
       <div class="col-12">
-        <card :title="table1.title" :subTitle="table1.subTitle">
+        <card>
+          <button id ="add_quotation_button" class="btn btn-primary">
+              
+            Add Quotation
+            <span class="ti-plus"></span>
+            </button>
           <div slot="raw-content" class="table-responsive">
             <paper-table :data="table1.data" :columns="table1.columns">
-
-            </paper-table>
-          </div>
-        </card>
-      </div>
-
-      <div class="col-12">
-        <card class="card-plain">
-          <div class="table-full-width table-responsive">
-            <paper-table type="hover" :title="table2.title" :sub-title="table2.subTitle" :data="table2.data"
-                         :columns="table2.columns">
-
             </paper-table>
           </div>
         </card>
@@ -25,42 +18,52 @@
 </template>
 <script>
 import { PaperTable } from "@/components";
-const tableColumns = ["Id", "Name", "Salary", "Country", "City"];
+const tableColumns = ["No", "Quotation No", "Company Name", "Total Works", "Total Price", "Date", "Action"];
 const tableData = [
   {
-    id: 1,
-    name: "Dakota Rice",
-    salary: "$36.738",
-    country: "Niger",
-    city: "Oud-Turnhout"
+    no: 1,
+    'quotation no': "QS 14/12/094",
+    'company name': "PT PLN Indonesia",
+    'total works' : '2',
+    'total price' : '40000000',
+    'date' : '24 Februari 2020',
+    'action' : 'view',
   },
   {
-    id: 2,
-    name: "Minerva Hooper",
-    salary: "$23,789",
-    country: "Curaçao",
-    city: "Sinaai-Waas"
+     no: 2,
+    'quotation no': "QS 18/39/217",
+    'company name': "PT Boveri Indonesia",
+    'total works' : '3',
+    'total price' : '30000000',
+    'date' : '30 Agustus 2020',
+    'action' : 'view',
   },
   {
-    id: 3,
-    name: "Sage Rodriguez",
-    salary: "$56,142",
-    country: "Netherlands",
-    city: "Baileux"
+     no: 3,
+    'quotation no': "QS 39/19/772",
+    'company name': "PT SixAB Tehnik Industri",
+    'total works' : '7',
+    'total price' : '28000000',
+    'date' : '10 Februari 2020',
+    'action' : 'view',
   },
   {
-    id: 4,
-    name: "Philip Chaney",
-    salary: "$38,735",
-    country: "Korea, South",
-    city: "Overland Park"
+     no: 4,
+    'quotation no': "QS 34/14/094",
+    'company name': "PT Sejahtera Makmur",
+    'total works' : '4',
+    'total price' : '90000000',
+    'date' : '24 Maret 2020',
+    'action' : 'view',
   },
   {
-    id: 5,
-    name: "Doris Greene",
-    salary: "$63,542",
-    country: "Malawi",
-    city: "Feldkirchen in Kärnten"
+     no: 5,
+    'quotation no': "QS 14/32/004",
+    'company name': "PT PLN Indonesia",
+    'total works' : '5',
+    'total price' : '13200000',
+    'date' : '15 Desember 2020',
+    'action' : 'view',
   }
 ];
 
@@ -71,20 +74,19 @@ export default {
   data() {
     return {
       table1: {
-        title: "Stripped Table",
-        subTitle: "Here is a subtitle for this table",
+        title: "Quotation List",
+        subTitle: "",
         columns: [...tableColumns],
         data: [...tableData]
       },
-      table2: {
-        title: "Table on Plain Background",
-        subTitle: "Here is a subtitle for this table",
-        columns: [...tableColumns],
-        data: [...tableData]
-      }
     };
   }
 };
 </script>
 <style>
+#add_quotation_button{
+  background-color: #109CF1;
+  color:white;
+  border-color: white;
+}
 </style>
