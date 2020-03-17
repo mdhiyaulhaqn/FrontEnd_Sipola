@@ -8,8 +8,11 @@
             <span class="ti-plus"></span>
             </button>
           <div slot="raw-content" class="table-responsive">
-            <paper-table :data="table1.data" :columns="table1.columns">
-            </paper-table>
+            <b-table :items="table1.data">
+              <template slot="noQuotation" slot-scope="data">
+                {{ data.item.noQuotation }}
+              </template>
+            </b-table>
           </div>
         </card>
       </div>
@@ -18,6 +21,8 @@
 </template>
 <script>
 import { PaperTable } from "@/components";
+import axios from 'axios';
+
 const tableColumns = ["No", "Quotation No", "Company Name", "Total Works", "Total Price", "Date", "Action"];
 const tableData = [
   {
@@ -73,6 +78,7 @@ export default {
   },
   data() {
     return {
+      quotations :[],
       table1: {
         title: "Quotation List",
         subTitle: "",
@@ -80,6 +86,20 @@ export default {
         data: [...tableData]
       },
     };
+  },
+  beforeMount(){
+      this.getAllQuotation();
+  },
+  methods:{
+      getAllQuotation: function(){
+          axios.get('http://localhost:8080/api/quotation/all')
+          .then(result => this.quotations = result.data)
+          .then(console.log(res))
+          .catch(err => this.quotations = err.data.result);
+      },
+      clear(){
+          this.keyword = '';
+      },
   }
 };
 </script>
