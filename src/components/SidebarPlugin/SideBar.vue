@@ -18,8 +18,8 @@
       </div>
       <div class="logo">
         <div class = "user-profile">
-           <h5> I Made Adisurya Nugraha</h5>
-        <h5>Sales Marketing</h5>
+            <h5> I Made Adisurya Nugraha</h5>
+            <h5>Sales Marketing</h5>
         </div>
       </div>
       
@@ -38,7 +38,6 @@
         </slot>
       </ul>
       <moving-arrow :move-y="arrowMovePx">
-
       </moving-arrow>
     </div>
   </div>

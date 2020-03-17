@@ -9,7 +9,9 @@ import Notifications from "@/pages/Notifications.vue";
 import Icons from "@/pages/Icons.vue";
 import Maps from "@/pages/Maps.vue";
 import Typography from "@/pages/Typography.vue";
-import TableList from "@/pages/TableList.vue";
+import Quotation from "@/pages/SalesMarketing/Quotation.vue";
+import SalesOrder from "@/pages/SalesMarketing/SalesOrder.vue";
+import DetailQuotation from "@/pages/SalesMarketing/DetailQuotation.vue";
 
 const routes = [
   {
@@ -26,6 +28,11 @@ const routes = [
         path: "stats",
         name: "stats",
         component: UserProfile
+      },
+      {
+        path: "detail-quotation",
+        name: "detail-quotation",
+        component: DetailQuotation
       },
       {
         path: "notifications",
@@ -50,7 +57,12 @@ const routes = [
       {
         path: "quotation",
         name: "quotation",
-        component: TableList
+        component: Quotation
+      },
+      {
+        path: "sales-order",
+        name: "sales-order",
+        component: SalesOrder
       }
     ]
   },

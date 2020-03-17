@@ -16,9 +16,7 @@
           <li class="nav-item">
             <p class="nav-link">
               <a href="#">i.made712</a><br>
-              <a href="#">Ganti Password</a> | <a href="#">LOGOUT</a>
-              
-              
+              <a href="#">Change Password</a> | <a href="#">Sign Out</a>
             </p>
           </li>
         </ul>
