@@ -11,6 +11,7 @@ import Maps from "@/pages/Maps.vue";
 import Typography from "@/pages/Typography.vue";
 import Quotation from "@/pages/SalesMarketing/Quotation.vue";
 import SalesOrder from "@/pages/SalesMarketing/SalesOrder.vue";
+import FormQuotation from "@/pages/SalesMarketing/FormQuotation.vue";
 import DetailQuotation from "@/pages/SalesMarketing/DetailQuotation.vue";
 import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue"
 
@@ -24,6 +25,11 @@ const routes = [
         path: "dashboard",
         name: "dashboard",
         component: Dashboard
+      },
+      {
+        path: "form-quotation",
+        name: "form-quotation",
+        component: FormQuotation
       },
       {
         path: "stats",

@@ -47,12 +47,12 @@
                 <b-row>
                     <div class = "col-12"><br>Terms and Condition</div>
                     <div class = "col-12">
-                            - Waktu Kerja : Normal working hour 8 Jam per Hari <br>
-                            - Pembayaran : 100% setelah pekerjaan selesai <br>
-                            - Validity : 1 bulan<br>
-                            - Untuk jam kerja lebih dari normal working hour, maka  dikenakan biaya lembur Rp.350.000,- per jam<br>
-                            - Untuk pekerjaan yang dilakukan di hari libur (Sabtu, Minggu dan Hari  libur Nasional) dikenakan biaya tambahan
-                            Rp.2.500.000,- Per Hari
+                        - Waktu Kerja : Normal working hour 8 Jam per Hari <br>
+                        - Pembayaran : 100% setelah pekerjaan selesai <br>
+                        - Validity : 1 bulan<br>
+                        - Untuk jam kerja lebih dari normal working hour, maka  dikenakan biaya lembur Rp.350.000,- per jam<br>
+                        - Untuk pekerjaan yang dilakukan di hari libur (Sabtu, Minggu dan Hari  libur Nasional) dikenakan biaya tambahan
+                        Rp.2.500.000,- Per Hari
                     </div>
                 </b-row>
 
@@ -135,6 +135,11 @@ export default {
 </script>
 
 <style scoped>
+body {
+    font-family: 'Muli', sans-serif;
+    background: #fafafa;
+}
+
 .judul{
     text-align: center;
     color: black;
