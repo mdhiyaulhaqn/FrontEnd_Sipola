@@ -19,6 +19,7 @@
               striped
               responsive
             />
+            
           </template>
         <!-- </div> -->
       </card>
@@ -144,6 +145,12 @@ export default {
       }
     }
   },
+   computed: {
+      items() {
+          return this.quotations
+      },
+  },
+
   beforeMount(){
       this.getAllQuotation();
   },
