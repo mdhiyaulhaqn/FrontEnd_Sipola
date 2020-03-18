@@ -3,16 +3,49 @@
       <div class="col-12">
         <card>
           <button id ="add_quotation_button" class="btn btn-primary">
-              
             Add Quotation
             <span class="ti-plus"></span>
-            </button>
+          </button>
           <div slot="raw-content" class="table-responsive">
-            <b-table :items="table1.data">
-              <template slot="noQuotation" slot-scope="data">
-                {{ data.item.noQuotation }}
-              </template>
+            <b-table 
+                :items="quotations"
+                :fields="fields"
+                :per-page="akuntable.perPage" 
+                :current-page="akuntable.currentPage"
+                :sort-by.sync="akuntable.sortBy"
+                :sort-desc.sync="akuntable.sortDesc"
+                :keyword="keyword">
+
+                <template slot="id" slot-scope="data">
+                    {{ data.item.id}}
+                </template>
+
+                <template slot="noQuotation" slot-scope="data">
+                    {{ data.item.noQuotation }}
+                </template>
+
+                <template slot="createdAt" slot-scope="data">
+                    {{ data.item.createdAt}}
+                </template>
+                
+                <template slot="createdBy" slot-scope="data">
+                    {{ data.item.createdBy}}
+                </template>
+
+                <template slot="view" slot-scope="data">
+                    <router-link :to="{ name: 'detail-quotation', params: {id:data.item.id}}">
+                        <b-button>
+                          view
+                        </b-button>
+                    </router-link>
+                </template>
             </b-table>
+
+            <b-pagination
+              v-model="akuntable.currentPage"
+              :total-rows="quotations.length"
+              :per-page="akuntable.perPage"
+              aria-controls="myTable"/>
           </div>
         </card>
       </div>
@@ -78,7 +111,21 @@ export default {
   },
   data() {
     return {
+      akuntable : {
+          currentPage : 1,
+          perPage : 5,
+          sortDesc : false,
+          sortBy : "id",
+      },
+      fields: [
+          {key: 'id', label: 'Id', sortable: true},
+          {key: 'noQuotation', label: 'No Quotation', sortable:true},
+          {key: 'createdBy', label: 'Created By', sortable:true},
+          {key: 'createdAt', label: 'Created At', sortable:true},
+          {key: 'view'},
+      ],
       quotations :[],
+      keyword :'',
       table1: {
         title: "Quotation List",
         subTitle: "",
@@ -87,6 +134,12 @@ export default {
       },
     };
   },
+   computed: {
+      items() {
+          return this.invoices
+      },
+  },
+
   beforeMount(){
       this.getAllQuotation();
   },
