@@ -11,8 +11,8 @@
     "dev": "npm run serve"
   },
   "dependencies": {
-    "axios": "^0.18.0",
     "@types/jquery": "^3.3.33",
+    "axios": "^0.18.1",
     "b-sidebar": "^1.2.1",
     "bootstrap": "^4.0.0",
     "bootstrap-vue": "^2.6.1",
@@ -20,6 +20,7 @@
     "core-js": "^3.6.4",
     "es6-promise": "^4.2.8",
     "jquery": "^3.4.1",
+    "mdbvue": "^6.5.1",
     "notifyjs": "^3.0.0",
     "vue": "^2.6.11",
     "vue-clickaway": "^2.2.2",
