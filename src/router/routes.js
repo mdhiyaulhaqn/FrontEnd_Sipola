@@ -12,6 +12,7 @@ import Typography from "@/pages/Typography.vue";
 import Quotation from "@/pages/SalesMarketing/Quotation.vue";
 import SalesOrder from "@/pages/SalesMarketing/SalesOrder.vue";
 import DetailQuotation from "@/pages/SalesMarketing/DetailQuotation.vue";
+import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue"
 
 const routes = [
   {
@@ -63,7 +64,12 @@ const routes = [
         path: "sales-order",
         name: "sales-order",
         component: SalesOrder
-      }
+      },
+      {
+        path: "activity-list-schedule",
+        name: "activity-list-schedule",
+        component: ActivityListSchedule
+      },
     ]
   },
   { path: "*", component: NotFound }
