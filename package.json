@@ -11,8 +11,8 @@
     "dev": "npm run serve"
   },
   "dependencies": {
-    "axios": "^0.18.0",
     "@types/jquery": "^3.3.33",
+    "axios": "^0.18.1",
     "b-sidebar": "^1.2.1",
     "bootstrap": "^4.0.0",
     "bootstrap-vue": "^2.6.1",
