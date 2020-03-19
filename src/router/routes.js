@@ -13,6 +13,7 @@ import Quotation from "@/pages/SalesMarketing/Quotation.vue";
 import SalesOrder from "@/pages/SalesMarketing/SalesOrder.vue";
 import FormQuotation from "@/pages/SalesMarketing/FormQuotation.vue";
 import DetailQuotation from "@/pages/SalesMarketing/DetailQuotation.vue";
+import Pengeluaran from "@/pages/Finance/Pengeluaran.vue";
 import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue"
 
 const routes = [
@@ -70,6 +71,11 @@ const routes = [
         path: "sales-order",
         name: "sales-order",
         component: SalesOrder
+      },
+      {
+        path: "expense",
+        name: "expense",
+        component: Pengeluaran
       },
       {
         path: "activity-list-schedule",
