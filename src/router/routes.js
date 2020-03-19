@@ -12,6 +12,7 @@ import Typography from "@/pages/Typography.vue";
 import Quotation from "@/pages/SalesMarketing/Quotation.vue";
 import SalesOrder from "@/pages/SalesMarketing/SalesOrder.vue";
 import DetailQuotation from "@/pages/SalesMarketing/DetailQuotation.vue";
+import Pengeluaran from "@/pages/Finance/Pengeluaran.vue";
 
 const routes = [
   {
@@ -63,6 +64,11 @@ const routes = [
         path: "sales-order",
         name: "sales-order",
         component: SalesOrder
+      },
+      {
+        path: "expense",
+        name: "expense",
+        component: Pengeluaran
       }
     ]
   },

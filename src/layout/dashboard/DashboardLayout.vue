@@ -3,6 +3,7 @@
     <side-bar>
       <template slot="links">
         <sidebar-link to="/quotation" name="Quotation" icon="ti-view-list-alt"/>
+        <sidebar-link to="/expense" name="Expense" icon="ti-clipboard"/>
         <sidebar-link to="/sales-order" name="SalesOrder" icon="ti-bell"/>
         <sidebar-link to="/dashboard" name="Dashboard" icon="ti-panel"/>
         <sidebar-link to="/stats" name="User Profile" icon="ti-user"/>
