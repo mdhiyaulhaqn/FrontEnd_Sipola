@@ -14,7 +14,6 @@
               responsive
             />
           </template>
-        <!-- </div> -->
       </card>
     </div>
   </div>
