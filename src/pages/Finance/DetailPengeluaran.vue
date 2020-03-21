@@ -1,13 +1,11 @@
 <template>
-
     <div class="row">
-        <div class = "col-12">
+        <div class = "container">
             <div class="judul">
                 <strong class="judul">
                     Expense Detail
                 </strong>
-            </div> 
-            
+            </div>   
             <card>
                 <div class = "nama-pengeluaran">Tiket Pesawat CGK - Sawangan</div>
                 <b-row>
@@ -35,10 +33,10 @@
                     <b-col cols="2" class="detail-label">Created by</b-col>
                     <b-col cols="6" class="detail-text">: Ulhaq</b-col>
                 </b-row>
-                <b-row>
+                <b-row class="button-group">
                     <b-col>
                         <br>
-                        <button id ="delete_button" class="btn btn-primary">
+                        <button v-b-modal.modal-delete id ="delete_button" class="btn btn-primary">
                             Delete
                         </button>
                         <button id ="edit_button" class="btn btn-primary">
@@ -50,19 +48,32 @@
             </card>
         </div>
 
-         <b-modal id="modal-download" ref="modal-download" hide-footer centered title="Download Quotation">
+         <b-modal id="modal-delete" ref="modal-delete" hide-footer centered title="Delete Expense">
 			<br>
             <div class = "container">
                 <div class = "info">
                 <b-row>
-                    <span class="ti-download"></span>The system is downloading quotation no. QS.18/X/094
+                    <b-col cols="3" class="ti-trash"></b-col>
+                    <b-col cols="9">
+                        Tiket Pesawat CGK - Sawangan will be removed from expense list.
+                    </b-col>
                 </b-row>
                 </div>
-                <div class = "tombol_okay">
+                <b-row>
+                    <b-col class="button-confirm-group">
+                         <b-button @click="hideModal" id ="confirm_delete_button" variant="outline-danger">
+                            Yes, Delete it
+                        </b-button>
+                        <b-button @click="hideModal" id ="cancel_delete_button" class="btn btn-danger">
+                            No
+                        </b-button>
+                    </b-col>
+                </b-row>
+                <!-- <div class = "tombol_okay">
                     <b-row>
                         <b-button class = "button_back" @click="hideModal" size="md" variant="primary">Okay</b-button>
                     </b-row>
-                </div>
+                </div> -->
         
             </div>
         </b-modal>
@@ -87,7 +98,7 @@ export default {
   },
   methods:{
       hideModal(){
-        this.$refs['modal-download'].hide();
+        this.$refs['modal-delete'].hide();
     },
   }
 };
@@ -99,6 +110,9 @@ body {
     background: #fafafa;
 }
 
+.container{
+    max-width: 983px;
+}
 
 .judul{
     text-align: center;
@@ -126,6 +140,10 @@ body {
     font-weight: bold;
 }
 
+.button-group{
+    text-align: center;
+}
+
 button{
     border-radius: 8px;
 }
@@ -145,11 +163,38 @@ button{
     border-color: white;
 }
 
+.ti-trash{
+    font-size: 50px;
+    text-align: center;
+    color:#ff3e1d;
+}
+
+.button-confirm-group{
+    text-align: right;
+}
+
+#confirm_delete_button{
+    font-size: 10px;
+    width: 130px;
+    border-color: #ff3e1d;
+    border-width: 1px;
+    margin-right: 10px;
+}
+
+#cancel_delete_button{
+    font-size: 10px;
+    background-color: #ff3e1d;
+    color:white;
+    border-color: white;
+    border-width: 1px;
+}
+
+
 .button_back{
     background-color: #109CF1;
     color:white;
     border-color: white;
-    float:right;
-    margin-top: 40px;
+    /* float:right; */
+    /* margin-top: 40px; */
 }
 </style>
