@@ -12,6 +12,7 @@ import Typography from "@/pages/Typography.vue";
 import Quotation from "@/pages/SalesMarketing/Quotation.vue";
 import SalesOrder from "@/pages/SalesMarketing/SalesOrder.vue";
 import FormQuotation from "@/pages/SalesMarketing/FormQuotation.vue";
+import UpdateQuotation from "@/pages/SalesMarketing/UpdateQuotation.vue";
 import DetailQuotation from "@/pages/SalesMarketing/DetailQuotation.vue";
 import Pengeluaran from "@/pages/Finance/Pengeluaran.vue";
 import DetailPengeluaran from "@/pages/Finance/DetailPengeluaran.vue";
@@ -29,9 +30,14 @@ const routes = [
         component: Dashboard
       },
       {
-        path: "form-quotation",
-        name: "form-quotation",
+        path: "quotation/add",
+        name: "add-quotation",
         component: FormQuotation
+      },
+      {
+        path: "quotation/update/:id",
+        name: "update-quotation",
+        component: UpdateQuotation
       },
       {
         path: "stats",
@@ -39,7 +45,7 @@ const routes = [
         component: UserProfile
       },
       {
-        path: "detail-quotation",
+        path: "quotation/detail/:id",
         name: "detail-quotation",
         component: DetailQuotation
       },

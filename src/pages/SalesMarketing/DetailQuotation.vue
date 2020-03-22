@@ -1,5 +1,4 @@
 <template>
-
     <div class="row">
         <div class = "col-12">
             <div class="judul">
@@ -10,17 +9,16 @@
             
             <card>
                 <b-row>
-                    <div class = "col-8 nama-perusahaan">PT BOVERI INDONESIA</div>
-                    <div class = "col-4">Created by : I Made Adisurya Nugraha <br>Created At : 10 Februari 2019</div>
+                    <div class = "col-8 nama-perusahaan">{{quotation.company.nama}}</div>
+                    <div class = "col-4">Created by : {{quotation.createdBy}} <br>Created At : {{ quotation.date.split("T")[0].split("-").reverse().join('-') }}</div>
                 </b-row>
                 <b-row>
                     <div class = "col-2">Quotation Number</div>
-                    <div class = "col-6">: QS.18/X/094</div>
-
+                    <div class = "col-6">: {{quotation.noQuotation}}</div>
                 </b-row>
                 <b-row>
                     <div class = "col-2">Quotation Address</div>
-                    <div class = "col-6">: 04 April 2019</div>
+                    <div class = "col-6">: {{quotation.date}}</div>
                 </b-row>
                 <b-row>
                     <div class = "col-6"><br>Service</div>
@@ -36,7 +34,7 @@
                     <b-col >
                         <div class="tabel-service">
                             <div slot="raw-content" class="table-responsive" style="font-size:11px">
-                                <b-table :items="services">
+                                <b-table :items="quotation.service">
                                 </b-table>
                             </div>
                         </div>
@@ -46,13 +44,7 @@
 
                 <b-row>
                     <div class = "col-12"><br>Terms and Condition</div>
-                    <div class = "col-12">
-                        - Waktu Kerja : Normal working hour 8 Jam per Hari <br>
-                        - Pembayaran : 100% setelah pekerjaan selesai <br>
-                        - Validity : 1 bulan<br>
-                        - Untuk jam kerja lebih dari normal working hour, maka  dikenakan biaya lembur Rp.350.000,- per jam<br>
-                        - Untuk pekerjaan yang dilakukan di hari libur (Sabtu, Minggu dan Hari  libur Nasional) dikenakan biaya tambahan
-                        Rp.2.500.000,- Per Hari
+                    <div class = "col-12">{{quotation.termsCondition}}
                     </div>
                 </b-row>
 
@@ -77,7 +69,7 @@
             <div class = "container">
                 <div class = "info">
                 <b-row>
-                    <span class="ti-download"></span>The system is downloading quotation no. QS.18/X/094
+                    <span class="ti-download"></span>The system is downloading quotation no. {{quotation.noQuotation}}
                 </b-row>
                 </div>
                 <div class = "tombol_okay">
@@ -90,8 +82,6 @@
         </b-modal>
 
     </div>
-    
-    
 </template>
 
 <script>
@@ -114,19 +104,27 @@ const tableData = [
     }
 ]
 
+import axios from 'axios';
+
 export default {
   data() {
     return {
-      services :[...tableData],
-      table1: {
-        title: "Quotation List",
-        subTitle: "",
-        columns: [...tableColumns],
-        data: [...tableData]
-      },
+      quotation : '',
     };
   },
+  beforeMount(){
+        this.getDetail();
+
+    },
   methods:{
+      getDetail: function(){
+          
+            axios.get('http://localhost:8080/api/quotation/' +this.$route.params.id)
+            .then(res => {this.quotation = res.data})
+            .catch(err => this.quotation = err.data);
+            console.log(quotation);
+        },
+        
       hideModal(){
         this.$refs['modal-download'].hide();
     },
@@ -181,7 +179,6 @@ body {
 
 .tombol_okay{
     float:right;
-   
 }
 
 #manage-button{
