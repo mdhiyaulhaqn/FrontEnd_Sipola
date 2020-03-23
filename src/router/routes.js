@@ -15,6 +15,7 @@ import FormQuotation from "@/pages/SalesMarketing/FormQuotation.vue";
 import DetailQuotation from "@/pages/SalesMarketing/DetailQuotation.vue";
 import Pengeluaran from "@/pages/Finance/Pengeluaran.vue";
 import DetailPengeluaran from "@/pages/Finance/DetailPengeluaran.vue";
+import FormPengeluaran from "@/pages/Finance/FormPengeluaran.vue";
 import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue"
 
 const routes = [
@@ -82,6 +83,11 @@ const routes = [
         path: "expense-detail",
         name: "expense-detail",
         component: DetailPengeluaran
+      },
+      {
+        path: "expense-add",
+        name: "expense-add",
+        component: FormPengeluaran
       },
       {
         path: "activity-list-schedule",
