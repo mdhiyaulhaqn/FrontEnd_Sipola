@@ -23,9 +23,9 @@
                     <b-form-input
                         id="companyAddress"
                         v-model="newPengeluaran.nominal"
-                        type="text"
+                        type="number"
                         required
-                        placeholder="Company Address"
+                        placeholder="Nominal"
                         >
                     </b-form-input>
                 </b-form-group>
@@ -54,54 +54,12 @@
                     </b-form-input>
                 </b-form-group>
 
-
-                <!-- <b-row>
-                    <b-col md="6">
-                      <label>Scope of Works</label>
-                    </b-col>
-
-                    <b-col md="2">
-                    <label>Quantity</label> 
-                    </b-col>
-
-                    <b-col md="3">
-                    <label>Unit Price</label> 
-                    </b-col>
-
-                    <b-col md="1">
-                    
-                    </b-col>
-                </b-row>
-
-                <b-row class="services" v-bind:key="item.id_service" v-for="item in services">
-                    <b-col>
-                    <Service v-bind:service="item" v-on:del-service="deleteRow" />
-                    </b-col>
-                </b-row> 
-                    
-                <b-row>
-                    <b-col md="12">
-                        <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">+ Add Scope of Works</button>
-                    </b-col>
-                </b-row> 
-
-                
-                <b-form-group>
-                    <label for="termsConditions">Terms and Conditions</label>
-                    <b-form-textarea
-                        id="termsConditions"
-                        v-model="newQuotation.terms"
-                        type="text"
-                        required
-                        placeholder="Terms and Conditions"
-                        >
-                    </b-form-textarea>
-                </b-form-group> -->
-
                 <div class = "button-group">
 
-                <b-button class = "cancel-button" type="reset">Cancel</b-button>
-                <b-button class = "add-quotation-button" type="submit">Add</b-button>
+                <router-link to="expense">
+                    <b-button class = "cancel-button" type="reset">Cancel</b-button>
+                </router-link>
+                <b-button class = "add-pengeluaran-button" type="submit" v-b-modal.modal-success>Add</b-button>
 
                 </div>
                 
@@ -109,12 +67,35 @@
             </card>
         </div>
     </div>
+
+    <b-modal id="modal-success" ref="modal-success" hide-footer centered title="Success!">
+			<br>
+            <div class = "container">
+                <div class = "info">
+                <b-row>
+                    <b-col cols="3" class="ti-angle-down"></b-col>
+                    <b-col cols="9">
+                        {{this.newPengeluaran.nama}} expense was successfully added.
+                    </b-col>
+                </b-row>
+                </div>
+                <b-row class="button-detail-group">
+                    <router-link to="expense-detail">
+                         <b-button @click="hideModal" id ="sad" variant="outline-primary">
+                            See Details
+                        </b-button>
+                    </router-link>
+                </b-row>
+            </div>
+        </b-modal>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
   export default {
     components : {
+        
     },
     data() {
       return {
@@ -123,7 +104,7 @@
 
             newPengeluaran: {
                 nama : null,
-                nominal : 0,
+                nominal : null,
                 tanggal : null,
                 paidBy : null
             },
@@ -131,15 +112,21 @@
             show: true
         }
     },
-
-    beforeMount() {
-    //   this.addRow();
-	},
     
     methods: {
         onSubmit(evt) {
             evt.preventDefault()
-            alert(JSON.stringify(this.form))
+            axios.post("http://localhost:8080/api/pengeluaran/add", {
+                nama: this.newPengeluaran.nama,
+                nominal: this.newPengeluaran.nominal,
+                tanggal: this.newPengeluaran.tanggal,
+                paidBy: this.newPengeluaran.paidBy,
+                createdBy: "Suparjo API",
+                status: "active"
+            })
+            .then((response) => {
+                console.log("Object : " + response.data)
+            })
         },
         onReset(evt) {
             evt.preventDefault()
@@ -187,11 +174,16 @@
     font-weight: 700;
 }
 
-.add-quotation-button{
+.button-group{
+    text-align: center;
+}
+
+.add-pengeluaran-button{
     border-color: white;
     background-color: #109CF1;
     color:white;
 }
+
 
 .cancel-button{
     color:#109CF1;
@@ -199,8 +191,15 @@
     background-color: white;
 }
 
-.button-group{
+.ti-angle-down{
+    font-size: 50px;
+    text-align: center;
+    color:#109CF1;
+}
+
+.button-detail-group{
     float:right;
 }
+
 
 </style>
