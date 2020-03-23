@@ -3,10 +3,12 @@
     <div class="col-12">
       <h3 class="judul"><strong>Expense</strong></h3>
       <card>
-        <button id ="add_quotation_button" class="btn btn-primary">
-          Add Expense
-          <span class="ti-plus"></span>
-        </button>
+        <router-link to="expense-add">
+          <button id ="add_quotation_button" class="btn btn-primary">
+            Add Expense
+            <span class="ti-plus"></span>
+          </button>
+        </router-link>
         <!-- <div slot="raw-content" class="table-responsive"> -->
           <!-- <b-table :items="table1.data">
             <template slot="noQuotation" slot-scope="data">
@@ -133,6 +135,10 @@ export default {
         entries.map(entry => this.rows.push(entry));
       })
       .catch(err => console.log(err));
+  },
+
+  addPengeluaran(){
+    router.push("/expense-detail")
   }
 
 //   data() {
