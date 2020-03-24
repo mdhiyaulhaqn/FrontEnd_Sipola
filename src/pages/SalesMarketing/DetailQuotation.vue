@@ -10,15 +10,19 @@
             <card>
                 <b-row>
                     <div class = "col-8 nama-perusahaan">{{quotation.company.nama}}</div>
-                    <div class = "col-4">Created by : {{quotation.createdBy}} <br>Created At : {{ quotation.date.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-4">Created by : {{quotation.createdBy}} <br>Created At : {{ quotation.createdAt.split("T")[0].split("-").reverse().join('-') }}</div>
                 </b-row>
                 <b-row>
                     <div class = "col-2">Quotation Number</div>
                     <div class = "col-6">: {{quotation.noQuotation}}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-2">Quotation Address</div>
-                    <div class = "col-6">: {{quotation.date}}</div>
+                    <div class = "col-2">Quotation Date</div>
+                    <div class = "col-6">: {{ quotation.date.split("T")[0].split("-").reverse().join('-') }}</div>
+                </b-row>
+                <b-row>
+                    <div class = "col-2">Address</div>
+                    <div class = "col-6">: {{quotation.company.alamat}}</div>
                 </b-row>
                 <b-row>
                     <div class = "col-6"><br>Service</div>
@@ -33,9 +37,18 @@
                 <b-row>
                     <b-col >
                         <div class="tabel-service">
-                            <div slot="raw-content" class="table-responsive" style="font-size:11px">
-                                <b-table :items="quotation.service">
+                            <div slot="raw-content" class="table-responsive" style="font-size:12px">
+                                <b-table 
+                                :items="quotation.service" 
+                                :fields="fields">
+                                 <template v-slot:cell(id)="row">
+                                    {{quotation.service.indexOf(row.item) + 1}}
+                                </template>
+                                 <template v-slot:cell(Total_Price(IDR))="row">
+                                    {{row.item.harga}} * {{row.item.quantity}}
+                                </template>
                                 </b-table>
+                                
                             </div>
                         </div>
                     </b-col>
@@ -55,9 +68,11 @@
                         <button v-b-modal.modal-delete id ="delete_button" class="btn btn-primary">
                             Delete
                         </button>
-                        <button id ="edit_button" class="btn btn-primary">
-                            Edit
-                        </button>
+                         <router-link :to="{name: 'update-quotation'}">
+                            <button id ="edit_button" class="btn btn-primary">
+                                Edit
+                            </button>
+                         </router-link>
                     </div>
                 </b-row>
 
@@ -74,7 +89,7 @@
                 </div>
                 <div class = "tombol_okay">
                     <b-row>
-                        <b-button class = "button_back" @click="hideModal" size="md" variant="primary">Okay</b-button>
+                        <b-button id = "edit_button" @click="hideModal" size="md" variant="primary">Okay</b-button>
                     </b-row>
                 </div>
         
@@ -102,7 +117,7 @@
             <div class = "container">
                 <div class = "info">
                     <b-row>
-                        <span class="ti-success"></span>Quotation no. {{quotation.noQuotation}} was successfully deleted from list.
+                        <span class="ti-success"></span>Quotation no.{{quotation.noQuotation}} was successfully deleted from list.
                     </b-row>
                 </div>
             </div>
@@ -137,6 +152,13 @@ export default {
         return {
             quotation : '',
             successModal : false,
+            fields: [
+                {key: 'id', label: 'No', sortable: true},
+                {key: 'nama', label: 'Scope of Work', sortable: true},
+                {key: 'quantity', label: 'Quantity', sortable: true},
+                {key: 'harga', label: 'Unit Price(IDR)', sortable: true},
+                {key: 'harga * quantity', label:  'Total_Price(IDR)', sortable: true},
+            ]
         };
     },
     beforeMount(){
@@ -170,7 +192,7 @@ export default {
             })
             .then(res => {this.showMessage(res.data.status)});
         },
-        
+
         redirect(){
             this.$router.push({ name: 'quotation'});
         },
