@@ -79,7 +79,7 @@
                     </b-col>
                 </b-row>
 
-                <b-row class="services" v-bind:key="item.id_service" v-for="item in quotation.service">
+                <b-row class="services" v-bind:key="item.id_service" v-for="item in services">
                     <b-col>
                     <Service v-bind:service="item" v-on:del-service="deleteRow" />
                     </b-col>
@@ -105,7 +105,9 @@
                 </b-form-group>
 
                 <div class = "button-group">
-                    <b-button class = "cancel-button" type="reset">Cancel</b-button>
+                    <router-link :to="{name: 'detail-quotation', params: {id:quotation.id}}">
+                     <b-button class = "cancel-button">Cancel</b-button>
+                    </router-link >
                     <b-button class = "add-quotation-button" type="submit">Update</b-button>
                 </div>
             </b-form>
@@ -213,7 +215,7 @@ export default {
 
         getDetail: function(){
             axios.get('http://localhost:8080/api/quotation/' +this.$route.params.id)
-            .then(res => {this.quotation = res.data})
+            .then(res => {this.quotation = res.data, this.services = res.data.service})
             .catch(err => this.quotation = err.data);
             console.log(quotation);
         },

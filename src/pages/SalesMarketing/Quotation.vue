@@ -2,14 +2,16 @@
     <div class="row">
       <div class="col-12">
         <card>
+          <b-row>
            <router-link :to="{name: 'add-quotation'}">
             <button id ="add_quotation_button" class="btn btn-primary">
               Add Quotation
               <span class="ti-plus"></span>
             </button>
           </router-link>
-          
-          <div slot="raw-content" class="table-responsive">
+          </b-row>
+                 
+          <div slot="raw-content" class="table-responsive">     
             <b-table 
                 responsive
                 :items="items"
@@ -19,32 +21,28 @@
                 :sort-by.sync="akuntable.sortBy"
                 :sort-desc.sync="akuntable.sortDesc">
                 
-                <template slot="id" slot-scope="data">
-                    {{data.item.id}}
+                <template v-slot:cell(id)="row">
+                   {{items.indexOf(row.item) + 1}}
                 </template>
 
-                <template slot="noQuotation" slot-scope="data">
-                  {{ data.value.noQuotation }}
+                <template v-slot:cell(date)="row">
+                    {{row.item.date.split("T")[0].split("-").reverse().join('-') }}
                 </template>
+<!-- 
+                 <template v-slot:cell(total_price) = "row">
+                    {{row.item.service[1].harga}}
+                </template> -->
 
-                <template slot="companyNama" slot-scope="data">
-                    {{ data.item.company.nama}}
-                </template>
-                
-                <template slot="hehe" slot-scope="data">
-                    {{ data.item.createdBy}}
-                </template>
-
-                <template slot="Lihat"  slot-scope="data">
-                    <router-link :to="{name: 'detail-quotation', params: {id:data.item.id}}">
-                        <b-button>
+                <template v-slot:cell(Lihat)="row">
+                    <router-link :to="{name: 'detail-quotation', params: {id:row.item.id}}">
+                        <b-button id ="add_quotation_button">
                           view
                         </b-button>
                     </router-link>
                 </template>
             </b-table>
 
-            <b-pagination
+            <b-pagination class="pagination"
               v-model="akuntable.currentPage"
               :total-rows="quotations.length"
               :per-page="akuntable.perPage"
@@ -58,6 +56,7 @@
 </template>
 <script>
 import axios from 'axios';
+import DataTable from 'v-data-table'
 
 // const tableColumns = ["No", "Quotation No", "Company Name", "Total Works", "Total Price", "Date", "Action"];
 // const tableColumns = [
@@ -164,17 +163,19 @@ export default {
           currentPage : 1,
           perPage : 5,
           sortDesc : false,
-          sortBy : "id",
       },
+      
       fields: [
           {key: 'id', label: 'Id', sortable: true},
           {key: 'noQuotation', label: 'No Quotation', sortable: true},
           {key: 'company.nama', label: 'Company Nama', sortable:true},
           {key: 'service.length', label: 'Total Works', sortable:true},
+          // 'total_price',
           {key: 'date', label: 'Date', sortable:true},
           'Lihat'
       ],
       quotations :[],
+      quotations_total_price : [],
       keyword :'',
       // table1: {
       //   title: "Quotation List",
@@ -190,8 +191,21 @@ export default {
       },
   },
 
+  // untuk ngitung price tapi masi belom bisa
+  // test(){
+  //     var hasil = 0;
+  //     for (let i = 0; i < this.quotations.length; i++) {
+  //       for(let j = 0; j < this.quotations[i].service.length; j++){
+  //         hasil += this.quotations[i].service[j].harga;
+  //       }
+  //       this.quotations_total_price.push(hasil);
+  //       hasil = 0;
+  //     }
+  // },
+
   beforeMount(){
       this.getAllQuotation();
+      this.test();
   },
   methods:{
       getAllQuotation: function(){
@@ -210,14 +224,16 @@ export default {
   color:white;
   border-color: transparent;
   font-size: 10px;
-  width: 136px;
-  height: 36px;
   margin-bottom: 4px;
+  margin-left:20px;
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
 }
 .judul{
     text-align: center;
     color: black;
     margin: 5px 0 24px 0;
+}
+.pagination{
+  margin-left:20px;
 }
 </style>
