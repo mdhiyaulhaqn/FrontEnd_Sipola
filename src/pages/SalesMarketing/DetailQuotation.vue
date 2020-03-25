@@ -1,5 +1,4 @@
 <template>
-
     <div class="row">
         <div class = "col-12">
             <div class="judul">
@@ -10,17 +9,20 @@
             
             <card>
                 <b-row>
-                    <div class = "col-8 nama-perusahaan">PT BOVERI INDONESIA</div>
-                    <div class = "col-4">Created by : I Made Adisurya Nugraha <br>Created At : 10 Februari 2019</div>
+                    <div class = "col-8 nama-perusahaan">{{quotation.company.nama}}</div>
+                    <div class = "col-4">Created by : {{quotation.createdBy}} <br>Created At : {{ quotation.createdAt.split("T")[0].split("-").reverse().join('-') }}</div>
                 </b-row>
                 <b-row>
                     <div class = "col-2">Quotation Number</div>
-                    <div class = "col-6">: QS.18/X/094</div>
-
+                    <div class = "col-6">: {{quotation.noQuotation}}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-2">Quotation Address</div>
-                    <div class = "col-6">: 04 April 2019</div>
+                    <div class = "col-2">Quotation Date</div>
+                    <div class = "col-6">: {{ quotation.date.split("T")[0].split("-").reverse().join('-') }}</div>
+                </b-row>
+                <b-row>
+                    <div class = "col-2">Address</div>
+                    <div class = "col-6">: {{quotation.company.alamat}}</div>
                 </b-row>
                 <b-row>
                     <div class = "col-6"><br>Service</div>
@@ -35,9 +37,18 @@
                 <b-row>
                     <b-col >
                         <div class="tabel-service">
-                            <div slot="raw-content" class="table-responsive" style="font-size:11px">
-                                <b-table :items="services">
+                            <div slot="raw-content" class="table-responsive" style="font-size:12px">
+                                <b-table 
+                                :items="quotation.service" 
+                                :fields="fields">
+                                 <template v-slot:cell(id)="row">
+                                    {{quotation.service.indexOf(row.item) + 1}}
+                                </template>
+                                 <template v-slot:cell(Total_Price(IDR))="row">
+                                    {{row.item.harga}} * {{row.item.quantity}}
+                                </template>
                                 </b-table>
+                                
                             </div>
                         </div>
                     </b-col>
@@ -46,13 +57,7 @@
 
                 <b-row>
                     <div class = "col-12"><br>Terms and Condition</div>
-                    <div class = "col-12">
-                        - Waktu Kerja : Normal working hour 8 Jam per Hari <br>
-                        - Pembayaran : 100% setelah pekerjaan selesai <br>
-                        - Validity : 1 bulan<br>
-                        - Untuk jam kerja lebih dari normal working hour, maka  dikenakan biaya lembur Rp.350.000,- per jam<br>
-                        - Untuk pekerjaan yang dilakukan di hari libur (Sabtu, Minggu dan Hari  libur Nasional) dikenakan biaya tambahan
-                        Rp.2.500.000,- Per Hari
+                    <div class = "col-12">{{quotation.termsCondition}}
                     </div>
                 </b-row>
 
@@ -60,12 +65,14 @@
                    
                     <div class="col">
                         <br>
-                        <button id ="delete_button" class="btn btn-primary">
+                        <button v-b-modal.modal-delete id ="delete_button" class="btn btn-primary">
                             Delete
                         </button>
-                        <button id ="edit_button" class="btn btn-primary">
-                            Edit
-                        </button>
+                         <router-link :to="{name: 'update-quotation'}">
+                            <button id ="edit_button" class="btn btn-primary">
+                                Edit
+                            </button>
+                         </router-link>
                     </div>
                 </b-row>
 
@@ -77,21 +84,45 @@
             <div class = "container">
                 <div class = "info">
                 <b-row>
-                    <span class="ti-download"></span>The system is downloading quotation no. QS.18/X/094
+                    <span class="ti-download"></span>The system is downloading quotation no. {{quotation.noQuotation}}
                 </b-row>
                 </div>
                 <div class = "tombol_okay">
                     <b-row>
-                        <b-button class = "button_back" @click="hideModal" size="md" variant="primary">Okay</b-button>
+                        <b-button id = "edit_button" @click="hideModal" size="md" variant="primary">Okay</b-button>
                     </b-row>
                 </div>
         
             </div>
         </b-modal>
 
+        <b-modal id="modal-delete" ref="modal-delete" hide-footer centered title="Delete Quotation?" ok-only>
+            <br>
+            <div class = "container">
+                <div class = "info">
+                <b-row>
+                <i class="fas fa-trash-alt"></i>Quotation no {{quotation.noQuotation}} will be removed from the list.
+                </b-row>
+                </div>
+                <div class = "tombol_okay">
+                    <b-row>
+                        <b-button class = "button_oke" @click="onSubmit" size="md" variant="primary">Yes, Delete It</b-button>
+                        <b-button class = "button_back" @click="hideModal" size="md" >No</b-button>
+                    </b-row>
+                </div>
+            </div>
+        </b-modal>
+        <b-modal title="Success!" v-model="successModal" @ok="redirect()" centered ok-only>
+          <br>
+            <div class = "container">
+                <div class = "info">
+                    <b-row>
+                        <span class="ti-success"></span>Quotation no.{{quotation.noQuotation}} was successfully deleted from list.
+                    </b-row>
+                </div>
+            </div>
+        </b-modal>
     </div>
-    
-    
 </template>
 
 <script>
@@ -114,21 +145,60 @@ const tableData = [
     }
 ]
 
+import axios from 'axios';
+
 export default {
-  data() {
-    return {
-      services :[...tableData],
-      table1: {
-        title: "Quotation List",
-        subTitle: "",
-        columns: [...tableColumns],
-        data: [...tableData]
-      },
-    };
-  },
-  methods:{
-      hideModal(){
-        this.$refs['modal-download'].hide();
+    data() {
+        return {
+            quotation : '',
+            successModal : false,
+            fields: [
+                {key: 'id', label: 'No', sortable: true},
+                {key: 'nama', label: 'Scope of Work', sortable: true},
+                {key: 'quantity', label: 'Quantity', sortable: true},
+                {key: 'harga', label: 'Unit Price(IDR)', sortable: true},
+                {key: 'harga * quantity', label:  'Total_Price(IDR)', sortable: true},
+            ]
+        };
+    },
+    beforeMount(){
+        this.getDetail();
+
+    },
+    methods:{
+        onSubmit(evt) {
+            evt.preventDefault();
+            this.quotation.status = 'Inactive';
+            this.deleteQuotation(JSON.stringify(this.quotation));
+        },
+        
+        showMessage(status){
+            this.successModal = true;
+
+        },
+
+        getDetail: function(){    
+            axios.get('http://localhost:8080/api/quotation/' +this.$route.params.id)
+            .then(res => {this.quotation = res.data})
+            .catch(err => this.quotation = err.data);
+        },
+
+        deleteQuotation(quot){
+            axios.put('http://localhost:8080/api/quotation/change-status/' + this.$route.params.id, 
+            quot, 
+                { headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(res => {this.showMessage(res.data.status)});
+        },
+
+        redirect(){
+            this.$router.push({ name: 'quotation'});
+        },
+
+        hideModal(){
+            this.$refs['modal-download'].hide();
     },
   }
 };
@@ -171,17 +241,33 @@ body {
     margin-right: 10px;
 }
 
+.fa-warning{
+    margin-left:10px;
+    margin-right: 10px;
+}
+
+.modal-header{
+    background-color: #FF3E1D;
+}
+
 .button_back{
-    background-color: #109CF1;
+    background-color: #FF3E1D;
     color:white;
     border-color: white;
     float:right;
     margin-top: 40px;
 }
 
+.button_oke{
+    background-color:white;
+    color:#FF3E1D;
+    border-color: #FF3E1D;
+    float:right;
+    margin-top: 40px;
+}
+
 .tombol_okay{
     float:right;
-   
 }
 
 #manage-button{

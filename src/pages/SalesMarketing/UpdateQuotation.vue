@@ -1,21 +1,22 @@
 <template>
   <div>
-    <h3 class="judul"><strong>Add Quotation</strong></h3>
+    <h3 class="judul"><strong>Update Quotation</strong></h3>
     <div class = "row">
         <div class = "col-10 isi-form">
             <card>
-            <h5 class = "title-form">Add Quotation Form </h5>
-            <b-form @submit="onSubmit" v-if="show">
+            <h5 class = "title-form">Update Quotation Form </h5>
+            <b-form @submit="onModal" v-if="show">
                 <div class = "row">
                     <div class = "col-7">
                         <b-form-group>
                             <label for="noQuotation">Quotation No</label>
                             <b-form-input
                                 id="noQuotation"
-                                v-model="new_quotation.noQuotation"
+                                v-model="quotation.noQuotation"
                                 type="text"
                                 required
-                                placeholder="Quotation Number">
+                                placeholder="Quotation Number"
+                                disabled>
                             </b-form-input>
                         </b-form-group>
                     </div>
@@ -26,7 +27,7 @@
                             <label for="date">Quotation Date</label>
                             <b-form-input
                                 id="date"
-                                v-model="new_quotation.date"
+                                v-model="quotation.date"
                                 type="date"
                                 required>
                             </b-form-input>
@@ -39,7 +40,7 @@
                     <label for="companyName">Company Name</label>
                     <b-form-input
                         id="companyName"
-                        v-model="new_company.nama"
+                        v-model="quotation.company.nama"
                         type="text"
                         required
                         placeholder="Company Name"
@@ -51,7 +52,7 @@
                     <label for="companyAddress">Company Address</label>
                     <b-form-input
                         id="companyAddress"
-                        v-model="new_company.alamat"
+                        v-model="quotation.company.alamat"
                         type="text"
                         required
                         placeholder="Company Address"
@@ -95,7 +96,7 @@
                     <label for="termsConditions">Terms and Conditions</label>
                     <b-form-textarea
                         id="termsConditions"
-                        v-model="new_quotation.termsCondition"
+                        v-model="quotation.termsCondition"
                         type="text"
                         required
                         placeholder="Terms and Conditions"
@@ -104,15 +105,35 @@
                 </b-form-group>
 
                 <div class = "button-group">
-                    <b-button class = "cancel-button" type="reset">Cancel</b-button>
-                    <b-button class = "add-quotation-button" type="submit">Add</b-button>
+                    <router-link :to="{name: 'detail-quotation', params: {id:quotation.id}}">
+                     <b-button class = "cancel-button">Cancel</b-button>
+                    </router-link >
+                    <b-button class = "add-quotation-button" type="submit">Update</b-button>
                 </div>
             </b-form>
             </card>
         </div>
     </div>
-    <b-modal title="Quotation Berhasil Tersimpan" v-model="successModal" @ok="redirect()"  centered ok-only>
-        Quotation telah berhasil dibuat.
+
+    <b-modal id="modal-hide" ref="modal-download" v-model="warningModal" hide-footer centered title="Save Changes?" ok-only>
+        <br>
+        <div class = "container">
+            <div class = "info">
+            <b-row>
+                <span class="ti-download"></span>Quotation no {{quotation.noQuotation}} will be changed soon once you click the save button.
+            </b-row>
+            </div>
+            <div class = "tombol_okay">
+                <b-row>
+                    <b-button class = "button_back" @click="hideModal" size="md" variant="primary">Cancel</b-button>
+                    <b-button class = "button_ok" @click="onSubmit" size="md" variant="primary">Save</b-button>
+                </b-row>
+            </div>
+    
+        </div>
+    </b-modal>
+    <b-modal title="Quotation Berhasil Terubah" v-model="successModal" @ok="redirect()" centered ok-only>
+        Quotation telah berhasil Diubah.
     </b-modal>
 
     <b-modal title="Quotation Gagal Tersimpan" v-model="failedModal" centered ok-only>
@@ -130,21 +151,14 @@ export default {
     components : {
       Service
     },
+    
     data() { 
       return {
             services: [],
             id_services : {id:0},
             timestamp:"",
 
-            new_quotation : {
-                createdBy : "adi",
-                date : '',
-                noQuotation : '',
-                termsCondition : '',
-                status : 'Active',
-                company : '',
-                service : '',
-            },
+            quotation : '',
             new_service : {
                 id_service : 0,
                 nama : '',
@@ -160,12 +174,14 @@ export default {
             show: true,
             successModal : false,
             failedModal : false,
+            warningModal : false,
             send : {objects : null},
         }
     },
 
     beforeMount() {
-      this.addRow();
+        this.addRow();
+        this.getDetail();
 	},
     
     methods: {
@@ -179,11 +195,13 @@ export default {
             this.services = this.services.filter(result => result.id_service !== id_service);
         },
 
+        onModal(evt) {
+            this.warningModal = true;
+        },
+
         onSubmit(evt) {
             evt.preventDefault();
-            this.new_quotation.company = this.new_company;
-            this.new_quotation.service = this.services;
-            this.addQuotation(JSON.stringify(this.new_quotation));
+            this.updateQuotation(JSON.stringify(this.quotation));
         },
 
         showMessage(status){
@@ -194,20 +212,27 @@ export default {
                 this.failedModal = true;
             } 
         },
+
+        getDetail: function(){
+            axios.get('http://localhost:8080/api/quotation/' +this.$route.params.id)
+            .then(res => {this.quotation = res.data, this.services = res.data.service})
+            .catch(err => this.quotation = err.data);
+            console.log(quotation);
+        },
         
-        addQuotation(quot){
+        updateQuotation(quot){
             console.log("cihuy")
-            axios.post('http://localhost:8080/api/quotation/add', 
+            axios.put('http://localhost:8080/api/quotation/update/' + this.$route.params.id, 
             quot, 
                 { headers: {
                     'Content-Type': 'application/json',
                 }
             })
-            .then(res => {this.new_quotation = res.data.result, this.showMessage(res.data.status)});
+            .then(res => {this.quotation = res.data.result, this.showMessage(res.data.status)});
         },
 
         redirect(){
-            this.$router.push({ name: 'detail-quotation',  params: {id:this.new_quotation.id}});
+            this.$router.push({ name: 'quotation'});
         },
 
         // Gajadi dipake soalnya udah dihandle di backend
@@ -249,7 +274,7 @@ export default {
         // },
 
         hideModal(){
-		    this.$refs['modal-hide'].hide();
+		  	this.$refs['modal-hide'].hide();
 		},
     }
 }
@@ -291,4 +316,27 @@ export default {
     float:right;
 }
 
+.ti-download{
+    margin-left:10px;
+    margin-right: 10px;
+}
+
+.button_ok{
+    background-color: #109CF1;
+    color:white;
+    border-color: white;
+    float:right;
+    margin-top: 40px;
+}
+
+.button_back{
+    background-color: white;
+    color:#109CF1;
+    float:right;
+    margin-top: 40px;
+}
+
+.tombol_okay{
+    float:right;
+}
 </style>
