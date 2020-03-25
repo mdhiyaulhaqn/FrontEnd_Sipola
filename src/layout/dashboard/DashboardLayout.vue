@@ -4,6 +4,7 @@
       <template slot="links">
         <sidebar-link to="/quotation" name="Quotation" icon="ti-view-list-alt"/>
         <sidebar-link to="/sales-order" name="SalesOrder" icon="ti-bell"/>
+        <sidebar-link to="/invoice" name="Invoice" icon="ti-bell"/>
         <sidebar-link to="/dashboard" name="Dashboard" icon="ti-panel"/>
         <sidebar-link to="/stats" name="User Profile" icon="ti-user"/>
         <sidebar-link to="/typography" name="Typography" icon="ti-text"/>

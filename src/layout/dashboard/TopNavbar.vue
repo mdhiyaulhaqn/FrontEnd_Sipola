@@ -15,7 +15,7 @@
         <ul class="navbar-nav ml-auto" style="text-align:right">
           <li class="nav-item">
             <p class="nav-link">
-              <a href="#">i.made712</a><br>
+              <a href="#">yasmin.moedjoko</a><br>
               <a href="#">Change Password</a> | <a href="#">Sign Out</a>
             </p>
           </li>
