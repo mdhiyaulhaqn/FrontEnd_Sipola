@@ -207,7 +207,7 @@ export default {
         },
 
         redirect(){
-            this.$router.push({ name: 'quotation'});
+            this.$router.push({ name: 'detail-quotation',  params: {id:this.new_quotation.id}});
         },
 
         // Gajadi dipake soalnya udah dihandle di backend
