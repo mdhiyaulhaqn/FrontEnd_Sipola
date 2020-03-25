@@ -10,28 +10,27 @@
         <sidebar-link to="/typography" name="Typography" icon="ti-text"/>
         <sidebar-link to="/icons" name="Icons" icon="ti-pencil-alt2"/>
         <sidebar-link to="/maps" name="Map" icon="ti-map"/>
+        <sidebar-link to="/dashboard" name="Dashboard"/>
+        <sidebar-link to="/quotation" name="Quotation"/>
+        <sidebar-link to="/sales-order" name="Sales Order"/>
+        <sidebar-link to="/delivery-order" name="Delivery Order"/>
+        <sidebar-link to="/purchase-order" name="Purchase Order"/>
+        <sidebar-link to="/activity-list-schedule" name="Activity List Schedule"/>
+        <sidebar-link to="/daily-activity-report" name="Daily Activity Report"/>
+        <sidebar-link to="/expense" name="Expense"/>
+        <sidebar-link to="/invoice" name="Invoice"/>
+        <sidebar-link to="/reimbursement-report" name="Reimbursement Report"/>
+        <sidebar-link to="/expense-income-summary" name="Expense & Income Summary"/>
       </template>
       <mobile-menu>
         <li class="nav-item">
           <a class="nav-link">
-            <i class="ti-panel"></i>
-            <p>Stats</p>
+            <p>Change Password</p>
           </a>
         </li>
-        <drop-down class="nav-item"
-                   title="5 Notifications"
-                   title-classes="nav-link"
-                   icon="ti-bell">
-          <a class="dropdown-item">Notification 1</a>
-          <a class="dropdown-item">Notification 2</a>
-          <a class="dropdown-item">Notification 3</a>
-          <a class="dropdown-item">Notification 4</a>
-          <a class="dropdown-item">Another notification</a>
-        </drop-down>
         <li class="nav-item">
           <a class="nav-link">
-            <i class="ti-settings"></i>
-            <p>Settings</p>
+            <p>Sign Out</p>
           </a>
         </li>
         <li class="divider"></li>

@@ -1,4 +1,4 @@
-$font-color: #66615b !default;
+$font-color: #252733 !default;
 $fill-font-color: rgba(255, 255, 255, 0.7);
 
 $none: 0 !default;
@@ -35,8 +35,8 @@ $success-input-bg: #ABF3CB !default;
 $other-medium-gray: #A49E93 !default;
 $transparent-bg: transparent !default;
 
-$default-color: #66615B !default;
-$default-bg: #66615B !default;
+$default-color: #252733 !default;
+$default-bg: #252733 !default;
 $default-states-color: #403D39 !default;
 
 $primary-color: #7A9E9F !default;
@@ -47,9 +47,9 @@ $success-color: #41B883 !default;   // this is the green color from Vue.js brand
 $success-bg: #41B883 !default;
 $success-states-color: #229863 !default;
 
-$info-color: #68B3C8 !default;
-$info-bg: #68B3C8 !default;
-$info-states-color: #3091B2 !default;
+$info-color: #BD2640 !default;
+$info-bg: #BD2640 !default;
+$info-states-color: black !default;
 
 $warning-color: #F3BB45 !default;
 $warning-bg: #F3BB45 !default;
@@ -189,7 +189,7 @@ $green-navbar: rgba(#4CD964, .98);
 $orange-navbar: rgba(#FF9500, .98);
 $red-navbar: rgba(#FF4C40, .98);
 
-$bg-nude: #f4f3ef !default;
+$bg-nude: #F7F8FC !default;
 $bg-primary: #8ECFD5 !default;
 $bg-info: #7CE4FE !default;
 $bg-success: #8EF3C5 !default;

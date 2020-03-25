@@ -11,8 +11,14 @@ import Maps from "@/pages/Maps.vue";
 import Typography from "@/pages/Typography.vue";
 import Quotation from "@/pages/SalesMarketing/Quotation.vue";
 import SalesOrder from "@/pages/SalesMarketing/SalesOrder.vue";
+import FormQuotation from "@/pages/SalesMarketing/FormQuotation.vue";
+import UpdateQuotation from "@/pages/SalesMarketing/UpdateQuotation.vue";
 import DetailQuotation from "@/pages/SalesMarketing/DetailQuotation.vue";
 import Invoice from "@/pages/Finance/Invoice.vue";
+import Pengeluaran from "@/pages/Finance/Pengeluaran.vue";
+import DetailPengeluaran from "@/pages/Finance/DetailPengeluaran.vue";
+import FormPengeluaran from "@/pages/Finance/FormPengeluaran.vue";
+import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue"
 
 const routes = [
   {
@@ -26,12 +32,22 @@ const routes = [
         component: Dashboard
       },
       {
+        path: "quotation/add",
+        name: "add-quotation",
+        component: FormQuotation
+      },
+      {
+        path: "quotation/update/:id",
+        name: "update-quotation",
+        component: UpdateQuotation
+      },
+      {
         path: "stats",
         name: "stats",
         component: UserProfile
       },
       {
-        path: "detail-quotation",
+        path: "quotation/detail/:id",
         name: "detail-quotation",
         component: DetailQuotation
       },
@@ -66,10 +82,32 @@ const routes = [
         component: SalesOrder
       },
       {
+<<<<<<< HEAD
         path: "invoice",
         name: "invoice",
         component: Invoice
       }
+=======
+        path: "expense",
+        name: "expense",
+        component: Pengeluaran
+      },
+      {
+        path: "expense-detail",
+        name: "expense-detail",
+        component: DetailPengeluaran
+      },
+      {
+        path: "expense-add",
+        name: "expense-add",
+        component: FormPengeluaran
+      },
+      {
+        path: "activity-list-schedule",
+        name: "activity-list-schedule",
+        component: ActivityListSchedule
+      },
+>>>>>>> 4d562889b460712e6e266eaef37f1b5ad42f44ee
     ]
   },
   { path: "*", component: NotFound }
