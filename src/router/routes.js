@@ -82,12 +82,16 @@ const routes = [
         component: SalesOrder
       },
       {
-<<<<<<< HEAD
         path: "invoice",
         name: "invoice",
         component: Invoice
-      }
-=======
+      },
+      {
+        path: "invoice-add",
+        name: "invoice-add",
+        component: FormInvoice
+      },
+      {
         path: "expense",
         name: "expense",
         component: Pengeluaran
@@ -107,7 +111,6 @@ const routes = [
         name: "activity-list-schedule",
         component: ActivityListSchedule
       },
->>>>>>> 4d562889b460712e6e266eaef37f1b5ad42f44ee
     ]
   },
   { path: "*", component: NotFound }
