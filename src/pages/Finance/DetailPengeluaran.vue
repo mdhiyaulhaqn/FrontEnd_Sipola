@@ -15,7 +15,7 @@
                 </b-row>
                 <b-row align-h="end">
                     <b-col class="detail-label col-5 col-md-2">Date</b-col>
-                    <b-col cols="6" class="detail-text">: {{pengeluaran.tanggal}}</b-col>
+                    <b-col cols="6" class="detail-text">: {{pengeluaran.tanggal.split("T")[0].split("-").reverse().join('-')}}</b-col>
                 </b-row>
                 <b-row align-h="end">
                     <b-col class="detail-label col-5 col-md-2">Paid by</b-col>
@@ -23,7 +23,7 @@
                 </b-row>
                 <b-row align-h="end">
                     <b-col class="detail-label col-5 col-md-2">Created date</b-col>
-                    <b-col cols="6" class="detail-text">: {{pengeluaran.createdAt}}</b-col>
+                    <b-col cols="6" class="detail-text">: {{pengeluaran.createdAt.split("T")[0].split("-").reverse().join('-')}}</b-col>
                 </b-row>
                 <b-row align-h="end">
                     <b-col class="detail-label col-5 col-md-2">Created by</b-col>
@@ -35,7 +35,7 @@
                         <button v-b-modal.modal-delete id ="delete_button" class="btn btn-primary">
                             Delete
                         </button>
-                        <button id ="edit_button" class="btn btn-primary">
+                        <button id ="edit_button" class="btn btn-primary" @click="editPage">
                             Edit
                         </button>
                     </b-col>
@@ -57,7 +57,7 @@
                 </div>
                 <b-row>
                     <b-col class="button-confirm-group">
-                         <b-button @click="hideModal" id ="confirm_delete_button" variant="outline-danger">
+                         <b-button @click="deletePengeluaran()" id ="confirm_delete_button" variant="outline-danger">
                             Yes, Delete it
                         </b-button>
                         <b-button @click="hideModal" id ="cancel_delete_button" class="btn btn-danger">
@@ -94,7 +94,7 @@ export default {
   },
   beforeMount(){
       this.getDetail();
-      this.formatTanggal();
+    //   this.formatTanggal();
   },
   methods:{
     hideModal(){
@@ -114,6 +114,14 @@ export default {
         // console.log("Tanggal")
         // console.log("FORMAT : " + moment(this.pengeluaran.tanggal)).format('MM/DD/YYYY hh:mm')
         // this.pengeluaran.tanggal = moment(this.pengeluaran.tanggal).format('MM/DD/YYYY hh:mm')
+    },
+    deletePengeluaran(){
+        axios.put('http://localhost:8080/api/pengeluaran/' + this.$route.params.id + '/delete', this.pengeluaran)
+        .then(res => {this.showMessage(res.data.status)});
+    },
+    editPage(){
+        console.log("MASUK EDIT")
+        this.$router.replace(name= this.pengeluaran.id + '/update')
     }
         
   }
