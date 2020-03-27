@@ -11,6 +11,7 @@ import Maps from "@/pages/Maps.vue";
 import Typography from "@/pages/Typography.vue";
 import Quotation from "@/pages/SalesMarketing/Quotation.vue";
 import SalesOrder from "@/pages/SalesMarketing/SalesOrder.vue";
+import DetailSalesOrder from "@/pages/SalesMarketing/DetailSalesOrder.vue";
 import FormQuotation from "@/pages/SalesMarketing/FormQuotation.vue";
 import UpdateQuotation from "@/pages/SalesMarketing/UpdateQuotation.vue";
 import DetailQuotation from "@/pages/SalesMarketing/DetailQuotation.vue";
@@ -37,7 +38,7 @@ const routes = [
         component: FormQuotation
       },
       {
-        path: "quotation/update/:id",
+        path: "quotation/:id/update",
         name: "update-quotation",
         component: UpdateQuotation
       },
@@ -47,7 +48,7 @@ const routes = [
         component: UserProfile
       },
       {
-        path: "quotation/detail/:id",
+        path: "quotation/:id",
         name: "detail-quotation",
         component: DetailQuotation
       },
@@ -80,6 +81,11 @@ const routes = [
         path: "sales-order",
         name: "sales-order",
         component: SalesOrder
+      },
+      {
+        path: "sales-order/:id",
+        name: "detail-sales-order",
+        component: DetailSalesOrder
       },
       {
         path: "expense",
