@@ -18,6 +18,7 @@ import Invoice from "@/pages/Finance/Invoice.vue";
 import Pengeluaran from "@/pages/Finance/Pengeluaran.vue";
 import DetailPengeluaran from "@/pages/Finance/DetailPengeluaran.vue";
 import FormPengeluaran from "@/pages/Finance/FormPengeluaran.vue";
+import UpdatePengeluaran from "@/pages/Finance/UpdatePengeluaran.vue";
 import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue"
 
 const routes = [
@@ -97,13 +98,18 @@ const routes = [
         component: Pengeluaran
       },
       {
-        path: "expense-detail",
+        path: "expense/:id",
         name: "expense-detail",
         component: DetailPengeluaran
       },
       {
-        path: "expense-add",
-        name: "expense-add",
+        path: "expense/:id/update",
+        name: "expense-detail",
+        component: UpdatePengeluaran
+      },
+      {
+        path: "expense/add",
+        name: "add-expense",
         component: FormPengeluaran
       },
       {
