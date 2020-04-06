@@ -17,7 +17,11 @@ import DetailQuotation from "@/pages/SalesMarketing/DetailQuotation.vue";
 import Pengeluaran from "@/pages/Finance/Pengeluaran.vue";
 import DetailPengeluaran from "@/pages/Finance/DetailPengeluaran.vue";
 import FormPengeluaran from "@/pages/Finance/FormPengeluaran.vue";
-import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue"
+import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue";
+import ReimbursementReport from "@/pages/ServiceTeam/ReimbursementReport.vue";
+import DetailReimbursement from "@/pages/ServiceTeam/DetailReimbursement.vue";
+import FormReimbursement from "@/pages/ServiceTeam/FormReimbursement.vue";
+import FormReimburse from "@/pages/ServiceTeam/FormReimburse.vue";
 
 const routes = [
   {
@@ -99,6 +103,26 @@ const routes = [
         path: "activity-list-schedule",
         name: "activity-list-schedule",
         component: ActivityListSchedule
+      },
+      {
+        path: "reimbursement-report",
+        name: "reimbursement-report",
+        component: ReimbursementReport
+      },
+      {
+        path: "reimbursement/detail/:id",
+        name: "detail-reimbursement",
+        component: DetailReimbursement
+      },
+      {
+        path: "reimbursement/add",
+        name: "add-reimbursement",
+        component: FormReimbursement
+      },
+      {
+        path: "reimbursement/addImage",
+        name: "add-reimburse",
+        component: FormReimburse
       },
     ]
   },
