@@ -1,131 +1,64 @@
 <template>
     <div class="row">
         <div class="col-12">
-            <h3 class="judul">
-                <strong>Invoice</strong>
-            </h3>
             <card>
-                <router-link to="sales-order">
-                    <button id="add_invoice_bttn" class="btn btn-primary">
+                <b-row>
+                    <router-link :to="{name: 'sales-order-for-invoice'}">
+                    <button id="invoice_bttn" class="btn btn-primary">
                      Add Invoice
                      <span class="ti-plus"></span>
                     </button>
                 </router-link>
-                <template>
-                    <mdb-datatable
-                        :data="data"
-                        striped
+                </b-row>
+
+                <div slot="raw-content" class="table-responsive">
+                    <b-table
                         responsive
-                    />
-                </template>
+                        :items="items"
+                        :fields="fields"
+                        :per-page="akuntable.perPage"
+                        :current-page="akuntable.currentPage"
+                        :sort-by.sync="akuntable.sortBy"
+                        :sort-desc.sync="akuntable.sortDesc">
+
+                        <template v-slot:cell(id) = "row">
+                            {{items.indexOf(row.item) + 1}}
+                        </template>
+
+                        <template v-slot:cell(date)="row">
+                            {{row.item.dateInvoice.split("T")[0].split("-").reverse().join('-')}}
+                        </template>
+
+                        <!-- <template v:slot:cell(total_price)="row">
+                            {{}}
+                        </template> -->
+
+                        <template v-slot:cell(Action)="row">
+                            <router-link :to="{name: 'detail-invoice', params: {id:row.item.id}}">
+                                <b-button id="invoice_bttn">
+                                    View
+                                </b-button>
+                            </router-link>
+                        </template>
+                    </b-table>
+
+                    <b-pagination class="pagination"
+                        v-model="akuntable.currentPage"
+                        :total-rows="invoices.length"
+                        :per-page="akuntable.perPage"
+                        aria-controls="myTable"/>
+                </div>
             </card>
         </div>
     </div>
 </template>
 
 <script>
-import { PaperTable } from "@/components";
-import { mdbDatatable } from "mdbvue";
 import axios from "axios";
+import Datatable from "v-data-table";
 
-// Statistic Data
-// const tableColumns = [
-//     {
-//         label: 'No',
-//         field: 'no',
-//         sort: 'asc'
-//     },
-//     {
-//         label: 'Invoice No',
-//         field: 'invoice no',
-//         sort: 'asc'
-//     },
-//     {
-//         label: 'Purchase Order No',
-//         field: 'purchase order no',
-//         sort: 'asc'
-//     },
-//     {
-//         label: 'Company Name',
-//         field: 'company name',
-//         sort: 'asc'
-//     },
-//     {
-//         label: 'Date',
-//         field: 'date',
-//         sort: 'asc',
-//     },
-//     {
-//         label: 'Total Price',
-//         field: 'total price',
-//         sort: 'asc'
-//     },
-//     {
-//         label: 'Action',
-//         field: 'action',
-//         sort: 'asc'
-//     },
-// ];
-
-// const tableData = [
-//     {
-//         no: 1,
-//         'invoice no': "012/XI/2019",
-//         'purchase order no': "PO22-UNI100819001",
-//         'company name': "PT Unilever",
-//         'date': "Nov 26, 2019",
-//         'total price': '19.800.000',
-//         'action': 'view',
-//     },
-//     {
-//         no: 2,
-//         'invoice no': "011/X/2019",
-//         'purchase order no': "PO88-AUG030002019",
-//         'company name': "PT. INDOGEOTECH ",
-//         'date': 'Oct 11, 2019',
-//         'total price': '111.200.000',
-//         'action': 'view',
-//     },
-//     {
-//         no: 3,
-//         'invoice no': "010/III/2019",
-//         'purchase order no': "PO01-JAN011900001",
-//         'company name': "PT. Telkom Indonesia ",
-//         'date': "Mar 30, 2019",
-//         'total price': "87.700.000",
-//         'action': 'view',
-//     },
-//     {
-//         no: 4,
-//         'invoice no': "09/III/2019",
-//         'purchase order no': "PO02-AD0450104198",
-//         'company name': "PT PLN",
-//         'date': "Mar 4, 2019",
-//         'total price': "24.800.000",
-//         'action': 'view',
-//     },
-// ];
-
-//if get data from backend
+// get data from backend
 export default {
-    // name: 'DatatablePage',
-    // components: {
-    //     PaperTable,
-    //     mdbDatatable
-    // },
-
-    // data() {
-    //     return {
-    //         invoices: [],
-    //         data: {
-    //             title: "Invoice List",
-    //             subTitle: "",
-    //             columns: [...tableColumns],
-    //             rows: [...tableData]
-    //         }
-    //     };
-    // },
-
     data(){
         return{
             akuntable : {
@@ -136,16 +69,15 @@ export default {
             
             fields: [
                 {key: 'id', label: 'Id', sortable: true},
-                {key: 'invoiceNo', label: 'No Invoice', sortable: true},
-                {key: 'purchaseOrderNo', label: 'No Purchase Order', sortable: true},
-                {key: 'companyName', label: 'Company Name', sortable: true},
-                {key: 'date', label: 'Date', sortable: true},
+                {key: 'noInvoice', label: 'No Invoice', sortable: true},
+                {key: 'noPurchaseOrder', label: 'No Purchase Order', sortable: true},
+                {key: 'company.nama', label: 'Company Name', sortable: true},
+                {key: 'dateInvoice', label: 'Date', sortable: true},
                 // 'totalPrice'
-                'View'
+                'Action'
             ],
 
             invoices: [],
-            invoices_total_price: [],
             keyword: '',
         }
     },
@@ -165,6 +97,8 @@ export default {
             axios.get('http://localhost:8080/api/invoice/all')
             .then(result => this.invoices = result.data.result)
             .catch(err => this.invoices = err.data.result);
+
+            console.log(this.items.getAllInvoice);
         },
 
         // to clear the search keywords
@@ -176,7 +110,7 @@ export default {
 </script>
 
 <style>
-#add_invoice_bttn{
+#invoice_bttn{
     background-color: #109cf1;
     color: white;
     border-color: transparent;

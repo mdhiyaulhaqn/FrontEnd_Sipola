@@ -2,7 +2,7 @@ import DashboardLayout from "@/layout/dashboard/DashboardLayout.vue";
 // GeneralViews
 import NotFound from "@/pages/NotFoundPage.vue";
 
-// Admin pages
+// Admin pagesc
 import Dashboard from "@/pages/Dashboard.vue";
 import UserProfile from "@/pages/UserProfile.vue";
 import Notifications from "@/pages/Notifications.vue";
@@ -11,14 +11,17 @@ import Maps from "@/pages/Maps.vue";
 import Typography from "@/pages/Typography.vue";
 import Quotation from "@/pages/SalesMarketing/Quotation.vue";
 import SalesOrder from "@/pages/SalesMarketing/SalesOrder.vue";
+import DetailSalesOrder from "@/pages/SalesMarketing/DetailSalesOrder.vue";
 import FormQuotation from "@/pages/SalesMarketing/FormQuotation.vue";
 import UpdateQuotation from "@/pages/SalesMarketing/UpdateQuotation.vue";
 import DetailQuotation from "@/pages/SalesMarketing/DetailQuotation.vue";
-import Invoice from "@/pages/Finance/Invoice.vue";
 import Pengeluaran from "@/pages/Finance/Pengeluaran.vue";
 import DetailPengeluaran from "@/pages/Finance/DetailPengeluaran.vue";
 import FormPengeluaran from "@/pages/Finance/FormPengeluaran.vue";
-import UpdatePengeluaran from "@/pages/Finance/UpdatePengeluaran.vue";
+import Invoice from "@/pages/Finance/Invoice.vue";
+import DetailInvoice from "@/pages/Finance/DetailInvoice.vue"
+import DetailSalesOrderForInvoice from "@/pages/Finance/DetailSalesOrderForInvoice.vue"
+import SalesOrderForInvoice from "@/pages/Finance/SalesOrderForInvoice.vue"
 import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue"
 
 const routes = [
@@ -38,7 +41,7 @@ const routes = [
         component: FormQuotation
       },
       {
-        path: "quotation/update/:id",
+        path: "quotation/:id/update",
         name: "update-quotation",
         component: UpdateQuotation
       },
@@ -48,7 +51,7 @@ const routes = [
         component: UserProfile
       },
       {
-        path: "quotation/detail/:id",
+        path: "quotation/:id",
         name: "detail-quotation",
         component: DetailQuotation
       },
@@ -83,14 +86,9 @@ const routes = [
         component: SalesOrder
       },
       {
-        path: "invoice",
-        name: "invoice",
-        component: Invoice
-      },
-      {
-        path: "invoice-add",
-        name: "invoice-add",
-        component: FormInvoice
+        path: "sales-order/:id",
+        name: "detail-sales-order",
+        component: DetailSalesOrder
       },
       {
         path: "expense",
@@ -98,19 +96,34 @@ const routes = [
         component: Pengeluaran
       },
       {
-        path: "expense/:id",
+        path: "expense/detail/:id",
         name: "expense-detail",
         component: DetailPengeluaran
       },
       {
-        path: "expense/:id/update",
-        name: "expense-detail",
-        component: UpdatePengeluaran
+        path: "expense-add",
+        name: "expense-add",
+        component: FormPengeluaran
       },
       {
-        path: "expense/add",
-        name: "add-expense",
-        component: FormPengeluaran
+        path: "invoice",
+        name: "invoice",
+        component: Invoice
+      },
+      {
+        path: "detail-invoice",
+        name: "detail-invoice",
+        component: DetailInvoice
+      },
+      {
+        path: "sales-order-for-invoice",
+        name: "sales-order-for-invoice",
+        component: SalesOrderForInvoice
+      },
+      {
+        path: "detail-sales-order-for-invoice",
+        name: "detail-sales-order-for-invoice",
+        component: DetailSalesOrderForInvoice
       },
       {
         path: "activity-list-schedule",
