@@ -52,7 +52,7 @@
                                     {{reimbursement.listExpense.indexOf(row.item) + 1}}
                                 </template>
                                  <template v-slot:cell(tanggal)="row">
-                                    {{ row.item.createdAt.split("T")[0].split("-").reverse().join('-') }}
+                                    {{ row.item.tanggal.split("T")[0].split("-").reverse().join('-') }}
                                 </template>
                                 </b-table>
                                 

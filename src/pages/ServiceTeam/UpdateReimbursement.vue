@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="judul"><strong>Add Reimbursement Report</strong></h3>
+    <h3 class="judul"><strong>Update Reimbursement Report</strong></h3>
     <div class = "row">
         <div class = "col-10 isi-form">
             <card>
@@ -9,7 +9,7 @@
                     <label for="projectName">Project</label>
                     <b-form-input
                         id="projectName"
-                        v-model="newReimbursement.projectName"
+                        v-model="reimbursement.projectName"
                         type="text"
                         required
                         placeholder="Project Description"
@@ -53,51 +53,21 @@
                     <label>Attachment</label>
                     </b-col>
                 </b-row>
-
-                <!-- <b-row class="attachmentInput">
-                    <b-col>
-                       <drop class="drop" @drop="handleDrop">drop files</drop>
-                       <div>
-                           <li v-for="item in files">{{item.name}}</li>
-                       </div> -->
-                    <!-- <label for="file"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.</label>
-                    <input class="box__file" type="file" name="files[]" id="file" data-multiple-caption="{count} files selected" multiple /> -->
-                    <!-- </b-col>
-                </b-row>
-                <b-row> -->
-                    
-                <b-row>
-                    <b-col>
-                        <b-form-group> 
-                        <div class="file is-boxed is-primary">
-                            <label class="file-label">
-                            <input class="file-input" type="file" ref="file" v-on:change="handleFilesUpload()"/>
-                            <span class="file-cta">
-                                <span class="file-icon"><i class="ti-upload"></i></span>
-                                <span class="file-label">Drop Your Files Here...</span>
-                                
-                            </span>
-                                <span class="file-name" v-if="file">{{file.name}}</span>
-                            </label>
-                        </div>
-                        </b-form-group>
-                    </b-col>
-                </b-row>
-                    <img :src="avatar" alt="Image">
+                
                 <div class = "button-group">
                     <b-button class = "cancel-button" type="reset">Cancel</b-button>
-                    <b-button class = "add-reimbursement-button" type="submit">Add</b-button>
+                    <b-button class = "save-reimbursement-button" type="submit">Save</b-button>
                 </div>
             </b-form>
             </card>
         </div>
     </div>
     <b-modal title="Reimbursement Report Berhasil Tersimpan" v-model="successModal" @ok="redirect()"  centered ok-only>
-        Reimbursement telah berhasil dibuat.
+        Reimbursement Report Has Been Updated.
     </b-modal>
 
     <b-modal title="Reimbursement Gagal Tersimpan" v-model="failedModal" centered ok-only>
-        Reimbursement gagal dibuat.
+        Failed to Save Reimbursement Report.
     </b-modal>
   </div>
 </template>
@@ -109,16 +79,16 @@ import axios from 'axios';
 
 export default {
     components : {
-      Expense,
+      Expense
     },
     data() { 
       return {
             expenses: [],
-            file: '',
+            file: [],
             id_expense : {id:0},
             timestamp:"",
             files: '',
-            avatar: null,
+            reimbursement: '',
             newReimbursement : {
                 createdBy : "adi",
                 projectName : '',
@@ -139,7 +109,7 @@ export default {
                 status : 'Active'
             },
             new_attachment : {
-                id: 0,
+                id_attachment : 0,
                 fileName : '',
                 image : '',
                 reimbursement : '',
@@ -148,15 +118,12 @@ export default {
             successModal : false,
             failedModal : false,
             send : {objects : null},
-            attachment: '',
-            statusAttach:'',
-            attachments : [],
         }
     },
 
     beforeMount() {
       this.addRow();
-     
+      this.getDetail();
 	},
     
     methods: {
@@ -169,7 +136,13 @@ export default {
         deleteRow(id_expense){
             this.expenses = this.expenses.filter(result => result.id_expense !== id_expense);
         },
-         showMessage(status){
+
+        onSubmit(evt) {
+            evt.preventDefault();
+            this.updateReimbursement(JSON.stringify(this.reimbursement));
+        },
+
+        showMessage(status){
             if(status == 200){
                 this.successModal = true;
             }
@@ -180,33 +153,22 @@ export default {
             }
         },
 
-        onSubmit(evt) {
-            evt.preventDefault();
-            console.log(this.attachment);
-            let attach = Object.assign(this.new_attachment, this.attachment);
-            this.attachments.push(attach);
-            this.newReimbursement.listAttachment = this.attachments;
-            this.newReimbursement.listExpense = this.expenses;
-            this.addReimbursement(JSON.stringify(this.newReimbursement));
+        getDetail: function(){    
+            axios.get('http://localhost:8080/api/reimbursement/detail/' +this.$route.params.id)
+            .then(res => {this.reimbursement = res.data, this.expenses = res.data.listExpense})
+            .catch(err => this.reimbursement = err.data);
         },
 
-        addReimbursement(reimburse){
+        updateReimbursement(reimburse){
             console.log("add reimburse")
-            console.log(reimburse);
-            axios.post('http://localhost:8080/api/reimbursement/add', 
+            axios.put('http://localhost:8080/api/reimbursement/update/' + this.$route.params.id, 
             reimburse, 
                 { headers: {
                     'Content-Type': 'application/json',
                 }
             })
-            .then(res => {this.newReimbursement = res.data.result, this.showMessage(res.data.status)});
+            .then(res => {this.reimbursement = res.data.result, this.showMessage(res.data.status)});
         },
-
-        // removeFile(file) {
-        //     this.files = this.files.filter(f => {
-        //         return f != file;
-        //     });
-        // },
 
         redirect(){
             this.$router.push({ name: 'detail-reimbursement',  params: {id:this.newReimbursement.id}});
@@ -214,35 +176,6 @@ export default {
 
         hideModal(){
 		    this.$refs['modal-hide'].hide();
-        },
-
-
-        handleFilesUpload(){
-            this.file = this.$refs.file.files[0];
-            let image = this.$refs.file.files[0];
-            let reader = new FileReader();
-            reader.readAsDataURL(image);
-            reader.onload = e => {
-                this.avatar = e.target.result;
-            }
-            console.log(this.file);
-            this.uploadFile(this.file);
-        },
-
-        uploadFile(attach) {
-            let formData = new FormData();
-            formData.append('file', this.file);
-            axios.post('http://localhost:8080/api/attachment/uploadFile', 
-            // FormData)
-            formData,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-            .then(res => {this.attachment = res.data.result});
-            console.log('tes');
-            console.log(this.attachment);
         },
 
     }

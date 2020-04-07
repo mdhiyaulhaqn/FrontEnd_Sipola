@@ -110,10 +110,6 @@ export default {
       items() {
           return this.reimbursement;
       },
-      // colorClass() {
-      //   let variant = (statusReimburse === 'On Progress' ) ? 'yellow' : 'red';
-      //   return 'variant: '+ variant;
-      // }
   },
 
   beforeMount(){

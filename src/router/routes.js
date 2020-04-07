@@ -11,17 +11,20 @@ import Maps from "@/pages/Maps.vue";
 import Typography from "@/pages/Typography.vue";
 import Quotation from "@/pages/SalesMarketing/Quotation.vue";
 import SalesOrder from "@/pages/SalesMarketing/SalesOrder.vue";
+import DetailSalesOrder from "@/pages/SalesMarketing/DetailSalesOrder.vue";
 import FormQuotation from "@/pages/SalesMarketing/FormQuotation.vue";
 import UpdateQuotation from "@/pages/SalesMarketing/UpdateQuotation.vue";
 import DetailQuotation from "@/pages/SalesMarketing/DetailQuotation.vue";
 import Pengeluaran from "@/pages/Finance/Pengeluaran.vue";
 import DetailPengeluaran from "@/pages/Finance/DetailPengeluaran.vue";
 import FormPengeluaran from "@/pages/Finance/FormPengeluaran.vue";
-import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue";
 import ReimbursementReport from "@/pages/ServiceTeam/ReimbursementReport.vue";
 import DetailReimbursement from "@/pages/ServiceTeam/DetailReimbursement.vue";
 import FormReimbursement from "@/pages/ServiceTeam/FormReimbursement.vue";
+import UpdateReimbursement from "@/pages/ServiceTeam/UpdateReimbursement.vue";
 import FormReimburse from "@/pages/ServiceTeam/FormReimburse.vue";
+import UpdatePengeluaran from "@/pages/Finance/UpdatePengeluaran.vue";
+import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue"
 
 const routes = [
   {
@@ -40,7 +43,7 @@ const routes = [
         component: FormQuotation
       },
       {
-        path: "quotation/update/:id",
+        path: "quotation/:id/update",
         name: "update-quotation",
         component: UpdateQuotation
       },
@@ -50,7 +53,7 @@ const routes = [
         component: UserProfile
       },
       {
-        path: "quotation/detail/:id",
+        path: "quotation/:id",
         name: "detail-quotation",
         component: DetailQuotation
       },
@@ -85,18 +88,28 @@ const routes = [
         component: SalesOrder
       },
       {
+        path: "sales-order/:id",
+        name: "detail-sales-order",
+        component: DetailSalesOrder
+      },
+      {
         path: "expense",
         name: "expense",
         component: Pengeluaran
       },
       {
-        path: "expense/detail/:id",
+        path: "expense/:id",
         name: "expense-detail",
         component: DetailPengeluaran
       },
       {
-        path: "expense-add",
-        name: "expense-add",
+        path: "expense/:id/update",
+        name: "expense-detail",
+        component: UpdatePengeluaran
+      },
+      {
+        path: "expense/add",
+        name: "add-expense",
         component: FormPengeluaran
       },
       {
@@ -123,6 +136,11 @@ const routes = [
         path: "reimbursement/addImage",
         name: "add-reimburse",
         component: FormReimburse
+      },
+      {
+        path: "reimbursement/update/:id",
+        name: "update-reimbursement",
+        component: UpdateReimbursement
       },
     ]
   },
