@@ -111,7 +111,7 @@ const routes = [
         component: Invoice
       },
       {
-        path: "detail-invoice",
+        path: "detail-invoice/:id",
         name: "detail-invoice",
         component: DetailInvoice
       },

@@ -9,7 +9,7 @@
             
             <card>
                 <b-row>
-                    <div class = "company-name">{{ invoice.company.nama }}</div>
+                    <div class = "company-name">{{ invoice.salesOrder.company.nama }}</div>
                 </b-row>
                 <b-row>
                     <div class = "col-3">Invoice No</div>
@@ -19,7 +19,7 @@
                 <b-row>
                     <div class = "col-3">Invoice Date</div>
                     <div class = "col-6">: {{ invoice.dateInvoice.split("T")[0].split("-").reverse().join('-') }}</div>
-                    <div class = "col-3">Due Date: {{ Inactive.dueDatePayment.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-3">Due Date: {{ invoice.dueDate.split("T")[0].split("-").reverse().join('-') }}</div>
                 </b-row>
                   <b-row>
                     <div class = "col-3">Purchase Order No</div>
