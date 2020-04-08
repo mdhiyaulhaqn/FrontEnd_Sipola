@@ -26,7 +26,7 @@
                         </template>
 
                         <template v-slot:cell(date)="row">
-                            {{row.item.dateInvoice.split("T")[0].split("-").reverse().join('-')}}
+                            {{row.item.dateInvoice.split("T")[0].split("-").reverse().join('-') }}
                         </template>
 
                         <!-- <template v:slot:cell(total_price)="row">

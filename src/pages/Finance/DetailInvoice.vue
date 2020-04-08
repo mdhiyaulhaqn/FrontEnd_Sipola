@@ -12,30 +12,37 @@
                     <div class = "company-name">{{ invoice.salesOrder.company.nama }}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-3">Invoice No</div>
+                    <div class = "col-2">Invoice No</div>
                     <div class = "col-6">: {{ invoice.noInvoice }}</div>
-                    <div class = "col-3">Sales Order No: {{ invoice.salesOrder.noSalesOrder }}</div>
+                    <div class = "col-2">Sales Order No</div>
+                    <div class = "col-2">: {{ invoice.salesOrder.noSalesOrder }}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-3">Invoice Date</div>
+                    <div class = "col-2">Invoice Date</div>
                     <div class = "col-6">: {{ invoice.dateInvoice.split("T")[0].split("-").reverse().join('-') }}</div>
-                    <div class = "col-3">Due Date: {{ invoice.dueDate.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-2">Due Date</div>
+                    <div class = "col-2">: {{ invoice.dueDate.split("T")[0].split("-").reverse().join('-') }}</div>
                 </b-row>
                   <b-row>
-                    <div class = "col-3">Purchase Order No</div>
+                    <div class = "col-2">Purchase Order No</div>
                     <div class = "col-6">: {{ invoice.noPurchaseOrder }}</div>
-                    <div class = "col-3">Created By: {{ invoice.createdBy }}</div>
+                    <div class = "col-2">Created By</div>
+                    <div class = "col-2">: {{ invoice.createdBy }}</div>
                 </b-row>
                   <b-row>
-                    <div class = "col-3">Purchase Order Date</div>
+                    <div class = "col-2">Purchase Order Date</div>
                     <div class = "col-6">: {{ invoice.datePurchaseOrder.split("T")[0].split("-").reverse().join('-') }}</div>
-                    <div class = "col-3">Created At: {{ invoice.createdAt.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-2">Created At</div>
+                    <div class = "col-2">: {{ invoice.createdAt.split("T")[0].split("-").reverse().join('-') }}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-3">Address</div>
+                    <div class = "col-2">Address</div>
                     <div class = "col-6">: {{invoice.company.alamat}}</div>
-                    <div class = "col-3"> Terms Of Delivery: {{invoice.termsOfDelivery}}
-                        <br> Payment Terms: {{invoice.paymentTerms}}
+                    <div class = "col-2"> Terms Of Delivery
+                        <br> Payment Terms
+                    </div>
+                    <div class = "col-2">: {{invoice.termsOfDelivery}}
+                        <br>: {{invoice.paymentTerms}}
                     </div>
                 </b-row>
                 <br>
