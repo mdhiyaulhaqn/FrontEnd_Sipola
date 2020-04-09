@@ -197,7 +197,7 @@ export default {
         
         addQuotation(quot){
             console.log("cihuy")
-            axios.post('http://localhost:8080/api/quotation/add', 
+            axios.post('http://localhost:8081/api/quotation/add', 
             quot, 
                 { headers: {
                     'Content-Type': 'application/json',

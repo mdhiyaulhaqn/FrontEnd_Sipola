@@ -19,7 +19,11 @@ import DetailQuotation from "@/pages/SalesMarketing/DetailQuotation.vue";
 import Pengeluaran from "@/pages/Finance/Pengeluaran.vue";
 import DetailPengeluaran from "@/pages/Finance/DetailPengeluaran.vue";
 import FormPengeluaran from "@/pages/Finance/FormPengeluaran.vue";
-import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue"
+import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue";
+import AddActivityListSchedule from "@/pages/ProjectManager/AddActivityListSchedule.vue";
+import DetailActivityListSchedule from "@/pages/ProjectManager/DetailActivityListSchedule.vue";
+=======
+import UpdatePengeluaran from "@/pages/Finance/UpdatePengeluaran.vue";
 
 const routes = [
   {
@@ -98,19 +102,34 @@ const routes = [
         component: Pengeluaran
       },
       {
-        path: "expense/detail/:id",
+        path: "expense/:id",
         name: "expense-detail",
         component: DetailPengeluaran
       },
       {
-        path: "expense-add",
-        name: "expense-add",
+        path: "expense/:id/update",
+        name: "expense-detail",
+        component: UpdatePengeluaran
+      },
+      {
+        path: "expense/add",
+        name: "add-expense",
         component: FormPengeluaran
       },
       {
         path: "activity-list-schedule",
         name: "activity-list-schedule",
         component: ActivityListSchedule
+      },
+      {
+        path: "activity-list-schedule/add",
+        name: "add-activity-list-schedule",
+        component: AddActivityListSchedule
+      },
+      {
+        path: "activity-list-schedule/:id",
+        name: "detail-activity-list-schedule",
+        component: DetailActivityListSchedule
       },
     ]
   },

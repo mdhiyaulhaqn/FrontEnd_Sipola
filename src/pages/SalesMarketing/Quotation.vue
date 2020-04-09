@@ -10,17 +10,17 @@
             </button>
           </router-link>
           </b-row>
-                 
-          <div slot="raw-content" class="table-responsive">     
-            <b-table 
+
+          <div slot="raw-content" class="table-responsive">
+            <b-table
                 responsive
                 :items="items"
                 :fields="fields"
-                :per-page="akuntable.perPage" 
+                :per-page="akuntable.perPage"
                 :current-page="akuntable.currentPage"
                 :sort-by.sync="akuntable.sortBy"
                 :sort-desc.sync="akuntable.sortDesc">
-                
+
                 <template v-slot:cell(id)="row">
                    {{items.indexOf(row.item) + 1}}
                 </template>
@@ -28,7 +28,7 @@
                 <template v-slot:cell(date)="row">
                     {{row.item.date.split("T")[0].split("-").reverse().join('-') }}
                 </template>
-<!-- 
+<!--
                  <template v-slot:cell(total_price) = "row">
                     {{row.item.service[1].harga}}
                 </template> -->
@@ -159,12 +159,12 @@ export default {
   // },
   data() {
     return {
-      akuntable : { 
+      akuntable : {
           currentPage : 1,
           perPage : 5,
           sortDesc : false,
       },
-      
+
       fields: [
           {key: 'id', label: 'Id', sortable: true},
           {key: 'noQuotation', label: 'No Quotation', sortable: true},
