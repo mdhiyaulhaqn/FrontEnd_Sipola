@@ -48,7 +48,7 @@
                                     {{row.item.harga}} * {{row.item.quantity}}
                                 </template>
                                 </b-table>
-                                
+                                 <div class = "col-6">: {{quotation.total_harga_semua}}</div>
                             </div>
                         </div>
                     </b-col>
@@ -96,20 +96,57 @@
             </div>
         </b-modal>
 
+         <b-modal id="modal-delete" ref="modal-delete" hide-footer centered title="Delete Expense">
+			<br>
+            <div class = "container">
+                <div class = "info">
+                <b-row>
+                    <b-col cols="3" class="ti-trash"></b-col>
+                    <b-col cols="9">
+                        Tiket Pesawat CGK - Sawangan will be removed from expense list.
+                    </b-col>
+                </b-row>
+                </div>
+                <b-row>
+                    <b-col class="button-confirm-group">
+                         <b-button @click="hideModal" id ="confirm_delete_button" variant="outline-danger">
+                            Yes, Delete it
+                        </b-button>
+                        <b-button @click="hideModal" id ="cancel_delete_button" class="btn btn-danger">
+                            No
+                        </b-button>
+                    </b-col>
+                </b-row>
+                <!-- <div class = "tombol_okay">
+                    <b-row>
+                        <b-button class = "button_back" @click="hideModal" size="md" variant="primary">Okay</b-button>
+                    </b-row>
+                </div> -->
+        
+            </div>
+        </b-modal>
+
         <b-modal id="modal-delete" ref="modal-delete" hide-footer centered title="Delete Quotation?" ok-only>
             <br>
             <div class = "container">
                 <div class = "info">
                 <b-row>
-                <i class="fas fa-trash-alt"></i>Quotation no {{quotation.noQuotation}} will be removed from the list.
+                    <b-col cols="3" class="ti-trash"></b-col>
+                    <b-col cols="9">
+                       Quotation no {{quotation.noQuotation}} will be removed from the list.
+                    </b-col>
                 </b-row>
                 </div>
-                <div class = "tombol_okay">
-                    <b-row>
-                        <b-button class = "button_oke" @click="onSubmit" size="md" variant="primary">Yes, Delete It</b-button>
-                        <b-button class = "button_back" @click="hideModal" size="md" >No</b-button>
-                    </b-row>
-                </div>
+                <b-row>
+                    <b-col class="button-confirm-group">
+                         <b-button @click="onSubmit" id ="confirm_delete_button" variant="outline-danger">
+                            Yes, Delete it
+                        </b-button>
+                        <b-button @click="hideModal" id ="cancel_delete_button" class="btn btn-danger">
+                            No
+                        </b-button>
+                    </b-col>
+                </b-row>
             </div>
         </b-modal>
         <b-modal title="Success!" v-model="successModal" @ok="redirect()" centered ok-only>
@@ -157,14 +194,15 @@ export default {
                 {key: 'nama', label: 'Scope of Work', sortable: true},
                 {key: 'quantity', label: 'Quantity', sortable: true},
                 {key: 'harga', label: 'Unit Price(IDR)', sortable: true},
-                {key: 'harga * quantity', label:  'Total_Price(IDR)', sortable: true},
+                {key: 'total_harga', label:  'Total_Price(IDR)', sortable: true},
             ]
         };
     },
+
     beforeMount(){
         this.getDetail();
-
     },
+
     methods:{
         onSubmit(evt) {
             evt.preventDefault();
@@ -174,12 +212,20 @@ export default {
         
         showMessage(status){
             this.successModal = true;
+        },
 
+        computeTotal(){
+            var total_harga_semua = 0;
+            for (let i = 0; i < this.quotation.service.length; i++) {
+                this.quotation.service[i].total_harga = this.quotation.service[i].harga * this.quotation.service[i].quantity;
+                total_harga_semua +=  this.quotation.service[i].total_harga;
+            }
+            this.quotation.total_harga_semua = total_harga_semua;
         },
 
         getDetail: function(){    
             axios.get('http://localhost:8080/api/quotation/' +this.$route.params.id)
-            .then(res => {this.quotation = res.data})
+            .then(res => {this.quotation = res.data, this.computeTotal()})
             .catch(err => this.quotation = err.data);
         },
 
@@ -286,5 +332,53 @@ body {
     background-color: #109CF1;
     color:white;
     border-color: white;
+}
+.button-group{
+    text-align: center;
+}
+
+button{
+    border-radius: 8px;
+}
+
+#delete_button{
+    font-size: 10px;
+    width: 56;
+    background-color: #ff3e1d;
+    color:white;
+    border-color: white;
+}
+#edit_button{
+    font-size: 10px;
+    width: 130px;
+    background-color: #109CF1;
+    color:white;
+    border-color: white;
+}
+
+.ti-trash{
+    font-size: 50px;
+    text-align: center;
+    color:#ff3e1d;
+}
+
+.button-confirm-group{
+    text-align: right;
+}
+
+#confirm_delete_button{
+    font-size: 10px;
+    width: 130px;
+    border-color: #ff3e1d;
+    border-width: 1px;
+    margin-right: 10px;
+}
+
+#cancel_delete_button{
+    font-size: 10px;
+    background-color: #ff3e1d;
+    color:white;
+    border-color: white;
+    border-width: 1px;
 }
 </style>

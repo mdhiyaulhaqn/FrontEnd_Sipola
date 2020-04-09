@@ -7,31 +7,27 @@
                 </strong>
             </div>   
             <card>
-                <div class = "nama-pengeluaran">Tiket Pesawat CGK - Sawangan</div>
-                <b-row>
-                    <b-col cols="4"></b-col>
-                    <b-col cols="2" class="detail-label">Nominal</b-col>
-                    <b-col cols="6" class="detail-text">: Rp10.000</b-col>
+                <!-- <div class = "nama-pengeluaran">Tiket Pesawat CGK - Sawangan</div> -->
+                <div class = "nama-pengeluaran">{{pengeluaran.nama}}</div>
+                <b-row align-h="end">
+                    <b-col class="detail-label col-5 col-md-2">Nominal</b-col>
+                    <b-col cols="6" class="detail-text">: {{pengeluaran.nominal}}</b-col>
                 </b-row>
-                <b-row>
-                    <b-col cols="4"></b-col>
-                    <b-col cols="2" class="detail-label">Date</b-col>
-                    <b-col cols="6" class="detail-text">: Feb, 4 2020</b-col>
+                <b-row align-h="end">
+                    <b-col class="detail-label col-5 col-md-2">Date</b-col>
+                    <b-col cols="6" class="detail-text">: {{pengeluaran.tanggal.split("T")[0].split("-").reverse().join('-')}}</b-col>
                 </b-row>
-                <b-row>
-                    <b-col cols="4"></b-col>
-                    <b-col cols="2" class="detail-label">Paid by</b-col>
-                    <b-col cols="6" class="detail-text">: Susanto N.</b-col>
+                <b-row align-h="end">
+                    <b-col class="detail-label col-5 col-md-2">Paid by</b-col>
+                    <b-col cols="6" class="detail-text">: {{pengeluaran.paidBy}}</b-col>
                 </b-row>
-                <b-row>
-                    <b-col cols="4"></b-col>
-                    <b-col cols="2" class="detail-label">Created date</b-col>
-                    <b-col cols="6" class="detail-text">: Mar, 3 2020</b-col>
+                <b-row align-h="end">
+                    <b-col class="detail-label col-5 col-md-2">Created date</b-col>
+                    <b-col cols="6" class="detail-text">: {{pengeluaran.createdAt.split("T")[0].split("-").reverse().join('-')}}</b-col>
                 </b-row>
-                <b-row>
-                    <b-col cols="4"></b-col>
-                    <b-col cols="2" class="detail-label">Created by</b-col>
-                    <b-col cols="6" class="detail-text">: Ulhaq</b-col>
+                <b-row align-h="end">
+                    <b-col class="detail-label col-5 col-md-2">Created by</b-col>
+                    <b-col cols="6" class="detail-text">: {{pengeluaran.createdBy}}</b-col>
                 </b-row>
                 <b-row class="button-group">
                     <b-col>
@@ -39,7 +35,7 @@
                         <button v-b-modal.modal-delete id ="delete_button" class="btn btn-primary">
                             Delete
                         </button>
-                        <button id ="edit_button" class="btn btn-primary">
+                        <button id ="edit_button" class="btn btn-primary" @click="editPage">
                             Edit
                         </button>
                     </b-col>
@@ -61,7 +57,7 @@
                 </div>
                 <b-row>
                     <b-col class="button-confirm-group">
-                         <b-button @click="hideModal" id ="confirm_delete_button" variant="outline-danger">
+                         <b-button @click="deletePengeluaran()" id ="confirm_delete_button" variant="outline-danger">
                             Yes, Delete it
                         </b-button>
                         <b-button @click="hideModal" id ="cancel_delete_button" class="btn btn-danger">
@@ -84,22 +80,50 @@
 </template>
 
 <script>
+import axios from 'axios';
+import moment from 'moment';
+
 export default {
   data() {
     return {
-      services :[...tableData],
-      table1: {
-        title: "Pengeluaran List",
-        subTitle: "",
-        columns: [...tableColumns],
-        data: [...tableData]
-      },
+      pengeluaran : {
+          nama: '',
+          tanggal : ''
+      }
     };
   },
+  beforeMount(){
+      this.getDetail();
+    //   this.formatTanggal();
+  },
   methods:{
-      hideModal(){
+    hideModal(){
         this.$refs['modal-delete'].hide();
     },
+    getDetail: function(){    
+            axios.get('http://localhost:8080/api/pengeluaran/' +this.$route.params.id)
+            .then(res => {this.pengeluaran = res.data})
+            .catch(err => this.pengeluaran = err.data);
+    },
+    formatTanggal() {
+        console.log(this.pengeluaran.nama)
+        console.log(this.pengeluaran.tanggal.substring(0,1))
+        this.pengeluaran.tanggal = new Date(this.pengeluaran.tanggal)
+        console.log("Tangaal  : " + this.pengeluaran.tanggal)
+        console.log("Tanggal  : " + this.pengeluaran.tanggal.getMonth())
+        // console.log("Tanggal")
+        // console.log("FORMAT : " + moment(this.pengeluaran.tanggal)).format('MM/DD/YYYY hh:mm')
+        // this.pengeluaran.tanggal = moment(this.pengeluaran.tanggal).format('MM/DD/YYYY hh:mm')
+    },
+    deletePengeluaran(){
+        axios.put('http://localhost:8080/api/pengeluaran/' + this.$route.params.id + '/delete', this.pengeluaran)
+        .then(res => {this.showMessage(res.data.status)});
+    },
+    editPage(){
+        console.log("MASUK EDIT")
+        this.$router.replace(name= this.pengeluaran.id + '/update')
+    }
+        
   }
 };
 </script>
@@ -197,4 +221,10 @@ button{
     /* float:right; */
     /* margin-top: 40px; */
 }
+
+/* @media (max-width: 684px) { 
+    .detail-label{
+        text-align: right;
+    }
+ } */
 </style>
