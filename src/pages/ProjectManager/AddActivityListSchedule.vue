@@ -151,7 +151,7 @@ export default {
     },
 
     addActivityListSchedule(activityListSchedule){
-        axios.post('http://localhost:8081/api/activity-list-schedule/add',
+        axios.post('http://localhost:8080/api/activity-list-schedule/add',
         activityListSchedule,
             { headers: {
                 'Content-Type': 'application/json',

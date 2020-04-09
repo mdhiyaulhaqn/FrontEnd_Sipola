@@ -22,7 +22,7 @@ import FormPengeluaran from "@/pages/Finance/FormPengeluaran.vue";
 import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue";
 import AddActivityListSchedule from "@/pages/ProjectManager/AddActivityListSchedule.vue";
 import DetailActivityListSchedule from "@/pages/ProjectManager/DetailActivityListSchedule.vue";
-=======
+
 import UpdatePengeluaran from "@/pages/Finance/UpdatePengeluaran.vue";
 
 const routes = [
