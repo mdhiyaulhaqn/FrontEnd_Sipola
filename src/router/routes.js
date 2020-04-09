@@ -11,6 +11,7 @@ import Maps from "@/pages/Maps.vue";
 import Typography from "@/pages/Typography.vue";
 import Quotation from "@/pages/SalesMarketing/Quotation.vue";
 import SalesOrder from "@/pages/SalesMarketing/SalesOrder.vue";
+import FormSalesOrder from "@/pages/SalesMarketing/FormSalesOrder.vue";
 import DetailSalesOrder from "@/pages/SalesMarketing/DetailSalesOrder.vue";
 import FormQuotation from "@/pages/SalesMarketing/FormQuotation.vue";
 import UpdateQuotation from "@/pages/SalesMarketing/UpdateQuotation.vue";
@@ -35,6 +36,11 @@ const routes = [
         path: "quotation/add",
         name: "add-quotation",
         component: FormQuotation
+      },
+      {
+        path: "sales-order/add",
+        name: "add-sales-order",
+        component: FormSalesOrder
       },
       {
         path: "quotation/:id/update",

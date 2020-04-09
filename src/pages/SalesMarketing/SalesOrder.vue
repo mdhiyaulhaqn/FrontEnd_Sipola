@@ -86,7 +86,6 @@ export default {
       },
   },
 
-
   beforeMount(){
       this.getAllSalesOrder();
       this.test();

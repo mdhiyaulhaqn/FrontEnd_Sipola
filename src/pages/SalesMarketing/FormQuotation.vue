@@ -65,7 +65,7 @@
                     </b-col><br>
 
                     <b-col md="2">
-                    <label>Quantity</label> 
+                       <label>Quantity</label> 
                     </b-col><br>
 
                     <b-col md="3">

@@ -48,7 +48,7 @@
                                     {{row.item.harga}} * {{row.item.quantity}}
                                 </template>
                                 </b-table>
-                                
+                                 <div class = "col-6">: {{quotation.total_harga_semua}}</div>
                             </div>
                         </div>
                     </b-col>
@@ -194,14 +194,15 @@ export default {
                 {key: 'nama', label: 'Scope of Work', sortable: true},
                 {key: 'quantity', label: 'Quantity', sortable: true},
                 {key: 'harga', label: 'Unit Price(IDR)', sortable: true},
-                {key: 'harga * quantity', label:  'Total_Price(IDR)', sortable: true},
+                {key: 'total_harga', label:  'Total_Price(IDR)', sortable: true},
             ]
         };
     },
+
     beforeMount(){
         this.getDetail();
-
     },
+
     methods:{
         onSubmit(evt) {
             evt.preventDefault();
@@ -211,12 +212,20 @@ export default {
         
         showMessage(status){
             this.successModal = true;
+        },
 
+        computeTotal(){
+            var total_harga_semua = 0;
+            for (let i = 0; i < this.quotation.service.length; i++) {
+                this.quotation.service[i].total_harga = this.quotation.service[i].harga * this.quotation.service[i].quantity;
+                total_harga_semua +=  this.quotation.service[i].total_harga;
+            }
+            this.quotation.total_harga_semua = total_harga_semua;
         },
 
         getDetail: function(){    
             axios.get('http://localhost:8080/api/quotation/' +this.$route.params.id)
-            .then(res => {this.quotation = res.data})
+            .then(res => {this.quotation = res.data, this.computeTotal()})
             .catch(err => this.quotation = err.data);
         },
 
