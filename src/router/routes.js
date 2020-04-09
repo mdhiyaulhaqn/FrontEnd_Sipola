@@ -18,8 +18,11 @@ import DetailQuotation from "@/pages/SalesMarketing/DetailQuotation.vue";
 import Pengeluaran from "@/pages/Finance/Pengeluaran.vue";
 import DetailPengeluaran from "@/pages/Finance/DetailPengeluaran.vue";
 import FormPengeluaran from "@/pages/Finance/FormPengeluaran.vue";
+import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue";
+import AddActivityListSchedule from "@/pages/ProjectManager/AddActivityListSchedule.vue";
+import DetailActivityListSchedule from "@/pages/ProjectManager/DetailActivityListSchedule.vue";
+=======
 import UpdatePengeluaran from "@/pages/Finance/UpdatePengeluaran.vue";
-import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue"
 
 const routes = [
   {
@@ -111,6 +114,16 @@ const routes = [
         path: "activity-list-schedule",
         name: "activity-list-schedule",
         component: ActivityListSchedule
+      },
+      {
+        path: "activity-list-schedule/add",
+        name: "add-activity-list-schedule",
+        component: AddActivityListSchedule
+      },
+      {
+        path: "activity-list-schedule/:id",
+        name: "detail-activity-list-schedule",
+        component: DetailActivityListSchedule
       },
     ]
   },
