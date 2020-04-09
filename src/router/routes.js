@@ -22,11 +22,7 @@ import FormPengeluaran from "@/pages/Finance/FormPengeluaran.vue";
 import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue";
 import AddActivityListSchedule from "@/pages/ProjectManager/AddActivityListSchedule.vue";
 import DetailActivityListSchedule from "@/pages/ProjectManager/DetailActivityListSchedule.vue";
-<<<<<<< HEAD
-=======
-
 import UpdatePengeluaran from "@/pages/Finance/UpdatePengeluaran.vue";
->>>>>>> 6bf91e5954ce699fa3935dbc7fe19c72ca9b37cc
 
 const routes = [
   {
