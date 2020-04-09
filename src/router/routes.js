@@ -11,6 +11,7 @@ import Maps from "@/pages/Maps.vue";
 import Typography from "@/pages/Typography.vue";
 import Quotation from "@/pages/SalesMarketing/Quotation.vue";
 import SalesOrder from "@/pages/SalesMarketing/SalesOrder.vue";
+import DetailSalesOrder from "@/pages/SalesMarketing/DetailSalesOrder.vue";
 import FormQuotation from "@/pages/SalesMarketing/FormQuotation.vue";
 import UpdateQuotation from "@/pages/SalesMarketing/UpdateQuotation.vue";
 import DetailQuotation from "@/pages/SalesMarketing/DetailQuotation.vue";
@@ -20,6 +21,8 @@ import FormPengeluaran from "@/pages/Finance/FormPengeluaran.vue";
 import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue";
 import AddActivityListSchedule from "@/pages/ProjectManager/AddActivityListSchedule.vue";
 import DetailActivityListSchedule from "@/pages/ProjectManager/DetailActivityListSchedule.vue";
+=======
+import UpdatePengeluaran from "@/pages/Finance/UpdatePengeluaran.vue";
 
 const routes = [
   {
@@ -38,7 +41,7 @@ const routes = [
         component: FormQuotation
       },
       {
-        path: "quotation/update/:id",
+        path: "quotation/:id/update",
         name: "update-quotation",
         component: UpdateQuotation
       },
@@ -48,7 +51,7 @@ const routes = [
         component: UserProfile
       },
       {
-        path: "quotation/detail/:id",
+        path: "quotation/:id",
         name: "detail-quotation",
         component: DetailQuotation
       },
@@ -83,18 +86,28 @@ const routes = [
         component: SalesOrder
       },
       {
+        path: "sales-order/:id",
+        name: "detail-sales-order",
+        component: DetailSalesOrder
+      },
+      {
         path: "expense",
         name: "expense",
         component: Pengeluaran
       },
       {
-        path: "expense-detail",
+        path: "expense/:id",
         name: "expense-detail",
         component: DetailPengeluaran
       },
       {
-        path: "expense-add",
-        name: "expense-add",
+        path: "expense/:id/update",
+        name: "expense-detail",
+        component: UpdatePengeluaran
+      },
+      {
+        path: "expense/add",
+        name: "add-expense",
         component: FormPengeluaran
       },
       {

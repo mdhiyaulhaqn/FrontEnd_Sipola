@@ -3,7 +3,7 @@
     <div class="col-12">
       <h3 class="judul"><strong>Expense</strong></h3>
       <card>
-        <router-link to="expense-add">
+        <router-link :to="{name: 'add-expense'}">
           <button id ="add_quotation_button" class="btn btn-primary">
             Add Expense
             <span class="ti-plus"></span>
