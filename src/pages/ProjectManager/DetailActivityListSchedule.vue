@@ -36,6 +36,37 @@
         </b-row>
       </card>
     </div>
+    <b-modal id="modal-delete" ref="modal-delete" hide-footer centered title="Delete Activity List Schedule?" ok-only>
+      <div class="container">
+        <div class = "info">
+        <b-row>
+          <b-col cols="3" class="ti-trash"></b-col>
+          <b-col cols="9">
+              It will be removed from the list.
+          </b-col>
+        </b-row>
+        </div>
+        <b-row>
+          <b-col class="button-confirm-group">
+            <b-button @click="onSubmit" id ="confirm_delete_button" variant="outline-danger">
+                Yes, delete it
+            </b-button>
+            <b-button @click="hideModal" id ="cancel_delete_button" class="btn btn-danger">
+                Cancel
+            </b-button>
+          </b-col>
+        </b-row>
+      </div>
+    </b-modal>
+      <b-modal title="Success!" v-model="successModal" @ok="redirect()" centered ok-only>
+        <div class = "container">
+          <div class = "info">
+            <b-row>
+              <span class="ti-success"></span>Activity list schedule for project {{activityListSchedule.namaProyek}} was successfully deleted from list.
+            </b-row>
+          </div>
+        </div>
+    </b-modal>
   </div>
 </template>
 <script>
@@ -83,13 +114,30 @@ export default {
     this.getDetail();
   },
   methods: {
+    onSubmit(evt) {
+      evt.preventDefault();
+      // this.activityListSchedule.status = 'Inactive';
+      this.deleteActivityListSchedule(JSON.stringify(this.activityListSchedule));
+    },
     showMessage(status){
       this.successModal = true;
     },
     getDetail: function(){
-      axios.get('http://localhost:8081/api/activity-list-schedule/' + this.$route.params.id)
-      .then(response => this.activityListSchedule = response.data )
+      axios.get('http://localhost:8080/api/activity-list-schedule/' + this.$route.params.id)
+      .then(response => this.activityListSchedule = response.data)
       .catch(err => this.activityListSchedule = err.data);
+    },
+    deleteActivityListSchedule(activityListSchedule){
+      axios.put('http://localhost:8080/api/activity-list-schedule/' + this.$route.params.id + '/delete',
+      activityListSchedule,
+          { headers: {
+              'Content-Type': 'application/json',
+          }
+      })
+      .then(res => {this.showMessage(res.data.status)});
+    },
+    redirect(){
+      this.$router.push({ name: 'activity-list-schedule'});
     },
   }
 }
@@ -131,6 +179,29 @@ export default {
 }
 p{
   font-size: 12px;
+}
+.ti-trash{
+  font-size: 50px;
+  text-align: center;
+  color:#ff3e1d;
+}
+.button-confirm-group{
+  text-align: right;
+}
+#confirm_delete_button{
+  font-size: 10px;
+  width: 130px;
+  border-color: #ff3e1d;
+  border-width: 1px;
+  margin-right: 10px;
+}
+
+#cancel_delete_button{
+  font-size: 10px;
+  background-color: #ff3e1d;
+  color:white;
+  border-color: white;
+  border-width: 1px;
 }
 </style>
 
