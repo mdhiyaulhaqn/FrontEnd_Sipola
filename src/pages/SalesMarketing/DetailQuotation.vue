@@ -6,28 +6,37 @@
                     Detail Quotation
                 </strong>
             </div> 
+            <div ref="content">
             
             <card>
+                <div class="container-fluid">
                 <b-row>
-                    <div class = "col-8 nama-perusahaan">{{quotation.company.nama}}</div>
-                    <div class = "col-4">Created by : {{quotation.createdBy}} <br>Created At : {{ quotation.createdAt.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-lg-7 col-sm-7 col-xs-6 nama-perusahaan">{{quotation.company.nama}}</div>
+                    <div class = "col-lg-5 col-sm-5 col-xs-6"> 
+                        <div class ="row">
+                            <div class = "col-lg-5 col-sm-5 col-6">Created By </div>
+                            <div class = "col-lg-7 col-sm-7 col-6">: {{quotation.createdBy}} </div>
+                            <div class = "col-lg-5 col-sm-5 col-6">Created At </div>
+                            <div class = "col-lg-7 col-sm-7 col-6">: {{ quotation.createdAt.split("T")[0].split("-").reverse().join('-') }}</div>
+                        </div>
+                    </div>
                 </b-row>
                 <b-row>
-                    <div class = "col-2">Quotation Number</div>
-                    <div class = "col-6">: {{quotation.noQuotation}}</div>
+                    <div class = "col-lg-3 col-sm-4 col-6">Quotation Number </div>
+                    <div class = "col-lg-6 col-sm-8 col-6">: {{quotation.noQuotation}}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-2">Quotation Date</div>
-                    <div class = "col-6">: {{ quotation.date.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-lg-3 col-sm-4 col-6">Quotation Date </div>
+                    <div class = "col-lg-6 col-sm-8 col-6">: {{ quotation.date.split("T")[0].split("-").reverse().join('-') }}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-2">Address</div>
-                    <div class = "col-6">: {{quotation.company.alamat}}</div>
+                    <div class = "col-lg-3 col-sm-4 col-6">Address </div>
+                    <div class = "col-lg-6 col-sm-8 col-6">: {{quotation.company.alamat}}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-6"><br>Service</div>
-                    <div class = "col-6">
-                         <button v-b-modal.modal-download id ="download_button" class="btn btn-primary">
+                    <div class = "col-lg-6 col-sm-4 col-12"><br>Service</div>
+                    <div class = "col-lg-6 col-sm-8 col-12">
+                         <button  @click="downloadReport" id="download_button" class="btn btn-primary">
                             Download
                             <span class="ti-download"></span>
                         </button>
@@ -47,8 +56,16 @@
                                  <template v-slot:cell(Total_Price(IDR))="row">
                                     {{row.item.harga}} * {{row.item.quantity}}
                                 </template>
+                                <template slot="FOOT_Total_Price(IDR)">
+                                    <td>TOTAL<td>
+                                    <td><td/>
+                                    <td>{{quotation.total_harga_semua}}</td>
+                                </template>
+                  
+
+                                   
+                             
                                 </b-table>
-                                
                             </div>
                         </div>
                     </b-col>
@@ -75,8 +92,10 @@
                          </router-link>
                     </div>
                 </b-row>
+                </div>
 
             </card>
+            </div>
         </div>
 
          <b-modal id="modal-download" ref="modal-download" hide-footer centered title="Download Quotation">
@@ -84,7 +103,7 @@
             <div class = "container">
                 <div class = "info">
                 <b-row>
-                    <span class="ti-download"></span>The system is downloading quotation no. {{quotation.noQuotation}}
+                    <span class="ti-download"></span>The system is downloading quotation no. {{quotation.noQuotation}}<br><br>
                 </b-row>
                 </div>
                 <div class = "tombol_okay">
@@ -101,15 +120,22 @@
             <div class = "container">
                 <div class = "info">
                 <b-row>
-                <i class="fas fa-trash-alt"></i>Quotation no {{quotation.noQuotation}} will be removed from the list.
+                    <b-col cols="3" class="ti-trash"></b-col>
+                    <b-col cols="9">
+                       Quotation no {{quotation.noQuotation}} will be removed from the list.
+                    </b-col>
                 </b-row>
                 </div>
-                <div class = "tombol_okay">
-                    <b-row>
-                        <b-button class = "button_oke" @click="onSubmit" size="md" variant="primary">Yes, Delete It</b-button>
-                        <b-button class = "button_back" @click="hideModal" size="md" >No</b-button>
-                    </b-row>
-                </div>
+                <b-row>
+                    <b-col class="button-confirm-group">
+                         <b-button @click="onSubmit" id ="confirm_delete_button" variant="outline-danger">
+                            Yes, Delete it
+                        </b-button>
+                        <b-button @click="hideModal" id ="cancel_delete_button" class="btn btn-danger">
+                            No
+                        </b-button>
+                    </b-col>
+                </b-row>
             </div>
         </b-modal>
         <b-modal title="Success!" v-model="successModal" @ok="redirect()" centered ok-only>
@@ -146,6 +172,9 @@ const tableData = [
 ]
 
 import axios from 'axios';
+import jsPDF from 'jspdf';
+import * as autoTable from 'jspdf-autotable';
+import html2canvas from "html2canvas"
 
 export default {
     data() {
@@ -156,15 +185,20 @@ export default {
                 {key: 'id', label: 'No', sortable: true},
                 {key: 'nama', label: 'Scope of Work', sortable: true},
                 {key: 'quantity', label: 'Quantity', sortable: true},
-                {key: 'harga', label: 'Unit Price(IDR)', sortable: true},
-                {key: 'harga * quantity', label:  'Total_Price(IDR)', sortable: true},
+                {key: 'harga', label: 'Unit Price(IDR)', formatter: value => {
+                    return value.toLocaleString('de-DE')}
+                },
+                {key: 'total_harga', label:  'Total_Price(IDR)', formatter: value => {
+                    return value.toLocaleString('de-DE')}
+                }
             ]
         };
     },
+
     beforeMount(){
         this.getDetail();
-
     },
+
     methods:{
         onSubmit(evt) {
             evt.preventDefault();
@@ -174,12 +208,20 @@ export default {
         
         showMessage(status){
             this.successModal = true;
+        },
 
+        computeTotal(){
+            var total_harga_semua = 0;
+            for (let i = 0; i < this.quotation.service.length; i++) {
+                this.quotation.service[i].total_harga = this.quotation.service[i].harga * this.quotation.service[i].quantity;
+                total_harga_semua +=  this.quotation.service[i].total_harga;
+            }
+            this.quotation.total_harga_semua = total_harga_semua;
         },
 
         getDetail: function(){    
             axios.get('http://localhost:8080/api/quotation/' +this.$route.params.id)
-            .then(res => {this.quotation = res.data})
+            .then(res => {this.quotation = res.data, this.computeTotal()})
             .catch(err => this.quotation = err.data);
         },
 
@@ -199,8 +241,19 @@ export default {
 
         hideModal(){
             this.$refs['modal-download'].hide();
-    },
-  }
+        },
+        downloadReport:function(){
+            var doc = new jsPDF()
+            const contentHtml = this.$refs.content.innerHTML;
+            doc.fromHTML(contentHtml, 15, 15, {
+                width: 170
+            });
+            doc.save("sample.pdf");
+
+            this.$refs['modal-download'].show();
+
+        }
+    }
 };
 </script>
 
@@ -286,5 +339,53 @@ body {
     background-color: #109CF1;
     color:white;
     border-color: white;
+}
+.button-group{
+    text-align: center;
+}
+
+button{
+    border-radius: 8px;
+}
+
+#delete_button{
+    font-size: 10px;
+    width: 56;
+    background-color: #ff3e1d;
+    color:white;
+    border-color: white;
+}
+#edit_button{
+    font-size: 10px;
+    width: 130px;
+    background-color: #109CF1;
+    color:white;
+    border-color: white;
+}
+
+.ti-trash{
+    font-size: 50px;
+    text-align: center;
+    color:#ff3e1d;
+}
+
+.button-confirm-group{
+    text-align: right;
+}
+
+#confirm_delete_button{
+    font-size: 10px;
+    width: 130px;
+    border-color: #ff3e1d;
+    border-width: 1px;
+    margin-right: 10px;
+}
+
+#cancel_delete_button{
+    font-size: 10px;
+    background-color: #ff3e1d;
+    color:white;
+    border-color: white;
+    border-width: 1px;
 }
 </style>
