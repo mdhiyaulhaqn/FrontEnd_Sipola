@@ -7,7 +7,7 @@
             <h5 class = "title-form">Update Quotation Form </h5>
             <b-form @submit="onModal" v-if="show">
                 <div class = "row">
-                    <div class = "col-7">
+                    <div class = "col-md-7 col-12">
                         <b-form-group>
                             <label for="noQuotation">Quotation No</label>
                             <b-form-input
@@ -21,7 +21,7 @@
                         </b-form-group>
                     </div>
              
-                    <div class = "col-5">
+                    <div class = "col-md-5 col-12">
                         <div style="color:black">
                         <b-form-group>
                             <label for="date">Quotation Date</label>
@@ -60,24 +60,22 @@
                     </b-form-input>
                 </b-form-group>
 
-                <b-row>
-                    <b-col md="6">
-                      <label>Scope of Works</label>
-                    </b-col><br>
-
-                    <b-col md="2">
-                    <label>Quantity</label> 
-                    </b-col><br>
-
-                    <b-col md="3">
-                    <label>Unit Price</label> 
-                    </b-col>
-                    <br>
-
-                    <b-col md="1">
-                    
-                    </b-col>
-                </b-row>
+                 <div class="d-none d-md-block d-lg-block">
+                    <div class="row">
+                        <div class = "col-md-6">
+                            <label>Scope of Works</label>
+                        </div>
+                        <div class = "col-md-2">
+                            <label>Quantity</label> 
+                        </div>
+                        <div class = "col-md-3">
+                            <label>Unit Price</label> 
+                        </div>
+                        <div class = "col-md-1">
+                        </div>
+                        <br>
+                    </div>
+                </div>
 
                 <b-row class="services" v-bind:key="item.id_service" v-for="item in services">
                     <b-col>
@@ -120,20 +118,35 @@
         <div class = "container">
             <div class = "info">
             <b-row>
-                <span class="ti-download"></span>Quotation no {{quotation.noQuotation}} will be changed soon once you click the save button.
+                Quotation no {{quotation.noQuotation}} will be changed soon once you click the save button.
             </b-row>
             </div>
             <div class = "tombol_okay">
                 <b-row>
-                    <b-button class = "button_back" @click="hideModal" size="md" variant="primary">Cancel</b-button>
-                    <b-button class = "button_ok" @click="onSubmit" size="md" variant="primary">Save</b-button>
+                    <b-button id="cancel_update_button" @click="hideModal" size="md" variant="primary">Cancel</b-button>
+                    <b-button id="confirm_update_button" @click="onSubmit" size="md" variant="primary">Save</b-button>
                 </b-row>
             </div>
     
         </div>
     </b-modal>
-    <b-modal title="Quotation Berhasil Terubah" v-model="successModal" @ok="redirect()" centered ok-only>
-        Quotation telah berhasil Diubah.
+
+    <b-modal title="Success!" v-model="successModal" hide-footer centered>
+         <br>
+        <div class = "container">
+            <div class = "info">
+            <b-row>
+                 Quotation no {{quotation.noQuotation}} was successfully changed.
+            </b-row>
+            </div>
+            <div style="float:right">
+                <b-row>
+                    <b-button id="cancel_update_button" @click="redirect" size="md" variant="primary">See Details</b-button>
+                </b-row>
+            </div>
+    
+        </div>
+       
     </b-modal>
 
     <b-modal title="Quotation Gagal Tersimpan" v-model="failedModal" centered ok-only>
@@ -201,6 +214,7 @@ export default {
         },
 
         onSubmit(evt) {
+            this.$refs['modal-download'].hide();
 
             evt.preventDefault();
             
@@ -254,8 +268,8 @@ export default {
             .then(res => {this.quotation = res.data.result, this.showMessage(res.data.status)});
         },
 
-        redirect(){
-            this.$router.push({ name: 'quotation'});
+       redirect(){
+            this.$router.push({ name: 'detail-quotation',  params: {id:this.quotation.id}});
         },
 
         hideModal(){
@@ -283,6 +297,22 @@ export default {
 .isi-form{
     margin-left: auto;
     margin-right: auto;
+}
+
+#cancel_update_button{
+    font-size: 10px;
+    border-color: #109CF1;
+    color:#109CF1;
+    background-color: white;
+    border-width: 1px;
+    margin-right: 10px;
+}
+
+#confirm_update_button{
+    font-size: 10px;
+    background-color: #109CF1;
+    color:white;
+    border-color: white;
 }
 
 .add-quotation-button{
