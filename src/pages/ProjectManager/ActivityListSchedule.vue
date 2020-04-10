@@ -166,7 +166,7 @@ export default {
       this.currentPage = 1
     },
     getAllActivityListSchedule: function(){
-      axios.get('http://localhost:8081/api/activity-list-schedule/all')
+      axios.get('http://localhost:8080/api/activity-list-schedule/all')
       .then(response => this.activityListSchedule = response.data.result);
     },
   }
