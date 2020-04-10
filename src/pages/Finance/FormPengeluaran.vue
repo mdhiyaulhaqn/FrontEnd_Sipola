@@ -59,7 +59,7 @@
                 <router-link to="/expense">
                     <b-button class = "cancel-button" type="reset">Cancel</b-button>
                 </router-link>
-                <b-button class = "add-pengeluaran-button" type="submit" v-b-modal.modal-success>Add</b-button>
+                <b-button class = "add-pengeluaran-button" type="submit" v-b-modal.modal-success>Save</b-button>
 
                 </div>
                 
@@ -69,18 +69,19 @@
     </div>
 
     <b-modal id="modal-success" ref="modal-success" hide-footer centered title="Success!">
-			<br>
             <div class = "container">
                 <div class = "info">
                 <b-row>
-                    <b-col cols="3" class="ti-angle-down"></b-col>
+                    <b-col cols="3" class="modal-icon">
+                        <img src="@/assets/img/success-icon.png" alt="" width="60px">
+                    </b-col>
                     <b-col cols="9">
                         {{this.newPengeluaran.nama}} expense was successfully added.
                     </b-col>
                 </b-row>
                 </div>
                 <b-row class="button-detail-group">
-                    <b-button @click="toDetailPage" id ="sad" variant="outline-primary">
+                    <b-button @click="toDetailPage" id ="button-see-detail" variant="outline-primary">
                         See Details
                     </b-button>
                 </b-row>
@@ -186,25 +187,32 @@ import axios from 'axios';
 }
 
 .add-pengeluaran-button{
-    border-color: white;
+    margin-left: 10px;
+    border-color: #109CF1;
+    border-width: 1px;
     background-color: #109CF1;
     color:white;
 }
 
-
 .cancel-button{
     color:#109CF1;
     border-color:#109CF1;
+    border-width: 1px;
     background-color: white;
 }
 
-.ti-angle-down{
-    font-size: 50px;
+.modal-icon{
     text-align: center;
-    color:#109CF1;
 }
 
 .button-detail-group{
     float:right;
+    margin-top: 50px;
+}
+
+#button-see-detail{
+    color: #109CF1;
+    border-color: #109CF1;
+    border-width: 1px;
 }
 </style>

@@ -59,7 +59,7 @@
                 <router-link to="/expense">
                     <b-button class = "cancel-button" type="reset">Cancel</b-button>
                 </router-link>
-                <b-button class = "update-pengeluaran-button"  v-b-modal.modal-confirm>Save</b-button>
+                <b-button class = "update-pengeluaran-button" v-b-modal.modal-confirm>Save</b-button>
 
                 </div>
                 
@@ -69,11 +69,12 @@
     </div>
 
     <b-modal id="modal-confirm" ref="modal-confirm" hide-footer centered title="Update Expense">
-			<br>
             <div class = "container">
                 <div class = "info">
                 <b-row>
-                    <b-col cols="3" class="ti-trash"></b-col>
+                    <b-col cols="3" class="modal-icon">
+                        <img src="@/assets/img/update-confirm-icon.png" alt="" width="60px">
+                    </b-col>
                     <b-col cols="9">
                         Expense will be changed soon once you click the save button
                     </b-col>
@@ -103,7 +104,9 @@
             <div class = "container">
                 <div class = "info">
                 <b-row>
-                    <b-col cols="3" class="ti-angle-down"></b-col>
+                    <b-col cols="3" class="modal-icon">
+                        <img src="@/assets/img/success-icon.png" alt="" width="60px">
+                    </b-col>
                     <b-col cols="9">
                         {{this.pengeluaran.nama}} expense was successfully updated.
                     </b-col>
@@ -228,7 +231,9 @@ import axios from 'axios';
 }
 
 .update-pengeluaran-button{
-    border-color: white;
+    margin-left: 10px;
+    border-color: #109CF1;
+    border-width: 1px;
     background-color: #109CF1;
     color:white;
 }
@@ -236,11 +241,17 @@ import axios from 'axios';
 .cancel-button{
     color:#109CF1;
     border-color:#109CF1;
+    border-width: 1px;
     background-color: white;
+}
+
+.modal-icon{
+    text-align: center;
 }
 
 .button-confirm-group{
     text-align: right;
+    margin-top: 50px;
 }
 
 .ti-angle-down{

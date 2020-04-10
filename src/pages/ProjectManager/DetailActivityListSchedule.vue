@@ -36,15 +36,35 @@
         </b-row>
       </card>
     </div>
-    <b-modal id="modal-delete" ref="modal-delete" hide-footer centered title="Delete Activity List Schedule?" ok-only>
-      <div class="container">
+    <b-modal
+      id="modal-delete"
+      ref="modal-delete"
+      centered
+      >
+      <template v-slot:modal-title>
+        <h5>Delete Activity List Schedule?</h5>
+      </template>
+      <template v-slot:default>
+        <p>It will be removed from the list.</p>
+      </template>
+      <template v-slot:modal-footer="{ cancel }">
+        <b-col class="button-confirm-group">
+          <b-button @click="onSubmit" id ="confirm_delete_button" variant="outline-danger">
+            Yes, delete it
+          </b-button>
+          <b-button @click="cancel()" id ="cancel_delete_button" class="btn btn-danger">
+            Cancel
+          </b-button>
+        </b-col>
+      </template>
+      <!-- <div class="modal-dialog">
         <div class = "info">
-        <b-row>
-          <b-col cols="3" class="ti-trash"></b-col>
-          <b-col cols="9">
-              It will be removed from the list.
-          </b-col>
-        </b-row>
+          <b-row>
+            <b-col cols="3" class="ti-trash"></b-col>
+            <b-col cols="9">
+                It will be removed from the list.
+            </b-col>
+          </b-row>
         </div>
         <b-row>
           <b-col class="button-confirm-group">
@@ -56,7 +76,7 @@
             </b-button>
           </b-col>
         </b-row>
-      </div>
+      </div> -->
     </b-modal>
       <b-modal title="Success!" v-model="successModal" @ok="redirect()" centered ok-only>
         <div class = "container">
@@ -102,21 +122,15 @@ export default {
           type: 1
       }],
       activityListSchedule: '',
-      successModal: false
+      successModal: false,
     }
   },
-  // computed: {
-  //   items() {
-  //     return this.getDetail;
-  //   }
-  // },
   beforeMount() {
     this.getDetail();
   },
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
-      // this.activityListSchedule.status = 'Inactive';
       this.deleteActivityListSchedule(JSON.stringify(this.activityListSchedule));
     },
     showMessage(status){
@@ -195,13 +209,16 @@ p{
   border-width: 1px;
   margin-right: 10px;
 }
-
 #cancel_delete_button{
   font-size: 10px;
   background-color: #ff3e1d;
   color:white;
   border-color: white;
   border-width: 1px;
+}
+.modal-title{
+  font-weight: bold;
+  color: #FF3E1D;
 }
 </style>
 
