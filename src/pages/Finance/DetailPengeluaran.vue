@@ -45,11 +45,12 @@
         </div>
 
          <b-modal id="modal-delete" ref="modal-delete" hide-footer centered title="Delete Expense">
-			<br>
             <div class = "container">
                 <div class = "info">
                 <b-row>
-                    <b-col cols="3" class="ti-trash"></b-col>
+                    <b-col cols="3" class="modal-icon">
+                        <img src="@/assets/img/delete-confirm-icon.png" alt="" width="60px">
+                    </b-col>
                     <b-col cols="9">
                         Tiket Pesawat CGK - Sawangan will be removed from expense list.
                     </b-col>
@@ -193,8 +194,13 @@ button{
     color:#ff3e1d;
 }
 
+.modal-icon{
+    text-align: center;
+}
+
 .button-confirm-group{
     text-align: right;
+    margin-top: 50px;
 }
 
 #confirm_delete_button{
@@ -212,7 +218,6 @@ button{
     border-color: white;
     border-width: 1px;
 }
-
 
 .button_back{
     background-color: #109CF1;
