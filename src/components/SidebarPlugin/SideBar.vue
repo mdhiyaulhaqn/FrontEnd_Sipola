@@ -18,8 +18,8 @@
       </div>
       <div class="logo">
         <div class = "user-profile">
-          <h5>Ringgi Cahyo</h5>
-          <h5>Project Manager</h5>
+          <h5>I Made Adisurya Nugraha</h5>
+          <h5>Sales Marketing</h5>
         </div>
       </div>
 
