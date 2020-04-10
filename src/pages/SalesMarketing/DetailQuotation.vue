@@ -143,7 +143,7 @@
             <div class = "container">
                 <div class = "info">
                     <b-row>
-                        <span class="ti-success"></span>Quotation no.{{quotation.noQuotation}} was successfully deleted from list.
+                        <span class="ti-success"></span>Quotation no. {{quotation.noQuotation}} was successfully deleted from list.
                     </b-row>
                 </div>
             </div>

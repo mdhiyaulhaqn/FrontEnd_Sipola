@@ -7,7 +7,7 @@
             <h5 class = "title-form">Add Quotation Form </h5>
             <b-form @submit="onSubmit" v-if="show">
                 <div class = "row">
-                    <div class = "col-7">
+                    <div class = "col-md-7 col-12">
                         <b-form-group>
                             <label for="noQuotation">Quotation No</label>
                             <b-form-input
@@ -20,7 +20,7 @@
                         </b-form-group>
                     </div>
              
-                    <div class = "col-5">
+                    <div class = "col-md-5 col-12">
                         <div style="color:black">
                         <b-form-group>
                             <label for="date">Quotation Date</label>
@@ -59,35 +59,33 @@
                     </b-form-input>
                 </b-form-group>
 
-                <b-row>
-                    <b-col md="6">
-                      <label>Scope of Works</label>
-                    </b-col><br>
-
-                    <b-col md="2">
-                       <label>Quantity</label> 
-                    </b-col><br>
-
-                    <b-col md="3">
-                    <label>Unit Price</label> 
-                    </b-col>
-                    <br>
-
-                    <b-col md="1">
-                    
-                    </b-col>
-                </b-row>
+                <div class="d-none d-md-block d-lg-block">
+                    <div class="row">
+                        <div class = "col-md-6">
+                            <label>Scope of Works</label>
+                        </div>
+                        <div class = "col-md-2">
+                            <label>Quantity</label> 
+                        </div>
+                        <div class = "col-md-3">
+                            <label>Unit Price</label> 
+                        </div>
+                        <div class = "col-md-1">
+                        </div>
+                        <br>
+                    </div>
+                </div>
 
                 <b-row class="services" v-bind:key="item.id_service" v-for="item in services">
                     <b-col>
-                    <Service v-bind:service="item" v-on:del-service="deleteRow" />
+                        <Service v-bind:service="item" v-on:del-service="deleteRow" />
                     </b-col>
                 </b-row> 
                     
                 <b-row>
-                    <b-col md="12">
+                    <div class ="col-md-6 col-12">
                         <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">+ Add Scope of Works</button>
-                    </b-col>
+                    </div>
                 </b-row> 
 
                 
@@ -197,7 +195,7 @@ export default {
         
         addQuotation(quot){
             console.log("cihuy")
-            axios.post('http://localhost:8081/api/quotation/add', 
+            axios.post('http://localhost:8080/api/quotation/add', 
             quot, 
                 { headers: {
                     'Content-Type': 'application/json',
@@ -258,7 +256,7 @@ export default {
 <style scoped>
 
 .add-button{
-    width:360px;
+    width:100%;
     background-color: white;
     color : #109cf1;
     border-color: #109cf1;
