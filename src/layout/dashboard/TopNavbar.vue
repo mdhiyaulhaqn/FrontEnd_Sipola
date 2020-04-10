@@ -30,7 +30,7 @@
             <span>
               <p class="nav-link">
                 <br>
-                <i class="ti-user" id="user-logo"></i>
+                <img src="@/assets/img/user-icon.png" alt="" width="30px" style="margin-top:5px">
               </p>
             </span>
           </li>
