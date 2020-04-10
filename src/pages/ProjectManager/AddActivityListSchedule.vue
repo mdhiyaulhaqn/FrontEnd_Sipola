@@ -71,7 +71,7 @@
 
                 <div class = "button-group">
                     <b-button class = "cancel-button col-sm-2" type="reset">Cancel</b-button>
-                    <b-button class = "add-quotation-button col-sm-2" type="submit">Save</b-button>
+                    <b-button class = "save-button col-sm-2" type="submit">Save</b-button>
                 </div>
             </b-form>
           </card>
@@ -165,7 +165,7 @@ export default {
     },
 
     hideModal(){
-    this.$refs['modal-hide'].hide();
+      this.$refs['modal-hide'].hide();
 		},
   }
 }
@@ -191,7 +191,7 @@ export default {
   margin-right: auto;
 }
 
-.add-quotation-button{
+.save-button{
   background-color: #109CF1;
   color:white;
   border-color: transparent;
