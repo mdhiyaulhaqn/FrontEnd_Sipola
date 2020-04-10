@@ -67,15 +67,14 @@
                 <b-row> -->
                     
                 <b-row>
-                    <b-col>
+                    <b-col md="12">
                         <b-form-group> 
-                        <div class="file is-boxed is-primary">
+                        <div class="file is-boxed is-secondary">
                             <label class="file-label">
                             <input class="file-input" type="file" ref="file" v-on:change="handleFilesUpload()"/>
                             <span class="file-cta">
                                 <span class="file-icon"><i class="ti-upload"></i></span>
                                 <span class="file-label">Drop Your Files Here...</span>
-                                
                             </span>
                                 <span class="file-name" v-if="file">{{file.name}}</span>
                             </label>
@@ -83,7 +82,13 @@
                         </b-form-group>
                     </b-col>
                 </b-row>
-                    <img :src="avatar" alt="Image">
+                <b-row>
+                    <b-col>
+                        <div class="box-image" v-if="avatar">
+                            <img :src="avatar" v-if="avatar" alt="Image" class="image-preview">
+                        </div>
+                    </b-col>
+                </b-row><br>
                 <div class = "button-group">
                     <b-button class = "cancel-button" type="reset">Cancel</b-button>
                     <b-button class = "add-reimbursement-button" type="submit">Add</b-button>
@@ -283,6 +288,23 @@ export default {
 
 .button-group{
     float:right;
+}
+
+.file-label {
+    height: 100px;
+    width: 100%;
+}
+
+.image-preview {
+    height: 100px;
+    width: 100px;
+    padding: 5px 10px 5px 10px;
+}
+
+.box-image{
+    border: solid;
+    border-color: gray;
+
 }
 
 </style>
