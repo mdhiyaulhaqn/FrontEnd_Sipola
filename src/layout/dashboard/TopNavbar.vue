@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
       <span>
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="javascript:history.go(-1)">
         <i class="ti-angle-double-left"></i>
       </a>
       </span>
