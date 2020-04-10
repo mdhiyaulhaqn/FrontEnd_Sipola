@@ -19,16 +19,10 @@ import DetailQuotation from "@/pages/SalesMarketing/DetailQuotation.vue";
 import Pengeluaran from "@/pages/Finance/Pengeluaran.vue";
 import DetailPengeluaran from "@/pages/Finance/DetailPengeluaran.vue";
 import FormPengeluaran from "@/pages/Finance/FormPengeluaran.vue";
-<<<<<<< HEAD
 import UpdatePengeluaran from "@/pages/Finance/UpdatePengeluaran.vue";
-import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue"
-=======
 import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue";
 import AddActivityListSchedule from "@/pages/ProjectManager/AddActivityListSchedule.vue";
 import DetailActivityListSchedule from "@/pages/ProjectManager/DetailActivityListSchedule.vue";
-
-import UpdatePengeluaran from "@/pages/Finance/UpdatePengeluaran.vue";
->>>>>>> e986107b76697b6810f1c1caa1edbbdd7e74adf8
 
 const routes = [
   {
