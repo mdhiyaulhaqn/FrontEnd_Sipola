@@ -3,112 +3,174 @@
     <div class="col-12">
       <h3 class="judul"><strong>Activity List Schedule</strong></h3>
       <card>
-        <button id ="add_activity_button" class="btn btn-primary">
-          Add Activity
-          <span class="ti-plus"></span>
-        </button>
-          <template>
-            <mdb-datatable
-              :data="data"
-              striped
-              responsive
-            />
-          </template>
+        <b-container fluid>
+          <!-- User Interface controls -->
+          <b-row>
+            <router-link :to="{name: 'add-activity-list-schedule'}">
+              <b-button id ="add_activity_button" class="btn btn-primary">
+              Add Activity
+              <span class="ti-plus"></span>
+              </b-button>
+            </router-link>
+            <b-col sm="5" lg="6" class="my-1">
+              <b-form-group
+                label="Filter"
+                label-cols-sm="4"
+                label-align-sm="right"
+                label-size="sm"
+                label-for="filterInput"
+                class="mb-0"
+              >
+                <b-input-group size="sm">
+                  <b-form-input
+                    v-model="filter"
+                    type="search"
+                    id="filterInput"
+                    placeholder="Type to Search"
+                  ></b-form-input>
+                  <b-input-group-append>
+                    <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+                  </b-input-group-append>
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+
+          </b-row>
+
+          <!-- Main table element -->
+          <b-table
+            show-empty
+            small
+            stacked="md"
+            :items="items"
+            :fields="fields"
+            :current-page="currentPage"
+            :per-page="perPage"
+            :filter="filter"
+            :filterIncludedFields="filterOn"
+            :sort-by.sync="sortBy"
+            :sort-desc.sync="sortDesc"
+            :sort-direction="sortDirection"
+            @filtered="onFiltered"
+            :borderless="true"
+          >
+
+            <template v-slot:cell(id)="row">
+              {{items.indexOf(row.item) + 1}}
+            </template>
+
+            <template v-slot:cell(listTugas[0].tanggalMulaiTugas)="row">
+              {{row.item.listTugas[0].tanggalMulaiTugas.split("T")[0].split("-").reverse().join('-') }}
+            </template>
+            <template v-slot:cell(listTugas[0].tanggalSelesaiTugas)="row">
+              {{row.item.listTugas[0].tanggalSelesaiTugas.split("T")[0].split("-").reverse().join('-') }}
+            </template>
+
+            <template v-slot:cell(action)="row">
+              <router-link :to="{name: 'detail-activity-list-schedule', params: {id:row.item.id}}">
+                <b-button id="view_button" class="btn btn-primary">
+                  View
+                </b-button>
+              </router-link>
+            </template>
+
+          </b-table>
+
+          <b-row>
+            <b-col sm="5" md="6" class="my-1">
+              <b-form-group
+                label="Per page"
+                label-cols-sm="6"
+                label-cols-md="4"
+                label-cols-lg="3"
+                label-align-sm="right"
+                label-size="sm"
+                label-for="perPageSelect"
+                class="mb-0"
+              >
+                <b-form-select
+                  v-model="perPage"
+                  id="perPageSelect"
+                  size="sm"
+                  :options="pageOptions"
+                ></b-form-select>
+              </b-form-group>
+            </b-col>
+            <b-col sm="7" md="3" class="my-1">
+              <b-pagination
+                v-model="currentPage"
+                :total-rows="totalRows"
+                :per-page="perPage"
+                align="fill"
+                size="sm"
+                class="my-0"
+              ></b-pagination>
+            </b-col>
+          </b-row>
+        </b-container>
       </card>
     </div>
   </div>
 </template>
 <script>
-import { mdbDatatable, mdbContainer } from 'mdbvue';
 import axios from 'axios';
 
-const tableColumns = [
-            {
-              label: 'No',
-              field: 'no',
-              sort: 'asc'
-            },
-            {
-              label: 'Project Name',
-              field: 'project name',
-              sort: 'asc'
-            },
-            {
-              label: 'Company Name',
-              field: 'company name',
-              sort: 'asc'
-            },
-            {
-              label: 'Start Date',
-              field: 'start date',
-              sort: 'asc'
-            },
-            {
-              label: 'End Date',
-              field: 'end date',
-              sort: 'asc'
-            },
-            {
-              label: 'Action',
-              field: 'action',
-              sort: 'asc'
-            },
-          ];
-
 export default {
-  name: 'DatatablePage',
-  components: {
-    mdbDatatable,
-    mdbContainer
-  },
   data() {
     return {
-      columns: [],
-      rows: []
+      activityListSchedule: [],
+      fields: [
+        { key: 'id', label: 'No', sortable: false },
+        { key: 'namaProyek', label: 'Project Name', sortable: true, },
+        { key: 'namaPerusahaan', label: 'Company Name', sortable: true, },
+        { key: 'listTugas[0].tanggalMulaiTugas', label: 'Start Date', sortable: true, },
+        { key: 'listTugas[0].tanggalSelesaiTugas', label: 'End Date', sortable: true, },
+        { key: 'action', label: 'Action', class: 'text-center'}
+      ],
+      totalRows: 1,
+      currentPage: 1,
+      perPage: 5,
+      pageOptions: [5, 10, 25, 50, 100],
+      sortBy: '',
+      sortDesc: false,
+      sortDirection: 'asc',
+      filter: null,
+      filterOn: [],
     }
   },
   computed: {
-    data() {
-      return {
-        columns: this.columns,
-        rows: this.rows
-      };
+    sortOptions() {
+      // Create an options list from our fields
+      return this.fields
+        .filter(f => f.sortable)
+        .map(f => {
+          return { text: f.label, value: f.key }
+        })
     },
-  },
-  methods: {
-    filterData(dataArr, keys) {
-      let data = dataArr.map(entry => {
-        let filteredEntry = {};
-        keys.forEach(key => {
-          if (key in entry) {
-            filteredEntry[key] = entry[key];
-          }
-        });
-        return filteredEntry;
-      });
-      return data;
+    items() {
+      return this.activityListSchedule;
     }
   },
-  mounted(){
-    fetch('http://localhost:8081/api/activity-list-schedule/all')
-      .then(res => res.json())
-      .then(json => {
-        let keys = ["id", "namaProyek", "namaPerusahaan", "listTugas", "Action"];
-        let entries = this.filterData(json, keys);
-        //columns
-        this.columns = keys.map(key => {
-          return {
-            label: key,
-            field: key,
-            sort: 'asc'
-          };
-        });
-        //rows
-        entries.map(entry => this.rows.push(entry));
-      })
-      .catch(err => console.log(err));
+  beforeMount() {
+    this.getAllActivityListSchedule();
+  },
+  mounted() {
+    // Set the initial number of items
+    this.totalRows = this.items.length
+    console.log(this.totalRows)
+  },
+  methods: {
+    onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.totalRows = filteredItems.length
+      this.currentPage = 1
+    },
+    getAllActivityListSchedule: function(){
+      axios.get('http://localhost:8080/api/activity-list-schedule/all')
+      .then(response => this.activityListSchedule = response.data.result);
+    },
   }
-};
+}
 </script>
 <style>
 #add_activity_button{
@@ -121,9 +183,17 @@ export default {
   margin-bottom: 4px;
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
 }
+#view_button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 10px;
+  height: 36px;
+  box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
+}
 .judul{
-    text-align: center;
-    color: black;
-    margin: 5px 0 24px 0;
+  text-align: center;
+  color: black;
+  margin: 5px 0 24px 0;
 }
 </style>

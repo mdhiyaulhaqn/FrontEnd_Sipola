@@ -25,10 +25,10 @@
                     <div class = "col-3">
                         <div style="color:black">
                         <b-form-group>
-                            <label for="invoiceDate">Invoice Date</label>
+                            <label for="dateInvoice">Invoice Date</label>
                             <b-form-input
-                                id="invoiceDate"
-                                v-model="invoice.invoiceDate"
+                                id="dateInvoice"
+                                v-model="invoice.dateInvoice"
                                 type="date"
                                 required>
                             </b-form-input>
@@ -39,10 +39,10 @@
                     <div class = "col-3">
                         <div style="color:black">
                         <b-form-group>
-                            <label for="dueDate">Due Date</label>
+                            <label for="dueDatePayment">Due Date</label>
                             <b-form-input
-                                id="dueDate"
-                                v-model="invoice.dueDate"
+                                id="dueDatePayment"
+                                v-model="invoice.dueDatePayment"
                                 type="date"
                                 required>
                             </b-form-input>
@@ -73,8 +73,7 @@
                                 id="date"
                                 v-model="sales_order.poDate"
                                 type="date"
-                                required
-                                disabled>
+                                required>
                             </b-form-input>
                         </b-form-group>
                         </div>
@@ -106,25 +105,29 @@
                 </b-form-group>
 
                 <b-row>
-                    <b-col md="6">
-                      <label>Scope of Works</label>
+                    <b-col md="5">
+                      <label>Service Order</label>
                     </b-col><br>
 
-                    <b-col md="3">
-                    <label>Quantity</label> 
+                    <b-col md="2">
+                    <label>UOM</label> 
+                    </b-col><br>
+
+                    <b-col md="2">
+                    <label>Qty</label> 
                     </b-col><br>
 
                     <b-col md="3">
                     <label>Unit Price</label> 
                     </b-col>
-                    <br>
+
                 </b-row>
 
-                <b-row class="services" v-bind:key="item.id_service" v-for="item in services">
-                    <b-col>
-                    <Service v-bind:service="item" v-on:del-service="deleteRow" />
+                <b-row class="service_orders" v-bind:key="item.id_service_orders" v-for="item in sales_order.serviceOrder">
+                    <b-col disabled>
+                    <ServiceOrder v-bind:service_order="item"/>
                     </b-col>
-                </b-row>
+                </b-row> 
 
                 <div class="row">
                     <div class="col-6">
@@ -159,7 +162,7 @@
                 <!-- Add and Cancel Button -->
                 <div class = "button-group">
                     <b-button class = "cancel-button" type="reset">Cancel</b-button>
-                    <b-button class = "add-quotation-button" type="submit">Add</b-button>
+                    <b-button class = "add-invoice-button" type="submit">Add</b-button>
                 </div>
             </b-form>
             </card>
@@ -178,29 +181,29 @@
 
 <script>
 
-import Service from '@/pages/SalesMarketing/Service.vue';
+import ServiceOrder from '@/pages/SalesMarketing/ServiceOrder.vue';
 import axios from 'axios';
 
 export default {
     components : {
-      Service
+      ServiceOrder
     },
     data() { 
       return {
             sales_order: "",
-            services: [],
-            id_services : {id:0},
-            timestamp:"",
+            service_orders: [],
+            id_service_orders : {id:0},
+            createdAt: "",
 
             invoice : {
-                createdBy : "Yasmin Moedjoko",
+                noInvoice : '',
                 dateInvoice : '',
-                dueDate: '',
-                noinvoice : '',
+                dueDatePayment: '',
+                sales_order : '',
                 termsOfDelivery : '',
                 paymentTerms: '',
+                createdBy : "Yasmin Moedjoko",
                 status : 'Active',
-                sales_order : '',
             },
             show: true,
             successModal : false,
@@ -222,6 +225,7 @@ export default {
 
         onSubmit(evt) {
             evt.preventDefault();
+            this.invoice.sales_order = this.sales_order;
             this.addinvoice(JSON.stringify(this.invoice));
         },
 
@@ -234,10 +238,11 @@ export default {
             } 
         },
         
-        addinvoice(quot){
-            console.log("cihuy")
-            axios.post('http://localhost:8080/api/invoice/add', 
-            quot, 
+        addinvoice(invoice){
+            console.log("masuk pa aji")
+            axios.post('http://localhost:8080/api/invoice/add',
+            console.log("masuk gaksiiiii"),
+            invoice, 
                 { headers: {
                     'Content-Type': 'application/json',
                 }
@@ -257,13 +262,6 @@ export default {
 </script>
 
 <style scoped>
-
-.add-button{
-    width:360px;
-    background-color: white;
-    color : #109cf1;
-    border-color: #109cf1;
-}
 
 .judul{
     text-align: center;
@@ -289,7 +287,7 @@ export default {
 }
 
 .button-group{
-    float:right;
+    float: right;
 }
 
 </style>

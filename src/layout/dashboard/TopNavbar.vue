@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
       <span>
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="javascript:history.go(-1)">
         <i class="ti-angle-double-left"></i>
       </a>
       </span>
@@ -30,7 +30,7 @@
             <span>
               <p class="nav-link">
                 <br>
-                <i class="ti-user" id="user-logo"></i>
+                <img src="@/assets/img/user-icon.png" alt="" width="30px" style="margin-top:5px">
               </p>
             </span>
           </li>
