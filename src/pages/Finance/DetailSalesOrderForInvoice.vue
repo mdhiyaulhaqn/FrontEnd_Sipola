@@ -63,7 +63,7 @@
                    
                     <div class="col">
                         <br>
-                         <router-link :to="{name: 'form-invoice'}">
+                         <router-link :to="{name: 'invoice-add', params: {id: sales_order.id}}">
                             <button id ="generate_button" class="btn btn-primary">
                                 Generate Invoice
                             </button>

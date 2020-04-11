@@ -19,10 +19,11 @@ import Pengeluaran from "@/pages/Finance/Pengeluaran.vue";
 import DetailPengeluaran from "@/pages/Finance/DetailPengeluaran.vue";
 import FormPengeluaran from "@/pages/Finance/FormPengeluaran.vue";
 import Invoice from "@/pages/Finance/Invoice.vue";
-import DetailInvoice from "@/pages/Finance/DetailInvoice.vue"
-import DetailSalesOrderForInvoice from "@/pages/Finance/DetailSalesOrderForInvoice.vue"
-import SalesOrderForInvoice from "@/pages/Finance/SalesOrderForInvoice.vue"
-import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue"
+import FormInvoice from "@/pages/Finance/FormInvoice.vue";
+import DetailInvoice from "@/pages/Finance/DetailInvoice.vue";
+import DetailSalesOrderForInvoice from "@/pages/Finance/DetailSalesOrderForInvoice.vue";
+import SalesOrderForInvoice from "@/pages/Finance/SalesOrderForInvoice.vue";
+import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue";
 
 const routes = [
   {
@@ -114,6 +115,11 @@ const routes = [
         path: "detail-invoice/:id",
         name: "detail-invoice",
         component: DetailInvoice
+      },
+      {
+        path: "invoice-add/:id",
+        name: "invoice-add",
+        component: FormInvoice
       },
       {
         path: "sales-order-for-invoice",

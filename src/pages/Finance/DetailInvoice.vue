@@ -176,15 +176,14 @@ export default {
             .catch(err => this.invoice = err.data);
         },
 
-        deleteInvoice(invoice){
-            axios.put('http://localhost:8080/api/invoice/delete-status/' + this.$route.params.id, 
-            invoice, 
-                { headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
-            .then(res => {this.showMessage(res.data.status)});
-        },
+        // deleteInvoice(invoice){
+        //     axios.put('http://localhost:8080/api/invoice/delete-status/' + this.$route.params.id, 
+        //     invoice, 
+        //         { headers: {
+        //             'Content-Type': 'application/json',
+        //         }
+        //     })
+        //     .then(res => {this.showMessage(res.data.status)});
 
         redirect(){
             this.$router.push({ name: 'invoice'});

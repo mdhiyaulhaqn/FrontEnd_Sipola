@@ -1,18 +1,20 @@
 <template>
   <div>
-    <h3 class="judul"><strong>Add Invoice</strong></h3>
+    <h3 class="judul">
+        <strong>Add Invoice</strong>
+    </h3>
     <div class = "row">
         <div class = "col-10 isi-form">
             <card>
-            <h5 class = "title-form">Add Invoice Form - Sales Order </h5>
+            <h5 class = "title-form">Add Invoice Form - Sales Order {{sales_order.noSalesOrder}} </h5>
             <b-form @submit="onSubmit" v-if="show">
                 <div class = "row">
-                    <div class = "col-7">
+                    <div class = "col-6">
                         <b-form-group>
                             <label for="noInvoice">Invoice No</label>
                             <b-form-input
                                 id="noInvoice"
-                                v-model="new_invoice.noInvoice"
+                                v-model="invoice.noInvoice"
                                 type="text"
                                 required
                                 placeholder="Invoice Number">
@@ -20,13 +22,27 @@
                         </b-form-group>
                     </div>
              
-                    <div class = "col-5">
+                    <div class = "col-3">
                         <div style="color:black">
                         <b-form-group>
-                            <label for="date">Invoice Date</label>
+                            <label for="invoiceDate">Invoice Date</label>
                             <b-form-input
                                 id="invoiceDate"
-                                v-model="new_invoice.invoiceDate"
+                                v-model="invoice.invoiceDate"
+                                type="date"
+                                required>
+                            </b-form-input>
+                        </b-form-group>
+                        </div>
+                    </div>
+                    
+                    <div class = "col-3">
+                        <div style="color:black">
+                        <b-form-group>
+                            <label for="dueDate">Due Date</label>
+                            <b-form-input
+                                id="dueDate"
+                                v-model="invoice.dueDate"
                                 type="date"
                                 required>
                             </b-form-input>
@@ -41,10 +57,10 @@
                             <label for="noPurchaseOrder">Purchase Order No</label>
                             <b-form-input
                                 id="noPurchaseOrder"
-                                v-model="new_invoice.noPurchaseOrder"
+                                v-model="sales_order.poNumber"
                                 type="text"
                                 required
-                                placeholder="Purchase Order Number">
+                                disabled>
                             </b-form-input>
                         </b-form-group>
                     </div>
@@ -55,9 +71,10 @@
                             <label for="purchaseOrderDate">PurchaseOrder Date</label>
                             <b-form-input
                                 id="date"
-                                v-model="new_invoice.purchaseOrderDate"
+                                v-model="sales_order.poDate"
                                 type="date"
-                                required>
+                                required
+                                disabled>
                             </b-form-input>
                         </b-form-group>
                         </div>
@@ -68,10 +85,10 @@
                     <label for="companyName">Company Name</label>
                     <b-form-input
                         id="companyName"
-                        v-model="new_company.nama"
+                        v-model="sales_order.company.nama"
                         type="text"
                         required
-                        placeholder="Company Name"
+                        disabled
                         >
                     </b-form-input>
                 </b-form-group>
@@ -80,10 +97,10 @@
                     <label for="companyAddress">Company Address</label>
                     <b-form-input
                         id="companyAddress"
-                        v-model="new_company.alamat"
+                        v-model="sales_order.company.alamat"
                         type="text"
                         required
-                        placeholder="Company Address"
+                        disabled
                         >
                     </b-form-input>
                 </b-form-group>
@@ -93,7 +110,7 @@
                       <label>Scope of Works</label>
                     </b-col><br>
 
-                    <b-col md="2">
+                    <b-col md="3">
                     <label>Quantity</label> 
                     </b-col><br>
 
@@ -101,51 +118,60 @@
                     <label>Unit Price</label> 
                     </b-col>
                     <br>
-
-                    <b-col md="1">
-                    
-                    </b-col>
                 </b-row>
 
                 <b-row class="services" v-bind:key="item.id_service" v-for="item in services">
                     <b-col>
                     <Service v-bind:service="item" v-on:del-service="deleteRow" />
                     </b-col>
-                </b-row> 
-                    
-                <b-row>
-                    <b-col md="12">
-                        <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">+ Add Scope of Works</button>
-                    </b-col>
-                </b-row> 
+                </b-row>
 
-                
-                <b-form-group>
-                    <label for="termsConditions">Terms and Conditions</label>
-                    <b-form-textarea
-                        id="termsConditions"
-                        v-model="new_invoice.termsCondition"
-                        type="text"
-                        required
-                        placeholder="Terms and Conditions"
-                        >
-                    </b-form-textarea>
-                </b-form-group>
+                <div class="row">
+                    <div class="col-6">
+                        <b-form-group>
+                            <label for="paymentTerms">Payment Terms</label>
+                            <b-form-textarea
+                                id="paymentTerms"
+                                v-model="invoice.paymentTerms"
+                                type="text"
+                                required
+                                placeholder="Payment Terms"
+                                >
+                            </b-form-textarea>
+                        </b-form-group>
+                    </div>
 
+                    <div class="col-6">
+                        <b-form-group>
+                            <label for="termsOfDelivery">Terms of Delivery</label>
+                            <b-form-textarea
+                                id="termsOfDelivery"
+                                v-model="invoice.termsOfDelivery"
+                                type="text"
+                                required
+                                placeholder="Terms of Delivery"
+                                >
+                            </b-form-textarea>
+                        </b-form-group>
+                    </div>
+                </div>
+
+                <!-- Add and Cancel Button -->
                 <div class = "button-group">
                     <b-button class = "cancel-button" type="reset">Cancel</b-button>
-                    <b-button class = "add-invoice-button" type="submit">Add</b-button>
+                    <b-button class = "add-quotation-button" type="submit">Add</b-button>
                 </div>
             </b-form>
             </card>
         </div>
     </div>
-    <b-modal title="invoice Berhasil Tersimpan" v-model="successModal" @ok="redirect()"  centered ok-only>
-        invoice telah berhasil dibuat.
+
+    <b-modal title="Add Success!" v-model="successModal" @ok="redirect()"  centered ok-only>
+        Invoice with {{invoice.noInvoice}} was successfully added!
     </b-modal>
 
-    <b-modal title="invoice Gagal Tersimpan" v-model="failedModal" centered ok-only>
-        invoice gagal dibuat.
+    <b-modal title="Failed" v-model="failedModal" centered ok-only>
+        Sorry, invoice couldn't be added.
     </b-modal>
   </div>
 </template>
@@ -161,30 +187,20 @@ export default {
     },
     data() { 
       return {
+            sales_order: "",
             services: [],
             id_services : {id:0},
             timestamp:"",
 
-            new_invoice : {
-                createdBy : "adi",
-                date : '',
+            invoice : {
+                createdBy : "Yasmin Moedjoko",
+                dateInvoice : '',
+                dueDate: '',
                 noinvoice : '',
-                termsCondition : '',
+                termsOfDelivery : '',
+                paymentTerms: '',
                 status : 'Active',
-                company : '',
-                service : '',
-            },
-            new_service : {
-                id_service : 0,
-                nama : '',
-                harga : '',
-                quantity : '',
-                invoice : '',
-            },
-            new_company : {
-                nama : '',
-                alamat : '',
-                invoice : '',
+                sales_order : '',
             },
             show: true,
             successModal : false,
@@ -194,25 +210,19 @@ export default {
     },
 
     beforeMount() {
-      this.addRow();
+      this.getDetailSalesOrder();
 	},
     
     methods: {
-        addRow(){
-            this.new_service.id_service++;
-            let service = Object.assign({}, this.new_service);
-            this.services.push(service)
-        },
-
-        deleteRow(id_service){
-            this.services = this.services.filter(result => result.id_service !== id_service);
+        getDetailSalesOrder: function(){    
+            axios.get('http://localhost:8080/api/sales-order/' +this.$route.params.id)
+            .then(res => {this.sales_order = res.data})
+            .catch(err => this.sales_order = err.data);
         },
 
         onSubmit(evt) {
             evt.preventDefault();
-            this.new_invoice.company = this.new_company;
-            this.new_invoice.service = this.services;
-            this.addinvoice(JSON.stringify(this.new_invoice));
+            this.addinvoice(JSON.stringify(this.invoice));
         },
 
         showMessage(status){
@@ -232,50 +242,12 @@ export default {
                     'Content-Type': 'application/json',
                 }
             })
-            .then(res => {this.new_invoice = res.data.result, this.showMessage(res.data.status)});
+            .then(res => {this.invoice = res.data.result, this.showMessage(res.data.status)});
         },
 
         redirect(){
-            this.$router.push({ name: 'detail-invoice',  params: {id:this.new_invoice.id}});
+            this.$router.push({ name: 'detail-invoice',  params: {id:this.invoice.id}});
         },
-
-        // Gajadi dipake soalnya udah dihandle di backend
-        // submitCompany() {
-        //     console.log("cihuy22");
-        //     this.new_company.invoice = this.new_invoice;
-        //     this.addCompany(JSON.stringify(this.new_company));
-        // },
-
-        // addCompany(company){
-        //     console.log("cihuy333")
-        //     axios.post('http://localhost:8080/api/company/add', 
-        //     company, 
-        //         { headers: {
-        //             'Content-Type': 'application/json',
-        //         }
-        //     })
-        //     .then(res => {this.new_company = res.data.result, this.submitService()});
-        // },
-
-        // submitService() {
-        //     console.log("cihuy4444")
-        //     for (var i = 0; i < this.services.length; i++) {
-        //         this.services[i].invoice = this.new_invoice;
-        //     }
-        //     this.addServices(JSON.stringify(this.services));
-        //     console.log("yuhuhu");
-        // },
-
-        // addServices(n_services){
-        //     console.log("cihuy55555")
-        //     axios.post('http://localhost:8080/api/service/add', 
-        //     n_services, 
-        //         { headers: {
-        //             'Content-Type': 'application/json',
-        //         }
-        //     })
-        //     .then(res => {this.showMessage(res.data.status)});
-        // },
 
         hideModal(){
 		    this.$refs['modal-hide'].hide();
