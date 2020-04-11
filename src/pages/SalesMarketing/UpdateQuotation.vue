@@ -83,10 +83,10 @@
                     </b-col>
                 </b-row> 
                     
-                <b-row>
-                    <b-col md="12">
+                  <b-row>
+                    <div class ="col-md-6 col-12">
                         <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">+ Add Scope of Works</button>
-                    </b-col>
+                    </div>
                 </b-row> 
 
                 
@@ -232,7 +232,8 @@ export default {
             } 
         },
         
-        fetchService : function(){
+        fetchData : function(){
+            this.quotation.date = this.quotation.date.substring(0,10);
             let service_quot = this.quotation.service
             for(let i=0; i< service_quot.length ; i++){
                 this.new_service.id_service++;
@@ -252,7 +253,7 @@ export default {
 
         getDetail: function(){
             axios.get('http://localhost:8080/api/quotation/' +this.$route.params.id)
-            .then(res => {this.quotation = res.data, this.fetchService()})
+            .then(res => {this.quotation = res.data, this.fetchData()})
             .catch(err => this.quotation = err.data);
         },
         
@@ -280,9 +281,18 @@ export default {
 </script>
 
 <style scoped>
+.modal-header {
+    border:none;
+    border-bottom: 0 none;
+}
+
+.modal-footer {
+    border:none;
+    border-top: 0 none;
+}
 
 .add-button{
-    width:360px;
+    width:100%;
     background-color: white;
     color : #109cf1;
     border-color: #109cf1;
