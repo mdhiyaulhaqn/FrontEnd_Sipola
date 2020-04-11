@@ -2,7 +2,7 @@ import DashboardLayout from "@/layout/dashboard/DashboardLayout.vue";
 // GeneralViews
 import NotFound from "@/pages/NotFoundPage.vue";
 
-// Admin pages
+// Admin pagesc
 import Dashboard from "@/pages/Dashboard.vue";
 import UserProfile from "@/pages/UserProfile.vue";
 import Notifications from "@/pages/Notifications.vue";
@@ -19,6 +19,11 @@ import DetailQuotation from "@/pages/SalesMarketing/DetailQuotation.vue";
 import Pengeluaran from "@/pages/Finance/Pengeluaran.vue";
 import DetailPengeluaran from "@/pages/Finance/DetailPengeluaran.vue";
 import FormPengeluaran from "@/pages/Finance/FormPengeluaran.vue";
+import Invoice from "@/pages/Finance/Invoice.vue";
+import FormInvoice from "@/pages/Finance/FormInvoice.vue";
+import DetailInvoice from "@/pages/Finance/DetailInvoice.vue";
+import DetailSalesOrderForInvoice from "@/pages/Finance/DetailSalesOrderForInvoice.vue";
+import SalesOrderForInvoice from "@/pages/Finance/SalesOrderForInvoice.vue";
 import UpdatePengeluaran from "@/pages/Finance/UpdatePengeluaran.vue";
 import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue";
 import AddActivityListSchedule from "@/pages/ProjectManager/AddActivityListSchedule.vue";
@@ -102,7 +107,7 @@ const routes = [
         component: Pengeluaran
       },
       {
-        path: "expense/:id",
+        path: "expense/detail/:id",
         name: "expense-detail",
         component: DetailPengeluaran
       },
@@ -115,6 +120,31 @@ const routes = [
         path: "expense/add",
         name: "add-expense",
         component: FormPengeluaran
+      },
+      {
+        path: "invoice",
+        name: "invoice",
+        component: Invoice
+      },
+      {
+        path: "detail-invoice/:id",
+        name: "detail-invoice",
+        component: DetailInvoice
+      },
+      {
+        path: "invoice-add",
+        name: "invoice-add",
+        component: FormInvoice
+      },
+      {
+        path: "sales-order-for-invoice",
+        name: "sales-order-for-invoice",
+        component: SalesOrderForInvoice
+      },
+      {
+        path: "detail-sales-order-for-invoice",
+        name: "detail-sales-order-for-invoice",
+        component: DetailSalesOrderForInvoice
       },
       {
         path: "activity-list-schedule",

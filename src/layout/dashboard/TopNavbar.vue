@@ -21,7 +21,7 @@
           <li class="nav-item" id="user-info">
             <span>
             <p class="nav-link">
-              i.made712<br>
+              <a href="#">yasmin.moedjoko</a><br>
               <a href="#">Change Password</a> | <a href="#">Sign Out</a>
             </p>
             </span>
