@@ -211,6 +211,7 @@ export default {
       getAllQuotation: function(){
           axios.get('http://localhost:8080/api/quotation/all')
           .then(result => this.quotations = result.data.result);
+          console.log(this.quotations);
       },
       clear(){
           this.keyword = '';
