@@ -66,12 +66,12 @@
                 </b-row>
                 <b-row> -->
                     
-                <b-row>
+                <!-- <b-row>
                     <b-col md="12">
                         <b-form-group> 
                         <div class="file is-boxed is-secondary">
                             <label class="file-label">
-                            <input class="file-input" type="file" ref="file" v-on:change="handleFilesUpload()"/>
+                            <input class="file-input" type="file" ref="file" multiple v-on:change="handleFilesUpload()"/>
                             <span class="file-cta">
                                 <span class="file-icon"><i class="ti-upload"></i></span>
                                 <span class="file-label">Drop Your Files Here...</span>
@@ -81,14 +81,41 @@
                         </div>
                         </b-form-group>
                     </b-col>
-                </b-row>
-                <b-row>
+                </b-row> -->
+
+                <b-row> 
                     <b-col>
-                        <div class="box-image" v-if="avatar">
-                            <img :src="avatar" v-if="avatar" alt="Image" class="image-preview">
+                        <div class="dropzone">
+                        <input type="file" class="input-file" ref="file" id="file"
+                        @change="selectFile" />
+                        <p v-if="!uploading && !isAnyImage" class="call-to-action">
+                            <i class="far fa-arrow-alt-circle-up" style='font-size:30px'></i>
+                         Drag and drop your files here 
+                         <label class="labelFile" for="file"><button class="button-label">Select <i class="far fa-arrow-alt-circle-up"></i></button></label></p>
+                         
+                        
+                        
+                        <p v-if="uploading" class="progressbar"></p>
+                        <div class="box-image" v-if="isAnyImage">
+                            <div class="per-item" >
+                                <img v-for="file in previewFile" :key="file" :src="file" alt="Image" class="image-preview">
+                                <!-- <p v-bind:key="file" v-for="file in previewFile">{{file.name}}</p> -->
+                            </div>
+                        </div>
                         </div>
                     </b-col>
-                </b-row><br>
+                </b-row>
+
+                <!-- <div id="upload">
+                    <vue-dropzone 
+                        ref="dropzone" 
+                        id="drop1" 
+                        :options="dropOptions"
+                        @vdropzone-complete="afterComplete"
+                        ></vue-dropzone>
+                        <button @click="removeAllFiles">Remove All Files</button>
+                </div> -->
+
                 <div class = "button-group">
                     <b-button class = "cancel-button" type="reset">Cancel</b-button>
                     <b-button class = "add-reimbursement-button" type="submit">Add</b-button>
@@ -111,19 +138,44 @@
 
 import Expense from '@/pages/ServiceTeam/ExpenseReimbursement.vue';
 import axios from 'axios';
-
+// import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+// import vueDropzone from 'vue2-dropzone';
+   
 export default {
     components : {
       Expense,
+    //   vueDropzone,
     },
     data() { 
       return {
-            expenses: [],
+            // dropOptions: {
+            //     url: "https://httpbin.org/post",
+            //     maxFilesize: 200, // MB
+            //     maxFiles: 4,
+            //     chunking: true,
+            //     chunkSize: 300, // Bytes
+            //     thumbnailWidth: 100, // px
+            //     thumbnailHeight: 100,
+            //     addRemoveLinks: true
+            // },
+            
+            // variabel for attachment
+            uploading : false,
             file: '',
+            files: [],
+            avatar: null,
+            isAnyImage: false,
+            attachment: '',
+            statusAttach:'',
+            attachments : [],
+            uploadedFile: [],
+            progress : 0,
+            previewFile : [],
+            // batas attachment
+
+            expenses: [],
             id_expense : {id:0},
             timestamp:"",
-            files: '',
-            avatar: null,
             newReimbursement : {
                 createdBy : "adi",
                 projectName : '',
@@ -153,16 +205,14 @@ export default {
             successModal : false,
             failedModal : false,
             send : {objects : null},
-            attachment: '',
-            statusAttach:'',
-            attachments : [],
-        }
+            
+      }
     },
 
     beforeMount() {
       this.addRow();
-     
-	},
+    //   this.attachment = Object.assign({}, this.new_attachment);
+    },
     
     methods: {
         addRow(){
@@ -188,8 +238,8 @@ export default {
         onSubmit(evt) {
             evt.preventDefault();
             console.log(this.attachment);
-            let attach = Object.assign(this.new_attachment, this.attachment);
-            this.attachments.push(attach);
+            // this.attachments.push(this.attachment);
+            console.log(this.attachments);
             this.newReimbursement.listAttachment = this.attachments;
             this.newReimbursement.listExpense = this.expenses;
             this.addReimbursement(JSON.stringify(this.newReimbursement));
@@ -223,7 +273,7 @@ export default {
 
 
         handleFilesUpload(){
-            this.file = this.$refs.file.files[0];
+            this.file = this.$refs.file.files[0];            
             let image = this.$refs.file.files[0];
             let reader = new FileReader();
             reader.readAsDataURL(image);
@@ -234,8 +284,30 @@ export default {
             this.uploadFile(this.file);
         },
 
+        selectFile(){
+            // const files = this.$refs.files.files;
+            // this.files = [ ...this.files, ...files];
+            this.file = this.$refs.file.files[0];
+            let image = this.$refs.file.files[0];
+            this.isAnyImage = true;
+            let reader = new FileReader();
+            reader.readAsDataURL(image);
+            reader.onload = e => {
+                let ava = e.target.result;
+                this.previewFile.push(ava);
+            }
+            // this.uploadedFile.push(this.file);
+            console.log('habis ini');
+            console.log(this.previewFile);
+            this.uploadFile(this.file);
+            // this.uploadFile(file);
+            
+            console.log
+        },
+
         uploadFile(attach) {
             let formData = new FormData();
+            console.log(attach);
             formData.append('file', this.file);
             axios.post('http://localhost:8080/api/attachment/uploadFile', 
             // FormData)
@@ -246,10 +318,42 @@ export default {
                 }
             })
             .then(res => {this.attachment = res.data.result});
-            console.log('tes');
+            this.uploadedFile.push(this.attachment);
+            this.attachments.push(this.attachment);
+            // this.uploadedFile.push(m);
             console.log(this.attachment);
+            console.log(this.attachments)
+            console.log('tes');
         },
 
+        
+        // afterComplete(file) {
+        //     console.log(file);
+        //     this.files = this.$refs.dropzone.file;
+        //     console.log(this.files);
+        //     var x;
+        //     for (x in this.files) {
+        //         console.log(this.files[x].file);
+        //         let formData = new FormData();
+        //         formData.append('file', this.files[x]);
+        //         axios.post('http://localhost:8080/api/attachment/uploadFile', 
+        //         // FormData)
+        //         formData,
+        //         {
+        //             headers: {
+        //                 'Content-Type': 'multipart/form-data'
+        //             }
+        //         })
+        //         .then(res => {this.attachment = res.data.result});
+        //         let attach = Object.assign(this.new_attachment, this.attachment);
+        //         this.attachments.push(attach);
+        //     }
+
+        // },
+        // removeAllFiles() {
+        //     this.$refs.dropzone.removeAllFiles();
+        // },
+ 
     }
 }
 </script>
@@ -301,10 +405,41 @@ export default {
     padding: 5px 10px 5px 10px;
 }
 
-.box-image{
-    border: solid;
-    border-color: gray;
 
+.dropzone {
+    min-height: 200px;
+    padding: 10px 10px;
+    position: relative;
+    cursor: pointer;
+    outline: 2px dashed black; 
+    outline-offset: -10px;
+    border-color: white;
 }
+
+.input-file{
+    opacity: 0;
+    width: 100%;
+    height: 200px;
+    position: absolute;
+    cursor: pointer;
+    background: black;
+}
+
+.dropzone:hover {
+    background: lightgray;
+}
+
+.dropzone .call-to-action {
+    font-size: 1.2rem;
+    text-align: center;
+    padding: 70px 0;
+}
+
+.button-label{
+    background-color: white;
+    color: black;
+    border: 1px solid lightgray;
+}
+
 
 </style>

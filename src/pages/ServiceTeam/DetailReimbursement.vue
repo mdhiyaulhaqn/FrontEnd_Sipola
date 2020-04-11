@@ -64,7 +64,10 @@
 
                 <b-row>
                     <div class = "col-12"><br>Attachment</div>
-                    <div class = "col-12">{{reimbursement.listAttachment}}
+                
+                    <!-- <div class = "col-12"><br>{{reimbursement.listAttachment}}</div> -->
+                    <div class = "col-12">
+                        <img v-for="file in previewFile" :key="file" :src="file" alt="Image" class="image-preview">
                     </div>
                 </b-row>
 
@@ -168,7 +171,8 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            reimbursement : '',
+            previewFile:[],
+            reimbursement : 'data:image/jpeg;base64, ',
             successModal : false,
             successModalSend : false,
             fields: [
@@ -182,7 +186,6 @@ export default {
     },
     beforeMount(){
         this.getDetail();
-
     },
     methods:{
         onSubmit(evt) {
@@ -196,8 +199,34 @@ export default {
 
         getDetail: function(){    
             axios.get('http://localhost:8080/api/reimbursement/detail/' +this.$route.params.id)
-            .then(res => {this.reimbursement = res.data})
+            .then(res => {this.reimbursement = res.data, this.previewImage()})
             .catch(err => this.reimbursement = err.data);
+            // this.previewImage();
+        },
+
+        previewImage(){
+            var file = null;
+            // console.log(this.reimbursement.listAttachment[0].fileName);
+            console.log(this.reimbursement);
+            console.log(this.reimbursement.projectName);
+            // console.log(this.reimbursement.listAttachment);
+            console.log(this.reimbursement.listAttachment.length);
+            var length = this.reimbursement.listAttachment.length;
+            for (let i = 0; i < length; i++) {
+                let preview = 'data:image/jpeg;base64, ' + this.reimbursement.listAttachment[i].image;
+                console.log(preview);
+                this.previewFile.push(preview)
+            }
+            // for (file in this.reimbursement.listAttachment){
+            //     console.log(file);
+            //     console.log('tes');
+            //     let reader = new FileReader();
+            //     reader.readAsDataURL(file.image);
+            //     reader.onload = e => {
+            //         let ava = e.target.result;
+            //         this.previewFile.push(ava);
+            //     }
+            // }
         },
 
         deleteReimbursement(reimburse){
@@ -322,4 +351,10 @@ body {
     color:white;
     border-color: white;
 }
+
+.image-preview{
+    height: 100px;
+    width: 100px;
+}
+
 </style>

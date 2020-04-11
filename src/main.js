@@ -18,13 +18,27 @@ import App from "./App";
 import router from "./router/index";
 
 import PaperDashboard from "./plugins/paperDashboard";
+import axios from 'axios';
+import VueAxios from 'vue-axios';
 import "vue-notifyjs/themes/default.css";
 import BootstrapVue from 'bootstrap-vue'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+import datePicker from 'vue-bootstrap-datetimepicker';
+import { ClientTable } from 'vue-tables-2';
+import 'vue2-dropzone'
+import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+import '@progress/kendo-ui'
+import '@progress/kendo-theme-default/dist/all.css'
+import { Gantt, GanttColumn, GanttView, GanttInstaller } from '@progress/kendo-gantt-vue-wrapper'
+// import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
+Vue.use(GanttInstaller, Gantt, GanttColumn, GanttView)
+Vue.use(ClientTable);
 Vue.use(PaperDashboard);
-Vue.use(BootstrapVue)
+Vue.use(BootstrapVue);
+Vue.use(datePicker);
+Vue.use(VueAxios, axios);
 
 /* eslint-disable no-new */
 new Vue({

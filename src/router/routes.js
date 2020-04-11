@@ -11,6 +11,7 @@ import Maps from "@/pages/Maps.vue";
 import Typography from "@/pages/Typography.vue";
 import Quotation from "@/pages/SalesMarketing/Quotation.vue";
 import SalesOrder from "@/pages/SalesMarketing/SalesOrder.vue";
+import FormSalesOrder from "@/pages/SalesMarketing/FormSalesOrder.vue";
 import DetailSalesOrder from "@/pages/SalesMarketing/DetailSalesOrder.vue";
 import FormQuotation from "@/pages/SalesMarketing/FormQuotation.vue";
 import UpdateQuotation from "@/pages/SalesMarketing/UpdateQuotation.vue";
@@ -18,6 +19,8 @@ import DetailQuotation from "@/pages/SalesMarketing/DetailQuotation.vue";
 import Pengeluaran from "@/pages/Finance/Pengeluaran.vue";
 import DetailPengeluaran from "@/pages/Finance/DetailPengeluaran.vue";
 import FormPengeluaran from "@/pages/Finance/FormPengeluaran.vue";
+import AddActivityListSchedule from "@/pages/ProjectManager/AddActivityListSchedule.vue";
+import DetailActivityListSchedule from "@/pages/ProjectManager/DetailActivityListSchedule.vue";
 import UpdatePengeluaran from "@/pages/Finance/UpdatePengeluaran.vue";
 import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue";
 import ReimbursementReport from "@/pages/ServiceTeam/ReimbursementReport.vue";
@@ -40,6 +43,11 @@ const routes = [
         path: "quotation/add",
         name: "add-quotation",
         component: FormQuotation
+      },
+      {
+        path: "sales-order/add",
+        name: "add-sales-order",
+        component: FormSalesOrder
       },
       {
         path: "quotation/:id/update",
@@ -135,6 +143,17 @@ const routes = [
         path: "reimbursement/update/:id",
         name: "update-reimbursement",
         component: UpdateReimbursement
+
+      },
+      {
+        path: "activity-list-schedule/add",
+        name: "add-activity-list-schedule",
+        component: AddActivityListSchedule
+      },
+      {
+        path: "activity-list-schedule/:id",
+        name: "detail-activity-list-schedule",
+        component: DetailActivityListSchedule
       },
     ]
   },
