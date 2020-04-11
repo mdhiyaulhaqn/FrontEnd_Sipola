@@ -8,40 +8,41 @@
             </div> 
             
             <card>
+                 <div class="container-fluid">
                 <b-row>
                     <div class = "company-name">{{ invoice.salesOrder.company.nama }}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-2">Invoice No</div>
-                    <div class = "col-6">: {{ invoice.noInvoice }}</div>
-                    <div class = "col-2">Sales Order No</div>
-                    <div class = "col-2">: {{ invoice.salesOrder.noSalesOrder }}</div>
+                    <div class = "col-md-2 col-6">Invoice No</div>
+                    <div class = "col-md-6 col-6">: {{ invoice.noInvoice }}</div>
+                    <div class = "col-md-2 col-6">Sales Order No</div>
+                    <div class = "col-md-2 col-6">: {{ invoice.salesOrder.noSalesOrder }}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-2">Invoice Date</div>
-                    <div class = "col-6">: {{ invoice.dateInvoice.split("T")[0].split("-").reverse().join('-') }}</div>
-                    <div class = "col-2">Due Date</div>
-                    <div class = "col-2">: {{ invoice.dueDate.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-md-2 col-6">Invoice Date</div>
+                    <div class = "col-md-6 col-6">: {{ invoice.dateInvoice.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-md-2 col-6">Due Date</div>
+                    <div class = "col-md-2 col-6">: {{ invoice.dueDatePayment.split("T")[0].split("-").reverse().join('-') }}</div>
                 </b-row>
                   <b-row>
-                    <div class = "col-2">Purchase Order No</div>
-                    <div class = "col-6">: {{ invoice.noPurchaseOrder }}</div>
-                    <div class = "col-2">Created By</div>
-                    <div class = "col-2">: {{ invoice.createdBy }}</div>
+                    <div class = "col-md-2 col-6">Purchase Order No</div>
+                    <div class = "col-md-6 col-6">: {{ invoice.salesOrder.poNumber }}</div>
+                    <div class = "col-md-2 col-6">Created By</div>
+                    <div class = "col-md-2 col-6">: {{ invoice.createdBy }}</div>
                 </b-row>
                   <b-row>
-                    <div class = "col-2">Purchase Order Date</div>
-                    <div class = "col-6">: {{ invoice.datePurchaseOrder.split("T")[0].split("-").reverse().join('-') }}</div>
-                    <div class = "col-2">Created At</div>
-                    <div class = "col-2">: {{ invoice.createdAt.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-md-2 col-6">Purchase Order Date</div>
+                    <div class = "col-md-6 col-6">: {{ invoice.salesOrder.poDate.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-md-2 col-6">Created At</div>
+                    <div class = "col-md-2 col-6">: {{ invoice.createdAt.split("T")[0].split("-").reverse().join('-') }}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-2">Address</div>
-                    <div class = "col-6">: {{invoice.company.alamat}}</div>
-                    <div class = "col-2"> Terms Of Delivery
+                    <div class = "col-md-2 col-6">Address</div>
+                    <div class = "col-md-6 col-6">: {{invoice.salesOrder.company.alamat}}</div>
+                    <div class = "col-md-2 col-6"> Terms Of Delivery
                         <br> Payment Terms
                     </div>
-                    <div class = "col-2">: {{invoice.termsOfDelivery}}
+                    <div class = "col-md-2 col-6">: {{invoice.termsOfDelivery}}
                         <br>: {{invoice.paymentTerms}}
                     </div>
                 </b-row>
@@ -93,6 +94,7 @@
                          </router-link>
                     </div>
                 </b-row>
+                 </div>
 
             </card>
         </div>

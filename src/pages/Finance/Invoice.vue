@@ -25,7 +25,7 @@
                             {{items.indexOf(row.item) + 1}}
                         </template>
 
-                        <template v-slot:cell(date)="row">
+                        <template v-slot:cell(dateInvoice)="row">
                             {{row.item.dateInvoice.split("T")[0].split("-").reverse().join('-') }}
                         </template>
 
@@ -70,8 +70,8 @@ export default {
             fields: [
                 {key: 'id', label: 'Id', sortable: true},
                 {key: 'noInvoice', label: 'No Invoice', sortable: true},
-                {key: 'noPurchaseOrder', label: 'No Purchase Order', sortable: true},
-                {key: 'company.nama', label: 'Company Name', sortable: true},
+                {key: 'salesOrder.poNumber', label: 'No Purchase Order', sortable: true},
+                {key: 'salesOrder.company.nama', label: 'Company Name', sortable: true},
                 {key: 'dateInvoice', label: 'Date', sortable: true},
                 // 'totalPrice'
                 'Action'
