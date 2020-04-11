@@ -23,6 +23,7 @@ import UpdatePengeluaran from "@/pages/Finance/UpdatePengeluaran.vue";
 import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue";
 import AddActivityListSchedule from "@/pages/ProjectManager/AddActivityListSchedule.vue";
 import DetailActivityListSchedule from "@/pages/ProjectManager/DetailActivityListSchedule.vue";
+import UpdateActivityListSchedule from "@/pages/ProjectManager/UpdateActivityListSchedule.vue";
 
 const routes = [
   {
@@ -129,6 +130,11 @@ const routes = [
         path: "activity-list-schedule/:id",
         name: "detail-activity-list-schedule",
         component: DetailActivityListSchedule
+      },
+      {
+        path: "activity-list-schedule/:id/update",
+        name: "update-activity-list-schedule",
+        component: UpdateActivityListSchedule
       },
     ]
   },

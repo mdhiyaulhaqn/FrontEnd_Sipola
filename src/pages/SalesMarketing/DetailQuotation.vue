@@ -5,14 +5,14 @@
                 <strong>
                     Detail Quotation
                 </strong>
-            </div> 
+            </div>
             <div ref="content">
-            
+
             <card>
                 <div class="container-fluid">
                 <b-row>
                     <div class = "col-lg-7 col-sm-7 col-xs-6 nama-perusahaan">{{quotation.company.nama}}</div>
-                    <div class = "col-lg-5 col-sm-5 col-xs-6"> 
+                    <div class = "col-lg-5 col-sm-5 col-xs-6">
                         <div class ="row">
                             <div class = "col-lg-5 col-sm-5 col-6">Created By </div>
                             <div class = "col-lg-7 col-sm-7 col-6">: {{quotation.createdBy}} </div>
@@ -42,13 +42,13 @@
                         </button>
                     </div>
                 </b-row>
-                
+
                 <b-row>
                     <b-col >
                         <div class="tabel-service">
                             <div slot="raw-content" class="table-responsive" style="font-size:12px">
-                                <b-table 
-                                :items="quotation.service" 
+                                <b-table
+                                :items="quotation.service"
                                 :fields="fields">
                                  <template v-slot:cell(id)="row">
                                     {{quotation.service.indexOf(row.item) + 1}}
@@ -61,15 +61,11 @@
                                     <td><td/>
                                     <td>{{quotation.total_harga_semua}}</td>
                                 </template>
-                  
-
-                                   
-                             
                                 </b-table>
                             </div>
                         </div>
                     </b-col>
-                
+
                 </b-row>
 
                 <b-row>
@@ -79,7 +75,7 @@
                 </b-row>
 
                 <b-row>
-                   
+
                     <div class="col">
                         <br>
                         <button v-b-modal.modal-delete id ="delete_button" class="btn btn-primary">
@@ -111,7 +107,7 @@
                         <b-button id = "edit_button" @click="hideModal" size="md" variant="primary">Okay</b-button>
                     </b-row>
                 </div>
-        
+
             </div>
         </b-modal>
 
@@ -143,7 +139,7 @@
             <div class = "container">
                 <div class = "info">
                     <b-row>
-                        <span class="ti-success"></span>Quotation no.{{quotation.noQuotation}} was successfully deleted from list.
+                        <span class="ti-success"></span>Quotation no. {{quotation.noQuotation}} was successfully deleted from list.
                     </b-row>
                 </div>
             </div>
@@ -205,7 +201,7 @@ export default {
             this.quotation.status = 'Inactive';
             this.deleteQuotation(JSON.stringify(this.quotation));
         },
-        
+
         showMessage(status){
             this.successModal = true;
         },
@@ -219,15 +215,15 @@ export default {
             this.quotation.total_harga_semua = total_harga_semua;
         },
 
-        getDetail: function(){    
+        getDetail: function(){
             axios.get('http://localhost:8080/api/quotation/' +this.$route.params.id)
             .then(res => {this.quotation = res.data, this.computeTotal()})
             .catch(err => this.quotation = err.data);
         },
 
         deleteQuotation(quot){
-            axios.put('http://localhost:8080/api/quotation/change-status/' + this.$route.params.id, 
-            quot, 
+            axios.put('http://localhost:8080/api/quotation/change-status/' + this.$route.params.id,
+            quot,
                 { headers: {
                     'Content-Type': 'application/json',
                 }
