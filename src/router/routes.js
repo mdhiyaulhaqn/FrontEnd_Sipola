@@ -112,8 +112,13 @@ const routes = [
         component: DetailPengeluaran
       },
       {
-        path: "expense-add",
-        name: "expense-add",
+        path: "expense/:id/update",
+        name: "expense-update",
+        component: UpdatePengeluaran
+      },
+      {
+        path: "expense/add",
+        name: "add-expense",
         component: FormPengeluaran
       },
       {
