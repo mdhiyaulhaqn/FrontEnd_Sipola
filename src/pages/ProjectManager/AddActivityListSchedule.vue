@@ -6,7 +6,8 @@
           <card>
             <h5 class="title-form">Add Activity List Schedule Form</h5>
             <b-form @submit="onSubmit" v-if="show">
-                <b-form-group id="project-name-input" label="Project Name" label-for="projectName">
+                <b-form-group id="project-name-input">
+                  <label class="label" for="projectName">Project Name</label>
                   <b-form-input
                     id="projectName"
                     v-model="newActivityListSchedule.namaProyek"
@@ -17,7 +18,8 @@
                   </b-form-input>
                 </b-form-group>
 
-                <b-form-group id="company-name-input" label="Company Name" label-for="companyName">
+                <b-form-group id="company-name-input">
+                  <label class="label" for="companyName">Company Name</label>
                   <b-form-input
                     id="companyName"
                     v-model="newActivityListSchedule.namaPerusahaan"
@@ -30,17 +32,16 @@
 
                 <b-row>
                     <b-col md="5">
-                      <label>Activity Name</label>
-                    </b-col><br>
-
-                    <b-col md="3">
-                    <label>Start Date</label>
-                    </b-col><br>
-
-                    <b-col md="3">
-                    <label>End Date</label>
+                      <label class="label">Activity Name</label>
                     </b-col>
-                    <br>
+
+                    <b-col md="3">
+                    <label class="label">Start Date</label>
+                    </b-col>
+
+                    <b-col md="3">
+                    <label class="label">End Date</label>
+                    </b-col>
 
                     <b-col md="1">
 
@@ -59,7 +60,8 @@
                     </b-col>
                 </b-row>
 
-                <b-form-group class="mb-0" id="notes-input" label="Notes" label-for="notes">
+                <b-form-group class="mb-0" id="notes-input">
+                  <label class="label" for="notes">Notes</label>
                     <b-form-textarea
                         id="notes"
                         v-model="newActivityListSchedule.catatan"
@@ -70,15 +72,43 @@
                 </b-form-group>
 
                 <div class = "button-group">
-                    <b-button class = "cancel-button col-sm-2" type="reset">Cancel</b-button>
-                    <b-button class = "save-button col-sm-2" type="submit">Save</b-button>
+                  <b-button class = "cancel-button" type="reset">Cancel</b-button>
+                  <b-button class = "save-button" type="submit">Save</b-button>
                 </div>
             </b-form>
           </card>
         </div>
     </div>
-    <b-modal title="Daftar Tugas Berhasil Tersimpan" v-model="successModal" @ok="redirect()"  centered ok-only>
-        Daftar tugas telah berhasil dibuat.
+    <b-modal
+      id="modal-success"
+      centered
+      v-model="successModal"
+      @ok="redirect()"
+      >
+      <template v-slot:modal-title>
+        <div class="container">
+          <h5 id="modal-title-success">Success!</h5>
+        </div>
+      </template>
+      <template v-slot:default>
+        <div class="container">
+          <b-row>
+            <b-col class="modal-icon col-2">
+              <img src="@/assets/img/success-icon.png" alt="" width="50px">
+            </b-col>
+            <b-col class="col-10">
+              <p id="modal-message">Activity list schedule was successfully added.</p>
+            </b-col>
+          </b-row>
+        </div>
+      </template>
+      <template v-slot:modal-footer="{ ok }">
+        <b-col class="button-confirm-group">
+          <b-button @click="ok()" id="ok-button" variant="outline-primary">
+            See Details
+          </b-button>
+        </b-col>
+      </template>
     </b-modal>
 
     <b-modal title="Daftar Tugas Gagal Tersimpan" v-model="failedModal" centered ok-only>
@@ -196,21 +226,47 @@ export default {
   color:white;
   border-color: transparent;
   font-size: 10px;
-  /* width: 120px;
-  height: 36px; */
-  margin-bottom: 4px;
-  box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
+  margin-left: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
 }
 
 .cancel-button{
-    color:#109CF1;
-    border-color:#109CF1;
-    background-color: white;
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 80px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 10px;
 }
 
 .button-group{
   margin-top: 30px;
   text-align: center;
 }
-
+.label{
+  font-weight: 600;
+}
+#modal-message{
+  font-size: 16px;
+}
+#modal-title-success{
+  color: #109CF1;
+  font-weight: 1000;
+}
+#ok-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+}
+.button-confirm-group{
+  text-align: right;
+}
+h5{
+  margin-bottom: -4px;
+}
 </style>

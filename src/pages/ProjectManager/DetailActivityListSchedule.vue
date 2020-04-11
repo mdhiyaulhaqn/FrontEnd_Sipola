@@ -5,7 +5,7 @@
       <card>
         <b-row>
           <div class="col-sm-12 text-center">
-            <h6 class="col-sm-12">{{activityListSchedule.namaProyek}}</h6>
+            <b class="col-sm-12">{{activityListSchedule.namaProyek}}</b>
             <p class="col-sm-12">{{activityListSchedule.namaPerusahaan}}</p>
           </div>
         </b-row>
@@ -42,10 +42,21 @@
       centered
       >
       <template v-slot:modal-title>
-        <h5>Delete Activity List Schedule?</h5>
+        <div class="container">
+          <h5 id="modal-title-delete">Delete Activity List Schedule?</h5>
+        </div>
       </template>
       <template v-slot:default>
-        <p>It will be removed from the list.</p>
+        <div class="container">
+          <b-row>
+              <b-col class="modal-icon col-2">
+                  <img src="@/assets/img/delete-confirm-icon.png" alt="" width="50px">
+              </b-col>
+              <b-col class="col-10">
+                  <p id="modal-message">It will be removed from the list.</p>
+              </b-col>
+          </b-row>
+        </div>
       </template>
       <template v-slot:modal-footer="{ cancel }">
         <b-col class="button-confirm-group">
@@ -57,35 +68,38 @@
           </b-button>
         </b-col>
       </template>
-      <!-- <div class="modal-dialog">
-        <div class = "info">
+    </b-modal>
+    <b-modal
+      id="modal-success"
+      ref="modal-success"
+      centered
+      v-model="successModal"
+      @ok="redirect()"
+      >
+      <template v-slot:modal-title>
+        <div class="container">
+          <h5 id="modal-title-success">Success!</h5>
+        </div>
+      </template>
+      <template v-slot:default>
+        <div class="container">
           <b-row>
-            <b-col cols="3" class="ti-trash"></b-col>
-            <b-col cols="9">
-                It will be removed from the list.
+            <b-col class="modal-icon col-2">
+              <img src="@/assets/img/success-icon.png" alt="" width="50px">
+            </b-col>
+            <b-col class="col-10">
+              <p id="modal-message">Activity list schedule for project {{activityListSchedule.namaProyek}} was successfully deleted from list.</p>
             </b-col>
           </b-row>
         </div>
-        <b-row>
-          <b-col class="button-confirm-group">
-            <b-button @click="onSubmit" id ="confirm_delete_button" variant="outline-danger">
-                Yes, delete it
-            </b-button>
-            <b-button @click="hideModal" id ="cancel_delete_button" class="btn btn-danger">
-                Cancel
-            </b-button>
-          </b-col>
-        </b-row>
-      </div> -->
-    </b-modal>
-      <b-modal title="Success!" v-model="successModal" @ok="redirect()" centered ok-only>
-        <div class = "container">
-          <div class = "info">
-            <b-row>
-              <span class="ti-success"></span>Activity list schedule for project {{activityListSchedule.namaProyek}} was successfully deleted from list.
-            </b-row>
-          </div>
-        </div>
+      </template>
+      <template v-slot:modal-footer="{ ok }">
+        <b-col class="button-confirm-group">
+          <b-button @click="ok()" id="ok-button" variant="outline-primary">
+            OK
+          </b-button>
+        </b-col>
+      </template>
     </b-modal>
   </div>
 </template>
@@ -123,6 +137,8 @@ export default {
       }],
       activityListSchedule: '',
       successModal: false,
+      headerBorderVariant: 'white',
+      footerBorderVariant: 'warning',
     }
   },
   beforeMount() {
@@ -132,6 +148,7 @@ export default {
     onSubmit(evt) {
       evt.preventDefault();
       this.deleteActivityListSchedule(JSON.stringify(this.activityListSchedule));
+      this.hideModal();
     },
     showMessage(status){
       this.successModal = true;
@@ -152,6 +169,9 @@ export default {
     },
     redirect(){
       this.$router.push({ name: 'activity-list-schedule'});
+    },
+    hideModal(){
+      this.$refs['modal-delete'].hide();
     },
   }
 }
@@ -204,7 +224,7 @@ p{
 }
 #confirm_delete_button{
   font-size: 10px;
-  width: 130px;
+  width: 110px;
   border-color: #ff3e1d;
   border-width: 1px;
   margin-right: 10px;
@@ -216,9 +236,24 @@ p{
   border-color: white;
   border-width: 1px;
 }
-.modal-title{
-  font-weight: bold;
-  color: #FF3E1D;
+h5{
+  margin-bottom: -4px;
+}
+#modal-message{
+  font-size: 16px;
+}
+#modal-title-delete{
+  color:#FF3E1D;
+  font-weight: 1000;
+}
+#modal-title-success{
+  color: #109CF1;
+  font-weight: 1000;
+}
+#ok-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
 }
 </style>
 
