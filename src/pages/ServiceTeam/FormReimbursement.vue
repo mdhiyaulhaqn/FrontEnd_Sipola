@@ -89,12 +89,14 @@
                         <div class="dropzone">
                         <input type="file" class="input-file" ref="file"
                         @change="selectFile" />
-                        <p v-if="!uploading && !isAnyImage" class="call-to-action">Drag and drop your files here</p>
+                        <p v-if="!uploading && !isAnyImage" class="call-to-action"><i class='far fa-arrow-alt-circle-up' style='font-size:36px'></i> 
+                        Drag and drop your files here or <label for="file">
+                            <button class="buttonFile"><i class='far fa-arrow-alt-circle-up'></i> Select</button></label></p>
                         
                         <p v-if="uploading" class="progressbar"></p>
                         <div class="box-image" v-if="isAnyImage">
-                            <div class="per-item" v-bind:key="file" v-for="file in previewFile">
-                                <img :src="file" alt="Image" class="image-preview">
+                            <div class="per-item" >
+                                <img v-bind:key="file" v-for="file in previewFile" :src="file" alt="Image" class="image-preview">
                                 <!-- <p v-bind:key="file" v-for="file in previewFile">{{file.name}}</p> -->
                             </div>
                         </div>
@@ -408,6 +410,7 @@ export default {
     cursor: pointer;
     outline: 2px dashed black; 
     outline-offset: -10px;
+    border: white;
 }
 
 .input-file{
@@ -427,6 +430,11 @@ export default {
     font-size: 1.2rem;
     text-align: center;
     padding: 70px 0;
+}
+
+.buttonFile {
+    background-color: white;
+    border: 1px solid gray;
 }
 
 /* #upload {

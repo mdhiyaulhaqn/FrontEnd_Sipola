@@ -62,14 +62,20 @@
                 
                 </b-row>
 
-                <b-row>
-                    <div class = "col-12"><br>Attachment</div>
-                
-                    <!-- <div class = "col-12"><br>{{reimbursement.listAttachment}}</div> -->
-                    <div class = "col-12">
-                        <img v-for="file in previewFile" :key="file" :src="file" alt="Image" class="image-preview">
-                    </div>
-                </b-row>
+                <div class="for-attachment" v-if="previewFile.length > 0">
+                    <b-row>
+                        <b-col>
+                            <div><br>Attachments ( {{previewFile.length}} )</div>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col>
+                            <div id="kotakAttachment">
+                                <img v-for="file in previewFile" :key="file" :src="file" alt="Image" class="image-preview"><br>
+                            </div>
+                        </b-col>
+                    </b-row>
+                </div>
 
                 <b-row>
                    
@@ -352,9 +358,15 @@ body {
     border-color: white;
 }
 
+#kotakAttachment {
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+
 .image-preview{
-    height: 100px;
-    width: 100px;
+    height: 120px;
+    width: 120px;
+    padding: 10px 5px 10px 5px;
 }
 
 </style>
