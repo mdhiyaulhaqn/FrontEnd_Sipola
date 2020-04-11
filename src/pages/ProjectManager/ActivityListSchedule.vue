@@ -172,7 +172,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 #add_activity_button{
   background-color: #109CF1;
   color:white;

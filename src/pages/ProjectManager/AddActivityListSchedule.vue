@@ -30,34 +30,33 @@
                   </b-form-input>
                 </b-form-group>
 
-                <b-row>
-                    <b-col md="5">
+                <div class="d-none d-md-block d-lg-block">
+                  <div class="row">
+                    <div class = "col-md-5">
                       <label class="label">Activity Name</label>
-                    </b-col>
-
-                    <b-col md="3">
-                    <label class="label">Start Date</label>
-                    </b-col>
-
-                    <b-col md="3">
-                    <label class="label">End Date</label>
-                    </b-col>
-
-                    <b-col md="1">
-
-                    </b-col>
-                </b-row>
+                    </div>
+                    <div class = "col-md-3">
+                      <label class="label">Start Date</label>
+                    </div>
+                    <div class = "col-md-3">
+                      <label class="label">End Date</label>
+                    </div>
+                    <div class = "col-md-1">
+                    </div>
+                    <br>
+                  </div>
+                </div>
 
                 <b-row class="activities" v-bind:key="item.id_activity" v-for="item in activities">
-                    <b-col>
+                  <b-col>
                     <Activity v-bind:activity="item" v-on:del-activity="deleteRow" />
-                    </b-col>
+                  </b-col>
                 </b-row>
 
                 <b-row>
-                    <b-col md="12">
-                        <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">Add More Activity <span class="ti-plus"></span></button>
-                    </b-col>
+                  <div class ="col-md-6 col-12">
+                    <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">Add More Activity <span class="ti-plus"></span></button>
+                  </div>
                 </b-row>
 
                 <b-form-group class="mb-0" id="notes-input">
@@ -204,9 +203,11 @@ export default {
 <style scoped>
 
 .add-button{
+  width: 100%;
   background-color: white;
   color : #109cf1;
   border-color: #109cf1;
+  margin-bottom: 10px;
 }
 .judul{
   text-align: center;
@@ -215,6 +216,7 @@ export default {
 }
 .title-form {
   font-weight: 600;
+  margin-bottom: 20px;
 }
 .isi-form{
   margin-left: auto;

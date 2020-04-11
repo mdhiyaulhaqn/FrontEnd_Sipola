@@ -195,16 +195,17 @@ export default {
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  width: 120px;
+  width: 110px;
   margin-left: 10px;
+  font-size: 10px;
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
 }
 
 #delete-button{
-  background: #FF3E1D;
+  background-color: #FF3E1D;
   border-color: #FF3E1D;
-  border-radius: 5px;
   width: 80px;
+  font-size: 10px;
 }
 
 .button-group{
