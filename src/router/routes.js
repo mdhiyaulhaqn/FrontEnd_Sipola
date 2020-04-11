@@ -29,6 +29,10 @@ import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vu
 import AddActivityListSchedule from "@/pages/ProjectManager/AddActivityListSchedule.vue";
 import DetailActivityListSchedule from "@/pages/ProjectManager/DetailActivityListSchedule.vue";
 import UpdateActivityListSchedule from "@/pages/ProjectManager/UpdateActivityListSchedule.vue";
+import ReimbursementReport from "@/pages/ServiceTeam/ReimbursementReport.vue";
+import DetailReimbursement from "@/pages/ServiceTeam/DetailReimbursement.vue";
+import FormReimbursement from "@/pages/ServiceTeam/FormReimbursement.vue";
+import UpdateReimbursement from "@/pages/ServiceTeam/UpdateReimbursement.vue";
 
 const routes = [
   {
@@ -150,6 +154,27 @@ const routes = [
         path: "activity-list-schedule",
         name: "activity-list-schedule",
         component: ActivityListSchedule
+      },
+      {
+        path: "reimbursement-report",
+        name: "reimbursement-report",
+        component: ReimbursementReport
+      },
+      {
+        path: "reimbursement/detail/:id",
+        name: "detail-reimbursement",
+        component: DetailReimbursement
+      },
+      {
+        path: "reimbursement/add",
+        name: "add-reimbursement",
+        component: FormReimbursement
+      },
+      {
+        path: "reimbursement/update/:id",
+        name: "update-reimbursement",
+        component: UpdateReimbursement
+
       },
       {
         path: "activity-list-schedule/add",
