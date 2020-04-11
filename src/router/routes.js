@@ -19,10 +19,11 @@ import DetailQuotation from "@/pages/SalesMarketing/DetailQuotation.vue";
 import Pengeluaran from "@/pages/Finance/Pengeluaran.vue";
 import DetailPengeluaran from "@/pages/Finance/DetailPengeluaran.vue";
 import FormPengeluaran from "@/pages/Finance/FormPengeluaran.vue";
-import AddActivityListSchedule from "@/pages/ProjectManager/AddActivityListSchedule.vue";
-import DetailActivityListSchedule from "@/pages/ProjectManager/DetailActivityListSchedule.vue";
 import UpdatePengeluaran from "@/pages/Finance/UpdatePengeluaran.vue";
 import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue";
+import AddActivityListSchedule from "@/pages/ProjectManager/AddActivityListSchedule.vue";
+import DetailActivityListSchedule from "@/pages/ProjectManager/DetailActivityListSchedule.vue";
+import UpdateActivityListSchedule from "@/pages/ProjectManager/UpdateActivityListSchedule.vue";
 import ReimbursementReport from "@/pages/ServiceTeam/ReimbursementReport.vue";
 import DetailReimbursement from "@/pages/ServiceTeam/DetailReimbursement.vue";
 import FormReimbursement from "@/pages/ServiceTeam/FormReimbursement.vue";
@@ -154,6 +155,11 @@ const routes = [
         path: "activity-list-schedule/:id",
         name: "detail-activity-list-schedule",
         component: DetailActivityListSchedule
+      },
+      {
+        path: "activity-list-schedule/:id/update",
+        name: "update-activity-list-schedule",
+        component: UpdateActivityListSchedule
       },
     ]
   },
