@@ -209,6 +209,7 @@ export default {
         computeTotal(){
             var total_harga_semua = 0;
             for (let i = 0; i < this.quotation.service.length; i++) {
+                this.quotation.service[i].nomer = i+1;
                 this.quotation.service[i].total_harga = this.quotation.service[i].harga * this.quotation.service[i].quantity;
                 total_harga_semua +=  this.quotation.service[i].total_harga;
             }
@@ -240,10 +241,76 @@ export default {
         },
         downloadReport:function(){
             var doc = new jsPDF()
-            const contentHtml = this.$refs.content.innerHTML;
-            doc.fromHTML(contentHtml, 15, 15, {
-                width: 170
+            let noQuotation = this.quotation.noQuotation
+            let date = this.quotation.date.split("T")[0].split("-").reverse().join('-')
+            let createdAt = this.quotation.date.split("T")[0].split("-").reverse().join('-')
+            let companyName = this.quotation.company.nama
+            let companyAddress = this.quotation.company.alamat
+            let termsCondition = this.quotation.termsCondition
+
+            doc.setFontStyle("bold");
+            doc.setFontSize(18);
+            doc.text('Quotation', 25, 38);
+
+            doc.setFontStyle("light");
+            doc.setFont('times new roman');
+            doc.setFontSize(12);
+            doc.text('Inquiry No ', 25, 45); doc.text(': ', 55,45); doc.text('Date : ' + date, 150,45); 
+            doc.text('Quotation No ', 25, 50); doc.text(': '+ noQuotation, 55,50);
+            doc.text('Revision ', 25, 55); doc.text(': ', 55,55);
+
+            doc.setFontSize(12);
+            doc.text('Kepada Yth,', 25, 65);
+            doc.text(companyName, 25, 70);
+            doc.text(companyAddress, 25, 75);
+
+            doc.text('Bersama ini kami sampaikan penawaran harga sebagai berikut', 25, 90);
+
+            var service = this.quotation.service
+
+            var columns = [
+                {title: "No", dataKey: "nomer"},
+                {title: "Scope of Work", dataKey: "nama"},
+                {title: "Qty", dataKey: "quantity"},
+                {title: "Price/ unit (IDR)", dataKey: "harga"},
+                {title: "Total Price (IDR)", dataKey: "total_harga"}
+            ]
+            doc.autoTable(columns, service, {
+                startY:100,
+                margin:25,  
+                minCellHeight : 200,
+                headStyles: {
+                        fillColor: [189,38,64],  
+                        textColor: [255, 255, 255], //White     
+                },
+                theme:'grid',
             });
+
+            let finalY = doc.autoTable.previous.finalY;
+            var totalharga = 'Rp '+this.quotation.total_harga_semua.toLocaleString('de-DE');
+            doc.text('Total Harga : '+ totalharga, 120, finalY+10);
+
+            var lMargin=15; //left margin in mm
+            var rMargin=15; //right margin in mm
+            var pdfInMM=210;  // width of A4 in mm
+
+
+            doc.text('Syarat dan Kondisi Penawaran : ', 25, finalY+20);
+            var termsSplit = termsCondition.split("-")
+            for (let i = 0; i< termsSplit.length-1; i++){
+                var service = termsSplit[i+1]
+                var lines = doc.splitTextToSize(service, (pdfInMM-lMargin-rMargin));
+                console.log(lines)
+
+                // var hehe = "Apple's iPhone 7 is officially upon us. After a week of pre-orders, the latest in the iPhone lineup officially launches today.\n\nEager Apple fans will be lining up out the door at Apple and carrier stores around the country to grab up the iPhone 7 and iPhone 7 Plus, while Android owners look on bemusedly.\n\nDuring the Apple Event last week, the tech giant revealed a number of big, positive changes coming to the iPhone 7. It's thinner. The camera is better. And, perhaps best of all, the iPhone 7 is finally water resistant.\n\nStill, while there may be plenty to like about the new iPhone, there's plenty more that's left us disappointed. Enough, at least, to make smartphone shoppers consider waiting until 2017, when Apple is reportedly going to let loose on all cylinders with an all-glass chassis design.";
+                // var news = doc.splitTextToSize(hehe, (pdfInMM-lMargin-rMargin));
+
+                // console.log(news)
+                
+                doc.text(lines, 25,finalY + 25 + i*5);
+                // doc.text('- ' + termsSplit[i+1], 25, finalY + 25 + i*5);
+            }
+
             doc.save("sample.pdf");
 
             this.$refs['modal-download'].show();

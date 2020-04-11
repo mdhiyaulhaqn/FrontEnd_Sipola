@@ -3,12 +3,6 @@
       <div class="col-12">
         <card>
           <b-row>
-           <router-link :to="{name: 'add-sales-order'}">
-            <button id ="add_quotation_button" class="btn btn-primary">
-              Add Sales Order
-              <span class="ti-plus"></span>
-            </button>
-          </router-link>
           </b-row>
                  
           <div slot="raw-content" class="table-responsive">     

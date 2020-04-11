@@ -115,11 +115,11 @@
 
                     <b-col md="2">
                     <label>Qty</label> 
-                    </b-col><br>
+                    </b-col>
 
                     <b-col md="3">
-                    <label>Unit Price</label> 
-                    </b-col>
+                    <label>UnitPrice</label> 
+                    </b-col><br>
 
                 </b-row>
 
@@ -181,7 +181,7 @@
 
 <script>
 
-import ServiceOrder from '@/pages/SalesMarketing/ServiceOrder.vue';
+import ServiceOrder from '@/pages/Finance/ServiceOrderInvoice.vue';
 import axios from 'axios';
 
 export default {
@@ -204,6 +204,7 @@ export default {
                 paymentTerms: '',
                 createdBy : "Yasmin Moedjoko",
                 status : 'Active',
+                salesOrder :'',
             },
             show: true,
             successModal : false,
@@ -225,7 +226,7 @@ export default {
 
         onSubmit(evt) {
             evt.preventDefault();
-            this.invoice.sales_order = this.sales_order;
+            this.invoice.salesOrder = this.sales_order;
             this.addinvoice(JSON.stringify(this.invoice));
         },
 
@@ -241,7 +242,6 @@ export default {
         addinvoice(invoice){
             console.log("masuk pa aji")
             axios.post('http://localhost:8080/api/invoice/add',
-            console.log("masuk gaksiiiii"),
             invoice, 
                 { headers: {
                     'Content-Type': 'application/json',
