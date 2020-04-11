@@ -29,7 +29,6 @@ import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vu
 import AddActivityListSchedule from "@/pages/ProjectManager/AddActivityListSchedule.vue";
 import DetailActivityListSchedule from "@/pages/ProjectManager/DetailActivityListSchedule.vue";
 import UpdateActivityListSchedule from "@/pages/ProjectManager/UpdateActivityListSchedule.vue";
-import UpdatePengeluaran from "@/pages/Finance/UpdatePengeluaran.vue";
 import ReimbursementReport from "@/pages/ServiceTeam/ReimbursementReport.vue";
 import DetailReimbursement from "@/pages/ServiceTeam/DetailReimbursement.vue";
 import FormReimbursement from "@/pages/ServiceTeam/FormReimbursement.vue";
