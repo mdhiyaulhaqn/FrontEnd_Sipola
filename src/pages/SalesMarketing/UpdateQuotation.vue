@@ -3,7 +3,7 @@
     <h3 class="judul"><strong>Update Quotation</strong></h3>
     <div class = "row">
         <div class = "col-10 isi-form">
-            <card>
+            <card>sss
             <h5 class = "title-form">Update Quotation Form </h5>
             <b-form @submit="onModal" v-if="show">
                 <div class = "row">

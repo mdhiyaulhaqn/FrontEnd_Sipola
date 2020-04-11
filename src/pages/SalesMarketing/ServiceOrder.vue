@@ -14,6 +14,28 @@
 
         <b-col md="2">
             <b-form-input
+                id="uom"
+                v-model="service_order.uom"
+                type="text"
+                required
+                placeholder="UOM"
+                >
+            </b-form-input>
+        </b-col>
+        
+        <b-col md="2">
+            <b-form-input
+                id="pricePerUnit"
+                v-model="service_order.pricePerUnit"
+                type="number"
+                required
+                placeholder="0"
+                >
+            </b-form-input>
+        </b-col>
+
+        <b-col md="2">
+            <b-form-input
                 id="quantity"
                 v-model="service_order.quantity"
                 type="number"
@@ -23,27 +45,6 @@
             </b-form-input>
         </b-col>
 
-        <b-col md="2">
-            <b-form-input
-                id="uom"
-                v-model="service_order.uom"
-                type="text"
-                required
-                placeholder="UOM"
-                >
-            </b-form-input>
-        </b-col>
-
-        <b-col md="2">
-            <b-form-input
-                id="harga"
-                v-model="service_order.pricePerUnit"
-                type="number"
-                required
-                placeholder="0"
-                >
-            </b-form-input>
-        </b-col>
 
         <b-col md="1">
             <b-button @click="$emit('del-service-order', service_order.id_service_order)" variant="danger"><i class="fas fa-trash-alt"></i></b-button>
