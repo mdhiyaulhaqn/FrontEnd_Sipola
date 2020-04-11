@@ -26,8 +26,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import datePicker from 'vue-bootstrap-datetimepicker';
 import { ClientTable } from 'vue-tables-2';
-import 'vue2-dropzone'
-import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 import '@progress/kendo-ui'
 import '@progress/kendo-theme-default/dist/all.css'
 import { Gantt, GanttColumn, GanttView, GanttInstaller } from '@progress/kendo-gantt-vue-wrapper'

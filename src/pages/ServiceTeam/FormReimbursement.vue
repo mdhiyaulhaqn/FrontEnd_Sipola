@@ -54,41 +54,12 @@
                     </b-col>
                 </b-row>
 
-                <!-- <b-row class="attachmentInput">
-                    <b-col>
-                       <drop class="drop" @drop="handleDrop">drop files</drop>
-                       <div>
-                           <li v-for="item in files">{{item.name}}</li>
-                       </div> -->
-                    <!-- <label for="file"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.</label>
-                    <input class="box__file" type="file" name="files[]" id="file" data-multiple-caption="{count} files selected" multiple /> -->
-                    <!-- </b-col>
-                </b-row>
-                <b-row> -->
-                    
-                <!-- <b-row>
-                    <b-col md="12">
-                        <b-form-group> 
-                        <div class="file is-boxed is-secondary">
-                            <label class="file-label">
-                            <input class="file-input" type="file" ref="file" multiple v-on:change="handleFilesUpload()"/>
-                            <span class="file-cta">
-                                <span class="file-icon"><i class="ti-upload"></i></span>
-                                <span class="file-label">Drop Your Files Here...</span>
-                            </span>
-                                <span class="file-name" v-if="file">{{file.name}}</span>
-                            </label>
-                        </div>
-                        </b-form-group>
-                    </b-col>
-                </b-row> -->
-
                 <b-row> 
                     <b-col>
                         <b-form-group>
                         <div class="dropzone">
-                        <input type="file" class="input-file" ref="file"
-                        @change="selectFile" />
+                        <input type="file" class="input-file" ref="files"
+                        @change="selectFile" multiple/>
                         <p v-if="!uploading && !isAnyImage" class="call-to-action"><i class='far fa-arrow-alt-circle-up' style='font-size:36px'></i> 
                         Drag and drop your files here or <label for="file">
                             <button class="buttonFile"><i class='far fa-arrow-alt-circle-up'></i> Select</button></label></p>
@@ -104,16 +75,6 @@
                         </b-form-group>
                     </b-col>
                 </b-row>
-
-                <!-- <div id="upload">
-                    <vue-dropzone 
-                        ref="dropzone" 
-                        id="drop1" 
-                        :options="dropOptions"
-                        @vdropzone-complete="afterComplete"
-                        ></vue-dropzone>
-                        <button @click="removeAllFiles">Remove All Files</button>
-                </div> -->
 
                 <div class = "button-group">
                     <b-button class = "cancel-button" type="reset">Cancel</b-button>
@@ -137,26 +98,13 @@
 
 import Expense from '@/pages/ServiceTeam/ExpenseReimbursement.vue';
 import axios from 'axios';
-// import 'vue2-dropzone/dist/vue2Dropzone.min.css'
-// import vueDropzone from 'vue2-dropzone';
    
 export default {
     components : {
       Expense,
-    //   vueDropzone,
     },
     data() { 
       return {
-            // dropOptions: {
-            //     url: "https://httpbin.org/post",
-            //     maxFilesize: 200, // MB
-            //     maxFiles: 4,
-            //     chunking: true,
-            //     chunkSize: 300, // Bytes
-            //     thumbnailWidth: 100, // px
-            //     thumbnailHeight: 100,
-            //     addRemoveLinks: true
-            // },
             
             // variabel for attachment
             uploading : false,
@@ -210,7 +158,6 @@ export default {
 
     beforeMount() {
       this.addRow();
-    //   this.attachment = Object.assign({}, this.new_attachment);
     },
     
     methods: {
@@ -280,35 +227,27 @@ export default {
             reader.onload = e => {
                 this.avatar = e.target.result;
             }
-            console.log(this.file);
             this.uploadFile(this.file);
         },
 
         selectFile(){
-            // const files = this.$refs.files.files;
-            // this.files = [ ...this.files, ...files];
-            this.file = this.$refs.file.files[0];
+            const files = this.$refs.files.files;
             this.isAnyImage = true;
-            let reader = new FileReader();
-            reader.readAsDataURL(this.file);
-            reader.onload = e => {
-                let ava = e.target.result;
-                this.previewFile.push(ava);
+            for (let i = 0; i < files.length; i++) {
+                let reader = new FileReader();
+                reader.readAsDataURL(files[i]);
+                reader.onload = e => {
+                    let ava = e.target.result;
+                    this.previewFile.push(ava);
+                }
+                this.uploadFile(files[i]);
             }
-            // this.uploadedFile.push(this.file);
-            console.log(this.file);
-            this.uploadFile(this.file);
-            // this.uploadFile(file);
-            
-            console.log
         },
 
         uploadFile(attach) {
             let formData = new FormData();
-            console.log(attach);
-            formData.append('file', this.file);
-            axios.post('http://localhost:8080/api/attachment/uploadFile', 
-            // FormData)
+            formData.append('file', attach);
+            axios.post('http://localhost:8080/api/attachment/uploadFile',
             formData,
             {
                 headers: {
@@ -316,40 +255,7 @@ export default {
                 }
             })
             .then(res => {this.attachments.push(res.data.result)});
-            // this.uploadedFile.push(this.attachment);
-            // this.uploadedFile.push(m);
-            console.log(this.attachment);
-            console.log(this.uploadedFile)
-            console.log('tes');
         },
-
-        
-        // afterComplete(file) {
-        //     console.log(file);
-        //     this.files = this.$refs.dropzone.file;
-        //     console.log(this.files);
-        //     var x;
-        //     for (x in this.files) {
-        //         console.log(this.files[x].file);
-        //         let formData = new FormData();
-        //         formData.append('file', this.files[x]);
-        //         axios.post('http://localhost:8080/api/attachment/uploadFile', 
-        //         // FormData)
-        //         formData,
-        //         {
-        //             headers: {
-        //                 'Content-Type': 'multipart/form-data'
-        //             }
-        //         })
-        //         .then(res => {this.attachment = res.data.result});
-        //         let attach = Object.assign(this.new_attachment, this.attachment);
-        //         this.attachments.push(attach);
-        //     }
-
-        // },
-        // removeAllFiles() {
-        //     this.$refs.dropzone.removeAllFiles();
-        // },
  
     }
 }
