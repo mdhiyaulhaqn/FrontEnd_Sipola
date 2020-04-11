@@ -85,24 +85,21 @@
 
                 <b-row> 
                     <b-col>
+                        <b-form-group>
                         <div class="dropzone">
-                        <input type="file" class="input-file" ref="file" id="file"
+                        <input type="file" class="input-file" ref="file"
                         @change="selectFile" />
-                        <p v-if="!uploading && !isAnyImage" class="call-to-action">
-                            <i class="far fa-arrow-alt-circle-up" style='font-size:30px'></i>
-                         Drag and drop your files here 
-                         <label class="labelFile" for="file"><button class="button-label">Select <i class="far fa-arrow-alt-circle-up"></i></button></label></p>
-                         
-                        
+                        <p v-if="!uploading && !isAnyImage" class="call-to-action">Drag and drop your files here</p>
                         
                         <p v-if="uploading" class="progressbar"></p>
                         <div class="box-image" v-if="isAnyImage">
-                            <div class="per-item" >
-                                <img v-for="file in previewFile" :key="file" :src="file" alt="Image" class="image-preview">
+                            <div class="per-item" v-bind:key="file" v-for="file in previewFile">
+                                <img :src="file" alt="Image" class="image-preview">
                                 <!-- <p v-bind:key="file" v-for="file in previewFile">{{file.name}}</p> -->
                             </div>
                         </div>
                         </div>
+                        </b-form-group>
                     </b-col>
                 </b-row>
 
@@ -239,6 +236,7 @@ export default {
             evt.preventDefault();
             console.log(this.attachment);
             // this.attachments.push(this.attachment);
+            // this.attachments = this.uploadedFile;
             console.log(this.attachments);
             this.newReimbursement.listAttachment = this.attachments;
             this.newReimbursement.listExpense = this.expenses;
@@ -288,17 +286,15 @@ export default {
             // const files = this.$refs.files.files;
             // this.files = [ ...this.files, ...files];
             this.file = this.$refs.file.files[0];
-            let image = this.$refs.file.files[0];
             this.isAnyImage = true;
             let reader = new FileReader();
-            reader.readAsDataURL(image);
+            reader.readAsDataURL(this.file);
             reader.onload = e => {
                 let ava = e.target.result;
                 this.previewFile.push(ava);
             }
             // this.uploadedFile.push(this.file);
-            console.log('habis ini');
-            console.log(this.previewFile);
+            console.log(this.file);
             this.uploadFile(this.file);
             // this.uploadFile(file);
             
@@ -317,12 +313,11 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             })
-            .then(res => {this.attachment = res.data.result});
-            this.uploadedFile.push(this.attachment);
-            this.attachments.push(this.attachment);
+            .then(res => {this.attachments.push(res.data.result)});
+            // this.uploadedFile.push(this.attachment);
             // this.uploadedFile.push(m);
             console.log(this.attachment);
-            console.log(this.attachments)
+            console.log(this.uploadedFile)
             console.log('tes');
         },
 
@@ -413,7 +408,6 @@ export default {
     cursor: pointer;
     outline: 2px dashed black; 
     outline-offset: -10px;
-    border-color: white;
 }
 
 .input-file{
@@ -426,7 +420,7 @@ export default {
 }
 
 .dropzone:hover {
-    background: lightgray;
+    background-color: lightgray;
 }
 
 .dropzone .call-to-action {
@@ -435,11 +429,25 @@ export default {
     padding: 70px 0;
 }
 
-.button-label{
-    background-color: white;
-    color: black;
-    border: 1px solid lightgray;
-}
+/* #upload {
+    min-height: 100px;
+    padding: 10px 10px;
+    position: relative;
+    cursor: pointer;
+    outline: 2px dashed grey;
+    outline-offset: -10px;
+    background: lightgray;
+} 
 
+#drop1 {
+    height: 200px;
+    padding: 40px;
+    color: white;
+    background: lightgray;
+  }
+
+  #drop1 .dz-preview {
+    width: 160px;
+  } */
 
 </style>
