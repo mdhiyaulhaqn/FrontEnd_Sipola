@@ -108,7 +108,7 @@ const routes = [
       },
       {
         path: "expense/:id/update",
-        name: "expense-detail",
+        name: "expense-update",
         component: UpdatePengeluaran
       },
       {
