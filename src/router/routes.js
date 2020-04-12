@@ -38,7 +38,7 @@ const routes = [
   {
     path: "/",
     component: DashboardLayout,
-    redirect: "/quotation",
+    redirect: "/dashboard",
     children: [
       {
         path: "dashboard",
