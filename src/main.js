@@ -36,7 +36,7 @@ Vue.use(ClientTable);
 Vue.use(PaperDashboard);
 Vue.use(BootstrapVue);
 Vue.use(datePicker);
-Vue.use(VueAxios, axios)
+Vue.use(VueAxios, axios);
 
 /* eslint-disable no-new */
 new Vue({
