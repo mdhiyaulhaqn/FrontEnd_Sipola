@@ -243,23 +243,24 @@ export default {
             var doc = new jsPDF()
             let noQuotation = this.quotation.noQuotation
             let date = this.quotation.date.split("T")[0].split("-").reverse().join('-')
-            let createdAt = this.quotation.date.split("T")[0].split("-").reverse().join('-')
+            let createdAt = this.quotation.createdAt.split("T")[0].split("-").reverse().join('-')
+            let createdBy = this.quotation.createdBy
             let companyName = this.quotation.company.nama
             let companyAddress = this.quotation.company.alamat
             let termsCondition = this.quotation.termsCondition
 
             doc.setFontStyle("bold");
-            doc.setFontSize(18);
+            doc.setFontSize(16);
             doc.text('Quotation', 25, 38);
 
             doc.setFontStyle("light");
             doc.setFont('times new roman');
-            doc.setFontSize(12);
+            doc.setFontSize(10);
             doc.text('Inquiry No ', 25, 45); doc.text(': ', 55,45); doc.text('Date : ' + date, 150,45); 
             doc.text('Quotation No ', 25, 50); doc.text(': '+ noQuotation, 55,50);
             doc.text('Revision ', 25, 55); doc.text(': ', 55,55);
 
-            doc.setFontSize(12);
+            doc.setFontSize(10);
             doc.text('Kepada Yth,', 25, 65);
             doc.text(companyName, 25, 70);
             doc.text(companyAddress, 25, 75);
@@ -290,28 +291,50 @@ export default {
             var totalharga = 'Rp '+this.quotation.total_harga_semua.toLocaleString('de-DE');
             doc.text('Total Harga : '+ totalharga, 120, finalY+10);
 
-            var lMargin=15; //left margin in mm
-            var rMargin=15; //right margin in mm
+            var lMargin=20; //left margin in mm
+            var rMargin=20; //right margin in mm
             var pdfInMM=210;  // width of A4 in mm
 
-
+            doc.setFontStyle("bold");
             doc.text('Syarat dan Kondisi Penawaran : ', 25, finalY+20);
+            doc.setFontStyle("light");
             var termsSplit = termsCondition.split("-")
-            for (let i = 0; i< termsSplit.length-1; i++){
-                var service = termsSplit[i+1]
+            var newY = finalY+20
+            for (let i = 0; i < termsSplit.length-1; i++){
+                var service = '-' + termsSplit[i+1]
                 var lines = doc.splitTextToSize(service, (pdfInMM-lMargin-rMargin));
                 console.log(lines)
-
-                // var hehe = "Apple's iPhone 7 is officially upon us. After a week of pre-orders, the latest in the iPhone lineup officially launches today.\n\nEager Apple fans will be lining up out the door at Apple and carrier stores around the country to grab up the iPhone 7 and iPhone 7 Plus, while Android owners look on bemusedly.\n\nDuring the Apple Event last week, the tech giant revealed a number of big, positive changes coming to the iPhone 7. It's thinner. The camera is better. And, perhaps best of all, the iPhone 7 is finally water resistant.\n\nStill, while there may be plenty to like about the new iPhone, there's plenty more that's left us disappointed. Enough, at least, to make smartphone shoppers consider waiting until 2017, when Apple is reportedly going to let loose on all cylinders with an all-glass chassis design.";
-                // var news = doc.splitTextToSize(hehe, (pdfInMM-lMargin-rMargin));
-
-                // console.log(news)
+                newY = finalY + 25 + i*5
                 
-                doc.text(lines, 25,finalY + 25 + i*5);
-                // doc.text('- ' + termsSplit[i+1], 25, finalY + 25 + i*5);
+                doc.text(lines, 25, newY);
+                
             }
+            newY +=10;
 
-            doc.save("sample.pdf");
+            
+            
+            doc.text('Demikian penawaran harga yang kami sampaikan dan kami tunggu kabar selanjutnya dari Bapak/Ibu.', 25, newY+10);
+            doc.text('Terima kasih atas perhatiannya.', 25, newY+15);
+
+            doc.text('Best Regards,', 25, newY+25);
+            doc.addPage()
+
+            doc.text(createdBy, 25, newY+35);
+            doc.line(25, newY+60, 210, newY+60);
+
+            doc.setFontSize(8);
+
+            doc.setFontStyle("bold");
+            doc.text("Office & Workshop: ", 140,newY+65)
+
+            doc.setFontStyle("light");
+            doc.text("Jl. Raya Puspitek-Parung Km. 7, Taman Sari Bukit Damai", 140, newY+70)
+            doc.text("Pedurenan Gunung Sindur, Bogor 16340", 140, newY+75)
+            doc.text("Phone : 0251 861.7096",140, newY+80)
+            doc.text("Fax : 0251 861.7097",140, newY+85)
+            
+
+            doc.save(noQuotation + ".pdf");
 
             this.$refs['modal-download'].show();
 
