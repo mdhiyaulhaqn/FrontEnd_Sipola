@@ -103,7 +103,7 @@ export default {
     },
     getDetail: function(){    
             axios.get('http://localhost:8080/api/pengeluaran/' +this.$route.params.id)
-            .then(res => {this.pengeluaran = res.data})
+            .then(res => {this.pengeluaran = res.data.result})
             .catch(err => this.pengeluaran = err.data);
     },
     formatTanggal() {
