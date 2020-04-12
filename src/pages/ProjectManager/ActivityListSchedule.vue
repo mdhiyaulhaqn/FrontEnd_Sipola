@@ -210,9 +210,4 @@ export default {
 .table{
   font-size: 10px;
 }
-p{
-  font-size: 8px;
-  max-width: 5px;
-  word-wrap: break-word;
-}
 </style>
