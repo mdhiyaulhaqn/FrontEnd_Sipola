@@ -1,11 +1,9 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
-      <span>
       <a class="navbar-brand" href="javascript:history.go(-1)">
-        <i class="ti-angle-double-left"></i>
+        <img src="@/assets/img/back-icon.png" alt="" width="30px">
       </a>
-      </span>
 
       <button class="navbar-toggler navbar-burger"
               type="button"
