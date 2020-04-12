@@ -4,8 +4,8 @@
     <span class = "col-md-6 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none">
         <label>Scope of Works</label>
     </span>
-    
-    <div class = "col-md-6 col-sm-8 col-xs-8 col-7">        
+
+    <div class = "col-md-6 col-sm-8 col-xs-8 col-7">
         <b-form-input
             id="nama"
             v-model="service.nama"
@@ -75,3 +75,4 @@ export default {
 }
 
 </style>
+
