@@ -1,6 +1,11 @@
 <template>
   <div class="row">
     <div class="col-12">
+      <b-breadcrumb id="breadcrumb">
+        <b-breadcrumb-item active>
+          Activity List Schedule
+        </b-breadcrumb-item>
+      </b-breadcrumb>
       <h3 class="judul"><strong>Activity List Schedule</strong></h3>
       <card>
         <b-container fluid>
@@ -172,7 +177,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 #add_activity_button{
   background-color: #109CF1;
   color:white;
@@ -195,5 +200,12 @@ export default {
   text-align: center;
   color: black;
   margin: 5px 0 24px 0;
+}
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
 }
 </style>
