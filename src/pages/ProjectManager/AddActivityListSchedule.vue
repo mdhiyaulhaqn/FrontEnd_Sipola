@@ -1,5 +1,14 @@
 <template>
-  <div>
+  <div class="row">
+    <div class="col-12">
+    <b-breadcrumb id="breadcrumb">
+      <b-breadcrumb-item :to="{name: 'activity-list-schedule'}">
+        Activity List Schedule
+      </b-breadcrumb-item>
+      <b-breadcrumb-item active>
+        Add Activity List Schedule
+      </b-breadcrumb-item>
+    </b-breadcrumb>
     <h3 class="judul"><strong>Add Activity List Schedule</strong></h3>
     <div class = "row">
         <div class="col-10 isi-form">
@@ -113,6 +122,7 @@
     <b-modal title="Daftar Tugas Gagal Tersimpan" v-model="failedModal" centered ok-only>
         Daftar tugas gagal dibuat.
     </b-modal>
+    </div>
   </div>
 </template>
 
@@ -270,5 +280,12 @@ export default {
 }
 h5{
   margin-bottom: -4px;
+}
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
 }
 </style>
