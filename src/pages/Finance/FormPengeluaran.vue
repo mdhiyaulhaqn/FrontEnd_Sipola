@@ -59,7 +59,7 @@
                 <router-link to="/expense">
                     <b-button class = "cancel-button" type="reset">Cancel</b-button>
                 </router-link>
-                <b-button class = "add-pengeluaran-button" type="submit" v-b-modal.modal-success>Save</b-button>
+                <b-button class = "add-pengeluaran-button" type="submit">Save</b-button>
 
                 </div>
                 
@@ -68,7 +68,13 @@
         </div>
     </div>
 
-    <b-modal id="modal-success" ref="modal-success" hide-footer centered title="Success!">
+    <b-modal id="modal-success" v-model="successModal" hide-footer centered>
+        <template v-slot:modal-title>
+        <div class="container">
+          <h5 id="modal-title-success">Success!</h5>
+        </div>
+        </template>
+        <template v-slot:default>
             <div class = "container">
                 <div class = "info">
                 <b-row>
@@ -76,7 +82,7 @@
                         <img src="@/assets/img/success-icon.png" alt="" width="60px">
                     </b-col>
                     <b-col cols="9">
-                        {{this.newPengeluaran.nama}} expense was successfully added.
+                        <p id="modal-success">{{newPengeluaran.nama}} expense was successfully added.</p>
                     </b-col>
                 </b-row>
                 </div>
@@ -86,7 +92,12 @@
                     </b-button>
                 </b-row>
             </div>
+        </template>
         </b-modal>
+
+    <b-modal title="Pengeluaran Gagal Tersimpan" v-model="failedModal" centered ok-only>
+        .
+    </b-modal>
   </div>
 </template>
 
@@ -109,8 +120,8 @@ import axios from 'axios';
                 paidBy : null
             },
 
-            
-            
+            successModal : false,
+            failedModal : false,
             show: true
         }
     },
@@ -127,10 +138,18 @@ import axios from 'axios';
                 status: "Active"
             })
             .then((response) => {
-                console.log("Object : " + response.data.id)
-                this.newPengeluaran.id = response.data.id
-                console.log(" ID 1 : " + this.newPengeluaran.id)
+                this.newPengeluaran.id = response.data.result.id
+                console.log(response.data.status)
+                this.showMessage(response.data.status)
             })
+        },
+        showMessage(status){
+            if(status == 200){
+                this.successModal = true;
+            }
+            else{
+                this.failedModal = true;
+            }
         },
         onReset(evt) {
             evt.preventDefault()
@@ -214,5 +233,13 @@ import axios from 'axios';
     color: #109CF1;
     border-color: #109CF1;
     border-width: 1px;
+}
+
+#modal-title-success{
+  color: #109CF1;
+  font-weight: 1000;
+}
+#modal-message{
+  font-size: 16px;
 }
 </style>

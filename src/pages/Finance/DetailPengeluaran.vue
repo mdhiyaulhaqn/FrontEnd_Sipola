@@ -74,6 +74,44 @@
         
             </div>
         </b-modal>
+        <b-modal
+            id="modal-success"
+            ref="modal-success"
+            hide-footer
+            centered
+            v-model="successModal"
+            @ok="redirect()"
+            >
+            <template v-slot:modal-title>
+                <div class="container">
+                <h5 id="modal-title-success">Success!</h5>
+                </div>
+            </template>
+            <template v-slot:default>
+                <div class="container">
+                <b-row>
+                    <b-col class="modal-icon col-2">
+                    <img src="@/assets/img/success-icon.png" alt="" width="50px">
+                    </b-col>
+                    <b-col class="col-10">
+                    <p id="modal-message">{{pengeluaran.nama}} was successfully deleted from expense list.</p>
+                    </b-col>
+                </b-row>
+                </div>
+                <b-row class="button-detail-group">
+                    <b-button @click="redirect()" id="ok-button" variant="outline-primary">
+                        OK
+                    </b-button>
+                </b-row>
+            </template>
+            <!-- <template v-slot:modal-footer="{ ok }">
+                <b-col class="button-confirm-group">
+                <b-button @click="ok()" id="ok-button" variant="outline-primary">
+                    OK
+                </b-button>
+                </b-col>
+            </template> -->
+        </b-modal>
 
     </div>
     
@@ -90,7 +128,8 @@ export default {
       pengeluaran : {
           nama: '',
           tanggal : ''
-      }
+      },
+      successModal: false,
     };
   },
   beforeMount(){
@@ -116,14 +155,29 @@ export default {
         // console.log("FORMAT : " + moment(this.pengeluaran.tanggal)).format('MM/DD/YYYY hh:mm')
         // this.pengeluaran.tanggal = moment(this.pengeluaran.tanggal).format('MM/DD/YYYY hh:mm')
     },
+    showMessage(status){
+            if(status == 200){
+                this.successModal = true;
+            }
+            else{
+                this.failedModal = true;
+            }
+        },
     deletePengeluaran(){
         axios.put('http://localhost:8080/api/pengeluaran/' + this.$route.params.id + '/delete', this.pengeluaran)
-        .then(res => {this.showMessage(res.data.status)});
+        .then(res => {
+            this.showMessage(res.data.status)
+            console.log(res.data.status)
+            this.hideModal()
+        });
+        
     },
     editPage(){
-        console.log("MASUK EDIT")
         this.$router.replace(name= this.pengeluaran.id + '/update')
-    }
+    },
+    redirect(){
+        this.$router.push({ name: 'expense'});
+    },
         
   }
 };
@@ -227,9 +281,25 @@ button{
     /* margin-top: 40px; */
 }
 
-/* @media (max-width: 684px) { 
-    .detail-label{
-        text-align: right;
-    }
- } */
+.button-detail-group{
+    float:right;
+    margin-top: 50px;
+    margin-right: 10px;
+}
+
+#modal-title-success{
+  color: #109CF1;
+  font-weight: 1000;
+}
+#modal-message{
+  font-size: 16px;
+}
+
+#ok-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  border-width: 1px;
+  background-color: white;
+}
+
 </style>
