@@ -53,6 +53,28 @@
                     <label>Attachment</label>
                     </b-col>
                 </b-row>
+
+                <b-row> 
+                    <b-col>
+                        <b-form-group>
+                        <div class="dropzone">
+                        <input type="file" class="input-file" ref="files"
+                        @change="selectFile" multiple/>
+                        <p v-if="!uploading && !isAnyImage" class="call-to-action"><i class='far fa-arrow-alt-circle-up' style='font-size:36px'></i> 
+                        Drag and drop your files here or <label for="file">
+                            <button class="buttonFile"><i class='far fa-arrow-alt-circle-up'></i> Select</button></label></p>
+                        
+                        <p v-if="uploading" class="progressbar"></p>
+                        <div class="box-image" v-if="isAnyImage">
+                            <div class="per-item" >
+                                <img v-bind:key="file" v-for="file in reimbursement.listAttachment" :src="'data:image/jpeg;base64, ' + file.image" alt="Image" class="image-preview">
+                                <!-- <p v-bind:key="file" v-for="file in previewFile">{{file.name}}</p> -->
+                            </div>
+                        </div>
+                        </div>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
                 
                 <div class = "button-group">
                     <b-button class = "cancel-button" type="reset">Cancel</b-button>
@@ -153,9 +175,27 @@ export default {
             }
         },
 
+        fetchData : function(){
+            let listExpense = this.reimbursement.listExpense;
+            for(let i=0; i< listExpense.length ; i++){
+                this.new_expense.id_expense++;
+                this.new_expense.nama = listExpense[i].nama;
+                this.new_expense.nominal = listExpense[i].nominal;
+                this.new_expense.tanggal = listExpense[i].tanggal.substring(0,10);
+
+                let expense = Object.assign({}, this.new_expense);
+                this.expenses.push(expense);
+
+                this.new_expense.nama = '';
+                this.new_expense.nominal = '';
+                this.new_expense.tanggal = '';
+                this.new_expense.reimbursement = '';
+            }
+        },
+
         getDetail: function(){    
             axios.get('http://localhost:8080/api/reimbursement/detail/' +this.$route.params.id)
-            .then(res => {this.reimbursement = res.data, this.expenses = res.data.listExpense})
+            .then(res => {this.reimbursement = res.data, this.fetchData()})
             .catch(err => this.reimbursement = err.data);
         },
 
