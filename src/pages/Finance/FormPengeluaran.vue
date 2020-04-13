@@ -1,5 +1,13 @@
 <template>
   <div>
+    <b-breadcrumb id="breadcrumb">
+      <b-breadcrumb-item :to="{name: 'expense'}">
+        Expense
+      </b-breadcrumb-item>
+      <b-breadcrumb-item active>
+        Add Expense
+      </b-breadcrumb-item>
+    </b-breadcrumb>
     <h3 class="judul"><strong>Add Expense</strong></h3>
     <div class = "row">
         <div class = "col-10 isi-form">
@@ -173,6 +181,13 @@ import axios from 'axios';
 </script>
 
 <style scoped>
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
+}
 
 .add-button{
     width:360px;
