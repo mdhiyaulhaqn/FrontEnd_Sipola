@@ -1,14 +1,14 @@
 <template>
     <div class="row">
+        <b-breadcrumb id="breadcrumb">
+            <b-breadcrumb-item :to="{name: 'expense'}">
+                Expense
+            </b-breadcrumb-item>
+            <b-breadcrumb-item active>
+                Expense Detail
+            </b-breadcrumb-item>
+        </b-breadcrumb>
         <div class = "container">
-            <b-breadcrumb id="breadcrumb">
-                <b-breadcrumb-item :to="{name: 'expense'}">
-                    Expense
-                </b-breadcrumb-item>
-                <b-breadcrumb-item active>
-                    Expense Detail
-                </b-breadcrumb-item>
-            </b-breadcrumb>
             <div class="judul">
                 <strong class="judul">
                     Expense Detail
@@ -19,11 +19,11 @@
                 <div class = "nama-pengeluaran">{{pengeluaran.nama}}</div>
                 <b-row align-h="end">
                     <b-col class="detail-label col-5 col-md-2">Nominal</b-col>
-                    <b-col cols="6" class="detail-text">: {{pengeluaran.nominal}}</b-col>
+                    <b-col cols="6" class="detail-text">: Rp{{formatPrice(pengeluaran.nominal)}}</b-col>
                 </b-row>
                 <b-row align-h="end">
                     <b-col class="detail-label col-5 col-md-2">Date</b-col>
-                    <b-col cols="6" class="detail-text">: {{pengeluaran.tanggal.split("T")[0].split("-").reverse().join('-')}}</b-col>
+                    <b-col cols="6" class="detail-text">: {{pengeluaran.tanggal | moment("ll")}}</b-col>
                 </b-row>
                 <b-row align-h="end">
                     <b-col class="detail-label col-5 col-md-2">Paid by</b-col>
@@ -31,7 +31,7 @@
                 </b-row>
                 <b-row align-h="end">
                     <b-col class="detail-label col-5 col-md-2">Created date</b-col>
-                    <b-col cols="6" class="detail-text">: {{pengeluaran.createdAt.split("T")[0].split("-").reverse().join('-')}}</b-col>
+                    <b-col cols="6" class="detail-text">: {{pengeluaran.createdAt | moment("ll")}}</b-col>
                 </b-row>
                 <b-row align-h="end">
                     <b-col class="detail-label col-5 col-md-2">Created by</b-col>
@@ -186,7 +186,9 @@ export default {
     redirect(){
         this.$router.push({ name: 'expense'});
     },
-        
+    formatPrice(value) {
+        return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    }     
   }
 };
 </script>

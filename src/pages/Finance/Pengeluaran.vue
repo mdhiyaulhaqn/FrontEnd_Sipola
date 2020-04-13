@@ -8,7 +8,7 @@
       </b-breadcrumb>
       <h3 class="judul"><strong>Expense</strong></h3>
       <card>
-        <b-row>
+        <b-row align-h="between" style="margin-top: 12px;">
           <router-link :to="{name: 'add-expense'}">
             <button id ="add_quotation_button" class="btn btn-primary">
               Add Expense
@@ -17,8 +17,7 @@
           </router-link>
           <b-col sm="5" lg="6" class="my-1">
               <b-form-group
-                label="Filter"
-                label-cols-sm="4"
+                label-cols-sm="8"
                 label-align-sm="right"
                 label-size="sm"
                 label-for="filterInput"
@@ -62,8 +61,12 @@
               {{items.indexOf(row.item) + 1}}
             </template>
 
+            <template v-slot:cell(nominal)="row">
+              Rp{{formatPrice(row.item.nominal)}}
+            </template>
+
             <template v-slot:cell(tanggal)="row">
-              {{row.item.tanggal.split("T")[0].split("-").reverse().join('-') }}
+              {{row.item.tanggal | moment("ll")}}
             </template>
 
             <template v-slot:cell(action)="row">
@@ -76,13 +79,11 @@
 
           </b-table>
 
-          <b-row>
-            <b-col sm="5" md="6" class="my-1">
+          <b-row align-h="end">
+            <b-col md="3" class="my-1">
               <b-form-group
-                label="Per page"
-                label-cols-sm="6"
-                label-cols-md="4"
-                label-cols-lg="3"
+                label="Rows per page"
+                label-cols-sm="7"
                 label-align-sm="right"
                 label-size="sm"
                 label-for="perPageSelect"
@@ -96,7 +97,7 @@
                 ></b-form-select>
               </b-form-group>
             </b-col>
-            <b-col sm="7" md="3" class="my-1">
+            <b-col sm="3" md="3" class="my-1">
               <b-pagination
                 v-model="currentPage"
                 :total-rows="totalRows"
@@ -164,6 +165,9 @@ export default {
       axios.get('http://localhost:8080/api/pengeluaran/all')
       .then(response => this.pengeluaranList = response.data.result);
     },
+    formatPrice(value) {
+        return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    }
   },
 };
 
@@ -199,7 +203,8 @@ export default {
   color:white;
   border-color: transparent;
   font-size: 10px;
-  height: 36px;
+  line-height: 10px;
+  width: 80px;
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
 }
 </style>
