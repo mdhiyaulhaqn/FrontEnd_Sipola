@@ -1,6 +1,15 @@
 <template>
     <div class="row">
         <div class = "col-12">
+            <b-breadcrumb id="breadcrumb">
+                <b-breadcrumb-item :to="{name: 'invoice'}">
+                    Invoice List
+                </b-breadcrumb-item>
+                <b-breadcrumb-item active>
+                    Detail Invoice
+                </b-breadcrumb-item>
+            </b-breadcrumb>
+
             <div class="judul">
                 <strong>
                     Detail Invoice
@@ -8,7 +17,7 @@
             </div> 
             
             <card>
-                 <div class="container-fluid">
+            <div class="container-fluid">
                 <b-row>
                     <div class = "company-name">{{ invoice.salesOrder.company.nama }}</div>
                 </b-row>
@@ -24,7 +33,7 @@
                     <div class = "col-md-2 col-6">Due Date</div>
                     <div class = "col-md-2 col-6">: {{ invoice.dueDatePayment.split("T")[0].split("-").reverse().join('-') }}</div>
                 </b-row>
-                  <b-row>
+                <b-row>
                     <div class = "col-md-2 col-6">Purchase Order No</div>
                     <div class = "col-md-6 col-6">: {{ invoice.salesOrder.poNumber }}</div>
                     <div class = "col-md-2 col-6">Created By</div>
@@ -48,7 +57,9 @@
                 </b-row>
                 <br>
                 <b-row>
-                    <div class = "col-lg-6 col-sm-4 col-12"><br>Service</div>
+                    <div class = "col-lg-6 col-sm-4 col-12"><br>
+                        Service List
+                    </div>
                     <div class = "col-lg-6 col-sm-8 col-12">
                          <button  @click="downloadReport" id="download_button" class="btn btn-primary">
                             Download
@@ -63,30 +74,52 @@
                             <div slot="raw-content" class="table-responsive" style="font-size:12px">
                                 <b-table 
                                 :items="invoice.salesOrder.serviceOrder" 
-                                :fields="fields">
-                                 <template v-slot:cell(no)="row">
-                                    {{invoice.salesOrder.service.indexOf(row.item) + 1}}
-                                </template>
+                                :fields="fields"
+                                >
+                                    <template v-slot:cell(No)="row">
+                                        {{invoice.salesOrder.service.indexOf(row.item) + 1}}
+                                    </template>
+                                    <template v-slot:cell(Value(IDR))="row">
+                                        {{row.item.pricePerUnit}} * {{row.item.quantity}}
+                                    </template>
+
+                                    <!-- <template slot="FOOT_Value(IDR)">
+                                        <td>Sub-total: {{invoice.sub_total_price}}</td>
+                                        <br>
+                                        <td>VAT Price: {{invoice.price_vat}}</td>
+                                        <br>
+                                        <td>Grand-total Price: {{invoice.grand_total_price}}</td>
+                                    </template> -->
                                 </b-table>
                                 
-                                <b-row>
-                                    <div class = "col-3"></div>
-                                    <div class = "col-6">Sub-total</div>
-                                    <div class = "col-3">: Sub-total</div>
-                                </b-row>
-                                <b-row>
-                                    <div class = "col-3"></div>
-                                    <div class = "col-6">VAT</div>
-                                    <div class = "col-3">: VATprice</div>
-                                </b-row>
-                                <b-row>
-                                    <div class = "col-3"></div>
-                                    <div class = "col-6" style="bold">Grand total</div>
-                                    <div class = "col-3">: GrandTotal</div>
-                                </b-row>
                             </div>
                         </div>
                     </b-col>
+                </b-row>
+                
+                <b-row align-content="right">
+                    <div class = "col-md-6 col-6">
+                        Sub-total Price
+                    </div>
+                    <div class = "col-md-6 col-6">
+                        : {{this.invoice.sub_total_price}}
+                    </div>
+                </b-row>
+                <b-row align-content="rigt">
+                    <div class = "col-md-6 col-6">
+                        VAT Price
+                    </div>
+                    <div class = "col-md-6 col-6">
+                        : {{this.invoice.price_vat}}
+                    </div>
+                </b-row>
+                <b-row align-content="right">
+                    <div class = "col-md-6 col-6">
+                        Grand-total Price
+                    </div>
+                    <div class = "col-md-6 col-6">
+                        : {{this.invoice.grand_total_price}}
+                    </div>
                 </b-row>
 
                 <b-row>
@@ -103,7 +136,6 @@
                     </div>
                 </b-row>
                  </div>
-
             </card>
         </div>
 
@@ -141,6 +173,22 @@
                 </div>
             </div>
         </b-modal>
+
+        <b-modal id="modal-download" ref="modal-download" hide-footer centered title="Download Invoice">
+			<br>
+            <div class = "container">
+                <div class = "info">
+                <b-row>
+                    <span class="ti-download"></span>The system is downloading invoice no. {{invoice.noInvoice}}<br><br>
+                </b-row>
+                </div>
+                <div class = "ok-bttn">
+                    <b-row>
+                        <b-button id = "edit_button" @click="hideModal" size="md" variant="primary">Ok</b-button>
+                    </b-row>
+                </div>
+            </div>
+        </b-modal>
     </div>
 </template>
 
@@ -148,6 +196,7 @@
 
 
 import axios from 'axios';
+import jsPDF from 'jspdf';
 
 export default {
     data() {
@@ -159,8 +208,12 @@ export default {
                 {key: 'deskripsi', label: 'Description', sortable: true},
                 {key: 'uom', label: 'UOM', sortable: true},
                 {key: 'quantity', label: 'Quantity', sortable: true},
-                {key: 'pricePerUnit', label: 'Unit Price(IDR)', sortable: true},
-                {key: 'total_price', label:  'Value(IDR)', sortable: true},
+                {key: 'pricePerUnit', label: 'Unit Price(IDR)', formatter: value =>{
+                    return value.toLocaleString('id-ID')
+                }},
+                {key: 'total_price', label:  'Value(IDR)', formatter: value => {
+                    return value.toLocaleString('id-ID')
+                }},
             ]
         };
     },
@@ -180,9 +233,21 @@ export default {
 
         },
 
+        computePrice(){
+            var sub_total_price = 0;
+            for (let i = 0; i < this.invoice.salesOrder.serviceOrder.length; i++){
+                this.invoice.salesOrder.serviceOrder[i].id = i+1;
+                this.invoice.salesOrder.serviceOrder[i].total_price = this.invoice.salesOrder.serviceOrder[i].pricePerUnit * this.invoice.salesOrder.serviceOrder[i].quantity;
+                sub_total_price += this.invoice.salesOrder.serviceOrder[i].total_price;
+            }
+            this.invoice.sub_total_price = sub_total_price;
+            this.invoice.price_vat = 0.1 * this.invoice.sub_total_price;
+            this.invoice.grand_total_price = this.invoice.sub_total_price + this.invoice.price_vat;
+        },
+
         getDetail: function(){    
             axios.get('http://localhost:8080/api/invoice/' +this.$route.params.id)
-            .then(res => {this.invoice = res.data})
+            .then(res => {this.invoice = res.data, this.computePrice()})
             .catch(err => this.invoice = err.data);
         },
 
@@ -201,7 +266,13 @@ export default {
 
         hideModal(){
             this.$refs['modal-delete'].hide();
-    },
+        },
+
+        downloadReport:function(){
+            var doc = new jsPDF()
+            doc.save("Invoice.pdf")
+            this.$refs['modal-download'].show();
+        }
   }
 };
 </script>
@@ -268,7 +339,7 @@ body {
     margin-top: 40px;
 }
 
-.tombol_okay{
+.ok-bttn{
     float:right;
 }
 
@@ -336,5 +407,12 @@ button{
     color:white;
     border-color: white;
     border-width: 1px;
+}
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
 }
 </style>

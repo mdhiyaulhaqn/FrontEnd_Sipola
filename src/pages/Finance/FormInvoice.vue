@@ -1,8 +1,24 @@
 <template>
   <div>
+    <b-breadcrumb id="breadcrumb">
+        <b-breadcrumb-item :to="{name: 'invoice'}">
+            Invoice List
+        </b-breadcrumb-item>
+        <b-breadcrumb-item :to="{name: 'sales-order-for-invoice'}">
+            Sales Order List
+        </b-breadcrumb-item>
+        <b-breadcrumb-item :to="{name: 'detail-sales-order-for-invoice'}">
+            Detail Sales Order
+        </b-breadcrumb-item>
+        <b-breadcrumb-item active>
+            Add Invoice
+        </b-breadcrumb-item>
+    </b-breadcrumb>
+
     <h3 class="judul">
         <strong>Add Invoice</strong>
     </h3>
+    
     <div class = "row">
         <div class = "col-10 isi-form">
             <card>
@@ -294,5 +310,11 @@ export default {
 .button-group{
     float: right;
 }
-
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
+}
 </style>
