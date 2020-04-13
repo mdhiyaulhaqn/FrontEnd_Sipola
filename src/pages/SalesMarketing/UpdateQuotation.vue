@@ -1,9 +1,20 @@
 <template>
   <div>
+      <b-breadcrumb id="breadcrumb">
+        <b-breadcrumb-item :to="{name: 'quotation'}">
+          Quotation
+        </b-breadcrumb-item>
+        <b-breadcrumb-item :to="{name: 'detail-quotation'}">
+          Detail Quotation
+        </b-breadcrumb-item>
+        <b-breadcrumb-item active>
+         Update Quotation
+        </b-breadcrumb-item>
+      </b-breadcrumb>
     <h3 class="judul"><strong>Update Quotation</strong></h3>
     <div class = "row">
         <div class = "col-10 isi-form">
-            <card>sss
+            <card>
             <h5 class = "title-form">Update Quotation Form </h5>
             <b-form @submit="onModal" v-if="show">
                 <div class = "row">
@@ -106,14 +117,48 @@
                     <router-link :to="{name: 'detail-quotation', params: {id:quotation.id}}">
                     <b-button class = "cancel-button">Cancel</b-button>
                     </router-link >
-                    <b-button class = "add-quotation-button" type="submit">Update</b-button>
+                    <b-button class = "save-button" type="submit">Update</b-button>
                 </div>
             </b-form>
             </card>
         </div>
     </div>
 
-    <b-modal id="modal-hide" ref="modal-download" v-model="warningModal" hide-footer centered title="Save Changes?" ok-only>
+     <b-modal
+        id="modal-confirmation"
+        centered
+        v-model="warningModal"
+        >
+        <template v-slot:modal-title>
+        <div class="container">
+            <h5 id="modal-title-success">Save Changes?</h5>
+        </div>
+        </template>
+        <template v-slot:default>
+        <div class="container">
+            <b-row>
+            <b-col class="modal-icon col-2">
+                <img src="@/assets/img/update-confirm-icon.png" alt="" width="50px">
+            </b-col>
+            <b-col class="col-10">
+                <p id="modal-message">Quotation no {{quotation.noQuotation}} will be changed soon once you click the save button.</p>
+            </b-col>
+            </b-row>
+        </div>
+        </template>
+        <template v-slot:modal-footer="{ cancel }">
+        <b-col class="button-confirm-group">
+            <b-button @click="cancel()" class="cancel-button">
+            Cancel
+            </b-button>
+            <b-button @click="onSubmit" class="save-button">
+            Save
+            </b-button>
+        </b-col>
+        </template>
+    </b-modal>
+
+    <!-- <b-modal id="modal-hide" ref="modal-download" v-model="warningModal" hide-footer centered title="Save Changes?" ok-only>
         <br>
         <div class = "container">
             <div class = "info">
@@ -129,9 +174,41 @@
             </div>
     
         </div>
+    </b-modal> -->
+
+     <b-modal
+        id="modal-success"
+        centered
+        v-model="successModal"
+        @ok="redirect()"
+        >
+        <template v-slot:modal-title>
+            <div class="container">
+            <h5 id="modal-title-success">Success!</h5>
+            </div>
+        </template>
+        <template v-slot:default>
+            <div class="container">
+            <b-row>
+                <b-col class="modal-icon col-2">
+                <img src="@/assets/img/success-icon.png" alt="" width="50px">
+                </b-col>
+                <b-col class="col-10">
+                <p id="modal-message">Quotation no {{quotation.noQuotation}} was successfully changed.</p>
+                </b-col>
+            </b-row>
+            </div>
+        </template>
+        <template v-slot:modal-footer="{ ok }">
+            <b-col class="button-confirm-group">
+            <b-button @click="ok()" id="ok-button" variant="outline-primary">
+                See Details
+            </b-button>
+            </b-col>
+        </template>
     </b-modal>
 
-    <b-modal title="Success!" v-model="successModal" hide-footer centered>
+    <!-- <b-modal title="Success!" v-model="successModal" hide-footer centered>
          <br>
         <div class = "container">
             <div class = "info">
@@ -147,7 +224,7 @@
     
         </div>
        
-    </b-modal>
+    </b-modal> -->
 
     <b-modal title="Quotation Gagal Tersimpan" v-model="failedModal" centered ok-only>
         Quotation gagal dibuat.
@@ -214,7 +291,7 @@ export default {
         },
 
         onSubmit(evt) {
-            this.$refs['modal-download'].hide();
+            // this.$refs['modal-confirmation'].hide();
 
             evt.preventDefault();
             
@@ -281,87 +358,83 @@ export default {
 </script>
 
 <style scoped>
-.modal-header {
-    border:none;
-    border-bottom: 0 none;
-}
-
-.modal-footer {
-    border:none;
-    border-top: 0 none;
-}
-
 .add-button{
-    width:100%;
-    background-color: white;
-    color : #109cf1;
-    border-color: #109cf1;
+  width: 100%;
+  background-color: white;
+  color : #109cf1;
+  border-color: #109cf1;
+  margin-bottom: 10px;
 }
-
 .judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
+  text-align: center;
+  color: black;
+  margin: 5px 0 24px 0;
+}
+.title-form {
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 .isi-form{
-    margin-left: auto;
-    margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-#cancel_update_button{
-    font-size: 10px;
-    border-color: #109CF1;
-    color:#109CF1;
-    background-color: white;
-    border-width: 1px;
-    margin-right: 10px;
-}
-
-#confirm_update_button{
-    font-size: 10px;
-    background-color: #109CF1;
-    color:white;
-    border-color: white;
-}
-
-.add-quotation-button{
-    border-color: white;
-    background-color: #109CF1;
-    color:white;
+.save-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 10px;
+  margin-left: 10px;
+  line-height: 15px;
+  width: 110px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
 }
 
 .cancel-button{
-    color:#109CF1;
-    border-color:#109CF1;
-    background-color: white;
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 80px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 10px;
 }
 
 .button-group{
-    float:right;
+  margin-top: 30px;
+  text-align: center;
 }
-
-.ti-download{
-    margin-left:10px;
-    margin-right: 10px;
+.label{
+  font-weight: 600;
 }
-
-.button_ok{
-    background-color: #109CF1;
-    color:white;
-    border-color: white;
-    float:right;
-    margin-top: 40px;
+#modal-message{
+  font-size: 16px;
 }
-
-.button_back{
-    background-color: white;
-    color:#109CF1;
-    float:right;
-    margin-top: 40px;
+#modal-title-success{
+  color: #109CF1;
+  font-weight: 1000;
 }
-
-.tombol_okay{
-    float:right;
+#ok-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+}
+.button-confirm-group{
+  text-align: right;
+}
+h5{
+  margin-bottom: -4px;
+}
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
+}
+#termsConditions{
+    height: 180px;
 }
 </style>

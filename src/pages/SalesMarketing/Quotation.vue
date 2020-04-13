@@ -1,6 +1,11 @@
 <template>
     <div class="row">
       <div class="col-12">
+        <b-breadcrumb id="breadcrumb">
+        <b-breadcrumb-item active>
+          Quotation
+        </b-breadcrumb-item>
+      </b-breadcrumb>
         <card>
           <b-row>
            <router-link :to="{name: 'add-quotation'}">
@@ -191,22 +196,10 @@ export default {
       },
   },
 
-  // untuk ngitung price tapi masi belom bisa
-  // test(){
-  //     var hasil = 0;
-  //     for (let i = 0; i < this.quotations.length; i++) {
-  //       for(let j = 0; j < this.quotations[i].service.length; j++){
-  //         hasil += this.quotations[i].service[j].harga;
-  //       }
-  //       this.quotations_total_price.push(hasil);
-  //       hasil = 0;
-  //     }
-  // },
-
   beforeMount(){
       this.getAllQuotation();
-      this.test();
   },
+
   methods:{
       getAllQuotation: function(){
           axios.get('http://localhost:8080/api/quotation/all')
@@ -237,4 +230,12 @@ export default {
 .pagination{
   margin-left:20px;
 }
+#breadcrumb{
+    font-size: 12px;
+    /* text-decoration: underline; */
+    margin: -35px 0 -5px -15px;
+    color: #FF3E1D;
+    background: none;
+}
+
 </style>
