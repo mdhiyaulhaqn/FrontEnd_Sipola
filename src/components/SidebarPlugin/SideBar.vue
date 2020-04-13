@@ -18,8 +18,8 @@
       </div>
       <div class="logo">
         <div class = "user-profile">
-          <h5>Yasmin Moedjoko</h5>
-          <h5>Finance</h5>
+          <h5>I Made Adisurya N</h5>
+          <h5>Sales Marketing</h5>
         </div>
       </div>
 
