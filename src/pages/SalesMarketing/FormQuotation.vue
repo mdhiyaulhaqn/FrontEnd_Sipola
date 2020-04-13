@@ -51,7 +51,7 @@
                         type="text"
                         required
                         placeholder="Company Name"
-                        pattern="[a-zA-Z0-9-]+"
+                        pattern="[a-zA-Z0-9-]++"
                         >
                     </b-form-input>
                 </b-form-group>
@@ -98,16 +98,12 @@
                 </b-row> 
 
                 
+
+                
                 <b-form-group>
                     <label for="termsConditions">Terms and Conditions</label>
-                    <b-form-textarea
-                        id="termsConditions"
-                        v-model="new_quotation.termsCondition"
-                        type="text"
-                        required
-                        placeholder="Terms and Conditions"
-                        >
-                    </b-form-textarea>
+                    <ckeditor :editor="editor"  v-model="new_quotation.termsCondition" :config="editorConfig"></ckeditor>
+                    
                 </b-form-group>
 
                 <div class = "button-group">
@@ -162,6 +158,7 @@
 <script>
 
 import Service from '@/pages/SalesMarketing/Service.vue';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
 
 export default {
@@ -170,6 +167,8 @@ export default {
     },
     data() { 
       return {
+           editor: ClassicEditor,
+           
             services: [],
             id_services : {id:0},
             timestamp:"",
@@ -295,6 +294,10 @@ export default {
 
 <style scoped>
 
+.ck-editor__editable {
+    min-height: 500px;
+}
+
 .add-button{
     width: 100%;
     background-color: white;
@@ -372,7 +375,7 @@ h5{
     background: none;
 }
 #termsConditions{
-    height: 180px;
+    height: 200px;
 }
 
 </style>

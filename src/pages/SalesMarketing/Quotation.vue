@@ -7,52 +7,113 @@
         </b-breadcrumb-item>
       </b-breadcrumb>
         <card>
-          <b-row>
-           <router-link :to="{name: 'add-quotation'}">
-            <button id ="add_quotation_button" class="btn btn-primary">
-              Add Quotation
-              <span class="ti-plus"></span>
-            </button>
-          </router-link>
+          <b-container fluid>
+          <!-- User Interface controls -->
+          <b-row align-h="between" style="margin-top: 12px;">
+            <b-col md="2">
+              <router-link :to="{name: 'add-quotation'}">
+                <b-button id ="add_quotation_button" class="btn btn-primary">
+                  Add Quotation
+                  <span class="ti-plus"></span>
+                </b-button>
+              </router-link>
+            </b-col>
+            <b-col md="10" class="my-1">
+              <b-form-group
+                label-cols-sm="8"
+                label-align-sm="right"
+                label-size="sm"
+                label-for="filterInput"
+                class="mb-0"
+              >
+                <b-input-group size="sm">
+                  <b-form-input
+                    v-model="filter"
+                    type="search"
+                    id="filterInput"
+                    placeholder="No Quotation, Company, Date"
+                  ></b-form-input>
+                  <b-input-group-append>
+                    <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+                  </b-input-group-append>
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+
           </b-row>
 
-          <div slot="raw-content" class="table-responsive">
-            <b-table
-                responsive
-                :items="items"
-                :fields="fields"
-                :per-page="akuntable.perPage"
-                :current-page="akuntable.currentPage"
-                :sort-by.sync="akuntable.sortBy"
-                :sort-desc.sync="akuntable.sortDesc">
+          <!-- Main table element -->
+          <b-table
+            show-empty
+            :small="true"
+            stacked="md"
+            :items="items"
+            :fields="fields"
+            :current-page="currentPage"
+            :per-page="perPage"
+            :filter="filter"
+            :filterIncludedFields="filterOn"
+            :sort-by.sync="sortBy"
+            :sort-desc.sync="sortDesc"
+            :sort-direction="sortDirection"
+            @filtered="onFiltered"
+            :borderless="true"
+            sort-icon-left
+            :sticky-header="true"
+            >
 
-                <template v-slot:cell(id)="row">
-                   {{items.indexOf(row.item) + 1}}
-                </template>
+            <template v-slot:cell(id)="row">
+                {{items.indexOf(row.item) + 1}}
+            </template>
 
-                <template v-slot:cell(date)="row">
-                    {{row.item.date.split("T")[0].split("-").reverse().join('-') }}
-                </template>
-<!--
-                 <template v-slot:cell(total_price) = "row">
-                    {{row.item.service[1].harga}}
-                </template> -->
+            <template v-slot:cell(date)="row">
+                {{row.item.date.split("T")[0].split("-").join('-') | moment("ll") }}
+            </template>
 
-                <template v-slot:cell(Lihat)="row">
-                    <router-link :to="{name: 'detail-quotation', params: {id:row.item.id}}">
-                        <b-button id ="add_quotation_button">
-                          view
-                        </b-button>
-                    </router-link>
-                </template>
-            </b-table>
+            <template v-slot:cell(total_price) = "row">
+                {{row.item.service[1].harga}}
+            </template>
 
-            <b-pagination class="pagination"
-              v-model="akuntable.currentPage"
-              :total-rows="quotations.length"
-              :per-page="akuntable.perPage"
-              aria-controls="myTable"/>
-          </div>
+            <template v-slot:cell(Lihat)="row">
+              <router-link :to="{name: 'detail-quotation', params: {id:row.item.id}}">
+                <b-button id="view_button" class="btn btn-primary">
+                  View
+                </b-button>
+              </router-link>
+            </template>
+
+          </b-table>
+
+          <b-row align-h="end">
+            <b-col md="3" class="my-1">
+              <b-form-group
+                label="Rows per page:"
+                label-cols-sm="7"
+                label-align-sm="right"
+                label-size="sm"
+                label-for="perPageSelect"
+                class="mb-0"
+              >
+                <b-form-select
+                  v-model="perPage"
+                  id="perPageSelect"
+                  size="sm"
+                  :options="pageOptions"
+                ></b-form-select>
+              </b-form-group>
+            </b-col>
+            <b-col md="3" class="my-1">
+              <b-pagination
+                v-model="currentPage"
+                :total-rows="totalRows"
+                :per-page="perPage"
+                align="fill"
+                size="sm"
+                class="my-0"
+              ></b-pagination>
+            </b-col>
+          </b-row>
+        </b-container>
         </card>
       </div>
 
@@ -63,137 +124,46 @@
 import axios from 'axios';
 import DataTable from 'v-data-table'
 
-// const tableColumns = ["No", "Quotation No", "Company Name", "Total Works", "Total Price", "Date", "Action"];
-// const tableColumns = [
-//             {
-//               label: 'No',
-//               field: 'no',
-//               sort: 'asc'
-//             },
-//             {
-//               label: 'Quotation No',
-//               field: 'quotation no',
-//               sort: 'asc'
-//             },
-//             {
-//               label: 'Company Name',
-//               field: 'company name',
-//               sort: 'asc'
-//             },
-//             {
-//               label: 'Total Works',
-//               field: 'total works',
-//               sort: 'asc'
-//             },
-//             {
-//               label: 'Total Price',
-//               field: 'total price',
-//               sort: 'asc'
-//             },
-//             {
-//               label: 'Date',
-//               field: 'date',
-//               sort: 'asc'
-//             },
-//             {
-//               label: 'Action',
-//               field: 'action',
-//               sort: 'asc'
-//             },
-//           ];
-
-// const tableData = [
-//   {
-//     no: 1,
-//     'quotation no': "QS 14/12/094",
-//     'company name': "PT PLN Indonesia",
-//     'total works' : '2',
-//     'total price' : '40000000',
-//     'date' : '24 Februari 2020',
-//     'action' : 'view',
-//   },
-//   {
-//      no: 2,
-//     'quotation no': "QS 18/39/217",
-//     'company name': "PT Boveri Indonesia",
-//     'total works' : '3',
-//     'total price' : '30000000',
-//     'date' : '30 Agustus 2020',
-//     'action' : 'view',
-//   },
-//   {
-//      no: 3,
-//     'quotation no': "QS 39/19/772",
-//     'company name': "PT SixAB Tehnik Industri",
-//     'total works' : '7',
-//     'total price' : '28000000',
-//     'date' : '10 Februari 2020',
-//     'action' : 'view',
-//   },
-//   {
-//      no: 4,
-//     'quotation no': "QS 34/14/094",
-//     'company name': "PT Sejahtera Makmur",
-//     'total works' : '4',
-//     'total price' : '90000000',
-//     'date' : '24 Maret 2020',
-//     'action' : 'view',
-//   },
-//   {
-//      no: 5,
-//     'quotation no': "QS 14/32/004",
-//     'company name': "PT PLN Indonesia",
-//     'total works' : '5',
-//     'total price' : '13200000',
-//     'date' : '15 Desember 2020',
-//     'action' : 'view',
-//   }
-// ];
-
 export default {
-  // data() {
-  //   return {
-  //     quotations :[],
-  //     table1: {
-  //       title: "Quotation List",
-  //       subTitle: "",
-  //       columns: [...tableColumns],
-  //       data: [...tableData]
-  //     },
-  //   };
-  // },
+
   data() {
     return {
-      akuntable : {
-          currentPage : 1,
-          perPage : 5,
-          sortDesc : false,
-      },
-
-      fields: [
+        fields: [
           {key: 'id', label: 'Id', sortable: true},
           {key: 'noQuotation', label: 'No Quotation', sortable: true},
           {key: 'company.nama', label: 'Company Nama', sortable:true},
           {key: 'service.length', label: 'Total Works', sortable:true},
-          // 'total_price',
+          {key: 'total_harga_semua', label: 'Total Price', sortable:true},
           {key: 'date', label: 'Date', sortable:true},
           'Lihat'
-      ],
-      quotations :[],
-      quotations_total_price : [],
-      keyword :'',
-      // table1: {
-      //   title: "Quotation List",
-      //   subTitle: "",
-      //   columns: [...tableColumns],
-      //   rows: [...tableData]
-      // }
+        ],
+        quotations :[],
+        quotations_total_price : [],
+
+        totalRows: 1,
+        currentPage: 1,
+        perPage: 5,
+        pageOptions: [5, 10, 25, 50, 100],
+        sortBy: '',
+        sortDesc: false,
+        sortDirection: 'asc',
+        filter: null,
+        filterOn: [],
     }
   },
-   computed: {
-      items() {
-          return this.quotations;
-      },
+  computed: {
+    sortOptions() {
+      // Create an options list from our fields
+      return this.fields
+        .filter(f => f.sortable)
+        .map(f => {
+          return { text: f.label, value: f.key }
+        })
+    },
+    items() {
+      this.totalRows = this.quotations.length;
+      return this.quotations;
+    }
   },
 
   beforeMount(){
@@ -203,23 +173,49 @@ export default {
   methods:{
       getAllQuotation: function(){
           axios.get('http://localhost:8080/api/quotation/all')
-          .then(result => this.quotations = result.data.result);
-          console.log(this.quotations);
+          .then(result => {this.quotations = result.data.result, this.getPriceData()});
       },
-      clear(){
-          this.keyword = '';
+      onFiltered(filteredItems) {
+        // Trigger pagination to update the number of buttons/pages due to filtering
+        this.totalRows = filteredItems.length
+        this.currentPage = 1
       },
-  }
+      
+      getPriceData(){
+
+          for(let i = 0 ; i < this.quotations.length ; i++){
+            var total_harga_semua = 0;
+            for (let j = 0; j < this.quotations[i].service.length ; j++) {
+                this.quotations[i].service[j].total_harga = this.quotations[i].service[j].harga * this.quotations[i].service[j].quantity;
+                total_harga_semua +=  this.quotations[i].service[j].total_harga;
+            }
+            this.quotations[i].total_harga_semua = 'Rp ' + total_harga_semua.toLocaleString('de-DE') + ',00';
+          }
+      },
+    }
 };
 </script>
 <style>
+.table{
+  font-size: 12px;
+}
+#view_button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 10px;
+  line-height: 10px;
+  width: 80px;
+  box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
+}
 #add_quotation_button{
   background-color: #109CF1;
   color:white;
   border-color: transparent;
   font-size: 10px;
+  width: 136px;
+  height: 36px;
   margin-bottom: 4px;
-  margin-left:20px;
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
 }
 .judul{

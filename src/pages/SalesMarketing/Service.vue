@@ -12,7 +12,7 @@
             type="text"
             required
             placeholder="Scope Name"
-            pattern="[a-zA-Z0-9-]+"
+            pattern="[a-zA-Z0-9-]++"
             >
         </b-form-input>
     </div>
@@ -41,6 +41,7 @@
             type="number"
             required
             placeholder="0"
+            lang="de-DE"
             >
         </b-form-input>
     </div>

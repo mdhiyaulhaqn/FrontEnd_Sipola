@@ -70,7 +70,7 @@
 
                 <b-row>
                     <div class = "col-12"><br>Terms and Condition</div>
-                    <div class = "col-12">{{quotation.termsCondition}}
+                    <div class = "col-12" id="terms-condition" v-html=quotation.termsCondition>
                     </div>
                 </b-row>
                 <b-row>
@@ -374,7 +374,7 @@ export default {
             ]
 
             doc.autoTable(columns, service, {
-                startY:startY+90,
+                startY:startY+88,
                 margin:25,  
                 headStyles: {
                     fillColor: [218,37,28],  
@@ -402,36 +402,49 @@ export default {
             var termsSplit = termsCondition.split("-")
             var newY = finalY+20
 
-            if(termsSplit.length == 1 ){
-                doc.text(termsCondition, startX, newY+5);
-            }
-            else{
-                var lMargin=20; //left margin in mm
-                var rMargin=20; //right margin in mm
-                var pdfInMM=210; // width of A4 in mm
 
-                for (let i = 0; i < termsSplit.length-1; i++){
-                    var service = '-' + termsSplit[i+1]
-                    var lines = doc.splitTextToSize(service, (pdfInMM-lMargin-rMargin));
-                    newY = finalY + 25 + i*5
+            var lMargin=20; //left margin in mm
+            var rMargin=20; //right margin in mm
+            var pdfInMM=210; // width of A4 in mm
+
+            // var lines = doc.splitTextoSize(termsCondition, (pdfInMM-lMargin-rMargin));
+
+            doc.fromHTML(termsCondition, startX, newY, {
+                pagesplit: true,
+                'width':165
+            });
+
+            // doc.text(source, startX, newY+5);
+
+            // if(termsSplit.length == 1 ){
+            //     doc.text(termsCondition, startX, newY+5);
+            // }
+            // else{
+            //     var lMargin=20; //left margin in mm
+            //     var rMargin=20; //right margin in mm
+            //     var pdfInMM=210; // width of A4 in mm
+
+            //     for (let i = 0; i < termsSplit.length-1; i++){
+            //         var service = '-' + termsSplit[i+1]
+            //         var lines = doc.splitTextToSize(service, (pdfInMM-lMargin-rMargin));
+            //         newY = finalY + 25 + i*5
                     
-                    doc.text(lines, startX, newY);
+            //         doc.text(lines, startX, newY);
                     
-                }
-            }
-            newY +=10;
+            //     }
+            // }
             
-            doc.text('Demikian penawaran harga yang kami sampaikan dan kami tunggu kabar selanjutnya dari Bapak/Ibu.', startX, newY+10);
-            doc.text('Terima kasih atas perhatiannya.', startX, newY+15);
-
-            doc.text('Best Regards,', startX, newY+25);
-
-            doc.text(createdBy, startX, newY+38);
-            doc.setDrawColor(0, 0, 0);
-           
-
             //FOOTER
             var footerY = doc.internal.pageSize.height-5
+
+            doc.text('Demikian penawaran harga yang kami sampaikan dan kami tunggu kabar selanjutnya dari Bapak/Ibu.', startX, footerY-68);
+            doc.text('Terima kasih atas perhatiannya.', startX, footerY-63);
+
+            doc.text('Best Regards,', startX, footerY-53);
+
+            doc.text(createdBy, startX, footerY-40);
+            doc.setDrawColor(0, 0, 0);
+           
 
             doc.line(startX, footerY-35, startX+170, footerY-35);
             
@@ -456,7 +469,7 @@ export default {
             doc.text("Fax : 0251 861.7097",130, footerY-10)
 
 
-            doc.save(noQuotation + ".pdf");
+            doc.save('('+noQuotation + ') ' + companyName + ".pdf");
 
             this.$refs['modal-download'].show();
 
