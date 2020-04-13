@@ -79,7 +79,13 @@
         </div>
     </div>
 
-    <b-modal id="modal-confirm" v-model="confirmationModal" hide-footer centered title="Update Expense">
+    <b-modal id="modal-confirm" v-model="confirmationModal" hide-footer centered>
+        <template v-slot:modal-title>
+                <div class="container">
+                    <h5 id="modal-title-success">Update Expense</h5>
+                </div>
+        </template>
+        <template v-slot:default>
             <div class = "container">
                 <div class = "info">
                 <b-row>
@@ -102,25 +108,33 @@
                     </b-col>
                 </b-row>
             </div>
+        </template>
         </b-modal>
         <b-modal id="modal-success" v-model="successModal" hide-footer centered title="Success!">
-            <div class = "container">
-                <div class = "info">
-                <b-row>
-                    <b-col cols="3" class="modal-icon">
-                        <img src="@/assets/img/success-icon.png" alt="" width="60px">
-                    </b-col>
-                    <b-col cols="9">
-                        <p id="modal-message"> {{this.pengeluaran.nama}} expense was successfully updated. </p>
-                    </b-col>
-                </b-row>
+            <template v-slot:modal-title>
+                <div class="container">
+                    <h5 id="modal-title-success">Success!</h5>
                 </div>
-                <b-row class="button-detail-group">
-                    <b-button @click="toDetailPage" id ="button-see-detail" variant="outline-primary">
-                        See Details
-                    </b-button>
-                </b-row>
-            </div>
+            </template>
+            <template v-slot:default>
+                <div class = "container">
+                    <div class = "info">
+                    <b-row>
+                        <b-col cols="3" class="modal-icon">
+                            <img src="@/assets/img/success-icon.png" alt="" width="60px">
+                        </b-col>
+                        <b-col cols="9">
+                            <p id="modal-message"> {{pengeluaran.nama}} expense was successfully updated. </p>
+                        </b-col>
+                    </b-row>
+                    </div>
+                    <b-row class="button-detail-group">
+                        <b-button @click="toDetailPage" id ="button-see-detail" variant="outline-primary">
+                            See Details
+                        </b-button>
+                    </b-row>
+                </div>
+            </template>
         </b-modal>
   </div>
 </template>
@@ -277,7 +291,9 @@ import axios from 'axios';
 #modal-title-success{
   color: #109CF1;
   font-weight: 1000;
+  margin-bottom: -4px;
 }
+
 #modal-message{
   font-size: 16px;
 }

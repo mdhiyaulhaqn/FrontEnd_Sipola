@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div>
         <b-breadcrumb id="breadcrumb">
             <b-breadcrumb-item :to="{name: 'expense'}">
                 Expense
@@ -48,11 +48,16 @@
                         </button>
                     </b-col>
                 </b-row>
-
             </card>
         </div>
 
-         <b-modal id="modal-delete" ref="modal-delete" hide-footer centered title="Delete Expense">
+         <b-modal id="modal-delete" ref="modal-delete" hide-footer centered>
+            <template v-slot:modal-title>
+                <div class="container">
+                    <h5 id="modal-title-delete-confirm">Delete Expense</h5>
+                </div>
+            </template>
+            <template v-slot:default>
             <div class = "container">
                 <div class = "info">
                 <b-row>
@@ -74,13 +79,8 @@
                         </b-button>
                     </b-col>
                 </b-row>
-                <!-- <div class = "tombol_okay">
-                    <b-row>
-                        <b-button class = "button_back" @click="hideModal" size="md" variant="primary">Okay</b-button>
-                    </b-row>
-                </div> -->
-        
             </div>
+        </template>
         </b-modal>
         <b-modal
             id="modal-success"
@@ -251,6 +251,7 @@ button{
     background-color: #ff3e1d;
     color:white;
     border-color: white;
+    line-height: 15px;
 }
 #edit_button{
     font-size: 10px;
@@ -258,6 +259,7 @@ button{
     background-color: #109CF1;
     color:white;
     border-color: white;
+    line-height: 15px;
 }
 
 .ti-trash{
@@ -305,9 +307,16 @@ button{
     margin-right: 10px;
 }
 
+#modal-title-delete-confirm{
+  color: #FF3E1D;
+  font-weight: 1000;
+  margin-bottom: -4px;
+}
+
 #modal-title-success{
   color: #109CF1;
   font-weight: 1000;
+  margin-bottom: -4px;
 }
 #modal-message{
   font-size: 16px;
