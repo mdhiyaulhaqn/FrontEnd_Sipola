@@ -8,49 +8,58 @@
             </div> 
             
             <card>
+                 <div class="container-fluid">
                 <b-row>
                     <div class = "company-name">{{ invoice.salesOrder.company.nama }}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-2">Invoice No</div>
-                    <div class = "col-6">: {{ invoice.noInvoice }}</div>
-                    <div class = "col-2">Sales Order No</div>
-                    <div class = "col-2">: {{ invoice.salesOrder.noSalesOrder }}</div>
+                    <div class = "col-md-2 col-6">Invoice No</div>
+                    <div class = "col-md-6 col-6">: {{ invoice.noInvoice }}</div>
+                    <div class = "col-md-2 col-6">Sales Order No</div>
+                    <div class = "col-md-2 col-6">: {{ invoice.salesOrder.noSalesOrder }}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-2">Invoice Date</div>
-                    <div class = "col-6">: {{ invoice.dateInvoice.split("T")[0].split("-").reverse().join('-') }}</div>
-                    <div class = "col-2">Due Date</div>
-                    <div class = "col-2">: {{ invoice.dueDate.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-md-2 col-6">Invoice Date</div>
+                    <div class = "col-md-6 col-6">: {{ invoice.dateInvoice.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-md-2 col-6">Due Date</div>
+                    <div class = "col-md-2 col-6">: {{ invoice.dueDatePayment.split("T")[0].split("-").reverse().join('-') }}</div>
                 </b-row>
                   <b-row>
-                    <div class = "col-2">Purchase Order No</div>
-                    <div class = "col-6">: {{ invoice.noPurchaseOrder }}</div>
-                    <div class = "col-2">Created By</div>
-                    <div class = "col-2">: {{ invoice.createdBy }}</div>
+                    <div class = "col-md-2 col-6">Purchase Order No</div>
+                    <div class = "col-md-6 col-6">: {{ invoice.salesOrder.poNumber }}</div>
+                    <div class = "col-md-2 col-6">Created By</div>
+                    <div class = "col-md-2 col-6">: {{ invoice.createdBy }}</div>
                 </b-row>
                   <b-row>
-                    <div class = "col-2">Purchase Order Date</div>
-                    <div class = "col-6">: {{ invoice.datePurchaseOrder.split("T")[0].split("-").reverse().join('-') }}</div>
-                    <div class = "col-2">Created At</div>
-                    <div class = "col-2">: {{ invoice.createdAt.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-md-2 col-6">Purchase Order Date</div>
+                    <div class = "col-md-6 col-6">: {{ invoice.salesOrder.poDate.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-md-2 col-6">Created At</div>
+                    <div class = "col-md-2 col-6">: {{ invoice.createdAt.split("T")[0].split("-").reverse().join('-') }}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-2">Address</div>
-                    <div class = "col-6">: {{invoice.company.alamat}}</div>
-                    <div class = "col-2"> Terms Of Delivery
+                    <div class = "col-md-2 col-6">Address</div>
+                    <div class = "col-md-6 col-6">: {{invoice.salesOrder.company.alamat}}</div>
+                    <div class = "col-md-2 col-6"> Terms Of Delivery
                         <br> Payment Terms
                     </div>
-                    <div class = "col-2">: {{invoice.termsOfDelivery}}
+                    <div class = "col-md-2 col-6">: {{invoice.termsOfDelivery}}
                         <br>: {{invoice.paymentTerms}}
                     </div>
                 </b-row>
                 <br>
-                
+                <b-row>
+                    <div class = "col-lg-6 col-sm-4 col-12"><br>Service</div>
+                    <div class = "col-lg-6 col-sm-8 col-12">
+                         <button  @click="downloadReport" id="download_button" class="btn btn-primary">
+                            Download
+                            <span class="ti-download"></span>
+                        </button>
+                    </div>
+                </b-row>
+                <br>
                 <b-row>
                     <b-col >
                         <div class="tabel-service">
-                            Service List
                             <div slot="raw-content" class="table-responsive" style="font-size:12px">
                                 <b-table 
                                 :items="invoice.salesOrder.serviceOrder" 
@@ -93,6 +102,7 @@
                          </router-link>
                     </div>
                 </b-row>
+                 </div>
 
             </card>
         </div>
@@ -161,8 +171,8 @@ export default {
     methods:{
         onSubmit(evt) {
             evt.preventDefault();
-            this.invoice.status = 'Inactive';
             this.deleteInvoice(JSON.stringify(this.invoice));
+            this.hideModal();
         },
         
         showMessage(status){
@@ -176,21 +186,21 @@ export default {
             .catch(err => this.invoice = err.data);
         },
 
-        // deleteInvoice(invoice){
-        //     axios.put('http://localhost:8080/api/invoice/delete-status/' + this.$route.params.id, 
-        //     invoice, 
-        //         { headers: {
-        //             'Content-Type': 'application/json',
-        //         }
-        //     })
-        //     .then(res => {this.showMessage(res.data.status)});
-
+        deleteInvoice(invoice){
+            axios.put('http://localhost:8080/api/invoice/' + this.$route.params.id + '/delete', 
+            invoice, 
+                { headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(res => {this.showMessage(res.data.status)});
+        },
         redirect(){
             this.$router.push({ name: 'invoice'});
         },
 
         hideModal(){
-            this.$refs['modal-download'].hide();
+            this.$refs['modal-delete'].hide();
     },
   }
 };
@@ -224,7 +234,7 @@ body {
     border-color: white;
 }
 
-#modal-download{
+#modal-delete{
     color:black;
 }
 

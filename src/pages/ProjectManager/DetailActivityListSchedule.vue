@@ -1,11 +1,19 @@
 <template>
   <div class="row">
     <div class="col-12">
+      <b-breadcrumb id="breadcrumb">
+        <b-breadcrumb-item :to="{name: 'activity-list-schedule'}">
+          Activity List Schedule
+        </b-breadcrumb-item>
+        <b-breadcrumb-item active>
+          Detail Activity List Schedule
+        </b-breadcrumb-item>
+      </b-breadcrumb>
       <h3 class="judul"><strong>Detail Activity List Schedule</strong></h3>
       <card>
         <b-row>
           <div class="col-sm-12 text-center">
-            <h6 class="col-sm-12">{{activityListSchedule.namaProyek}}</h6>
+            <b class="col-sm-12">{{activityListSchedule.namaProyek}}</b>
             <p class="col-sm-12">{{activityListSchedule.namaPerusahaan}}</p>
           </div>
         </b-row>
@@ -36,36 +44,70 @@
         </b-row>
       </card>
     </div>
-    <b-modal id="modal-delete" ref="modal-delete" hide-footer centered title="Delete Activity List Schedule?" ok-only>
-      <div class="container">
-        <div class = "info">
-        <b-row>
-          <b-col cols="3" class="ti-trash"></b-col>
-          <b-col cols="9">
-              It will be removed from the list.
-          </b-col>
-        </b-row>
+    <b-modal
+      id="modal-delete"
+      ref="modal-delete"
+      centered
+      >
+      <template v-slot:modal-title>
+        <div class="container">
+          <h5 id="modal-title-delete">Delete Activity List Schedule?</h5>
         </div>
-        <b-row>
-          <b-col class="button-confirm-group">
-            <b-button @click="onSubmit" id ="confirm_delete_button" variant="outline-danger">
-                Yes, delete it
-            </b-button>
-            <b-button @click="hideModal" id ="cancel_delete_button" class="btn btn-danger">
-                Cancel
-            </b-button>
-          </b-col>
-        </b-row>
-      </div>
+      </template>
+      <template v-slot:default>
+        <div class="container">
+          <b-row>
+              <b-col class="modal-icon col-2">
+                  <img src="@/assets/img/delete-confirm-icon.png" alt="" width="50px">
+              </b-col>
+              <b-col class="col-10">
+                  <p id="modal-message">It will be removed from the list.</p>
+              </b-col>
+          </b-row>
+        </div>
+      </template>
+      <template v-slot:modal-footer="{ cancel }">
+        <b-col class="button-confirm-group">
+          <b-button @click="onSubmit" id ="confirm_delete_button" variant="outline-danger">
+            Yes, delete it
+          </b-button>
+          <b-button @click="cancel()" id ="cancel_delete_button" class="btn btn-danger">
+            Cancel
+          </b-button>
+        </b-col>
+      </template>
     </b-modal>
-      <b-modal title="Success!" v-model="successModal" @ok="redirect()" centered ok-only>
-        <div class = "container">
-          <div class = "info">
-            <b-row>
-              <span class="ti-success"></span>Activity list schedule for project {{activityListSchedule.namaProyek}} was successfully deleted from list.
-            </b-row>
-          </div>
+    <b-modal
+      id="modal-success"
+      ref="modal-success"
+      centered
+      v-model="successModal"
+      @ok="redirect()"
+      >
+      <template v-slot:modal-title>
+        <div class="container">
+          <h5 id="modal-title-success">Success!</h5>
         </div>
+      </template>
+      <template v-slot:default>
+        <div class="container">
+          <b-row>
+            <b-col class="modal-icon col-2">
+              <img src="@/assets/img/success-icon.png" alt="" width="50px">
+            </b-col>
+            <b-col class="col-10">
+              <p id="modal-message">Activity list schedule for project {{activityListSchedule.namaProyek}} was successfully deleted from list.</p>
+            </b-col>
+          </b-row>
+        </div>
+      </template>
+      <template v-slot:modal-footer="{ ok }">
+        <b-col class="button-confirm-group">
+          <b-button @click="ok()" id="ok-button" variant="outline-primary">
+            OK
+          </b-button>
+        </b-col>
+      </template>
     </b-modal>
   </div>
 </template>
@@ -102,22 +144,19 @@ export default {
           type: 1
       }],
       activityListSchedule: '',
-      successModal: false
+      successModal: false,
+      headerBorderVariant: 'white',
+      footerBorderVariant: 'warning',
     }
   },
-  // computed: {
-  //   items() {
-  //     return this.getDetail;
-  //   }
-  // },
   beforeMount() {
     this.getDetail();
   },
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
-      // this.activityListSchedule.status = 'Inactive';
       this.deleteActivityListSchedule(JSON.stringify(this.activityListSchedule));
+      this.hideModal();
     },
     showMessage(status){
       this.successModal = true;
@@ -138,6 +177,9 @@ export default {
     },
     redirect(){
       this.$router.push({ name: 'activity-list-schedule'});
+    },
+    hideModal(){
+      this.$refs['modal-delete'].hide();
     },
   }
 }
@@ -161,16 +203,17 @@ export default {
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  width: 120px;
+  width: 110px;
   margin-left: 10px;
+  font-size: 10px;
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
 }
 
 #delete-button{
-  background: #FF3E1D;
+  background-color: #FF3E1D;
   border-color: #FF3E1D;
-  border-radius: 5px;
   width: 80px;
+  font-size: 10px;
 }
 
 .button-group{
@@ -190,18 +233,43 @@ p{
 }
 #confirm_delete_button{
   font-size: 10px;
-  width: 130px;
+  width: 110px;
   border-color: #ff3e1d;
   border-width: 1px;
   margin-right: 10px;
 }
-
 #cancel_delete_button{
   font-size: 10px;
   background-color: #ff3e1d;
   color:white;
   border-color: white;
   border-width: 1px;
+}
+h5{
+  margin-bottom: -4px;
+}
+#modal-message{
+  font-size: 16px;
+}
+#modal-title-delete{
+  color:#FF3E1D;
+  font-weight: 1000;
+}
+#modal-title-success{
+  color: #109CF1;
+  font-weight: 1000;
+}
+#ok-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+}
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
 }
 </style>
 
