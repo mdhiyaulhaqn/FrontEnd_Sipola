@@ -1,5 +1,13 @@
 <template>
-    <div class="row">
+    <div>
+        <b-breadcrumb id="breadcrumb">
+            <b-breadcrumb-item :to="{name: 'expense'}">
+                Expense
+            </b-breadcrumb-item>
+            <b-breadcrumb-item active>
+                Expense Detail
+            </b-breadcrumb-item>
+        </b-breadcrumb>
         <div class = "container">
             <div class="judul">
                 <strong class="judul">
@@ -11,11 +19,11 @@
                 <div class = "nama-pengeluaran">{{pengeluaran.nama}}</div>
                 <b-row align-h="end">
                     <b-col class="detail-label col-5 col-md-2">Nominal</b-col>
-                    <b-col cols="6" class="detail-text">: {{pengeluaran.nominal}}</b-col>
+                    <b-col cols="6" class="detail-text">: Rp{{formatPrice(pengeluaran.nominal)}}</b-col>
                 </b-row>
                 <b-row align-h="end">
                     <b-col class="detail-label col-5 col-md-2">Date</b-col>
-                    <b-col cols="6" class="detail-text">: {{pengeluaran.tanggal.split("T")[0].split("-").reverse().join('-')}}</b-col>
+                    <b-col cols="6" class="detail-text">: {{pengeluaran.tanggal | moment("ll")}}</b-col>
                 </b-row>
                 <b-row align-h="end">
                     <b-col class="detail-label col-5 col-md-2">Paid by</b-col>
@@ -23,7 +31,7 @@
                 </b-row>
                 <b-row align-h="end">
                     <b-col class="detail-label col-5 col-md-2">Created date</b-col>
-                    <b-col cols="6" class="detail-text">: {{pengeluaran.createdAt.split("T")[0].split("-").reverse().join('-')}}</b-col>
+                    <b-col cols="6" class="detail-text">: {{pengeluaran.createdAt | moment("ll")}}</b-col>
                 </b-row>
                 <b-row align-h="end">
                     <b-col class="detail-label col-5 col-md-2">Created by</b-col>
@@ -40,11 +48,16 @@
                         </button>
                     </b-col>
                 </b-row>
-
             </card>
         </div>
 
-         <b-modal id="modal-delete" ref="modal-delete" hide-footer centered title="Delete Expense">
+         <b-modal id="modal-delete" ref="modal-delete" hide-footer centered>
+            <template v-slot:modal-title>
+                <div class="container">
+                    <h5 id="modal-title-delete-confirm">Delete Expense</h5>
+                </div>
+            </template>
+            <template v-slot:default>
             <div class = "container">
                 <div class = "info">
                 <b-row>
@@ -66,13 +79,8 @@
                         </b-button>
                     </b-col>
                 </b-row>
-                <!-- <div class = "tombol_okay">
-                    <b-row>
-                        <b-button class = "button_back" @click="hideModal" size="md" variant="primary">Okay</b-button>
-                    </b-row>
-                </div> -->
-        
             </div>
+        </template>
         </b-modal>
         <b-modal
             id="modal-success"
@@ -178,7 +186,9 @@ export default {
     redirect(){
         this.$router.push({ name: 'expense'});
     },
-        
+    formatPrice(value) {
+        return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    }     
   }
 };
 </script>
@@ -191,6 +201,14 @@ body {
 
 .container{
     max-width: 983px;
+}
+
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
 }
 
 .judul{
@@ -233,6 +251,7 @@ button{
     background-color: #ff3e1d;
     color:white;
     border-color: white;
+    line-height: 15px;
 }
 #edit_button{
     font-size: 10px;
@@ -240,6 +259,7 @@ button{
     background-color: #109CF1;
     color:white;
     border-color: white;
+    line-height: 15px;
 }
 
 .ti-trash{
@@ -287,9 +307,16 @@ button{
     margin-right: 10px;
 }
 
+#modal-title-delete-confirm{
+  color: #FF3E1D;
+  font-weight: 1000;
+  margin-bottom: -4px;
+}
+
 #modal-title-success{
   color: #109CF1;
   font-weight: 1000;
+  margin-bottom: -4px;
 }
 #modal-message{
   font-size: 16px;
