@@ -1,5 +1,16 @@
 <template>
   <div>
+        <b-breadcrumb id="breadcrumb">
+            <b-breadcrumb-item :to="{name: 'expense'}">
+                Expense
+            </b-breadcrumb-item>
+            <b-breadcrumb-item :to="{name: 'expense-detail', params: {id:pengeluaran.id}}">
+                Expense Detail
+            </b-breadcrumb-item>
+            <b-breadcrumb-item active>
+                Update Expense
+            </b-breadcrumb-item>
+        </b-breadcrumb>
     <h3 class="judul"><strong>Update Expense</strong></h3>
     <div class = "row">
         <div class = "col-10 isi-form">
@@ -56,7 +67,7 @@
 
                 <div class = "button-group">
 
-                <router-link to="/expense">
+                <router-link :to="{name: 'expense-detail', params: {id:pengeluaran.id}}">
                     <b-button class = "cancel-button" type="reset">Cancel</b-button>
                 </router-link>
                 <b-button class = "update-pengeluaran-button" type="submit">Save</b-button>
@@ -68,7 +79,13 @@
         </div>
     </div>
 
-    <b-modal id="modal-confirm" v-model="confirmationModal" hide-footer centered title="Update Expense">
+    <b-modal id="modal-confirm" v-model="confirmationModal" hide-footer centered>
+        <template v-slot:modal-title>
+                <div class="container">
+                    <h5 id="modal-title-success">Update Expense</h5>
+                </div>
+        </template>
+        <template v-slot:default>
             <div class = "container">
                 <div class = "info">
                 <b-row>
@@ -91,25 +108,33 @@
                     </b-col>
                 </b-row>
             </div>
+        </template>
         </b-modal>
         <b-modal id="modal-success" v-model="successModal" hide-footer centered title="Success!">
-            <div class = "container">
-                <div class = "info">
-                <b-row>
-                    <b-col cols="3" class="modal-icon">
-                        <img src="@/assets/img/success-icon.png" alt="" width="60px">
-                    </b-col>
-                    <b-col cols="9">
-                        <p id="modal-message"> {{this.pengeluaran.nama}} expense was successfully updated. </p>
-                    </b-col>
-                </b-row>
+            <template v-slot:modal-title>
+                <div class="container">
+                    <h5 id="modal-title-success">Success!</h5>
                 </div>
-                <b-row class="button-detail-group">
-                    <b-button @click="toDetailPage" id ="button-see-detail" variant="outline-primary">
-                        See Details
-                    </b-button>
-                </b-row>
-            </div>
+            </template>
+            <template v-slot:default>
+                <div class = "container">
+                    <div class = "info">
+                    <b-row>
+                        <b-col cols="3" class="modal-icon">
+                            <img src="@/assets/img/success-icon.png" alt="" width="60px">
+                        </b-col>
+                        <b-col cols="9">
+                            <p id="modal-message"> {{pengeluaran.nama}} expense was successfully updated. </p>
+                        </b-col>
+                    </b-row>
+                    </div>
+                    <b-row class="button-detail-group">
+                        <b-button @click="toDetailPage" id ="button-see-detail" variant="outline-primary">
+                            See Details
+                        </b-button>
+                    </b-row>
+                </div>
+            </template>
         </b-modal>
   </div>
 </template>
@@ -195,6 +220,13 @@ import axios from 'axios';
 </script>
 
 <style scoped>
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
+}
 
 .add-button{
     width:360px;
@@ -259,7 +291,9 @@ import axios from 'axios';
 #modal-title-success{
   color: #109CF1;
   font-weight: 1000;
+  margin-bottom: -4px;
 }
+
 #modal-message{
   font-size: 16px;
 }
