@@ -1,5 +1,16 @@
 <template>
   <div>
+      <b-breadcrumb id="breadcrumb"> 
+        <b-breadcrumb-item :to="{name: 'reimbursement-report'}">
+            Reimbursement Report
+        </b-breadcrumb-item>
+        <b-breadcrumb-item :to="{name: 'detail-reimbursement'}">
+            Detail Reimbursement Report
+        </b-breadcrumb-item>
+        <b-breadcrumb-item active>
+            Update Reimbursement Report
+        </b-breadcrumb-item>
+    </b-breadcrumb>
     <h3 class="judul"><strong>Update Reimbursement Report</strong></h3>
     <div class = "row">
         <div class = "col-10 isi-form">
@@ -64,12 +75,22 @@
                         Drag and drop your files here or <label for="file">
                             <button class="buttonFile"><i class='far fa-arrow-alt-circle-up'></i> Select</button></label></p>
                         
-                        <p v-if="uploading" class="progressbar"></p>
-                        <div class="box-image" v-if="isAnyImage">
-                            <div class="per-item" >
-                                <img v-bind:key="file" v-for="file in reimbursement.listAttachment" :src="'data:image/jpeg;base64, ' + file.image" alt="Image" class="image-preview">
-                                <!-- <p v-bind:key="file" v-for="file in previewFile">{{file.name}}</p> -->
-                            </div>
+                        <div class="col-3" v-bind:key="file" v-for="(file, index) in attachments" >
+                            <b-card
+                                :img-src="untukPreview+file.image"
+                                img-alt="Image"
+                                img-top
+                                img-width="100px"
+                                img-height="100px"
+                                tag="article"
+                                style="max-width: 200px;"
+                                class="mb-2"
+                            >
+                            <b-card-text>
+                                 {{file.fileName}}   
+                            </b-card-text>
+                            <b-button @click="removeFile(index)"><i class="fas fa-minus-circle" ></i></b-button>
+                            </b-card>
                         </div>
                         </div>
                         </b-form-group>
@@ -106,10 +127,10 @@ export default {
     data() { 
       return {
             expenses: [],
-            file: [],
             id_expense : {id:0},
             timestamp:"",
-            files: '',
+            attachments: [],
+            untukPreview : 'data:image/jpeg;base64, ',
             reimbursement: '',
             newReimbursement : {
                 createdBy : "adi",
@@ -144,7 +165,6 @@ export default {
     },
 
     beforeMount() {
-      this.addRow();
       this.getDetail();
 	},
     
@@ -161,6 +181,10 @@ export default {
 
         onSubmit(evt) {
             evt.preventDefault();
+            console.log(this.attachments);
+            console.log(this.expenses);
+            this.reimbursement.listAttachment = this.attachments;
+            this.reimbursement.listExpense = this.expenses;
             this.updateReimbursement(JSON.stringify(this.reimbursement));
         },
 
@@ -191,6 +215,18 @@ export default {
                 this.new_expense.tanggal = '';
                 this.new_expense.reimbursement = '';
             }
+
+            let listAttachment = this.reimbursement.listAttachment;
+            console.log(this.reimbursement.listAttachment);
+            for(let i=0; i< listAttachment.length ; i++){
+                this.new_attachment.id_attachment++;
+                this.new_attachment.fileName = listAttachment[i].fileName;
+                this.new_attachment.image = listAttachment[i].image;
+
+                let attachment = Object.assign({}, this.new_attachment);
+                this.attachments.push(attachment);
+            }
+            console.log(this.attachments);
         },
 
         getDetail: function(){    
@@ -210,8 +246,40 @@ export default {
             .then(res => {this.reimbursement = res.data.result, this.showMessage(res.data.status)});
         },
 
+        removeFile(file) {
+            console.log("masuk remove")
+            this.attachments.splice(this.attachments.indexOf(file), 1);
+        },
+
+        selectFile(){
+            const files = this.$refs.files.files;
+            this.isAnyImage = true;
+            for (let i = 0; i < files.length; i++) {
+                // let reader = new FileReader();
+                // reader.readAsDataURL(files[i]);
+                // reader.onload = e => {
+                //     let ava = e.target.result;
+                //     this.previewFile.push(ava);
+                // }
+                this.uploadFile(files[i]);
+            }
+        },
+
+        uploadFile(attach) {
+            let formData = new FormData();
+            formData.append('file', attach);
+            axios.post('http://localhost:8080/api/attachment/uploadFile',
+            formData,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(res => {this.attachments.push(res.data.result)});
+        },
+
         redirect(){
-            this.$router.push({ name: 'detail-reimbursement',  params: {id:this.newReimbursement.id}});
+            this.$router.push({ name: 'detail-reimbursement',  params: {id:this.reimbursement.id}});
         },
 
         hideModal(){
@@ -223,6 +291,14 @@ export default {
 </script>
 
 <style scoped>
+
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
+}
 
 .add-button{
     width:360px;
@@ -256,6 +332,35 @@ export default {
 
 .button-group{
     float:right;
+}
+
+.dropzone {
+    min-height: 200px;
+    padding: 10px 10px;
+    position: relative;
+    cursor: pointer;
+    outline: 2px dashed black; 
+    outline-offset: -10px;
+    border: white;
+}
+
+.input-file{
+    opacity: 0;
+    width: 100%;
+    height: 200px;
+    position: absolute;
+    cursor: pointer;
+    background: black;
+}
+
+.dropzone:hover {
+    background-color: lightgray;
+}
+
+.dropzone .call-to-action {
+    font-size: 1.2rem;
+    text-align: center;
+    padding: 70px 0;
 }
 
 </style>

@@ -3,9 +3,8 @@
       <div class="col-12">
         <template>
           <b-breadcrumb id="breadcrumb"> 
-            <b-breadcrumb-item href="#home">
-              <b-icon icon="house-fill" scale="1.25" shift-v="1.25" aria-hidden="true"></b-icon>
-              Home
+            <b-breadcrumb-item active>
+              Reimbursement Report
             </b-breadcrumb-item>
           </b-breadcrumb>
         </template>
@@ -131,6 +130,14 @@ export default {
 };
 </script>
 <style>
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
+}
+
 #add_reimbursement_button{
   background-color: #109CF1;
   color:white;
@@ -148,8 +155,12 @@ export default {
 .pagination{
   margin-left:20px;
 }
-#breadcrumb {
-  background-color: #F7F8FC;
-  margin-top: 0%;
+
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
 }
 </style>

@@ -1,6 +1,14 @@
 <template>
     <div class="row">
         <div class = "col-12">
+            <b-breadcrumb id="breadcrumb"> 
+                <b-breadcrumb-item :to="{name: 'reimbursement-report'}">
+                    Reimbursement Report
+                </b-breadcrumb-item>
+                <b-breadcrumb-item active>
+                    Detail Reimbursement Report
+                </b-breadcrumb-item>
+            </b-breadcrumb>
             <div class="judul">
                 <strong>
                     Detail Reimbursement Report
@@ -275,6 +283,15 @@ export default {
 </script>
 
 <style scoped>
+
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
+}
+
 body {
     font-family: 'Muli', sans-serif;
     background: #fafafa;

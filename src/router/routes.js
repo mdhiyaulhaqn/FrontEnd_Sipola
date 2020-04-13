@@ -171,7 +171,7 @@ const routes = [
         component: FormReimbursement
       },
       {
-        path: "reimbursement/update/:id",
+        path: "reimbursement/:id/update",
         name: "update-reimbursement",
         component: UpdateReimbursement
 

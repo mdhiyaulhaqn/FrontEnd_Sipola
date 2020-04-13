@@ -1,5 +1,13 @@
 <template>
   <div>
+      <b-breadcrumb id="breadcrumb"> 
+            <b-breadcrumb-item :to="{name: 'reimbursement-report'}">
+                Reimbursement Report
+            </b-breadcrumb-item>
+            <b-breadcrumb-item active>
+                Add Reimbursement Report
+            </b-breadcrumb-item>
+        </b-breadcrumb>
     <h3 class="judul"><strong>Add Reimbursement Report</strong></h3>
     <div class = "row">
         <div class = "col-10 isi-form">
@@ -60,16 +68,29 @@
                         <div class="dropzone">
                         <input type="file" class="input-file" ref="files"
                         @change="selectFile" multiple/>
-                        <p v-if="!uploading && !isAnyImage" class="call-to-action"><i class='far fa-arrow-alt-circle-up' style='font-size:36px'></i> 
+                        <p v-if="attachments.length === 0" class="call-to-action"><i class='far fa-arrow-alt-circle-up' style='font-size:36px'></i> 
                         Drag and drop your files here or <label for="file">
                             <button class="buttonFile"><i class='far fa-arrow-alt-circle-up'></i> Select</button></label></p>
                         
-                        <p v-if="uploading" class="progressbar"></p>
-                        <div class="box-image" v-if="isAnyImage">
-                            <div class="per-item" >
-                                <img v-bind:key="file" v-for="file in previewFile" :src="file" alt="Image" class="image-preview">
-                                <!-- <p v-bind:key="file" v-for="file in previewFile">{{file.name}}</p> -->
-                            </div>
+                        <!-- <p v-if="uploading" class="progressbar"></p> -->
+                        <div class="col-3" v-bind:key="file" v-for="(file, index) in attachments" >
+                           
+                            <b-card
+                                :img-src="untukPreview+file.image"
+                                img-alt="Image"
+                                img-top
+                                img-width="100px"
+                                img-height="100px"
+                                tag="article"
+                                style="max-width: 200px;"
+                                class="mb-2"
+                            >
+                            <b-card-text>
+                                 {{file.fileName}}   
+                            </b-card-text>
+                            <b-button @click=removeFile(index)><i class="fas fa-minus-circle" ></i></b-button>
+                               
+                            </b-card>
                         </div>
                         </div>
                         </b-form-group>
@@ -118,6 +139,7 @@ export default {
             uploadedFile: [],
             progress : 0,
             previewFile : [],
+            untukPreview : 'data:image/jpeg;base64, ',
             // batas attachment
 
             expenses: [],
@@ -142,12 +164,12 @@ export default {
                 reimbursement : '',
                 status : 'Active'
             },
-            new_attachment : {
-                id: 0,
-                fileName : '',
-                image : '',
-                reimbursement : '',
-            },
+            // new_attachment : {
+            //     id: 0,
+            //     fileName : '',
+            //     image : '',
+            //     reimbursement : '',
+            // },
             show: true,
             successModal : false,
             failedModal : false,
@@ -183,10 +205,6 @@ export default {
 
         onSubmit(evt) {
             evt.preventDefault();
-            console.log(this.attachment);
-            // this.attachments.push(this.attachment);
-            // this.attachments = this.uploadedFile;
-            console.log(this.attachments);
             this.newReimbursement.listAttachment = this.attachments;
             this.newReimbursement.listExpense = this.expenses;
             this.addReimbursement(JSON.stringify(this.newReimbursement));
@@ -204,11 +222,10 @@ export default {
             .then(res => {this.newReimbursement = res.data.result, this.showMessage(res.data.status)});
         },
 
-        // removeFile(file) {
-        //     this.files = this.files.filter(f => {
-        //         return f != file;
-        //     });
-        // },
+        removeFile(file) {
+            console.log("masuk remove")
+            this.attachments.splice(this.attachments.indexOf(file), 1);
+        },
 
         redirect(){
             this.$router.push({ name: 'detail-reimbursement',  params: {id:this.newReimbursement.id}});
@@ -262,6 +279,14 @@ export default {
 </script>
 
 <style scoped>
+
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
+}
 
 .add-button{
     width:360px;
