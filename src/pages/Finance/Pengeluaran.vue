@@ -11,8 +11,14 @@
         <b-row align-h="between" style="margin-top: 12px;">
           <router-link :to="{name: 'add-expense'}">
             <button id ="add_quotation_button" class="btn btn-primary">
-              Add Expense
-              <span class="ti-plus"></span>
+              <b-row align-h="center">
+                  <p style="font-size: 12px">
+                    Add Expense
+                  </p>
+                  <div style="margin-left: 10px; margin-top: -3px">
+                    <img src="@/assets/img/add-circle-icon.png" alt="" width="25px">
+                  </div>
+              </b-row>
             </button>
           </router-link>
           <b-col sm="5" lg="6" class="my-1">
