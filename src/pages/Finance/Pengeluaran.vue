@@ -21,7 +21,7 @@
               </b-row>
             </button>
           </router-link>
-          <b-col sm="5" lg="6" class="my-1">
+          <b-col md="10" class="my-1">
               <b-form-group
                 label-cols-sm="8"
                 label-align-sm="right"
@@ -34,7 +34,7 @@
                     v-model="filter"
                     type="search"
                     id="filterInput"
-                    placeholder="Type to Search"
+                    placeholder="Transportasi, hotel, ..."
                   ></b-form-input>
                   <b-input-group-append>
                     <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
