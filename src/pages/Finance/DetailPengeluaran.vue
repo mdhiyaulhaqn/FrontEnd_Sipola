@@ -1,6 +1,14 @@
 <template>
     <div class="row">
         <div class = "container">
+            <b-breadcrumb id="breadcrumb">
+                <b-breadcrumb-item :to="{name: 'expense'}">
+                    Expense
+                </b-breadcrumb-item>
+                <b-breadcrumb-item active>
+                    Expense Detail
+                </b-breadcrumb-item>
+            </b-breadcrumb>
             <div class="judul">
                 <strong class="judul">
                     Expense Detail
@@ -191,6 +199,14 @@ body {
 
 .container{
     max-width: 983px;
+}
+
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
 }
 
 .judul{

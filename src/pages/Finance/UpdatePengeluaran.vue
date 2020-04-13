@@ -1,5 +1,16 @@
 <template>
   <div>
+        <b-breadcrumb id="breadcrumb">
+            <b-breadcrumb-item :to="{name: 'expense'}">
+                Expense
+            </b-breadcrumb-item>
+            <b-breadcrumb-item :to="{name: 'expense-detail', params: {id:pengeluaran.id}}">
+                Expense Detail
+            </b-breadcrumb-item>
+            <b-breadcrumb-item active>
+                Update Expense
+            </b-breadcrumb-item>
+        </b-breadcrumb>
     <h3 class="judul"><strong>Update Expense</strong></h3>
     <div class = "row">
         <div class = "col-10 isi-form">
@@ -56,7 +67,7 @@
 
                 <div class = "button-group">
 
-                <router-link to="/expense">
+                <router-link :to="{name: 'expense-detail', params: {id:pengeluaran.id}}">
                     <b-button class = "cancel-button" type="reset">Cancel</b-button>
                 </router-link>
                 <b-button class = "update-pengeluaran-button" type="submit">Save</b-button>
@@ -195,6 +206,13 @@ import axios from 'axios';
 </script>
 
 <style scoped>
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
+}
 
 .add-button{
     width:360px;
