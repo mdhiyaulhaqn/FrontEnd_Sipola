@@ -5,7 +5,7 @@
         <div class = "col-10 isi-form">
             <card>
             <h5 class = "title-form">Update Expense Form </h5>
-            <b-form @reset="onReset" v-if="show">
+            <b-form @reset="onReset" @submit="onConfirmation" v-if="show">
                 <b-form-group>
                     <label class="label" for="nama">Expense Name</label>
                     <b-form-input
@@ -59,7 +59,7 @@
                 <router-link to="/expense">
                     <b-button class = "cancel-button" type="reset">Cancel</b-button>
                 </router-link>
-                <b-button class = "update-pengeluaran-button" v-b-modal.modal-confirm>Save</b-button>
+                <b-button class = "update-pengeluaran-button" type="submit">Save</b-button>
 
                 </div>
                 
@@ -68,7 +68,7 @@
         </div>
     </div>
 
-    <b-modal id="modal-confirm" ref="modal-confirm" hide-footer centered title="Update Expense">
+    <b-modal id="modal-confirm" v-model="confirmationModal" hide-footer centered title="Update Expense">
             <div class = "container">
                 <div class = "info">
                 <b-row>
@@ -90,17 +90,9 @@
                         </b-button>
                     </b-col>
                 </b-row>
-                <!-- <div class = "tombol_okay">
-                    <b-row>
-                        <b-button class = "button_back" @click="hideModal" size="md" variant="primary">Okay</b-button>
-                    </b-row>
-                </div> -->
-        
             </div>
         </b-modal>
-
-    <b-modal id="modal-success" ref="modal-success" hide-footer centered title="Success!">
-			<br>
+        <b-modal id="modal-success" v-model="successModal" hide-footer centered title="Success!">
             <div class = "container">
                 <div class = "info">
                 <b-row>
@@ -108,16 +100,14 @@
                         <img src="@/assets/img/success-icon.png" alt="" width="60px">
                     </b-col>
                     <b-col cols="9">
-                        {{this.pengeluaran.nama}} expense was successfully updated.
+                        <p id="modal-message"> {{this.pengeluaran.nama}} expense was successfully updated. </p>
                     </b-col>
                 </b-row>
                 </div>
                 <b-row class="button-detail-group">
-                    <b-row class="button-detail-group">
-                        <b-button @click="toDetailPage" id ="sad" variant="outline-primary">
-                            See Details
-                        </b-button>
-                    </b-row>
+                    <b-button @click="toDetailPage" id ="button-see-detail" variant="outline-primary">
+                        See Details
+                    </b-button>
                 </b-row>
             </div>
         </b-modal>
@@ -134,7 +124,7 @@ import axios from 'axios';
       return {
             services: [],
             id_services : {id:0},
-            pengeluaran: '',
+            
             pengeluaran: {
                 id: null,
                 nama : null,
@@ -142,7 +132,8 @@ import axios from 'axios';
                 tanggal : null,
                 paidBy : null
             },
-            
+            successModal: false,
+            confirmationModal: false,
             show: true
         }
     },
@@ -152,17 +143,23 @@ import axios from 'axios';
     },
     
     methods: {
+        onConfirmation(evt) {
+          this.confirmationModal = true;
+        },
         hideModal(){
-            this.$refs['modal-confirm'].hide();
+            this.confirmationModal = false;
         },
         getDetail: function(){    
             axios.get('http://localhost:8080/api/pengeluaran/' +this.$route.params.id)
-            .then(res => {this.pengeluaran = res.data.result})
+            .then(res => {
+                this.pengeluaran = res.data.result
+                this.pengeluaran.tanggal = res.data.result.tanggal.substring(0,10)                
+                })
             .catch(err => this.pengeluaran = err.data);
         },
         updatePengeluaran(){
             axios.put('http://localhost:8080/api/pengeluaran/' + this.$route.params.id + '/update', this.pengeluaran)
-            // .then(res => {this.showMessage(res.data.status)});
+            // .then(res => {this.showMessage(res.data.status), this.hideModal();});
             // axios.put("http://localhost:8080/api/pengeluaran/add", {
             //     nama: this.newPengeluaran.nama,
             //     nominal: this.newPengeluaran.nominal,
@@ -172,8 +169,8 @@ import axios from 'axios';
             //     status: "Active"
             // })
             .then((response) => {
-                console.log("Object : " + response.data)
-                this.pengeluaran.id = response.data.id
+                this.pengeluaran.id = response.data.result.id
+                this.hideModal()
             })
         },
         onReset(evt) {
@@ -245,24 +242,32 @@ import axios from 'axios';
     background-color: white;
 }
 
-.modal-icon{
-    text-align: center;
-}
-
 .button-confirm-group{
     text-align: right;
     margin-top: 50px;
 }
 
-.ti-angle-down{
-    font-size: 50px;
+.modal-icon{
     text-align: center;
-    color:#109CF1;
 }
 
 .button-detail-group{
     float:right;
+    margin-top: 50px;
 }
 
+#modal-title-success{
+  color: #109CF1;
+  font-weight: 1000;
+}
+#modal-message{
+  font-size: 16px;
+}
+
+#button-see-detail{
+    color: #109CF1;
+    border-color: #109CF1;
+    border-width: 1px;
+}
 
 </style>
