@@ -18,8 +18,8 @@
       </div>
       <div class="logo">
         <div class = "user-profile">
-          <h5>Yasmin Moedjoko</h5>
-          <h5>Finance</h5>
+          <h3 id="name">Ringgi Cahyo</h3>
+          <h4 id="role">Project Manager</h4>
         </div>
       </div>
 
@@ -104,8 +104,8 @@ export default {
   },
   data() {
     return {
-      linkHeight: 61.5,
-      activeLinkIndex: 80,
+      linkHeight: 45,
+      activeLinkIndex: 85,
       windowWidth: 0,
       isWindows: false,
       hasAutoHeight: false,
@@ -142,6 +142,15 @@ export default {
 .user-profile{
   color:white;
   text-align: center;
-  font-size: 12px;
+}
+#name{
+  margin-top: 0px;
+  font-weight: bold;
+}
+#role{
+  font-weight: 1;
+  font-size: 16px;
+  margin-top: -5px;
+  margin-bottom: 12px;
 }
 </style>

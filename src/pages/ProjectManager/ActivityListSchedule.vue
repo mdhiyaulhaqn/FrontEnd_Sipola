@@ -68,10 +68,10 @@
             </template>
 
             <template v-slot:cell(listTugas[0].tanggalMulaiTugas)="row">
-              {{ row.item.listTugas[0].tanggalMulaiTugas.split("T")[0].split("-").reverse().join('-') | moment("ll") }}
+              {{ row.item.listTugas[0].tanggalMulaiTugas | moment("ll") }}
             </template>
             <template v-slot:cell(listTugas[0].tanggalSelesaiTugas)="row">
-              {{row.item.listTugas[0].tanggalSelesaiTugas.split("T")[0].split("-").reverse().join('-') | moment("ll") }}
+              {{ row.item.listTugas.slice(-1)[0].tanggalSelesaiTugas | moment("ll") }}
             </template>
 
             <template v-slot:cell(action)="row">
@@ -191,7 +191,7 @@ export default {
   color:white;
   border-color: transparent;
   font-size: 10px;
-  line-height: 10px;
+  line-height: 8px;
   width: 80px;
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
 }
@@ -208,11 +208,6 @@ export default {
   background: none;
 }
 .table{
-  font-size: 10px;
-}
-p{
-  font-size: 8px;
-  max-width: 5px;
-  word-wrap: break-word;
+  font-size: 12px;
 }
 </style>

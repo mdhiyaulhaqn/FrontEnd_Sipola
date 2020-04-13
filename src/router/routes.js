@@ -33,6 +33,8 @@ import ReimbursementReport from "@/pages/ServiceTeam/ReimbursementReport.vue";
 import DetailReimbursement from "@/pages/ServiceTeam/DetailReimbursement.vue";
 import FormReimbursement from "@/pages/ServiceTeam/FormReimbursement.vue";
 import UpdateReimbursement from "@/pages/ServiceTeam/UpdateReimbursement.vue";
+import Login from "@/pages/Login.vue";
+import Homepage from "@/pages/Homepage.vue";
 
 const routes = [
   {
@@ -61,34 +63,9 @@ const routes = [
         component: UpdateQuotation
       },
       {
-        path: "stats",
-        name: "stats",
-        component: UserProfile
-      },
-      {
         path: "quotation/:id",
         name: "detail-quotation",
         component: DetailQuotation
-      },
-      {
-        path: "notifications",
-        name: "notifications",
-        component: Notifications
-      },
-      {
-        path: "icons",
-        name: "icons",
-        component: Icons
-      },
-      {
-        path: "maps",
-        name: "maps",
-        component: Maps
-      },
-      {
-        path: "typography",
-        name: "typography",
-        component: Typography
       },
       {
         path: "quotation",
@@ -111,7 +88,7 @@ const routes = [
         component: Pengeluaran
       },
       {
-        path: "expense/detail/:id",
+        path: "expense/:id",
         name: "expense-detail",
         component: DetailPengeluaran
       },
@@ -191,6 +168,11 @@ const routes = [
         name: "update-activity-list-schedule",
         component: UpdateActivityListSchedule
       },
+      // {
+      //   path: "/",
+      //   name: "home",
+      //   component: Homepage
+      // }
     ]
   },
   { path: "*", component: NotFound }
