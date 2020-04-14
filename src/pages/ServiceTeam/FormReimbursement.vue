@@ -1,5 +1,13 @@
 <template>
   <div>
+      <b-breadcrumb id="breadcrumb"> 
+            <b-breadcrumb-item :to="{name: 'reimbursement-report'}">
+                Reimbursement Report
+            </b-breadcrumb-item>
+            <b-breadcrumb-item active>
+                Add Reimbursement Report
+            </b-breadcrumb-item>
+        </b-breadcrumb>
     <h3 class="judul"><strong>Add Reimbursement Report</strong></h3>
     <div class = "row">
         <div class = "col-10 isi-form">
@@ -13,39 +21,37 @@
                         type="text"
                         required
                         placeholder="Project Description"
+                        maxlength="180"
                         >
                     </b-form-input>
                 </b-form-group>
 
-                <h5>Expenses</h5>
-                <b-row>
-                    <b-col md="5">
-                      <label>Expense Name</label>
-                    </b-col><br>
-
-                    <b-col md="3">
-                    <label>Price</label> 
-                    </b-col>
-                    <br>
-
-                    <b-col md="3">
-                    <label>Date</label>
-                    </b-col><br>
-
-                    <b-col md="1">
-                    </b-col>
-                </b-row>
+                <div class="d-none d-md-block d-lg-block">
+                  <div class="row">
+                    <div class = "col-md-5">
+                      <label class="label">Expense Name</label>
+                    </div>
+                    <div class = "col-md-3">
+                      <label class="label">Price</label>
+                    </div>
+                    <div class = "col-md-3">
+                      <label class="label">Date</label>
+                    </div>
+                    <div class = "col-md-1">
+                    </div>
+                  </div>
+                </div>
 
                 <b-row class="expenses" v-bind:key="item.id_expense" v-for="item in expenses">
                     <b-col>
-                    <Expense v-bind:expense="item" v-on:del-expense="deleteRow" />
+                        <Expense v-bind:expense="item" v-on:del-expense="deleteRow" />
                     </b-col>
                 </b-row> 
 
                  <b-row>
-                    <b-col md="12">
+                    <div class="col-md-6 col-12">
                         <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">+ Add More Item</button>
-                    </b-col>
+                    </div>
                 </b-row><br>
                 
                 <b-row>
@@ -58,34 +64,65 @@
                     <b-col>
                         <b-form-group>
                         <div class="dropzone">
-                        <input type="file" class="input-file" ref="files"
+                        <input type="file" class="input-file" ref="files" accept="image/*"
                         @change="selectFile" multiple/>
-                        <p v-if="!uploading && !isAnyImage" class="call-to-action"><i class='far fa-arrow-alt-circle-up' style='font-size:36px'></i> 
-                        Drag and drop your files here or <label for="file">
-                            <button class="buttonFile"><i class='far fa-arrow-alt-circle-up'></i> Select</button></label></p>
+                        <p v-if="attachments.length === 0" class="call-to-action"><i class='fas fa-cloud-upload-alt' style='font-size:36px'></i> 
+                        Drag and drop your images here or <label for="file">
+                            <button class="buttonFile">Select <i class='far fa-arrow-alt-circle-up'></i></button></label></p>
                         
-                        <p v-if="uploading" class="progressbar"></p>
-                        <div class="box-image" v-if="isAnyImage">
-                            <div class="per-item" >
-                                <img v-bind:key="file" v-for="file in previewFile" :src="file" alt="Image" class="image-preview">
-                                <!-- <p v-bind:key="file" v-for="file in previewFile">{{file.name}}</p> -->
-                            </div>
+                        <div id="kotakAttachment">
+                             <b-col class="col-xs-12 col-sm-12 col-md-3 grup-attachment" v-bind:key="file" v-for="file in attachments" >
+                                <div class="foto">
+                                 <img :src="untukPreview+file.image" alt="Image" class="image">
+                                 <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:36px"></i></a>
+                                </div>
+                                 <p>{{file.fileName}} </p>
+                                 
+                            </b-col>
                         </div>
                         </div>
                         </b-form-group>
                     </b-col>
                 </b-row>
 
-                <div class = "button-group">
+                <div class ="button-group">
                     <b-button class = "cancel-button" type="reset">Cancel</b-button>
-                    <b-button class = "add-reimbursement-button" type="submit">Add</b-button>
+                    <b-button class = "save-button" type="submit">Save</b-button>
                 </div>
             </b-form>
             </card>
         </div>
     </div>
-    <b-modal title="Reimbursement Report Berhasil Tersimpan" v-model="successModal" @ok="redirect()"  centered ok-only>
-        Reimbursement telah berhasil dibuat.
+    <b-modal
+      id="modal-success"
+      centered
+      v-model="successModal"
+      @ok="redirect()"
+      >
+      <template v-slot:modal-title>
+        <div class="container">
+          <h5 id="modal-title-success">Success!</h5>
+        </div>
+      </template>
+      <template v-slot:default>
+        <div class="container">
+          <b-row>
+            <b-col class="modal-icon col-2">
+              <img src="@/assets/img/success-icon.png" alt="" width="50px">
+            </b-col>
+            <b-col class="col-10">
+              <p id="modal-message">Reimbursement Report was successfully added.</p>
+            </b-col>
+          </b-row>
+        </div>
+      </template>
+      <template v-slot:modal-footer="{ ok }">
+        <b-col class="button-confirm-group">
+          <b-button @click="ok()" id="ok-button" variant="outline-primary">
+            See Details
+          </b-button>
+        </b-col>
+      </template>
     </b-modal>
 
     <b-modal title="Reimbursement Gagal Tersimpan" v-model="failedModal" centered ok-only>
@@ -111,20 +148,20 @@ export default {
             file: '',
             files: [],
             avatar: null,
-            isAnyImage: false,
             attachment: '',
             statusAttach:'',
             attachments : [],
             uploadedFile: [],
             progress : 0,
             previewFile : [],
+            untukPreview : 'data:image/jpeg;base64, ',
             // batas attachment
 
             expenses: [],
             id_expense : {id:0},
             timestamp:"",
             newReimbursement : {
-                createdBy : "adi",
+                createdBy : "Ringgi Cahyo",
                 projectName : '',
                 totalReimburse : 0,
                 statusReimburse : 'On Progress',
@@ -137,17 +174,17 @@ export default {
                 nama : '',
                 nominal : '',
                 tanggal : '',
-                createdBy : 'Adi',
-                paidBy : 'Adi',
+                createdBy : 'Ringgi Cahyo',
+                paidBy : 'Ringgi Cahyo',
                 reimbursement : '',
                 status : 'Active'
             },
-            new_attachment : {
-                id: 0,
-                fileName : '',
-                image : '',
-                reimbursement : '',
-            },
+            // new_attachment : {
+            //     id: 0,
+            //     fileName : '',
+            //     image : '',
+            //     reimbursement : '',
+            // },
             show: true,
             successModal : false,
             failedModal : false,
@@ -183,10 +220,6 @@ export default {
 
         onSubmit(evt) {
             evt.preventDefault();
-            console.log(this.attachment);
-            // this.attachments.push(this.attachment);
-            // this.attachments = this.uploadedFile;
-            console.log(this.attachments);
             this.newReimbursement.listAttachment = this.attachments;
             this.newReimbursement.listExpense = this.expenses;
             this.addReimbursement(JSON.stringify(this.newReimbursement));
@@ -204,11 +237,11 @@ export default {
             .then(res => {this.newReimbursement = res.data.result, this.showMessage(res.data.status)});
         },
 
-        // removeFile(file) {
-        //     this.files = this.files.filter(f => {
-        //         return f != file;
-        //     });
-        // },
+        removeFile(file) {
+            console.log("masuk remove")
+            this.attachments.splice(this.attachments.indexOf(file), 1);
+            console.log(this.attachments);
+        },
 
         redirect(){
             this.$router.push({ name: 'detail-reimbursement',  params: {id:this.newReimbursement.id}});
@@ -232,15 +265,12 @@ export default {
 
         selectFile(){
             const files = this.$refs.files.files;
-            this.isAnyImage = true;
             for (let i = 0; i < files.length; i++) {
-                let reader = new FileReader();
-                reader.readAsDataURL(files[i]);
-                reader.onload = e => {
-                    let ava = e.target.result;
-                    this.previewFile.push(ava);
-                }
-                this.uploadFile(files[i]);
+               if (files[i].type == "image/jpeg" || files[i].type == "image/png"){
+                    this.uploadFile(files[i]);
+                } else {
+                  alert("Type not supported for file " + files[i].name);
+                }           
             }
         },
 
@@ -263,11 +293,47 @@ export default {
 
 <style scoped>
 
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
+}
+
 .add-button{
-    width:360px;
+    width:100%;
     background-color: white;
     color : #109cf1;
     border-color: #109cf1;
+}
+
+.save-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 10px;
+  margin-left: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
+}
+
+.cancel-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 80px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 10px;
+}
+
+.button-group{
+  margin-top: 30px;
+  text-align: center;
 }
 
 .judul{
@@ -291,10 +357,6 @@ export default {
     color:#109CF1;
     border-color:#109CF1;
     background-color: white;
-}
-
-.button-group{
-    float:right;
 }
 
 .file-label {
@@ -343,25 +405,63 @@ export default {
     border: 1px solid gray;
 }
 
-/* #upload {
-    min-height: 100px;
+#ok-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+}
+.button-confirm-group{
+  text-align: right;
+}
+
+img {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.grup-attachment{
+    padding: 5px 5px 5px 5px;
+}
+
+.image {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.removeIcon {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.foto {
+  position: relative;
+  width: 100%;
+}
+
+.foto:hover .image {
+  opacity: 0.3;
+}
+
+.foto:hover .removeIcon {
+  opacity: 1;
+}
+
+#kotakAttachment {
     padding: 10px 10px;
-    position: relative;
-    cursor: pointer;
-    outline: 2px dashed grey;
-    outline-offset: -10px;
-    background: lightgray;
-} 
+}
 
-#drop1 {
-    height: 200px;
-    padding: 40px;
-    color: white;
-    background: lightgray;
-  }
 
-  #drop1 .dz-preview {
-    width: 160px;
-  } */
+
+
 
 </style>

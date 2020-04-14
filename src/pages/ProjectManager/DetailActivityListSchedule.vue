@@ -53,6 +53,7 @@
         </b-row>
       </card>
     </div>
+    
     <b-modal
       id="modal-delete"
       ref="modal-delete"

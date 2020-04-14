@@ -1,6 +1,14 @@
 <template>
     <div class="row">
         <div class = "col-12">
+            <b-breadcrumb id="breadcrumb"> 
+                <b-breadcrumb-item :to="{name: 'reimbursement-report'}">
+                    Reimbursement Report
+                </b-breadcrumb-item>
+                <b-breadcrumb-item active>
+                    Detail Reimbursement Report
+                </b-breadcrumb-item>
+            </b-breadcrumb>
             <div class="judul">
                 <strong>
                     Detail Reimbursement Report
@@ -9,34 +17,34 @@
             
             <card>
                 <b-row>
-                    <div class = "col-8">Reimbursement Report</div>
+                    <div class = "col-lg-7 col-sm-7 col-8">Reimbursement Report</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-2">Created by</div>
-                    <div class = "col-6">: {{reimbursement.createdBy}}</div>
+                    <div class = "col-lg-2 col-sm-2 col-6">Created by</div>
+                    <div class = "col-lg-5 col-sm-5 col-6">: {{reimbursement.createdBy}}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-2">Created At</div>
-                    <div class = "col-6">:  {{ reimbursement.createdAt.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-lg-2 col-sm-2 col-6">Created At</div>
+                    <div class = "col-lg-5 col-sm-5 col-6">:  {{ reimbursement.createdAt | moment("ll")}}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-2">ID Report</div>
-                    <div class = "col-6">: {{reimbursement.id}}</div>
+                    <div class = "col-lg-2 col-sm-2 col-6">ID Report</div>
+                    <div class = "col-lg-5 col-sm-5 col-6">: {{reimbursement.id}}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-2">Project Description</div>
-                    <div class = "col-6">: {{ reimbursement.projectName}}</div>
+                    <div class = "col-lg-2 col-sm-2 col-6">Project Description</div>
+                    <div class = "col-lg-5 col-sm-5 col-6">: {{ reimbursement.projectName}}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-2">Total</div>
-                    <div class = "col-6">: {{reimbursement.totalReimburse}}</div>
+                    <div class = "col-lg-2 col-sm-2 col-6">Total</div>
+                    <div class = "col-lg-5 col-sm-5 col-6">: {{reimbursement.totalReimburse}}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-6"><br>Expense</div>
-                    <div class="col-6">
-                        <button v-b-modal.modal-send id ="download_button" class="btn btn-primary">
+                    <div class = "col-lg-5 col-sm-5 col-6"><br>Expense</div>
+                    <div class="col-lg-7 col-sm-7 col-6" v-if="reimbursement.statusReimburse != 'Sent'">
+                        <button v-b-modal.modal-send id ="send_button" class="btn btn-primary">
                             Send to Finance
-                            <span class="ti-download"></span>
+                            <i class="fas fa-location-arrow"></i>
                         </button>
                     </div>
                 </b-row>
@@ -52,7 +60,7 @@
                                     {{reimbursement.listExpense.indexOf(row.item) + 1}}
                                 </template>
                                  <template v-slot:cell(tanggal)="row">
-                                    {{ row.item.tanggal.split("T")[0].split("-").reverse().join('-') }}
+                                    {{ row.item.tanggal | moment("ll") }}
                                 </template>
                                 </b-table>
                                 
@@ -62,30 +70,42 @@
                 
                 </b-row>
 
-                <div class="for-attachment" v-if="previewFile.length > 0">
+                <div class="for-attachment" v-if="reimbursement.listAttachment.length > 0">
                     <b-row>
                         <b-col>
-                            <div><br>Attachments ( {{previewFile.length}} )</div>
+                            <div><br>Attachments ( {{reimbursement.listAttachment.length}} )</div>
                         </b-col>
                     </b-row>
-                    <b-row>
-                        <b-col>
-                            <div id="kotakAttachment">
-                                <img v-for="file in previewFile" :key="file" :src="file" alt="Image" class="image-preview"><br>
-                            </div>
+                    <b-row id="kotakAttachment">
+                        <b-col class="col-xs-9 col-sm-8 col-md-2 grup-attachment" v-bind:key="file" v-for="file in reimbursement.listAttachment" >
+                                <b-card
+                                    :img-src="untukPreview+file.image"
+                                    img-alt="Image"
+                                    img-top
+                                    img-max-width="80px"
+                                    img-max-height="80px"
+                                    style="max-width: 100px;"
+                                    class="mb-2"
+                                    bg-variant="light"
+                                >
+                                <b-card-body class="row">
+                                  <b-card-title style="font-size: 12px;">
+                                      {{file.fileName}}   
+                                  </b-card-title>
+                                </b-card-body>
+                                </b-card>
                         </b-col>
                     </b-row>
                 </div>
 
                 <b-row>
-                   
-                    <div class="col">
+                    <div class="col button-group">
                         <br>
-                        <button v-b-modal.modal-delete id ="delete_button" class="btn btn-primary">
+                        <button v-b-modal.modal-delete id ="delete-button" class="btn btn-primary"  v-if="reimbursement.statusReimburse != 'Sent'">
                             Delete
                         </button>
                          <router-link :to="{name: 'update-reimbursement'}">
-                            <button id ="edit_button" class="btn btn-primary">
+                            <button v-if="reimbursement.edit" id ="edit-button" class="btn btn-primary">
                                 Edit
                             </button>
                          </router-link>
@@ -95,82 +115,142 @@
             </card>
         </div>
 
-         <b-modal id="modal-send" ref="modal-send" hide-footer centered title="Send Reimburse">
-			<br>
-            <div class = "container">
-                <div class = "info">
-                <b-row>
-                    <span class="ti-send"></span>Reimbursement Report for project {{reimbursement.projectName}} will be sent to finance
-                </b-row>
-                </div>
-                <div class = "tombol_okay">
-                    <b-row>
-                        <b-button class = "button_oke" @click="sentFinance" size="md" variant="primary">Yes, Send It</b-button>
-                        <b-button class = "button_back" @click="hideModalSend" size="md" >No</b-button>
-                    </b-row>
-                </div>
-        
-            </div>
-        </b-modal>
+        <b-modal
+      id="modal-send"
+      ref="modal-send"
+      centered
+      >
+      <template v-slot:modal-title>
+        <div class="container">
+          <h5 id="modal-title-success">Send Reimbursement Report to Finance?</h5>
+        </div>
+      </template>
+      <template v-slot:default>
+        <div class="container">
+          <b-row>
+            <b-col class="modal-icon col-2">
+              <img src="@/assets/img/update-confirm-icon.png" alt="" width="50px">
+            </b-col>
+            <b-col class="col-10">
+              <p id="modal-message">You cannot change reimbursement report once you click button send.</p>
+            </b-col>
+          </b-row>
+        </div>
+      </template>
+      <template v-slot:modal-footer="{ cancel }">
+        <b-col class="button-confirm-group">
+          <b-button @click="sentFinance" id="confirm_send_button">
+            Send
+          </b-button>
+          <b-button @click="cancel()" id="cancel_send_button">
+            Cancel
+          </b-button>
+        </b-col>
+      </template>
+    </b-modal>
+    <b-modal
+      id="modal-success"
+      centered
+      v-model="successModalSend"
+      @ok="redirect()"
+      >
+      <template v-slot:modal-title>
+        <div class="container">
+          <h5 id="modal-title-success">Success!</h5>
+        </div>
+      </template>
+      <template v-slot:default>
+        <div class="container">
+          <b-row>
+            <b-col class="modal-icon col-2">
+              <img src="@/assets/img/success-icon.png" alt="" width="50px">
+            </b-col>
+            <b-col class="col-10">
+              <p id="modal-message">Reimbursement Report for {{reimbursement.projectName}} was successfully sent to finance.</p>
+            </b-col>
+          </b-row>
+        </div>
+      </template>
+      <template v-slot:modal-footer="{ ok }">
+        <b-col class="button-confirm-group">
+          <b-button @click="ok()" id="ok-button" variant="outline-primary">
+            OK
+          </b-button>
+        </b-col>
+      </template>
+    </b-modal>
 
-        <b-modal id="modal-delete" ref="modal-delete" hide-footer centered title="Delete Reimbursement?" ok-only>
-            <br>
-            <div class = "container">
-                <div class = "info">
-                <b-row>
-                <i class="fas fa-trash-alt"></i>Reimbursement Report for project {{reimbursement.projectName}} will be removed from the list.
-                </b-row>
-                </div>
-                <div class = "tombol_okay">
-                    <b-row>
-                        <b-button class = "button_oke" @click="onSubmit" size="md" variant="primary">Yes, Delete It</b-button>
-                        <b-button class = "button_back" @click="hideModal" size="md" >No</b-button>
-                    </b-row>
-                </div>
-            </div>
-        </b-modal>
-        <b-modal title="Success!" v-model="successModal" @ok="redirect()" centered ok-only>
-          <br>
-            <div class = "container">
-                <div class = "info">
-                    <b-row>
-                        <span class="ti-success"></span>Reimbursement Report for project {{reimbursement.projectName}} was successfully deleted from list.
-                    </b-row>
-                </div>
-            </div>
-        </b-modal>
-        <b-modal title="Success!" v-model="successModalSend" @ok="redirect()" centered ok-only>
-          <br>
-            <div class = "container">
-                <div class = "info">
-                    <b-row>
-                        <span class="ti-success"></span>Reimbursement Report for project {{reimbursement.projectName}} was sent to finance.
-                    </b-row>
-                </div>
-            </div>
-        </b-modal>
+
+
+        <b-modal
+      id="modal-delete"
+      ref="modal-delete"
+      centered
+      >
+      <template v-slot:modal-title>
+        <div class="container">
+          <h5 id="modal-title-delete">Delete Reimbursement Report?</h5>
+        </div>
+      </template>
+      <template v-slot:default>
+        <div class="container">
+          <b-row>
+              <b-col class="modal-icon col-2">
+                  <img src="@/assets/img/delete-confirm-icon.png" alt="" width="50px">
+              </b-col>
+              <b-col class="col-10">
+                  <p id="modal-message">It will be removed from the list.</p>
+              </b-col>
+          </b-row>
+        </div>
+      </template>
+      <template v-slot:modal-footer="{ cancel }">
+        <b-col class="button-confirm-group">
+          <b-button @click="onSubmit" id ="confirm_delete_button" variant="outline-danger">
+            Yes, delete it
+          </b-button>
+          <b-button @click="cancel()" id ="cancel_delete_button" class="btn btn-danger">
+            Cancel
+          </b-button>
+        </b-col>
+      </template>
+    </b-modal>
+    <b-modal
+      id="modal-success"
+      ref="modal-success"
+      centered
+      v-model="successModal"
+      @ok="redirect()"
+      >
+      <template v-slot:modal-title>
+        <div class="container">
+          <h5 id="modal-title-success">Success!</h5>
+        </div>
+      </template>
+      <template v-slot:default>
+        <div class="container">
+          <b-row>
+            <b-col class="modal-icon col-2">
+              <img src="@/assets/img/success-icon.png" alt="" width="50px">
+            </b-col>
+            <b-col class="col-10">
+              <p id="modal-message">Reimbursement Report for project {{reimbursement.projectName}} was successfully deleted from list.</p>
+            </b-col>
+          </b-row>
+        </div>
+      </template>
+      <template v-slot:modal-footer="{ ok }">
+        <b-col class="button-confirm-group">
+          <b-button @click="ok()" id="ok-button" variant="outline-primary">
+            OK
+          </b-button>
+        </b-col>
+      </template>
+    </b-modal>
     </div>
 </template>
 
 <script>
-
-const tableColumns = []
-// const tableData = [
-//      {
-//         'no': 1,
-//         'scope of work': "Supervisi pemasangan Transformator  6 MVA ITP Citeureup",
-//         'quantity': "1 Lot",
-//         'unit price(IDR)' : '200.000.000',
-//         'total price(IDR)' : '200.000.000',
-//         },
-//         {
-//         'no': 2,
-//         'scope of work': "Electrical contact surface flexible lamination, braid and adaptor including replacement of spring washer",
-//         'quantity': "2 Lot",
-//         'unit price(IDR)' : '100.000.000',
-//         'total price(IDR)' : '200.000.000',
-//     }
-// ]
 
 import axios from 'axios';
 
@@ -178,7 +258,8 @@ export default {
     data() {
         return {
             previewFile:[],
-            reimbursement : 'data:image/jpeg;base64, ',
+            reimbursement : '',
+            untukPreview: 'data:image/jpeg;base64, ',
             successModal : false,
             successModalSend : false,
             fields: [
@@ -186,7 +267,6 @@ export default {
                 {key: 'nama', label: 'Expense Item', sortable: true},
                 {key: 'tanggal', label: 'Date', sortable: true},
                 {key: 'nominal', label: 'Price(IDR)', sortable: true},
-                // {key: 'harga * quantity', label:  'Total_Price(IDR)', sortable: true},
             ]
         };
     },
@@ -205,34 +285,9 @@ export default {
 
         getDetail: function(){    
             axios.get('http://localhost:8080/api/reimbursement/detail/' +this.$route.params.id)
-            .then(res => {this.reimbursement = res.data, this.previewImage()})
+            .then(res => {this.reimbursement = res.data, console.log(this.reimbursement)})
             .catch(err => this.reimbursement = err.data);
             // this.previewImage();
-        },
-
-        previewImage(){
-            var file = null;
-            // console.log(this.reimbursement.listAttachment[0].fileName);
-            console.log(this.reimbursement);
-            console.log(this.reimbursement.projectName);
-            // console.log(this.reimbursement.listAttachment);
-            console.log(this.reimbursement.listAttachment.length);
-            var length = this.reimbursement.listAttachment.length;
-            for (let i = 0; i < length; i++) {
-                let preview = 'data:image/jpeg;base64, ' + this.reimbursement.listAttachment[i].image;
-                console.log(preview);
-                this.previewFile.push(preview)
-            }
-            // for (file in this.reimbursement.listAttachment){
-            //     console.log(file);
-            //     console.log('tes');
-            //     let reader = new FileReader();
-            //     reader.readAsDataURL(file.image);
-            //     reader.onload = e => {
-            //         let ava = e.target.result;
-            //         this.previewFile.push(ava);
-            //     }
-            // }
         },
 
         deleteReimbursement(reimburse){
@@ -267,14 +322,29 @@ export default {
             axios.put('http://localhost:8080/api/reimbursement/send/' + this.$route.params.id)
             .then(res => {this.showMessageSendModal(res.data.status)});
         },
+
         showMessageSendModal(status){
             this.successModalSend = true;
         },
+
+        // redirectSend(){
+        //     this.hideModalSend();
+        //     this.$router.push({ name: 'detail-reimbursement',  params: {id:this.reimbursement.id}});
+        // },
   }
 };
 </script>
 
 <style scoped>
+
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
+}
+
 body {
     font-family: 'Muli', sans-serif;
     background: #fafafa;
@@ -294,16 +364,12 @@ body {
 .tabel-service{
     font-size:15px;
 }
-#download_button{
-    font-size: 10px;
+#send_button{
+    font-size: 12px;
     float:right;
     background-color: green;
     color:white;
     border-color: white;
-}
-
-#modal-download{
-    color:black;
 }
 
 .ti-download{
@@ -361,12 +427,104 @@ body {
 #kotakAttachment {
     border: 1px solid gray;
     border-radius: 5px;
+    padding: 5px 0 5px 0;
 }
 
 .image-preview{
     height: 120px;
     width: 120px;
     padding: 10px 5px 10px 5px;
+}
+
+.button-confirm-group{
+  text-align: right;
+}
+#confirm_delete_button{
+  font-size: 10px;
+  width: 110px;
+  border-color: #ff3e1d;
+  border-width: 1px;
+  margin-right: 10px;
+}
+#cancel_delete_button{
+  font-size: 10px;
+  background-color: #ff3e1d;
+  color:white;
+  border-color: white;
+  border-width: 1px;
+}
+h5{
+  margin-bottom: -4px;
+}
+#modal-message{
+  font-size: 16px;
+}
+#modal-title-delete{
+  color:#FF3E1D;
+  font-weight: 1000;
+}
+#modal-title-success{
+  color: #109CF1;
+  font-weight: 1000;
+}
+#ok-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+}
+
+#cancel_send_button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 10px;
+  margin-left: 10px;
+  line-height: 15px;
+  width: 110px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
+}
+
+#confirm_send_button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 80px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 10px;
+}
+
+#edit-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  width: 110px;
+  margin-left: 10px;
+  font-size: 10px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+}
+
+#delete-button{
+  background-color: #FF3E1D;
+  border-color: #FF3E1D;
+  width: 80px;
+  font-size: 10px;
+}
+
+.button-group{
+  margin-top: 30px;
+  text-align: center;
+}
+
+img {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.grup-attachment {
+  padding: 5px 2px 5px 7px;
 }
 
 </style>
