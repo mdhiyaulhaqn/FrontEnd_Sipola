@@ -1,6 +1,18 @@
 <template>
     <div class="row">
         <div class = "col-12">
+            <b-breadcrumb id="breadcrumb">
+                <b-breadcrumb-item :to="{name: 'invoice'}">
+                    Invoice List
+                </b-breadcrumb-item>
+                <b-breadcrumb-item :to="{name: 'sales-order-for-invoice'}">
+                    Sales Order List
+                </b-breadcrumb-item>
+                <b-breadcrumb-item active>
+                    Detail Sales Order
+                </b-breadcrumb-item>
+            </b-breadcrumb>
+
             <div class="judul">
                 <strong>
                     Detail Sales Order
@@ -240,5 +252,12 @@ button{
     color:white;
     border-color: white;
     border-width: 1px;
+}
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
 }
 </style>

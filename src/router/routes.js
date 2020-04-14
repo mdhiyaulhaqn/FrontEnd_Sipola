@@ -5,10 +5,6 @@ import NotFound from "@/pages/NotFoundPage.vue";
 // Admin pagesc
 import Dashboard from "@/pages/Dashboard.vue";
 import UserProfile from "@/pages/UserProfile.vue";
-import Notifications from "@/pages/Notifications.vue";
-import Icons from "@/pages/Icons.vue";
-import Maps from "@/pages/Maps.vue";
-import Typography from "@/pages/Typography.vue";
 import Quotation from "@/pages/SalesMarketing/Quotation.vue";
 import SalesOrder from "@/pages/SalesMarketing/SalesOrder.vue";
 import FormSalesOrder from "@/pages/SalesMarketing/FormSalesOrder.vue";
@@ -21,6 +17,7 @@ import DetailPengeluaran from "@/pages/Finance/DetailPengeluaran.vue";
 import FormPengeluaran from "@/pages/Finance/FormPengeluaran.vue";
 import Invoice from "@/pages/Finance/Invoice.vue";
 import FormInvoice from "@/pages/Finance/FormInvoice.vue";
+import UpdateInvoice from "@/pages/Finance/UpdateInvoice.vue";
 import DetailInvoice from "@/pages/Finance/DetailInvoice.vue";
 import DetailSalesOrderForInvoice from "@/pages/Finance/DetailSalesOrderForInvoice.vue";
 import SalesOrderForInvoice from "@/pages/Finance/SalesOrderForInvoice.vue";
@@ -98,8 +95,8 @@ const routes = [
         component: UpdatePengeluaran
       },
       {
-        path: "expense/add",
-        name: "add-expense",
+        path: "expense-add",
+        name: "expense-add",
         component: FormPengeluaran
       },
       {
@@ -116,6 +113,11 @@ const routes = [
         path: "invoice-add",
         name: "invoice-add",
         component: FormInvoice
+      },
+      {
+        path: "invoice/:id/update",
+        name: "update-invoice",
+        component: UpdateInvoice
       },
       {
         path: "sales-order-for-invoice",
