@@ -101,7 +101,7 @@
                 <b-row>
                     <div class="col button-group">
                         <br>
-                        <button v-b-modal.modal-delete id ="delete-button" class="btn btn-primary">
+                        <button v-b-modal.modal-delete id ="delete-button" class="btn btn-primary"  v-if="reimbursement.statusReimburse != 'Sent'">
                             Delete
                         </button>
                          <router-link :to="{name: 'update-reimbursement'}">
@@ -152,7 +152,7 @@
       id="modal-success"
       centered
       v-model="successModalSend"
-      @ok="redirectSend()"
+      @ok="redirect()"
       >
       <template v-slot:modal-title>
         <div class="container">
@@ -174,7 +174,7 @@
       <template v-slot:modal-footer="{ ok }">
         <b-col class="button-confirm-group">
           <b-button @click="ok()" id="ok-button" variant="outline-primary">
-            See Details
+            OK
           </b-button>
         </b-col>
       </template>
@@ -327,9 +327,10 @@ export default {
             this.successModalSend = true;
         },
 
-        redirectSend(){
-            this.$router.push({ name: 'detail-reimbursement',  params: {id:this.reimbursement.id}});
-        },
+        // redirectSend(){
+        //     this.hideModalSend();
+        //     this.$router.push({ name: 'detail-reimbursement',  params: {id:this.reimbursement.id}});
+        // },
   }
 };
 </script>

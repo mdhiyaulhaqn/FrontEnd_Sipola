@@ -64,7 +64,7 @@
                     <b-col>
                         <b-form-group>
                         <div class="dropzone">
-                        <input type="file" class="input-file" ref="files"
+                        <input type="file" class="input-file" ref="files" accept="image/*"
                         @change="selectFile" multiple/>
                         <p v-if="attachments.length === 0" class="call-to-action"><i class='fas fa-cloud-upload-alt' style='font-size:36px'></i> 
                         Drag and drop your images here or <label for="file">
@@ -74,7 +74,7 @@
                              <b-col class="col-xs-12 col-sm-12 col-md-3 grup-attachment" v-bind:key="file" v-for="file in attachments" >
                                 <div class="foto">
                                  <img :src="untukPreview+file.image" alt="Image" class="image">
-                                 <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" ></i></a>
+                                 <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:36px"></i></a>
                                 </div>
                                  <p>{{file.fileName}} </p>
                                  
@@ -161,7 +161,7 @@ export default {
             id_expense : {id:0},
             timestamp:"",
             newReimbursement : {
-                createdBy : "adi",
+                createdBy : "Ringgi Cahyo",
                 projectName : '',
                 totalReimburse : 0,
                 statusReimburse : 'On Progress',
@@ -174,8 +174,8 @@ export default {
                 nama : '',
                 nominal : '',
                 tanggal : '',
-                createdBy : 'Adi',
-                paidBy : 'Adi',
+                createdBy : 'Ringgi Cahyo',
+                paidBy : 'Ringgi Cahyo',
                 reimbursement : '',
                 status : 'Active'
             },
@@ -266,7 +266,11 @@ export default {
         selectFile(){
             const files = this.$refs.files.files;
             for (let i = 0; i < files.length; i++) {
-                this.uploadFile(files[i]);
+               if (files[i].type == "image/jpeg" || files[i].type == "image/png"){
+                    this.uploadFile(files[i]);
+                } else {
+                  alert("Type not supported for file " + files[i].name);
+                }           
             }
         },
 

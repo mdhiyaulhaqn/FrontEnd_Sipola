@@ -17,11 +17,18 @@
             <b-col md="2">
               <router-link :to="{name: 'add-reimbursement'}">
                 <b-button id ="add_reimbursement_button" class="btn btn-primary">
-                Add Reimbursement Report
-                <span class="ti-plus"></span>
+                  <b-row align-h="center">
+                  <p style="font-size: 12px">
+                    Add Reimbursement Report
+                  </p>
+                  <div style="margin-left: 10px; margin-top: -3px">
+                    <img src="@/assets/img/add-circle-icon.png" alt="" width="25px">
+                  </div>
+                  </b-row>
                 </b-button>
               </router-link>
             </b-col>
+
             <b-col md="10" class="my-1">
               <b-form-group
                 label-cols-sm="8"
@@ -35,7 +42,7 @@
                     v-model="filter"
                     type="search"
                     id="filterInput"
-                    placeholder="Enter your keyword here..."
+                    placeholder="Project Name, Date"
                   ></b-form-input>
                   <b-input-group-append>
                     <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
@@ -45,8 +52,7 @@
             </b-col>
 
           </b-row>
-                 
-          <div slot="raw-content" class="table-responsive">     
+                     
             <b-table 
                 show-empty
                 :small="true"
@@ -63,7 +69,8 @@
                 @filtered="onFiltered"
                 :borderless="true"
                 sort-icon-left
-                :sticky-header="true">
+                :sticky-header="true"
+                >
                 
                 <template v-slot:cell(no)="row">
                    {{items.indexOf(row.item) + 1}}
@@ -127,7 +134,6 @@
               ></b-pagination>
             </b-col>
           </b-row>
-          </div>
           </b-container>
         </card>
       </div>
@@ -137,11 +143,13 @@
 </template>
 <script>
 import axios from 'axios';
+import DataTable from 'v-data-table'
 
 export default {
   data() {
     return {
       reimbursement : [],
+
       totalRows: 1,
       currentPage: 1,
       perPage: 5,
@@ -199,12 +207,8 @@ export default {
 </script>
 <style>
 
-#breadcrumb{
-  font-size: 12px;
-  /* text-decoration: underline; */
-  margin: -35px 0 -5px -15px;
-  color: #FF3E1D;
-  background: none;
+.pagination{
+  margin-left:20px;
 }
 
 #view_button{

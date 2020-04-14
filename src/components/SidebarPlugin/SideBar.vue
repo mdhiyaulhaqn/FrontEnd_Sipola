@@ -19,7 +19,7 @@
       <div class="logo">
         <div class = "user-profile">
           <h3 id="name">Ringgi Cahyo</h3>
-          <h4 id="role">Project Manager</h4>
+          <h4 id="role">Service Team</h4>
         </div>
       </div>
 
