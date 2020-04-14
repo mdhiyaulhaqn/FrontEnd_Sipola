@@ -11,6 +11,7 @@
             type="text"
             required
             placeholder="Activity Name"
+            pattern="(?!^\d+$)^.+$"
             >
         </b-form-input>
     </div>

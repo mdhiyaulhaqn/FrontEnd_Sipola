@@ -19,7 +19,7 @@
           <li class="nav-item" id="user-info">
             <span>
             <p class="nav-link">
-              imade.adisurya<br>
+              ringgi.cahyo<br>
               <a href="#">Change Password</a> | <a href="#">Sign Out</a>
             </p>
             </span>

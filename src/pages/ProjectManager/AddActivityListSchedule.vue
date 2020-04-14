@@ -23,8 +23,15 @@
                     type="text"
                     required
                     placeholder="Project Name"
+                    pattern="(?!^\d+$)^.+$"
                     >
                   </b-form-input>
+                                      <!-- :state="nameState"
+                    aria-describedby="input-live-help input-live-feedback"
+                  <b-form-invalid-feedback id="input-live-feedback">
+                    Cannot contain only numbers.
+                  </b-form-invalid-feedback>
+                  <b-form-text id="input-live-help">Enter the project name.</b-form-text> -->
                 </b-form-group>
 
                 <b-form-group id="company-name-input">
@@ -35,6 +42,7 @@
                     type="text"
                     required
                     placeholder="Company Name"
+                    pattern="(?!^\d+$)^.+$"
                     >
                   </b-form-input>
                 </b-form-group>
@@ -63,8 +71,8 @@
                 </b-row>
 
                 <b-row>
-                  <div class ="col-md-6 col-12">
-                    <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">Add More Activity <span class="ti-plus"></span></button>
+                  <div class ="col-12 col-sm-5">
+                    <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">Add More Activity <span><img src="@/assets/img/add-circle-blue-icon.png" alt="" width="25px"></span></button>
                   </div>
                 </b-row>
 
@@ -162,6 +170,12 @@ export default {
     this.addRow();
   },
 
+  // computed: {
+  //   nameState() {
+  //     return /(?!^\d+$)^.+$/.test(this.newActivityListSchedule.namaProyek)
+  //   }
+  // },
+
   methods: {
     addRow(){
       this.newActivity.id_activity++;
@@ -218,6 +232,11 @@ export default {
   color : #109cf1;
   border-color: #109cf1;
   margin-bottom: 10px;
+  border-width: 1.5px;
+  line-height: 12px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
 }
 .judul{
   text-align: center;
