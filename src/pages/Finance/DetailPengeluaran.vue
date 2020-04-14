@@ -75,7 +75,7 @@
                             Yes, Delete it
                         </b-button>
                         <b-button @click="hideModal" id ="cancel_delete_button" class="btn btn-danger">
-                            No
+                            Cancel
                         </b-button>
                     </b-col>
                 </b-row>
@@ -187,7 +187,8 @@ export default {
         this.$router.push({ name: 'expense'});
     },
     formatPrice(value) {
-        return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+        let val = (value/1).toFixed(2).replace('.', ',')
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     }     
   }
 };

@@ -26,7 +26,7 @@
                     type="text"
                     required
                     placeholder="Project Name"
-                    pattern="(?!^\d+$)^.+$"
+                    pattern=".*[a-zA-Z].*"
                     disabled>
                   </b-form-input>
                 </b-form-group>
@@ -39,7 +39,7 @@
                     type="text"
                     required
                     placeholder="Company Name"
-                    pattern="(?!^\d+$)^.+$"
+                    pattern=".*[a-zA-Z].*"
                     disabled>
                   </b-form-input>
                 </b-form-group>

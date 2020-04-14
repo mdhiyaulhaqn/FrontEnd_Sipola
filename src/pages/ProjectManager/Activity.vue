@@ -11,7 +11,7 @@
             type="text"
             required
             placeholder="Activity Name"
-            pattern="(?!^\d+$)^.+$"
+            pattern=".*[a-zA-Z].*"
             >
         </b-form-input>
     </div>

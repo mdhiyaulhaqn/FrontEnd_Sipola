@@ -37,6 +37,7 @@
                         type="number"
                         required
                         placeholder="Nominal"
+                        min=0
                         >
                     </b-form-input>
                 </b-form-group>
@@ -61,6 +62,7 @@
                         type="text"
                         required
                         placeholder="Paid by"
+                        pattern="[a-zA-Z0-9\s]+"
                         >
                     </b-form-input>
                 </b-form-group>
