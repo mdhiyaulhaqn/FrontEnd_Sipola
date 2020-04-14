@@ -193,7 +193,7 @@
     </b-modal>
 
     <b-modal title="Failed" v-model="failedModal" centered ok-only>
-        Sorry, invoice couldn't be added.
+        Sorry, invoice couldn't be added. 
     </b-modal>
   </div>
 </template>
