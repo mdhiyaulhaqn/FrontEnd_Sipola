@@ -75,7 +75,7 @@
                             Yes, Delete it
                         </b-button>
                         <b-button @click="hideModal" id ="cancel_delete_button" class="btn btn-danger">
-                            No
+                            Cancel
                         </b-button>
                     </b-col>
                 </b-row>
