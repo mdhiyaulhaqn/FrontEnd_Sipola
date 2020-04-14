@@ -17,10 +17,14 @@
                         <b-col md="2">
                             <router-link :to="{name: 'sales-order-for-invoice'}">
                                 <button id="invoice_bttn" class="btn btn-primary">
-                                    Add Invoice
-                                <span class="ti-plus"></span>
+                                    <b-row align-h="center">
+                                        <p style="font-size: 12px"> Add Invoice </p>
+                                        <div style="margin-left: 10px; margin-top: -3px">
+                                            <img src="@/assets/img/add-circle-icon.png" alt="" width="25px">
+                                        </div>
+                                    </b-row>
                                 </button>
-                                </router-link>
+                            </router-link>
                         </b-col>
                         <b-col md="10">
                             <b-form-group
@@ -201,13 +205,14 @@ export default {
 
 <style>
 #invoice_bttn{
-    background-color: #109cf1;
-    color: white;
-    border-color: transparent;
-    font-size: 10px;
-    margin-bottom: 4px;
-    margin-left: 20px;
-    box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 10px;
+  width: 136px;
+  height: 36px;
+  margin-bottom: 4px;
+  box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
 }
 .judul{
     text-align: center;

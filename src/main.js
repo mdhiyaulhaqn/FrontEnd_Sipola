@@ -31,10 +31,12 @@ import '@progress/kendo-theme-default/dist/all.css'
 import { Gantt, GanttColumn, GanttView, GanttInstaller } from '@progress/kendo-gantt-vue-wrapper';
 import moment from 'moment';
 import VueMoment from 'vue-moment';
+import CKEditor from '@ckeditor/ckeditor5-vue';
 // import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 Vue.use(GanttInstaller, Gantt, GanttColumn, GanttView)
 Vue.use(ClientTable);
+Vue.use( CKEditor );
 Vue.use(PaperDashboard);
 Vue.use(BootstrapVue);
 Vue.use(datePicker);

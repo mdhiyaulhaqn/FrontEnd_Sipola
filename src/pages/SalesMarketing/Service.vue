@@ -12,6 +12,7 @@
             type="text"
             required
             placeholder="Scope Name"
+            pattern="[a-zA-Z0-9-]++"
             >
         </b-form-input>
     </div>
@@ -40,6 +41,7 @@
             type="number"
             required
             placeholder="0"
+            lang="de-DE"
             >
         </b-form-input>
     </div>
@@ -68,7 +70,7 @@ export default {
 
 <style scoped>
 .service_row{
-    margin-bottom: 10px;
+    margin:auto;
 }
 #delete-button{
     width: 100%;
