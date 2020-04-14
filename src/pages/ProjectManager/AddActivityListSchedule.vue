@@ -23,7 +23,7 @@
                     type="text"
                     required
                     placeholder="Project Name"
-                    pattern="(?!^\d+$)^.+$"
+                    pattern=".*[a-zA-Z].*"
                     >
                   </b-form-input>
                                       <!-- :state="nameState"
@@ -42,7 +42,7 @@
                     type="text"
                     required
                     placeholder="Company Name"
-                    pattern="(?!^\d+$)^.+$"
+                    pattern=".*[a-zA-Z].*"
                     >
                   </b-form-input>
                 </b-form-group>
