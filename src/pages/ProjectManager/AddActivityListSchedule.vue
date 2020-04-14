@@ -64,7 +64,7 @@
 
                 <b-row>
                   <div class ="col-md-6 col-12">
-                    <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">Add More Activity <span class="ti-plus"></span></button>
+                    <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">Add More Activity <span><img src="@/assets/img/add-circle-icon.png" alt="" width="25px"></span></button>
                   </div>
                 </b-row>
 
