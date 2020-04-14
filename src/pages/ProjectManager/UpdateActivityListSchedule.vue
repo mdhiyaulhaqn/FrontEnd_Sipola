@@ -26,6 +26,7 @@
                     type="text"
                     required
                     placeholder="Project Name"
+                    pattern="(?!^\d+$)^.+$"
                     disabled>
                   </b-form-input>
                 </b-form-group>
@@ -38,6 +39,7 @@
                     type="text"
                     required
                     placeholder="Company Name"
+                    pattern="(?!^\d+$)^.+$"
                     disabled>
                   </b-form-input>
                 </b-form-group>
@@ -66,8 +68,8 @@
                 </b-row>
 
                 <b-row>
-                    <div class ="col-md-6 col-12">
-                      <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">Add More Activity <span class="ti-plus"></span></button>
+                    <div class ="col-sm-5 col-12">
+                      <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">Add More Activity <span><img src="@/assets/img/add-circle-blue-icon.png" alt="" width="25px"></span></button>
                     </div>
                 </b-row>
 
@@ -284,6 +286,11 @@ export default {
   color : #109cf1;
   border-color: #109cf1;
   margin-bottom: 10px;
+  border-width: 1.5px;
+  line-height: 12px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
 }
 .judul{
   text-align: center;
