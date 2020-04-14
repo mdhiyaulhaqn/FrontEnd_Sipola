@@ -15,7 +15,7 @@
     <div class = "row">
         <div class = "col-10 isi-form">
             <card>
-            <b-form @submit="onSubmit" v-if="show">
+            <b-form @submit="onConfirmation" v-if="show">
                 <b-form-group>
                     <label for="projectName">Project</label>
                     <b-form-input
@@ -24,6 +24,7 @@
                         type="text"
                         required
                         placeholder="Project Description"
+                        maxlength="180"
                         >
                     </b-form-input>
                 </b-form-group>
@@ -54,10 +55,10 @@
                 </b-row> 
 
                  <b-row>
-                    <b-col md="12">
+                    <div class ="col-md-6 col-12">
                         <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">+ Add More Item</button>
-                    </b-col>
-                </b-row><br>
+                    </div>
+                </b-row> 
                 
                 <b-row>
                     <b-col>
@@ -71,26 +72,19 @@
                         <div class="dropzone">
                         <input type="file" class="input-file" ref="files"
                         @change="selectFile" multiple/>
-                        <p v-if="!uploading && !isAnyImage" class="call-to-action"><i class='far fa-arrow-alt-circle-up' style='font-size:36px'></i> 
-                        Drag and drop your files here or <label for="file">
-                            <button class="buttonFile"><i class='far fa-arrow-alt-circle-up'></i> Select</button></label></p>
+                        <p v-if="attachments.length === 0" class="call-to-action"><i class='fas fa-cloud-upload-alt' style='font-size:36px'></i> 
+                        Drag and drop your images here or <label for="file">
+                            <button class="buttonFile">Select <i class='far fa-arrow-alt-circle-up'></i></button></label></p>
                         
-                        <div class="col-3" v-bind:key="file" v-for="(file, index) in attachments" >
-                            <b-card
-                                :img-src="untukPreview+file.image"
-                                img-alt="Image"
-                                img-top
-                                img-width="100px"
-                                img-height="100px"
-                                tag="article"
-                                style="max-width: 200px;"
-                                class="mb-2"
-                            >
-                            <b-card-text>
-                                 {{file.fileName}}   
-                            </b-card-text>
-                            <b-button @click="removeFile(index)"><i class="fas fa-minus-circle" ></i></b-button>
-                            </b-card>
+                        <div id="kotakAttachment">
+                             <b-col class="col-xs-12 col-sm-12 col-md-3 grup-attachment" v-bind:key="file" v-for="file in attachments" >
+                                <div class="foto">
+                                 <img :src="untukPreview+file.image" alt="Image" class="image">
+                                 <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" ></i></a>
+                                </div>
+                                 <p>{{file.fileName}} </p>
+                                 
+                            </b-col>
                         </div>
                         </div>
                         </b-form-group>
@@ -99,14 +93,75 @@
                 
                 <div class = "button-group">
                     <b-button class = "cancel-button" type="reset">Cancel</b-button>
-                    <b-button class = "save-reimbursement-button" type="submit">Save</b-button>
+                    <b-button class = "save-button" type="submit">Save</b-button>
                 </div>
             </b-form>
             </card>
         </div>
     </div>
-    <b-modal title="Reimbursement Report Berhasil Tersimpan" v-model="successModal" @ok="redirect()"  centered ok-only>
-        Reimbursement Report Has Been Updated.
+    <b-modal
+      id="modal-confirmation"
+      centered
+      v-model="confirmationModal"
+      >
+      <template v-slot:modal-title>
+        <div class="container">
+          <h5 id="modal-title-success">Save Changes?</h5>
+        </div>
+      </template>
+      <template v-slot:default>
+        <div class="container">
+          <b-row>
+            <b-col class="modal-icon col-2">
+              <img src="@/assets/img/update-confirm-icon.png" alt="" width="50px">
+            </b-col>
+            <b-col class="col-10">
+              <p id="modal-message">Activity list schedule will be changed soon once you click the save button.</p>
+            </b-col>
+          </b-row>
+        </div>
+      </template>
+      <template v-slot:modal-footer="{ cancel }">
+        <b-col class="button-confirm-group">
+          <b-button @click="cancel()" class="cancel-button">
+            Cancel
+          </b-button>
+          <b-button @click="onSubmit" class="save-button">
+            Save
+          </b-button>
+        </b-col>
+      </template>
+    </b-modal>
+    <b-modal
+      id="modal-success"
+      centered
+      v-model="successModal"
+      @ok="redirect()"
+      >
+      <template v-slot:modal-title>
+        <div class="container">
+          <h5 id="modal-title-success">Success!</h5>
+        </div>
+      </template>
+      <template v-slot:default>
+        <div class="container">
+          <b-row>
+            <b-col class="modal-icon col-2">
+              <img src="@/assets/img/success-icon.png" alt="" width="50px">
+            </b-col>
+            <b-col class="col-10">
+              <p id="modal-message">Reimbursement Report for project {{reimbursement.projectName}} was successfully changed.</p>
+            </b-col>
+          </b-row>
+        </div>
+      </template>
+      <template v-slot:modal-footer="{ ok }">
+        <b-col class="button-confirm-group">
+          <b-button @click="ok()" id="ok-button" variant="outline-primary">
+            See Details
+          </b-button>
+        </b-col>
+      </template>
     </b-modal>
 
     <b-modal title="Reimbursement Gagal Tersimpan" v-model="failedModal" centered ok-only>
@@ -132,15 +187,6 @@ export default {
             attachments: [],
             untukPreview : 'data:image/jpeg;base64, ',
             reimbursement: '',
-            newReimbursement : {
-                createdBy : "adi",
-                projectName : '',
-                totalReimburse : 0,
-                statusReimburse : 'On Progress',
-                status : 'Active',
-                listExpense : '',
-                listAttachment : '',
-            },
             new_expense : {
                 id_expense : 0,
                 nama : '',
@@ -160,6 +206,7 @@ export default {
             show: true,
             successModal : false,
             failedModal : false,
+            confirmationModal : false,
             send : {objects : null},
         }
     },
@@ -183,8 +230,8 @@ export default {
             evt.preventDefault();
             console.log(this.attachments);
             console.log(this.expenses);
-            this.reimbursement.listAttachment = this.attachments;
             this.reimbursement.listExpense = this.expenses;
+            this.reimbursement.listAttachment = this.attachments;
             this.updateReimbursement(JSON.stringify(this.reimbursement));
         },
 
@@ -197,6 +244,10 @@ export default {
             } else {
                 this.failedModal = true;
             }
+        },
+
+        onConfirmation(evt) {
+          this.confirmationModal = true;
         },
 
         fetchData : function(){
@@ -219,12 +270,7 @@ export default {
             let listAttachment = this.reimbursement.listAttachment;
             console.log(this.reimbursement.listAttachment);
             for(let i=0; i< listAttachment.length ; i++){
-                this.new_attachment.id_attachment++;
-                this.new_attachment.fileName = listAttachment[i].fileName;
-                this.new_attachment.image = listAttachment[i].image;
-
-                let attachment = Object.assign({}, this.new_attachment);
-                this.attachments.push(attachment);
+                this.attachments.push(this.reimbursement.listAttachment[i]);
             }
             console.log(this.attachments);
         },
@@ -236,7 +282,8 @@ export default {
         },
 
         updateReimbursement(reimburse){
-            console.log("add reimburse")
+            console.log("add reimburse");
+            console.log(reimburse);
             axios.put('http://localhost:8080/api/reimbursement/update/' + this.$route.params.id, 
             reimburse, 
                 { headers: {
@@ -247,7 +294,6 @@ export default {
         },
 
         removeFile(file) {
-            console.log("masuk remove")
             this.attachments.splice(this.attachments.indexOf(file), 1);
         },
 
@@ -255,12 +301,6 @@ export default {
             const files = this.$refs.files.files;
             this.isAnyImage = true;
             for (let i = 0; i < files.length; i++) {
-                // let reader = new FileReader();
-                // reader.readAsDataURL(files[i]);
-                // reader.onload = e => {
-                //     let ava = e.target.result;
-                //     this.previewFile.push(ava);
-                // }
                 this.uploadFile(files[i]);
             }
         },
@@ -301,7 +341,7 @@ export default {
 }
 
 .add-button{
-    width:360px;
+    width:100%;
     background-color: white;
     color : #109cf1;
     border-color: #109cf1;
@@ -324,14 +364,53 @@ export default {
     color:white;
 }
 
+.save-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 10px;
+  margin-left: 10px;
+  line-height: 15px;
+  width: 110px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
+}
+
 .cancel-button{
-    color:#109CF1;
-    border-color:#109CF1;
-    background-color: white;
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 80px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 10px;
 }
 
 .button-group{
-    float:right;
+  margin-top: 30px;
+  text-align: center;
+}
+.label{
+  font-weight: 600;
+}
+#modal-message{
+  font-size: 16px;
+}
+#modal-title-success{
+  color: #109CF1;
+  font-weight: 1000;
+}
+#ok-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+}
+.button-confirm-group{
+  text-align: right;
+}
+h5{
+  margin-bottom: -4px;
 }
 
 .dropzone {
@@ -361,6 +440,52 @@ export default {
     font-size: 1.2rem;
     text-align: center;
     padding: 70px 0;
+}
+
+img {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.grup-attachment{
+    padding: 5px 5px 5px 5px;
+}
+
+.image {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.removeIcon {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.foto {
+  position: relative;
+  width: 100%;
+}
+
+.foto:hover .image {
+  opacity: 0.3;
+}
+
+.foto:hover .removeIcon {
+  opacity: 1;
+}
+
+#kotakAttachment {
+    padding: 10px 10px;
 }
 
 </style>

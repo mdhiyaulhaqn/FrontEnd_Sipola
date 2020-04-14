@@ -21,8 +21,7 @@
           <kendo-gantt id="gantt"
                       :height="'400'"
                       :editable-create="false"
-                      :data-source="datasource"
-                      :dependencies="dependencydatasource">
+                      :data-source="datasource">
             <kendo-gantt-view :type="'day'"></kendo-gantt-view>
             <kendo-gantt-view :type="'week'" :selected="true"></kendo-gantt-view>
             <kendo-gantt-view :type="'month'"></kendo-gantt-view>
@@ -44,6 +43,7 @@
         </b-row>
       </card>
     </div>
+    
     <b-modal
       id="modal-delete"
       ref="modal-delete"
@@ -125,24 +125,22 @@ export default {
           title: "Main Project",
           summary: true,
           expanded: true,
-          percentComplete: 0.3,
           start: new Date("2014/6/17 9:00"),
           end: new Date("2014/7/01 11:00")
       },
       {
           id: 1,
           orderId: 1,
-          parentId: 0,
+          // parentId: 0,
           title: "Task1",
-          percentComplete: 0.47,
           start: new Date("2014/6/17 11:00"),
           end: new Date("2014/6/20 14:00")
       }],
-      dependencydatasource: [{
-          predecessorId: 1,
-          successorId: 2,
-          type: 1
-      }],
+      // dependencydatasource: [{
+      //     predecessorId: 1,
+      //     successorId: 2,
+      //     type: 1
+      // }],
       activityListSchedule: '',
       successModal: false,
       headerBorderVariant: 'white',

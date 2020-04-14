@@ -111,7 +111,7 @@ const routes = [
         component: Pengeluaran
       },
       {
-        path: "expense/detail/:id",
+        path: "expense/:id",
         name: "expense-detail",
         component: DetailPengeluaran
       },

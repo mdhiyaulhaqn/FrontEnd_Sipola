@@ -141,17 +141,12 @@ export default {
         })
     },
     items() {
-      console.log("OAASKJDLASKJDLASK : " + this.pengeluaranList.length)
+      this.totalRows = this.pengeluaranList.length
       return this.pengeluaranList;
     }
   },
   beforeMount(){
     this.getAllPengeluaran();
-  },
-  mounted(){
-    // this.items.length
-    this.totalRows = this.items.length
-    console.log("WOY : " + this.items)
   },
   methods: {
     onFiltered(filteredItems) {
@@ -184,5 +179,14 @@ export default {
     text-align: center;
     color: black;
     margin: 5px 0 24px 0;
+}
+
+#view_button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 10px;
+  height: 36px;
+  box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
 }
 </style>
