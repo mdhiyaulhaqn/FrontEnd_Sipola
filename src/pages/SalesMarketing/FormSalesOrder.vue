@@ -55,7 +55,7 @@
                 </b-form-group>
 
                 <b-row>
-                    <b-col md="6">
+                    <b-col md="12">
                         <b-form-group>
                             <label for="companyName" >Company Name</label>
                             <b-form-select v-model="new_sales_order.company" required>

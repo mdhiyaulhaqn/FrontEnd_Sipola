@@ -11,6 +11,9 @@
     "dev": "npm run serve"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^18.0.0",
+    "@ckeditor/ckeditor5-vue": "^1.0.1",
+    "@progress/kendo-datasource-vue-wrapper": "^2020.1.406",
     "@progress/kendo-gantt-vue-wrapper": "^2020.1.406",
     "@progress/kendo-theme-default": "^4.14.0",
     "@progress/kendo-ui": "^2020.1.406",
@@ -45,7 +48,10 @@
     "vue-router-back-button": "^1.2.3",
     "vue-sidebar-menu": "^4.5.3",
     "vue-tables-2": "^2.0.14",
-    "vuejs-datatable": "^2.0.0-alpha.7"
+    "vuejs-datatable": "^2.0.0-alpha.7",
+    "vuesax": "^3.8.31",
+    "vuex": "^3.1.0",
+    "vuex-persist": "^2.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.2.0",

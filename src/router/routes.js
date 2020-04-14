@@ -5,10 +5,6 @@ import NotFound from "@/pages/NotFoundPage.vue";
 // Admin pagesc
 import Dashboard from "@/pages/Dashboard.vue";
 import UserProfile from "@/pages/UserProfile.vue";
-import Notifications from "@/pages/Notifications.vue";
-import Icons from "@/pages/Icons.vue";
-import Maps from "@/pages/Maps.vue";
-import Typography from "@/pages/Typography.vue";
 import Quotation from "@/pages/SalesMarketing/Quotation.vue";
 import SalesOrder from "@/pages/SalesMarketing/SalesOrder.vue";
 import FormSalesOrder from "@/pages/SalesMarketing/FormSalesOrder.vue";
@@ -21,6 +17,7 @@ import DetailPengeluaran from "@/pages/Finance/DetailPengeluaran.vue";
 import FormPengeluaran from "@/pages/Finance/FormPengeluaran.vue";
 import Invoice from "@/pages/Finance/Invoice.vue";
 import FormInvoice from "@/pages/Finance/FormInvoice.vue";
+import UpdateInvoice from "@/pages/Finance/UpdateInvoice.vue";
 import DetailInvoice from "@/pages/Finance/DetailInvoice.vue";
 import DetailSalesOrderForInvoice from "@/pages/Finance/DetailSalesOrderForInvoice.vue";
 import SalesOrderForInvoice from "@/pages/Finance/SalesOrderForInvoice.vue";
@@ -33,6 +30,8 @@ import ReimbursementReport from "@/pages/ServiceTeam/ReimbursementReport.vue";
 import DetailReimbursement from "@/pages/ServiceTeam/DetailReimbursement.vue";
 import FormReimbursement from "@/pages/ServiceTeam/FormReimbursement.vue";
 import UpdateReimbursement from "@/pages/ServiceTeam/UpdateReimbursement.vue";
+import Login from "@/pages/Login.vue";
+import Homepage from "@/pages/Homepage.vue";
 
 const routes = [
   {
@@ -61,34 +60,9 @@ const routes = [
         component: UpdateQuotation
       },
       {
-        path: "stats",
-        name: "stats",
-        component: UserProfile
-      },
-      {
         path: "quotation/:id",
         name: "detail-quotation",
         component: DetailQuotation
-      },
-      {
-        path: "notifications",
-        name: "notifications",
-        component: Notifications
-      },
-      {
-        path: "icons",
-        name: "icons",
-        component: Icons
-      },
-      {
-        path: "maps",
-        name: "maps",
-        component: Maps
-      },
-      {
-        path: "typography",
-        name: "typography",
-        component: Typography
       },
       {
         path: "quotation",
@@ -121,8 +95,8 @@ const routes = [
         component: UpdatePengeluaran
       },
       {
-        path: "expense/add",
-        name: "add-expense",
+        path: "expense-add",
+        name: "expense-add",
         component: FormPengeluaran
       },
       {
@@ -139,6 +113,11 @@ const routes = [
         path: "invoice-add",
         name: "invoice-add",
         component: FormInvoice
+      },
+      {
+        path: "invoice/:id/update",
+        name: "update-invoice",
+        component: UpdateInvoice
       },
       {
         path: "sales-order-for-invoice",
@@ -191,6 +170,11 @@ const routes = [
         name: "update-activity-list-schedule",
         component: UpdateActivityListSchedule
       },
+      // {
+      //   path: "/",
+      //   name: "home",
+      //   component: Homepage
+      // }
     ]
   },
   { path: "*", component: NotFound }
