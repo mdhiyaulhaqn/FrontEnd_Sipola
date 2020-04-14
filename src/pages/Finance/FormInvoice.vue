@@ -156,6 +156,7 @@
                                 type="text"
                                 required
                                 placeholder="Payment Terms"
+                                pattern="[a-zA-Z0-9\s]+"
                                 >
                             </b-form-textarea>
                         </b-form-group>
@@ -170,6 +171,7 @@
                                 type="text"
                                 required
                                 placeholder="Terms of Delivery"
+                                pattern="[a-zA-Z\s]+"
                                 >
                             </b-form-textarea>
                         </b-form-group>
