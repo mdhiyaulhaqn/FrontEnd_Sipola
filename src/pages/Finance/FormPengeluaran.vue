@@ -59,7 +59,7 @@
                         type="text"
                         required
                         placeholder="Paid by"
-                        pattern="[a-zA-Z0-9\s]+"
+                        pattern="[a-zA-Z\s]+"
                         >
                     </b-form-input>
                 </b-form-group>
