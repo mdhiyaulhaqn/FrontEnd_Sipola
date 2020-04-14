@@ -8,14 +8,20 @@
       </b-breadcrumb>
       <h3 class="judul"><strong>Activity List Schedule</strong></h3>
       <card>
-        <b-container fluid>
+        <!-- <b-container fluid> -->
           <!-- User Interface controls -->
-          <b-row align-h="between" style="margin-top: 12px;">
+          <b-row align-h="between">
             <b-col md="2">
               <router-link :to="{name: 'add-activity-list-schedule'}">
                 <b-button id ="add_activity_button" class="btn btn-primary">
-                Add Activity
-                <span class="ti-plus"></span>
+                  <b-row align-h="center">
+                    <p style="font-size: 12px">
+                      Add Activity
+                    </p>
+                    <div style="margin-left: 10px; margin-top: -4px">
+                      <img src="@/assets/img/add-circle-icon.png" alt="" width="25px">
+                    </div>
+                  </b-row>
                 </b-button>
               </router-link>
             </b-col>
@@ -32,7 +38,7 @@
                     v-model="filter"
                     type="search"
                     id="filterInput"
-                    placeholder="Replacement"
+                    placeholder="Replacement ... "
                   ></b-form-input>
                   <b-input-group-append>
                     <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
@@ -113,7 +119,7 @@
               ></b-pagination>
             </b-col>
           </b-row>
-        </b-container>
+        <!-- </b-container> -->
       </card>
     </div>
   </div>
@@ -190,7 +196,7 @@ export default {
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 8px;
   width: 80px;
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
