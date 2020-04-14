@@ -137,7 +137,7 @@
                     <div class="col-6">
                         <b-form-group>
                             <label for="paymentTerms">Payment Terms</label>
-                            <b-form-textarea
+                            <b-form-input
                                 id="paymentTerms"
                                 v-model="invoice.paymentTerms"
                                 type="text"
@@ -145,14 +145,14 @@
                                 placeholder="Payment Terms"
                                 pattern="[a-zA-Z0-9\s]+"
                                 >
-                            </b-form-textarea>
+                            </b-form-input>
                         </b-form-group>
                     </div>
 
                     <div class="col-6">
                         <b-form-group>
                             <label for="termsOfDelivery">Terms of Delivery</label>
-                            <b-form-textarea
+                            <b-form-input
                                 id="termsOfDelivery"
                                 v-model="invoice.termsOfDelivery"
                                 type="text"
@@ -160,7 +160,7 @@
                                 placeholder="Terms of Delivery"
                                 pattern="[a-zA-Z\s]+"
                                 >
-                            </b-form-textarea>
+                            </b-form-input>
                         </b-form-group>
                     </div>
                 </div>
