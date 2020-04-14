@@ -13,6 +13,7 @@
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^18.0.0",
     "@ckeditor/ckeditor5-vue": "^1.0.1",
+    "@progress/kendo-datasource-vue-wrapper": "^2020.1.406",
     "@progress/kendo-gantt-vue-wrapper": "^2020.1.406",
     "@progress/kendo-theme-default": "^4.14.0",
     "@progress/kendo-ui": "^2020.1.406",

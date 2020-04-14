@@ -30,6 +30,8 @@ import ReimbursementReport from "@/pages/ServiceTeam/ReimbursementReport.vue";
 import DetailReimbursement from "@/pages/ServiceTeam/DetailReimbursement.vue";
 import FormReimbursement from "@/pages/ServiceTeam/FormReimbursement.vue";
 import UpdateReimbursement from "@/pages/ServiceTeam/UpdateReimbursement.vue";
+import Login from "@/pages/Login.vue";
+import Homepage from "@/pages/Homepage.vue";
 
 const routes = [
   {
@@ -56,11 +58,6 @@ const routes = [
         path: "quotation/:id/update",
         name: "update-quotation",
         component: UpdateQuotation
-      },
-      {
-        path: "stats",
-        name: "stats",
-        component: UserProfile
       },
       {
         path: "quotation/:id",
@@ -173,6 +170,11 @@ const routes = [
         name: "update-activity-list-schedule",
         component: UpdateActivityListSchedule
       },
+      // {
+      //   path: "/",
+      //   name: "home",
+      //   component: Homepage
+      // }
     ]
   },
   { path: "*", component: NotFound }

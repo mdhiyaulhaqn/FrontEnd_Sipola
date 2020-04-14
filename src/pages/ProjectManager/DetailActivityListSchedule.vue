@@ -21,11 +21,20 @@
           <kendo-gantt id="gantt"
                       :height="'400'"
                       :editable-create="false"
-                      :data-source="activityListSchedule.listTugas  "
-                      :dependencies="dependencydatasource">
-            <kendo-gantt-view :type="'day'"></kendo-gantt-view>
+                      :show-work-hours="false"
+                      :show-work-days="false"               
+                      :data-source="activityListSchedule.listTugas"
+                      :editable-drag-percent-complete="false"
+                      :editable-update="false"
+                      :editable-reorder="false"
+                      :editable-move="false"
+                      :editable-destroy="false"
+                      :editable-dependency-create="false"
+                      :editable-dependency-destroy="false">
+            <!-- <kendo-gantt-view :type="'day'"></kendo-gantt-view> -->
             <kendo-gantt-view :type="'week'" :selected="true"></kendo-gantt-view>
-            <kendo-gantt-view :type="'month'"></kendo-gantt-view>
+            <!-- <kendo-gantt-view :type="'month'"></kendo-gantt-view> -->
+            <kendo-gantt-column :field="'title'" :title="'Activity Name'" :sortable="true"></kendo-gantt-column>
           </kendo-gantt>
         </div>
         <b-row>
@@ -112,37 +121,34 @@
   </div>
 </template>
 <script>
-
 import axios from 'axios';
 
 export default {
   data() {
     return {
-      datasource: [{
-          id: 0,
-          orderId: 0,
-          parentId: null,
-          title: "Main Project",
-          summary: true,
-          expanded: true,
-          percentComplete: 0.3,
-          start: new Date("2014/6/17 9:00"),
-          end: new Date("2014/7/01 11:00")
-      },
-      {
-          id: 1,
-          orderId: 1,
-          parentId: 0,
-          title: "Task1",
-          percentComplete: 0.47,
-          start: new Date("2014/6/17 11:00"),
-          end: new Date("2014/6/20 14:00")
-      }],
-      dependencydatasource: [{
-          predecessorId: 1,
-          successorId: 2,
-          type: 1
-      }],
+      // datasource: [{
+      //     id: 0,
+      //     orderId: 0,
+      //     parentId: null,
+      //     title: "Main Project",
+      //     summary: true,
+      //     expanded: true,
+      //     start: new Date("2014/6/17 9:00"),
+      //     end: new Date("2014/7/01 11:00")
+      // },
+      // {
+      //     id: 1,
+      //     orderId: 1,
+      //     // parentId: 0,
+      //     title: "Task1",
+      //     start: new Date("2014/6/17 11:00"),
+      //     end: new Date("2014/6/20 14:00")
+      // }],
+      // dependencydatasource: [{
+      //     predecessorId: 1,
+      //     successorId: 2,
+      //     type: 1
+      // }],
       activityListSchedule: '',
       successModal: false,
       headerBorderVariant: 'white',
@@ -154,6 +160,11 @@ export default {
   },
   
   methods: {
+    parameterMap: function(options, operation) {
+      if (operation !== 'read') {
+        return {models: kendo.stringify(options.models || [options])}
+      }
+    },
     onSubmit(evt) {
       evt.preventDefault();
       this.deleteActivityListSchedule(JSON.stringify(this.activityListSchedule));
@@ -168,41 +179,29 @@ export default {
       .then(response => {this.activityListSchedule = response.data, this.getActivity()})
       .catch(err => this.activityListSchedule = err.data);
     },
-    
     getActivity(){
-       for(let i=0; i< this.activityListSchedule.listTugas.length; i++){
-         console.log("yee")
-        
-          this.activityListSchedule.listTugas[i].id = i+1;
-          this.activityListSchedule.listTugas[i].orderId = i+1;
-          this.activityListSchedule.listTugas[i].parentId = 0;
-          this.activityListSchedule.listTugas[i].title = this.activityListSchedule.listTugas[i].namaTugas;
+      for(let i=0; i< this.activityListSchedule.listTugas.length; i++){
+        this.activityListSchedule.listTugas[i].id += i;
+        this.activityListSchedule.listTugas[i].orderId += i;
+        this.activityListSchedule.listTugas[i].parentId = 0;
+        this.activityListSchedule.listTugas[i].title = this.activityListSchedule.listTugas[i].namaTugas;
+        this.activityListSchedule.listTugas[i].summary = false;
+        this.activityListSchedule.listTugas[i].expanded = false;
+        this.activityListSchedule.listTugas[i].start = new Date(this.activityListSchedule.listTugas[i].tanggalMulaiTugas);
+        this.activityListSchedule.listTugas[i].end =  new Date(this.activityListSchedule.listTugas[i].tanggalSelesaiTugas);
+      }      
+      var parentActivity = {};
+      parentActivity.id = 0;  
+      parentActivity.orderId = 0;
+      parentActivity.parentId = null;
+      parentActivity.title = this.activityListSchedule.namaProyek;
+      parentActivity.summary = true;
+      parentActivity.expanded = true;
+      parentActivity.start = new Date(this.activityListSchedule.listTugas[0].tanggalMulaiTugas);
+      parentActivity.end = new Date(this.activityListSchedule.listTugas.slice(-1)[0].tanggalSelesaiTugas);
 
-          this.activityListSchedule.listTugas[i].summary = false;
-          this.activityListSchedule.listTugas[i].expanded = false;
-          this.activityListSchedule.listTugas[i].percentComplete = 0;
-          // console.log("test 99" + this.activityListSchedule.namaProyek);
-          this.activityListSchedule.listTugas[i].start = new Date(this.activityListSchedule.listTugas[i].tanggalMulaiTugas);
-          this.activityListSchedule.listTugas[i].end =  new Date(this.activityListSchedule.listTugas[i].tanggalSelesaiTugas);
-          console.log("yuaha = " +  this.activityListSchedule.listTugas[i].summary);
-        }
-        
-        var parentActivity = {};
-
-        parentActivity.id = 0;  
-        parentActivity.orderId = 0;
-        parentActivity.parentId = null;
-        parentActivity.title = this.activityListSchedule.namaProyek;
-
-        parentActivity.summary = true;
-        parentActivity.expanded = true;
-        parentActivity.percentComplete = 0;
-        parentActivity.start = new Date(this.activityListSchedule.listTugas[0].tanggalMulaiTugas);
-        parentActivity.end = new Date(this.activityListSchedule.listTugas[1].tanggalSelesaiTugas);
-
-        this.activityListSchedule.listTugas.push(parentActivity);
+      this.activityListSchedule.listTugas.push(parentActivity);
     },
-
     deleteActivityListSchedule(activityListSchedule){
       axios.put('http://localhost:8080/api/activity-list-schedule/' + this.$route.params.id + '/delete',
       activityListSchedule,
@@ -220,6 +219,7 @@ export default {
     },
   }
 }
+
 </script>
 
 <style scoped>
