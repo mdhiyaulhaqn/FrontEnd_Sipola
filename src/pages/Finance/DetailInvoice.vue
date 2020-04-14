@@ -270,6 +270,17 @@ export default {
 
         downloadReport:function(){
             var doc = new jsPDF()
+            let noInvoice = this.invoice.noInvoice
+            let dateInvoice = this.invoice.dateInvoice
+            let dueDatePayment = this.invoice.dueDatePayment
+            let noPO = this.invoice.salesOrder.poNumber
+            let datePO = this.invoice.salesOrder.poDate
+            let noSalesOrder = this.invoice.salesOrder.noSalesOrder
+            let companyName = this.invoice.salesOrder.company.nama
+            let companyAddr = this.invoice.salesOrder.company.alamat
+            let termsOfDelivery = this.invoice.termsOfDelivery
+            let paymentTerms = this.invoice.paymentTerms
+
             doc.save("Invoice.pdf")
             this.$refs['modal-download'].show();
         }
