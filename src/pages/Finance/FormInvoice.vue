@@ -189,7 +189,7 @@
     </div>
 
     <b-modal title="Add Success!" v-model="successModal" @ok="redirect()"  centered ok-only>
-        Invoice with No. {{invoice.noInvoice}} was successfully added!
+        Invoice with No. {{invoice.noInvoice}} was successfully added! 
     </b-modal>
 
     <b-modal title="Failed" v-model="failedModal" centered ok-only>
