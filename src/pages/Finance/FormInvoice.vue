@@ -150,28 +150,30 @@
                     <div class="col-6">
                         <b-form-group>
                             <label for="paymentTerms">Payment Terms</label>
-                            <b-form-textarea
+                            <b-form-input
                                 id="paymentTerms"
                                 v-model="invoice.paymentTerms"
                                 type="text"
                                 required
                                 placeholder="Payment Terms"
+                                pattern="[a-zA-Z0-9\s]+"
                                 >
-                            </b-form-textarea>
+                            </b-form-input>
                         </b-form-group>
                     </div>
 
                     <div class="col-6">
                         <b-form-group>
                             <label for="termsOfDelivery">Terms of Delivery</label>
-                            <b-form-textarea
+                            <b-form-input
                                 id="termsOfDelivery"
                                 v-model="invoice.termsOfDelivery"
                                 type="text"
                                 required
                                 placeholder="Terms of Delivery"
+                                pattern="[a-zA-Z\s]+"
                                 >
-                            </b-form-textarea>
+                            </b-form-input>
                         </b-form-group>
                     </div>
                 </div>
@@ -187,11 +189,11 @@
     </div>
 
     <b-modal title="Add Success!" v-model="successModal" @ok="redirect()"  centered ok-only>
-        Invoice with No. {{invoice.noInvoice}} was successfully added!
+        Invoice with No. {{invoice.noInvoice}} was successfully added! 
     </b-modal>
 
     <b-modal title="Failed" v-model="failedModal" centered ok-only>
-        Sorry, invoice couldn't be added.
+        Sorry, invoice couldn't be added. 
     </b-modal>
   </div>
 </template>

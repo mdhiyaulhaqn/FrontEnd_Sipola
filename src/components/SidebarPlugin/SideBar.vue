@@ -13,13 +13,14 @@
             <div class="logo-img">
                 <img src="@/assets/img/company-logo.png" alt="">
             </div>
-          {{title}}
+            <span>{{title}}</span>
+          
         </a>
       </div>
       <div class="logo">
         <div class = "user-profile">
           <h3 id="name">Ringgi Cahyo</h3>
-          <h4 id="role">Project Manager</h4>
+          <h4 id="role">Service Team</h4>
         </div>
       </div>
 

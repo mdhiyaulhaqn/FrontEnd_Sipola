@@ -11,6 +11,7 @@
             type="text"
             required
             placeholder="Activity Name"
+            pattern=".*[a-zA-Z].*"
             >
         </b-form-input>
     </div>

@@ -137,28 +137,30 @@
                     <div class="col-6">
                         <b-form-group>
                             <label for="paymentTerms">Payment Terms</label>
-                            <b-form-textarea
+                            <b-form-input
                                 id="paymentTerms"
                                 v-model="invoice.paymentTerms"
                                 type="text"
                                 required
                                 placeholder="Payment Terms"
+                                pattern="[a-zA-Z0-9\s]+"
                                 >
-                            </b-form-textarea>
+                            </b-form-input>
                         </b-form-group>
                     </div>
 
                     <div class="col-6">
                         <b-form-group>
                             <label for="termsOfDelivery">Terms of Delivery</label>
-                            <b-form-textarea
+                            <b-form-input
                                 id="termsOfDelivery"
                                 v-model="invoice.termsOfDelivery"
                                 type="text"
                                 required
                                 placeholder="Terms of Delivery"
+                                pattern="[a-zA-Z\s]+"
                                 >
-                            </b-form-textarea>
+                            </b-form-input>
                         </b-form-group>
                     </div>
                 </div>
@@ -168,42 +170,68 @@
                     <router-link :to="{name: 'detail-invoice', params: {id:invoice.id}}">
                         <b-button class="cancel-button"> Cancel </b-button>
                     </router-link>
-                    <b-button class="update-invoice-bttn" type="submit"> Update </b-button>
+                    <b-button class="save-button" type="submit"> Update </b-button>
                 </div>
             </b-form>
             </card>
         </div>
     </div>
 
-    <b-modal id="modal-confirmation" ref="modal-confirmation" v-model="warningModal" hide-footer centered title="Save Changes?" ok-only>
-        <br>
-        <div class="container">
-            <div class="info">
-                <b-row> Invoice No. {{invoice.noInvoice}} will be changed soon once you click the save button.</b-row>
+    <b-modal id="modal-confirmation" centered v-model="warningModal">
+        <template v-slot:modal-title>
+            <div class="container">
+                <h5 id="modal-title success">Save Changes?</h5>
             </div>
-            <div class="ok-bttn">
+        </template>
+        <template v-slot:default>
+            <div class="container">
                 <b-row>
-                    <b-button id="cancel_update_button" @click="hideModal" size="md" variant="primary">Cancel</b-button>
-                    <b-button id="confirm_update_button" @click="onSubmit" size="md" variant="primary">Save</b-button>
+                    <b-col class="modal-icon col-2">
+                        <img src="@/assets/img/update-confirm-icon.png" alt="" width="50px">
+                    </b-col>
+                    <b-col class="col-10">
+                        <p id="modal-message">Invoice no {{invoice.noInvoice}} will be changed soon once you click the save button.</p>
+                    </b-col>
                 </b-row>
             </div>
-        </div>
+        </template>
+        <template v-slot:modal-footer="{ cancel }">
+            <b-col class="button-confirm-group">
+                <b-button @click="cancel()" class="cancel-button">
+                    Cancel
+                </b-button>
+                <b-button @click="onSubmit" class="save-button">
+                    Save
+                </b-button>
+            </b-col>
+        </template>
     </b-modal>
 
-    <b-modal title="Success!" v-model="successModal" hide-footer centered>
-        <br>
-        <div class="container">
-            <div class="info">
-                <b-row>Invoice No. {{invoice.noInvoice}} was successfully changed!</b-row>
+    <b-modal id="modal-success" centered v-model="successModal" @ok="redirect()">
+        <template v-slot:modal-title>
+            <div class="container">
+                <h5 id="modal-title-success">Success!</h5>
             </div>
-            <div style="float:right">
+        </template>
+        <template v-slot:default>
+            <div class="container">
                 <b-row>
-                    <b-button id="cancel_update_button" @click="redirect" size="md" variant="primary">
-                        See Details
-                    </b-button>
+                    <b-col class="modal-icon col-2">
+                        <img src="@/assets/img/success-icon.png" alt="" width="50px">
+                        </b-col>
+                        <b-col class="col-10">
+                        <p id="modal-message">Invoice no {{invoice.noInvoice}} was successfully changed.</p>
+                    </b-col>
                 </b-row>
             </div>
-        </div>
+        </template>
+        <template v-slot:modal-footer="{ ok }">
+            <b-col class="button-confirm-group">
+                <b-button @click="ok()" id="ok-button" variant="outline-primary">
+                    See Details
+                </b-button>
+            </b-col>
+        </template>
     </b-modal>
 
     <b-modal title="Failed" v-model="failedModal" centered ok-only>
@@ -261,7 +289,7 @@ export default {
         },
 
         onSubmit(evt) {
-            this.$refs['modal-confirmation'].hide();
+            // this.$refs['modal-confirmation'].hide();
             evt.preventDefault();
             this.updateInvoice(JSON.stringify(this.invoice));
         },
@@ -291,7 +319,7 @@ export default {
         },
 
         hideModal(){
-		    this.$refs['modal-confirmation'].hide();
+		    this.$refs['modal-hide'].hide();
 		},
     }
 }
@@ -320,39 +348,49 @@ export default {
     margin-right: auto;
 }
 
-#cancel_update_button{
-    font-size: 10px;
-    border-color: #109CF1;
-    color:#109CF1;
-    background-color: white;
-    border-width: 1px;
-    margin-right: 10px;
-}
-
-#confirm_update_button{
-    font-size: 10px;
-    background-color: #109CF1;
-    color:white;
-    border-color: white;
-}
-
-.update-invoice-bttn{
-    border-color: white;
-    background-color: #109CF1;
-    color:white;
+.save-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 10px;
+  margin-left: 10px;
+  line-height: 15px;
+  width: 110px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
 }
 
 .cancel-button{
-    color:#109CF1;
-    border-color:#109CF1;
-    background-color: white;
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 80px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 10px;
 }
 
 .button-group{
     float:right;
 }
 
-.ok-bttn{
-    float:right;
+#ok-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+}
+
+#modal-title-success{
+  color: #109CF1;
+  font-weight: 1000;
+}
+
+#modal-message{
+  font-size: 16px;
+}
+
+.button-confirm-group{
+  text-align: right;
 }
 </style>
