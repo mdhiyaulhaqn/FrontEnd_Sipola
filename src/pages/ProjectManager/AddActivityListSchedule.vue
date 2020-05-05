@@ -23,8 +23,15 @@
                     type="text"
                     required
                     placeholder="Project Name"
+                    pattern=".*[a-zA-Z].*"
                     >
                   </b-form-input>
+                                      <!-- :state="nameState"
+                    aria-describedby="input-live-help input-live-feedback"
+                  <b-form-invalid-feedback id="input-live-feedback">
+                    Cannot contain only numbers.
+                  </b-form-invalid-feedback>
+                  <b-form-text id="input-live-help">Enter the project name.</b-form-text> -->
                 </b-form-group>
 
                 <b-form-group id="company-name-input">
@@ -35,6 +42,7 @@
                     type="text"
                     required
                     placeholder="Company Name"
+                    pattern=".*[a-zA-Z].*"
                     >
                   </b-form-input>
                 </b-form-group>
@@ -161,6 +169,12 @@ export default {
   beforeMount() {
     this.addRow();
   },
+
+  // computed: {
+  //   nameState() {
+  //     return /(?!^\d+$)^.+$/.test(this.newActivityListSchedule.namaProyek)
+  //   }
+  // },
 
   methods: {
     addRow(){

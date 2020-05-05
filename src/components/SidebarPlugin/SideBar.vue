@@ -13,7 +13,8 @@
             <div class="logo-img">
                 <img src="@/assets/img/company-logo.png" alt="">
             </div>
-          {{title}}
+            <span>{{title}}</span>
+          
         </a>
       </div>
       <div class="logo">

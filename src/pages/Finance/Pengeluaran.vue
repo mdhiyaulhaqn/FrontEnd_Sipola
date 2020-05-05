@@ -9,7 +9,7 @@
       <h3 class="judul"><strong>Expense</strong></h3>
       <card>
         <b-row align-h="between" style="margin-top: 12px;">
-          <router-link :to="{name: 'add-expense'}">
+          <router-link :to="{name: 'expense-add'}">
             <button id ="add_quotation_button" class="btn btn-primary">
               <b-row align-h="center">
                   <p style="font-size: 12px">
@@ -172,7 +172,8 @@ export default {
       .then(response => this.pengeluaranList = response.data.result);
     },
     formatPrice(value) {
-        return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+      let val = (value/1).toFixed(2).replace('.', ',')
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     }
   },
 };
