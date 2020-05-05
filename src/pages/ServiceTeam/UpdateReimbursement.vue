@@ -417,7 +417,7 @@ h5{
 }
 
 .dropzone {
-    min-height: 200px;
+    height: auto;
     padding: 10px 10px;
     position: relative;
     cursor: pointer;
@@ -429,7 +429,7 @@ h5{
 .input-file{
     opacity: 0;
     width: 100%;
-    height: 200px;
+    height: auto;
     position: absolute;
     cursor: pointer;
     background: black;
