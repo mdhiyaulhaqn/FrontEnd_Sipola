@@ -349,6 +349,7 @@ export default {
 .label{
     font-weight: 600;
 }
+
 #modal-message{
     font-size: 16px;
 }

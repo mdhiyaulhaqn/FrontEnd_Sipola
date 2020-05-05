@@ -19,39 +19,39 @@
             <card>
             <div class="container-fluid">
                 <b-row>
-                    <div class = "company-name">{{ invoice.salesOrder.company.nama }}</div>
+                    <div class = "company-name"><strong>{{ invoice.salesOrder.company.nama }}</strong></div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-2 col-6">Invoice No</div>
-                    <div class = "col-md-6 col-6">: {{ invoice.noInvoice }}</div>
+                    <div class = "col-md-5 col-6">: {{ invoice.noInvoice }}</div>
                     <div class = "col-md-2 col-6">Sales Order No</div>
-                    <div class = "col-md-2 col-6">: {{ invoice.salesOrder.noSalesOrder }}</div>
+                    <div class = "col-md-3 col-6">: {{ invoice.salesOrder.noSalesOrder }}</div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-2 col-6">Invoice Date</div>
-                    <div class = "col-md-6 col-6">: {{ invoice.dateInvoice.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-md-5 col-6">: {{ invoice.dateInvoice.split("T")[0].split("-").reverse().join('-') }}</div>
                     <div class = "col-md-2 col-6">Due Date</div>
-                    <div class = "col-md-2 col-6">: {{ invoice.dueDatePayment.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-md-3 col-6">: {{ invoice.dueDatePayment.split("T")[0].split("-").reverse().join('-') }}</div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-2 col-6">Purchase Order No</div>
-                    <div class = "col-md-6 col-6">: {{ invoice.salesOrder.poNumber }}</div>
+                    <div class = "col-md-5 col-6">: {{ invoice.salesOrder.poNumber }}</div>
                     <div class = "col-md-2 col-6">Created By</div>
-                    <div class = "col-md-2 col-6">: {{ invoice.createdBy }}</div>
+                    <div class = "col-md-3 col-6">: {{ invoice.createdBy }}</div>
                 </b-row>
                   <b-row>
                     <div class = "col-md-2 col-6">Purchase Order Date</div>
-                    <div class = "col-md-6 col-6">: {{ invoice.salesOrder.poDate.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-md-5 col-6">: {{ invoice.salesOrder.poDate.split("T")[0].split("-").reverse().join('-') }}</div>
                     <div class = "col-md-2 col-6">Created At</div>
-                    <div class = "col-md-2 col-6">: {{ invoice.createdAt.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-md-3 col-6">: {{ invoice.createdAt.split("T")[0].split("-").reverse().join('-') }}</div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-2 col-6">Address</div>
-                    <div class = "col-md-6 col-6">: {{invoice.salesOrder.company.alamat}}</div>
+                    <div class = "col-md-5 col-6">: {{invoice.salesOrder.company.alamat}}</div>
                     <div class = "col-md-2 col-6"> Terms Of Delivery
                         <br> Payment Terms
                     </div>
-                    <div class = "col-md-2 col-6">: {{invoice.termsOfDelivery}}
+                    <div class = "col-md-3 col-6">: {{invoice.termsOfDelivery}}
                         <br>: {{invoice.paymentTerms}}
                     </div>
                 </b-row>
@@ -102,7 +102,7 @@
                         Sub-total Price
                     </div>
                     <div class = "col-md-6 col-6">
-                        : {{this.invoice.sub_total_price}}
+                        : {{this.invoice.sub_total_price + ",00"}}
                     </div>
                 </b-row>
                 <b-row align-content="rigt">
@@ -110,7 +110,7 @@
                         VAT Price
                     </div>
                     <div class = "col-md-6 col-6">
-                        : {{this.invoice.price_vat}}
+                        : {{this.invoice.price_vat + ",00"}}
                     </div>
                 </b-row>
                 <b-row align-content="right">
@@ -118,7 +118,7 @@
                         Grand-total Price
                     </div>
                     <div class = "col-md-6 col-6">
-                        : {{this.invoice.grand_total_price}}
+                        : {{this.invoice.grand_total_price + ",00"}}
                     </div>
                 </b-row>
 
@@ -211,10 +211,10 @@ export default {
                 {key: 'uom', label: 'UOM', sortable: true},
                 {key: 'quantity', label: 'Quantity', sortable: true},
                 {key: 'pricePerUnit', label: 'Unit Price(IDR)', formatter: value =>{
-                    return value.toLocaleString('id-ID')
+                    return value.toLocaleString('id-ID') + ",00"
                 }},
                 {key: 'total_price', label:  'Value(IDR)', formatter: value => {
-                    return value.toLocaleString('id-ID')
+                    return value.toLocaleString('id-ID') + ",00"
                 }},
             ]
         };
@@ -448,6 +448,7 @@ body {
 }
 .company-name{
     color: black;
+    text-decoration: black;
     font-size:20px;
     margin-bottom: 20px;
 }

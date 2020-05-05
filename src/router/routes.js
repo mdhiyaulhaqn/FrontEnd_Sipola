@@ -32,6 +32,10 @@ import FormReimbursement from "@/pages/ServiceTeam/FormReimbursement.vue";
 import UpdateReimbursement from "@/pages/ServiceTeam/UpdateReimbursement.vue";
 import Login from "@/pages/Login.vue";
 import Homepage from "@/pages/Homepage.vue";
+import PurchaseOrder from "@/pages/Logistic/PurchaseOrder.vue";
+import DetailPurchaseOrder from "@/pages/Logistic/DetailPurchaseOrder.vue";
+import FormPurchaseOrder from "@/pages/Logistic/FormPurchaseOrder.vue";
+import UpdatePurchaseOrder from "@/pages/Logistic/UpdatePurchaseOrder.vue";
 
 const routes = [
   {
@@ -175,6 +179,26 @@ const routes = [
       //   name: "home",
       //   component: Homepage
       // }
+      {
+        path: "purchase-order",
+        name: "purchase-order",
+        component: PurchaseOrder
+      },
+      {
+        path: "detail-purchase-order/:id",
+        name: "detail-purchase-order",
+        component: DetailPurchaseOrder
+      },
+      {
+        path: "purchase-order-add",
+        name: "purchase-order-add",
+        component: FormPurchaseOrder
+      },
+      {
+        path: "purchase-order/:id/update",
+        name: "update-purchase-order",
+        component: UpdatePurchaseOrder
+      },
     ]
   },
   { path: "*", component: NotFound }
