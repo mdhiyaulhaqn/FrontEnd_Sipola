@@ -75,7 +75,7 @@
                             </template>
 
                             <template v-slot:cell(total_price) = "row">
-                                {{row.item.purchasedItems[1].harga}}
+                                {{row.item.purchasedItems[1].pricePerUnit}}
                             </template>
 
                             <template v-slot:cell(Action) = "row">
@@ -148,7 +148,7 @@ export default {
                 {key: 'company.nama', label: 'Company Name', sortable: true},
                 {key: 'datePurchaseOrder', label: 'Date', sortable: true},
                 {key: 'total_price', label: 'Total Price (IDR)', sortable: true, formatter: value => {
-                    return value.toLocaleString('id-ID') + ",00"
+                    return value.toLocaleString('id-ID', {maximumFractionDigits:2})
                 }},
                 'View'
             ],
@@ -180,7 +180,8 @@ export default {
     methods:{
         getAllPurchaseOrder: function(){
             axios.get('http://localhost:8080/api/purchase-order/all')
-            .then(result => {this.purchaseOrders = result.data.result, this.getPriceData()});
+            .then(result => {this.purchaseOrders = result.data.result, this.getPriceData()})
+            .catch(err => this.purchaseOrders = err.data.result);
         },
         onFiltered(filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering

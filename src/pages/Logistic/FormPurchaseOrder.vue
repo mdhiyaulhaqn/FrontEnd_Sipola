@@ -90,40 +90,47 @@
                             </div>
                             <div class="col-6">
                                 <b-form-group class="required">
-                                    <label for="companyAddress">Company <Address></Address></label>
+                                    <label for="attnName">Attn Name</label>
                                     <b-form-input
-                                        id="companyAddress"
-                                        v-model="company.alamat"
+                                        id="attnName"
+                                        v-model="purchaseOrder.attnName"
                                         type="text"
                                         required
-                                        placeholder="Company Name"
+                                        placeholder="Attn Name"
                                         >
                                     </b-form-input>
                                 </b-form-group>
                             </div>
                         </div>
 
-                        <div class="d-none d-md-block d-lg-block">
-                            <div class="row">
-                                <div class="required">
-                                    <div class = "col-md-5">
-                                        <label>Item</label>
-                                    </div>
-                                    <div class = "col-md-2">
-                                        <label>Quantity</label> 
-                                    </div>
-                                    <div class = "col-md-2">
-                                        <label>UOM</label> 
-                                    </div>
-                                    <div class = "col-md-2">
-                                        <label>Unit Price (IDR)</label> 
-                                    </div>
-                                    <div class = "col-md-1">
-                                    </div>
-                                    <br>
-                                </div>
-                            </div>
-                        </div>
+                        <b-form-group class="required">
+                            <label for="companyAddress">Company Address</label>
+                            <b-form-input
+                                id="companyAddress"
+                                v-model="company.alamat"
+                                type="text"
+                                required
+                                placeholder="Company Address"
+                            ></b-form-input>
+                        </b-form-group>
+
+                        <b-row class="required">
+                            <b-col md="5">
+                                <label>Item</label>
+                            </b-col><br>
+                            <b-col md="2">
+                                <label>Quantity</label> 
+                            </b-col><br>
+                            <b-col md="2">
+                                <label>UOM</label> 
+                            </b-col><br>
+                            <b-col md="2">
+                                <label>Unit Price (IDR)</label> 
+                            </b-col><br>
+                            <b-col md="1">
+                            </b-col>
+                            <br>
+                        </b-row>
 
                         <b-row class="purchasedItems" v-bind:key="item.id_purchased_item" v-for="item in purchasedItems">
                             <b-col>
@@ -132,11 +139,11 @@
                         </b-row>
                             
                         <b-row>
-                            <div class="col-md-6 col-12">
+                            <b-col md="6">
                                 <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">
                                     Add Item
                                 </button>
-                            </div>
+                            </b-col>
                         </b-row>
 
                         <b-form-group class="required">
@@ -154,7 +161,7 @@
             </div>
         </div>
 
-        <b-modal id="modal-success" centered v-model="successModal">
+        <b-modal id="modal-success" centered v-model="successModal" @ok="redirect()">
             <template v-slot:modal-title>
                 <div class="container">
                     <h5 id="modal-title-success">Success!</h5>
@@ -176,10 +183,10 @@
 
             <template v-slot:modal-footer="{ ok }">
                 <b-col class="button-confirm-group">
-                    <router-link :to="{name: 'purchase-order'}">
+                    <!-- <router-link :to="{name: 'purchase-order'}">
                         <b-button class="cancel-button"> Back to Purchase Order List </b-button>
-                    </router-link>
-                    <b-button @click="ok()" @ok="redirect()" id="ok-button" variant="outline-primary">
+                    </router-link> -->
+                    <b-button @click="ok()" id="ok-button" variant="outline-primary">
                         See Details
                     </b-button>
                 </b-col>
@@ -215,6 +222,7 @@ export default {
                 noCustRef : '',
                 noProject : '',
                 company : '',
+                attnName : '',
                 purchasedItems : '',
                 createdBy : 'Amalia',
                 status : 'Active',
@@ -226,6 +234,7 @@ export default {
                 quantity: '',
                 uom : '',
                 pricePerUnit : '',
+                purchaseOrder: '',
             },
 
             company : {
@@ -273,6 +282,7 @@ export default {
         },
 
         addPurchaseOrder(purchaseOrder){
+            console.log("masuk gaksii")
             axios.post('http://localhost:8080/api/purchase-order/add',
             purchaseOrder,
                 {
@@ -317,9 +327,9 @@ export default {
     color:white;
     border-color: transparent;
     font-size: 10px;
-    margin-left: 10px;
+    margin-right: 10px;
     line-height: 15px;
-    width: 120px;
+    width: 80px;
     box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
     text-align: center;
 }
