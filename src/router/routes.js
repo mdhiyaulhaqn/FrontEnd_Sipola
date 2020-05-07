@@ -22,6 +22,7 @@ import DetailInvoice from "@/pages/Finance/DetailInvoice.vue";
 import DetailSalesOrderForInvoice from "@/pages/Finance/DetailSalesOrderForInvoice.vue";
 import SalesOrderForInvoice from "@/pages/Finance/SalesOrderForInvoice.vue";
 import UpdatePengeluaran from "@/pages/Finance/UpdatePengeluaran.vue";
+import RingkasanPendapatanPengeluaran from "@/pages/Finance/RingkasanPendapatanPengeluaran.vue";
 import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue";
 import AddActivityListSchedule from "@/pages/ProjectManager/AddActivityListSchedule.vue";
 import DetailActivityListSchedule from "@/pages/ProjectManager/DetailActivityListSchedule.vue";
@@ -85,7 +86,7 @@ const routes = [
         component: Pengeluaran
       },
       {
-        path: "expense/:id",
+        path: "expense",
         name: "expense-detail",
         component: DetailPengeluaran
       },
@@ -169,6 +170,11 @@ const routes = [
         path: "activity-list-schedule/:id/update",
         name: "update-activity-list-schedule",
         component: UpdateActivityListSchedule
+      },
+      {
+        path: "income-expense-summary",
+        name: "income-expense-summary",
+        component: RingkasanPendapatanPengeluaran
       },
       // {
       //   path: "/",
