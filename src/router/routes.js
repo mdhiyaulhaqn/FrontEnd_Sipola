@@ -3,7 +3,7 @@ import DashboardLayout from "@/layout/dashboard/DashboardLayout.vue";
 import NotFound from "@/pages/NotFoundPage.vue";
 
 // Admin pagesc
-import Dashboard from "@/pages/Dashboard.vue";
+import Dashboard from "@/pages/DirekturUtama/Dashboard.vue";
 import UserProfile from "@/pages/UserProfile.vue";
 import Quotation from "@/pages/SalesMarketing/Quotation.vue";
 import SalesOrder from "@/pages/SalesMarketing/SalesOrder.vue";
