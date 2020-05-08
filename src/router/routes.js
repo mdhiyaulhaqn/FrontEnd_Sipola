@@ -9,6 +9,7 @@ import Quotation from "@/pages/SalesMarketing/Quotation.vue";
 import SalesOrder from "@/pages/SalesMarketing/SalesOrder.vue";
 import FormSalesOrder from "@/pages/SalesMarketing/FormSalesOrder.vue";
 import DetailSalesOrder from "@/pages/SalesMarketing/DetailSalesOrder.vue";
+import UpdateSalesOrder from "@/pages/SalesMarketing/UpdateSalesOrder.vue";
 import FormQuotation from "@/pages/SalesMarketing/FormQuotation.vue";
 import UpdateQuotation from "@/pages/SalesMarketing/UpdateQuotation.vue";
 import DetailQuotation from "@/pages/SalesMarketing/DetailQuotation.vue";
@@ -27,12 +28,20 @@ import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vu
 import AddActivityListSchedule from "@/pages/ProjectManager/AddActivityListSchedule.vue";
 import DetailActivityListSchedule from "@/pages/ProjectManager/DetailActivityListSchedule.vue";
 import UpdateActivityListSchedule from "@/pages/ProjectManager/UpdateActivityListSchedule.vue";
+import DeliveryOrder from "@/pages/ProjectManager/DeliveryOrder.vue";
+import AddDeliveryOrder from "@/pages/ProjectManager/AddDeliveryOrder.vue";
+import DetailDeliveryOrder from "@/pages/ProjectManager/DetailDeliveryOrder.vue";
+import UpdateDeliveryOrder from "@/pages/ProjectManager/UpdateDeliveryOrder.vue";
 import ReimbursementReport from "@/pages/ServiceTeam/ReimbursementReport.vue";
 import DetailReimbursement from "@/pages/ServiceTeam/DetailReimbursement.vue";
 import FormReimbursement from "@/pages/ServiceTeam/FormReimbursement.vue";
 import UpdateReimbursement from "@/pages/ServiceTeam/UpdateReimbursement.vue";
 import Login from "@/pages/Login.vue";
 import Homepage from "@/pages/Homepage.vue";
+import PurchaseOrder from "@/pages/Logistic/PurchaseOrder.vue";
+import DetailPurchaseOrder from "@/pages/Logistic/DetailPurchaseOrder.vue";
+import FormPurchaseOrder from "@/pages/Logistic/FormPurchaseOrder.vue";
+import UpdatePurchaseOrder from "@/pages/Logistic/UpdatePurchaseOrder.vue";
 
 const routes = [
   {
@@ -79,6 +88,31 @@ const routes = [
         path: "sales-order/:id",
         name: "detail-sales-order",
         component: DetailSalesOrder
+      },
+      {
+        path: "sales-order/:id/update",
+        name: "update-sales-order",
+        component: UpdateSalesOrder
+      },
+      {
+        path: "delivery-order/add",
+        name: "add-delivery-order",
+        component: AddDeliveryOrder
+      },
+      {
+        path: "delivery-order",
+        name: "delivery-order",
+        component: DeliveryOrder
+      },
+      {
+        path: "delivery-order/:id",
+        name: "detail-delivery-order",
+        component: DetailDeliveryOrder
+      },
+      {
+        path: "delivery-order/:id/update",
+        name: "update-delivery-order",
+        component: UpdateDeliveryOrder
       },
       {
         path: "expense",
@@ -181,6 +215,26 @@ const routes = [
       //   name: "home",
       //   component: Homepage
       // }
+      {
+        path: "purchase-order",
+        name: "purchase-order",
+        component: PurchaseOrder
+      },
+      {
+        path: "detail-purchase-order/:id",
+        name: "detail-purchase-order",
+        component: DetailPurchaseOrder
+      },
+      {
+        path: "purchase-order-add",
+        name: "purchase-order-add",
+        component: FormPurchaseOrder
+      },
+      {
+        path: "purchase-order/:id/update",
+        name: "update-purchase-order",
+        component: UpdatePurchaseOrder
+      },
     ]
   },
   { path: "*", component: NotFound }
