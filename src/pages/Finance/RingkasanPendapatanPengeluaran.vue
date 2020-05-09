@@ -12,8 +12,8 @@
           <b-row align-h="center">
             <b-form>
               <b-row align-v="end">
-                  <b-form-group>
-                      <label class="label" for="tanggal">Start Date</label>
+                  <b-form-group class="form-tanggal">
+                      <label class="label" for="tanggal" style="">Start Date</label>
                       <b-form-input
                           id="companyName"
                           v-model="startDate"
@@ -23,7 +23,7 @@
                       </b-form-input>
                   </b-form-group>
 
-                  <b-form-group>
+                  <b-form-group class="form-tanggal">
                       <label class="label" for="tanggal">End Date</label>
                       <b-form-input
                           id="companyName"
@@ -42,33 +42,59 @@
           </b-row>
 
           <!-- SUMMARY STATEMENT -->
-          <!-- <b-row class="judul">
-            <b-col>
-              <p>
-                Income <span>Rp{{formatPrice(totalPendapatan)}}</span>
-              </p>
-              <p>
-                Expense Rp{{formatPrice(this.totalPengeluaran)}}
-              </p>
-            </b-col>
-          </b-row> -->
+          <b-container class="summary_statement">
+            <b-row>
+              <b-col class="col-5 col-md-6" style="padding: 0">
+                  <p>Income</p>
+              </b-col>
+              <b-col class="">
+                <b-row align-h="between">
+                  <p>:</p>
+                  <p>Rp{{formatPrice(totalPendapatan)}}</p>
+                </b-row> 
+              </b-col>
+            </b-row>
+            <b-row class="expense-summary">
+              <b-col class="col-5 col-md-6" style="padding: 0">
+                  <p>Expense</p>
+              </b-col>
+              <b-col class="">
+                <b-row align-h="between">
+                  <p>:</p>
+                  <p>Rp{{formatPrice(this.totalPengeluaran)}}</p>
+                </b-row> 
+              </b-col>
+            </b-row>
 
-          <b-row align-h="end">
-            <b-col class="detail-label col-5 col-md-2"><p>Income</p></b-col>
-            <b-col cols="6" class="detail-text"><p>: Rp{{formatPrice(totalPendapatan)}}</p></b-col>
-          </b-row>
-          <b-row align-h="end">
-            <b-col class="detail-label col-6 col-md-2"><p>Expense</p></b-col>
-            <b-col cols="6" class="detail-text"><p>: Rp{{formatPrice(this.totalPengeluaran)}}</p></b-col>
-          </b-row>
-          <b-row align-h="end">
-            <b-col class="detail-label col-6 col-md-2"><p>Profit/Loss</p></b-col>
-            <b-col cols="6" class="detail-text"><p>: Rp{{formatPrice(this.profitLoss)}}</p></b-col>
-          </b-row>
+            <b-row v-if="this.totalPendapatan - this.totalPengeluaran > 0">
+              <b-col class="col-5 col-md-6" style="padding: 0">
+                  <p class="profit">Profit</p>
+              </b-col>
+              <b-col class="">
+                <b-row align-h="between">
+                  <p class="profit">:</p>
+                  <p class="profit">Rp{{formatPrice(this.totalPendapatan - this.totalPengeluaran)}}</p>
+                </b-row> 
+              </b-col>
+            </b-row>
+
+            <b-row v-else>
+              <b-col class="col-5 col-md-6" style="padding: 0">
+                  <p class="loss">Loss</p>
+              </b-col>
+              <b-col class="">
+                <b-row align-h="between">
+                  <p class="loss">:</p>
+                  <p class="loss">Rp{{formatPrice(this.totalPendapatan - this.totalPengeluaran)}}</p>
+                </b-row> 
+              </b-col>
+            </b-row>
+          </b-container>
 
           <b-row>
             <!-- INCOME TABLE -->
             <b-col>
+              <p class="list-label">Income List</p>
               <b-table
                 show-empty
                 small
@@ -96,22 +122,13 @@
                 <template v-slot:cell(tanggal)="row">
                   {{row.item.tanggal | moment("ll")}}
                 </template>
-
-                <template v-slot:cell(action)="row">
-                  <router-link :to="{name: 'expense-detail', query: {id:row.item.id}}">
-                    <b-button id="view_button" class="btn btn-primary">
-                      View
-                    </b-button>
-                  </router-link>
-                </template>
-
               </b-table>
 
               <b-row align-h="between">
-                <b-row md="3" class="my-1">
+                <b-col md="5" class="my-1" style="width:300px">
                   <b-form-group
                     label="Rows per page"
-                    label-cols-sm="6"
+                    label-cols-sm="7"
                     label-align-sm="right"
                     label-size="sm"
                     label-for="perPageSelect"
@@ -122,11 +139,10 @@
                       id="perPageSelect"
                       size="sm"
                       :options="pageOptions"
-                      style="width: 60px"
                     ></b-form-select>
                   </b-form-group>
-                </b-row>
-                <b-col sm="3" md="3" class="my-1">
+                </b-col>
+                <b-col sm="5" md="4" class="my-1">
                   <b-pagination
                     v-model="currentPage"
                     :total-rows="totalRows"
@@ -141,6 +157,7 @@
 
             <!-- EXPENSE TABLE -->
             <b-col style="width: 200px">
+              <p class="list-label">Expense List</p>
               <b-table
                 show-empty
                 small
@@ -168,36 +185,27 @@
                 <template v-slot:cell(tanggal)="row">
                   {{row.item.tanggal | moment("ll")}}
                 </template>
-
-                <template v-slot:cell(action)="row">
-                  <router-link :to="{name: 'expense-detail', query: {id:row.item.id}}">
-                    <b-button id="view_button" class="btn btn-primary">
-                      View
-                    </b-button>
-                  </router-link>
-                </template>
-
               </b-table>
 
-              <b-row align-h="end" style="margin-right:30px">
-                <b-col md="3" class="my-1">
+              <b-row align-h="between">
+                <b-col md="5" class="my-1">
                   <b-form-group
                     label="Rows per page"
                     label-cols-sm="7"
                     label-align-sm="right"
                     label-size="sm"
-                    label-for="perPageSelect"
+                    label-for="perPageSelectPengeluaran"
                     class="mb-0"
                   >
                     <b-form-select
-                      v-model="perPage"
-                      id="perPageSelect"
+                      v-model="perPagePengeluaran"
+                      id="perPageSelectPengeluaran"
                       size="sm"
-                      :options="pageOptions"
+                      :options="pageOptionsPengeluaran"
                     ></b-form-select>
                   </b-form-group>
                 </b-col>
-                <b-col sm="3" md="3" class="my-1">
+                <b-col sm="5" md="4" class="my-1">
                   <b-pagination
                     v-model="currentPagePengeluaran"
                     :total-rows="totalRowsPengeluaran"
@@ -240,6 +248,7 @@ export default {
       totalRowsPengeluaran: 1,
       currentPagePengeluaran: 1,
       perPagePengeluaran: 5,
+      pageOptionsPengeluaran: [5, 10, 25, 50, 100],
       sortByPengeluaran: '',
       sortDescPengeluaran: false,
       sortDirectionPengeluaran: 'asc',
@@ -248,8 +257,6 @@ export default {
       endDate : null,
       totalPendapatan: 0,
       totalPengeluaran: 0,
-
-      profitLoss: 0,
     }
   },
   computed: {
@@ -266,24 +273,6 @@ export default {
     this.getPendapatanPengeluaran();
   },
   methods: {
-    // onFiltered(filteredItems) {
-    //   // Trigger pagination to update the number of buttons/pages due to filtering
-    //   this.totalRows = filteredItems.length
-    //   this.currentPage = 1
-    //   console.log("Punten")
-    // },
-    // getAllPengeluaran: function(){
-    //   axios.get('http://localhost:8080/api/pengeluaran/all')
-    //   .then(response => this.pengeluaranList = response.data.result);
-    //   axios.get('http://localhost:8080/api/pengeluaran/calculate')
-    //   .then(response => this.totalPengeluaran = response.data.result);
-    // },
-    // getAllPendapatan: function(){
-    //   axios.get('http://localhost:8080/api/pendapatan')
-    //   .then(response => this.pendapatanList = response.data.result);
-    //   axios.get('http://localhost:8080/api/pendapatan/calculate')
-    //   .then(response => this.totalPendapatan = response.data.result);
-    // },
     getPendapatanPengeluaran: function(){
       let linkTanggal = ''
       if(this.$route.query.tanggalAwal != null && this.$route.query.tanggalAkhir != null) {
@@ -302,15 +291,16 @@ export default {
       axios.get('http://localhost:8080/api/pendapatan/calculate?' + linkTanggal)
       .then(response => {
         this.totalPendapatan = response.data.result; 
-        this.profitLoss = response.data.result
         });
       axios.get('http://localhost:8080/api/pengeluaran/calculate?' + linkTanggal)
       .then(response => {
         this.totalPengeluaran = response.data.result; 
-        this.profitLoss -= response.data.result
         });
     },
     formatPrice(value) {
+      if(value < 0){
+        value *= -1
+      }
       let val = (value/1).toFixed(2).replace('.', ',')
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     },
@@ -359,34 +349,67 @@ export default {
     margin: 5px 0 24px 0;
 }
 
-.form-group{
-  margin-right: 14px;
+/* .form-group{
+  
+} */
+
+.form-tanggal{
+  margin-left: 14px;
 }
 
 .label{
   font-weight: bold;
 }
 
+.find-button{
+    border-color: #109CF1;
+    border-width: 1px;
+    background-color: #109CF1;
+    color:white;
+}
+
 p{
   margin: 0;
 }
 
+.summary_statement{
+  max-width: 350px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+.expense-summary{
+  /* display:inline-block; */
+  border-bottom:1px solid black;
+  padding-bottom:2px;
+}
+
+.profit{
+  font-weight: bold;
+  color: #1AD616;
+}
+
+.loss{
+  font-weight: bold;
+  color: #FF3E1D;
+}
+
 .button_group{
    margin-bottom: 1rem;
-   /* margin-left: 14px; */
+   margin-left: 14px;
 }
 
 .detail-label{
     padding-left: 70px;
 }
 
-#view_button{
-  background-color: #109CF1;
-  color:white;
-  border-color: transparent;
-  font-size: 10px;
-  line-height: 10px;
-  width: 80px;
-  box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
+.list-label{
+  margin: 17px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.pagination{
+  margin-left: 0px;
 }
 </style>
