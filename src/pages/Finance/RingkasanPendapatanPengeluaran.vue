@@ -35,7 +35,11 @@
                   </b-form-group>
 
                   <div class = "button_group">
-                    <b-button class ="find-button" @click="onSubmit">Find</b-button>
+                    <b-button class ="find-button" @click="onSubmit" style="font-size:13px">
+                      Find
+                      <i class="fa fa-search" style="color: white; margin-left: 5px;"></i>
+                    </b-button>
+                    
                   </div>
                 </b-row>  
               </b-form>
