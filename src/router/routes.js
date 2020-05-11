@@ -42,6 +42,11 @@ import PurchaseOrder from "@/pages/Logistic/PurchaseOrder.vue";
 import DetailPurchaseOrder from "@/pages/Logistic/DetailPurchaseOrder.vue";
 import FormPurchaseOrder from "@/pages/Logistic/FormPurchaseOrder.vue";
 import UpdatePurchaseOrder from "@/pages/Logistic/UpdatePurchaseOrder.vue";
+import Profile from "@/pages/Profile.vue";
+// import Login from "@/pages/Login.vue";
+import Register from "@/pages/Register.vue";
+
+// import store from "@/store";
 
 const routes = [
   {
@@ -234,6 +239,21 @@ const routes = [
         path: "purchase-order/:id/update",
         name: "update-purchase-order",
         component: UpdatePurchaseOrder
+      },
+      {
+        path: '/login',
+        component: Login
+      },
+      {
+        path: '/register',
+        component: Register
+      },
+      {
+        path: '/profile',
+        name: 'profile',
+        // lazy-loaded
+        // component: () => import('@/pages/Profile.vue')
+        Profile
       },
     ]
   },
