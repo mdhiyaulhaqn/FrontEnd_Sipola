@@ -252,8 +252,8 @@ const routes = [
         path: '/profile',
         name: 'profile',
         // lazy-loaded
-        // component: () => import('@/pages/Profile.vue')
-        Profile
+        component: () => import('@/pages/Profile.vue')
+        // Profile
       },
     ]
   },

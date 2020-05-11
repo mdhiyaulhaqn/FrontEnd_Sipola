@@ -20,7 +20,7 @@
             <span>
             <p class="nav-link">
               ringgi.cahyo<br>
-              <a href="#">Change Password</a> | <a href="#">Sign Out</a>
+              <a href="#">Change Password</a> | <a href @click.prevent="logOut">Sign Out</a>
             </p>
             </span>
           </li>
@@ -64,6 +64,10 @@ export default {
     },
     hideSidebar() {
       this.$sidebar.displaySidebar(false);
+    },
+    logOut() {
+      this.$store.dispatch('auth/logout');
+      this.$router.push('/login');
     }
   }
 };

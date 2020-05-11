@@ -21,8 +21,11 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link">
+          <!-- <a class="nav-link">
             <p>Sign Out</p>
+          </a> -->
+          <a class="nav-link" href @click.prevent="logOut">
+            LogOut
           </a>
         </li>
         <li class="divider"></li>
@@ -56,8 +59,31 @@ export default {
       if (this.$sidebar.showSidebar) {
         this.$sidebar.displaySidebar(false);
       }
+    },
+    logOut() {
+      this.$store.dispatch('auth/logout');
+      this.$router.push('/login');
     }
-  }
+  },
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    showAdminBoard() {
+      if (this.currentUser && this.currentUser.roles) {
+        return this.currentUser.roles.includes('ROLE_ADMIN');
+      }
+
+      return false;
+    },
+    showModeratorBoard() {
+      if (this.currentUser && this.currentUser.roles) {
+        return this.currentUser.roles.includes('ROLE_MODERATOR');
+      }
+
+      return false;
+    }
+  },
 };
 </script>
 
