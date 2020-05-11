@@ -69,11 +69,11 @@
               {{items.indexOf(row.item) + 1}}
             </template>
 
-            <template v-slot:cell(listTugas[0].tanggalMulaiTugas)="row">
-              {{ row.item.listTugas[0].tanggalMulaiTugas | moment("ll") }}
+            <template v-slot:cell(startDate)="row">
+              {{ row.item.startDate | moment("ll") }}
             </template>
-            <template v-slot:cell(listTugas[0].tanggalSelesaiTugas)="row">
-              {{ row.item.listTugas.slice(-1)[0].tanggalSelesaiTugas | moment("ll") }}
+            <template v-slot:cell(endDate)="row">
+              {{ row.item.endDate | moment("ll") }}
             </template>
 
             <template v-slot:cell(action)="row">
@@ -154,8 +154,8 @@ export default {
         { key: 'id', label: 'No', sortable: false, },
         { key: 'namaProyek', label: 'Project Name', sortable: true, },
         { key: 'namaPerusahaan', label: 'Company Name', sortable: true, },
-        { key: 'listTugas[0].tanggalMulaiTugas', label: 'Start Date', sortable: true, },
-        { key: 'listTugas[0].tanggalSelesaiTugas', label: 'End Date', sortable: true, },
+        { key: 'startDate', label: 'Start Date', sortable: true, },
+        { key: 'endDate', label: 'End Date', sortable: true, },
         { key: 'action', label: 'Action', }
       ],
       totalRows: 1,
