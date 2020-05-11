@@ -25,7 +25,7 @@
             <h5 class = "title-form">Add Invoice Form - Sales Order {{sales_order.noSalesOrder}} </h5>
             <b-form @submit="onSubmit" v-if="show">
                 <div class = "row">
-                    <div class = "col-6">
+                    <div class = "col-md-6 col-12">
                         <b-form-group class="required">
                             <label for="noInvoice">Invoice No</label>
                             <b-form-input
@@ -38,7 +38,7 @@
                         </b-form-group>
                     </div>
              
-                    <div class = "col-3">
+                    <div class = "col-md-3 col-12">
                         <div style="color:black">
                         <b-form-group class="required">
                             <label for="dateInvoice">Invoice Date</label>
@@ -52,7 +52,7 @@
                         </div>
                     </div>
                     
-                    <div class = "col-3">
+                    <div class = "col-md-3 col-12">
                         <div style="color:black">
                         <b-form-group class="required">
                             <label for="dueDatePayment">Due Date</label>
@@ -68,9 +68,9 @@
                 </div>
 
                 <div class = "row">
-                    <div class = "col-7">
+                    <div class = "col-md-7 col-12">
                         <b-form-group class="required">
-                            <label for="noPurchaseOrder">Purchase Order No</label>
+                            <label for="noPurchaseOrder">PO No</label>
                             <b-form-input
                                 id="noPurchaseOrder"
                                 v-model="sales_order.poNumber"
@@ -81,10 +81,10 @@
                         </b-form-group>
                     </div>
              
-                    <div class = "col-5">
+                    <div class = "col-md-5 col-12">
                         <div style="color:black">
                         <b-form-group class="required">
-                            <label for="purchaseOrderDate">PurchaseOrder Date</label>
+                            <label for="purchaseOrderDate">PO Date</label>
                             <b-form-input
                                 id="date"
                                 v-model="sales_order.poDate"
@@ -121,23 +121,24 @@
                     </b-form-input>
                 </b-form-group>
 
-                <b-row class="required">
-                    <b-col md="5">
-                      <label>Service Order</label>
-                    </b-col><br>
-
-                    <b-col md="2">
-                    <label>UOM</label> 
-                    </b-col><br>
-
-                    <b-col md="2">
-                    <label>Qty</label> 
-                    </b-col>
-
-                    <b-col md="3">
-                    <label>UnitPrice</label> 
-                    </b-col><br>
-                </b-row>
+                <div class="d-none d-md-block d-lg-block">
+                    <div class="row">
+                        <div class="required">
+                            <div class="col-md-5 col-12">
+                                <label>Service Order</label>
+                            </div>
+                            <div class="col-md-2 col-12">
+                            <label>UOM</label> 
+                            </div>
+                            <div class="col-md-2 col-12">
+                            <label>Qty</label> 
+                            </div>
+                            <div class="col-md-3 col-12">
+                            <label>UnitPrice</label> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <b-row class="service_orders" v-bind:key="item.id_service_orders" v-for="item in sales_order.serviceOrder">
                     <b-col disabled>
@@ -146,7 +147,7 @@
                 </b-row> 
 
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-6 col-12">
                         <b-form-group class="required">
                             <label for="paymentTerms">Payment Terms</label>
                             <b-form-input
@@ -161,7 +162,7 @@
                         </b-form-group>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-md-6 col-12">
                         <b-form-group class="required">
                             <label for="termsOfDelivery">Terms of Delivery</label>
                             <b-form-input

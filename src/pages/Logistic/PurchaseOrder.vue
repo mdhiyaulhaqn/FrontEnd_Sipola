@@ -74,13 +74,13 @@
                                 {{row.item.datePurchaseOrder.split("T")[0].split("-").reverse().join('-')}}
                             </template>
 
-                            <template v-slot:cell(total_price) = "row">
-                                {{row.item.purchasedItems[1].pricePerUnit}}
-                            </template>
+                            <!-- <template v-slot:cell(total_price) = "row">
+                                {{row.item.purchaseOrders.total_price}}
+                            </template> -->
 
-                            <template v-slot:cell(Action) = "row">
+                            <template v-slot:cell(Action)="row">
                                 <router-link :to="{name: 'detail-purchase-order', params: {id:row.item.id}}">
-                                    <b-button id="purchaseorder_bttn">
+                                    <b-button id="view_bttn">
                                         View
                                     </b-button>
                                 </router-link>
@@ -150,7 +150,7 @@ export default {
                 {key: 'total_price', label: 'Total Price (IDR)', sortable: true, formatter: value => {
                     return value.toLocaleString('id-ID', {maximumFractionDigits:2})
                 }},
-                'View'
+                'Action'
             ],
 
             purchaseOrders: [],
@@ -205,12 +205,21 @@ export default {
 </script>
 
 <style>
+#view_bttn{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 10px;
+  line-height: 10px;
+  width: 80px;
+  box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
+}
 #purchaseorder_bttn{
   background-color: #109CF1;
   color:white;
   border-color: transparent;
   font-size: 10px;
-  width: 170px;
+  width: 180px;
   height: 36px;
   margin-bottom: 4px;
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);

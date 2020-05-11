@@ -85,7 +85,7 @@
 
                             <template v-slot:cell(Action)="row">
                                 <router-link :to="{name: 'detail-invoice', params: {id:row.item.id}}">
-                                    <b-button id="invoice_bttn">
+                                    <b-button id="view_bttn">
                                         View
                                     </b-button>
                                 </router-link>
@@ -212,6 +212,15 @@ export default {
   width: 136px;
   height: 36px;
   margin-bottom: 4px;
+  box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
+}
+#view_bttn{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 10px;
+  line-height: 10px;
+  width: 80px;
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
 }
 .judul{

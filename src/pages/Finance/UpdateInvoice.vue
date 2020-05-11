@@ -106,23 +106,24 @@
                     </b-form-input>
                 </b-form-group>
 
-                <b-row class="required">
-                    <b-col md="5">
-                      <label>Service Order</label>
-                    </b-col><br>
-
-                    <b-col md="2">
-                    <label>UOM</label> 
-                    </b-col><br>
-
-                    <b-col md="2">
-                    <label>Qty</label> 
-                    </b-col>
-
-                    <b-col md="3">
-                    <label>UnitPrice</label> 
-                    </b-col><br>
-                </b-row>
+                <div class="d-none d-md-block d-lg-block">
+                    <div class="row">
+                        <div class="required">
+                            <div class="col-md-5 col-12">
+                                <label>Service Order</label>
+                            </div>
+                            <div class="col-md-2 col-12">
+                            <label>UOM</label> 
+                            </div>
+                            <div class="col-md-2 col-12">
+                            <label>Qty</label> 
+                            </div>
+                            <div class="col-md-3 col-12">
+                            <label>UnitPrice</label> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <b-row class="service_orders" v-bind:key="item.id_service_orders" v-for="item in invoice.salesOrder.serviceOrder">
                     <b-col disabled>

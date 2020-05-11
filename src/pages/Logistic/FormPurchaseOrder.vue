@@ -19,7 +19,7 @@
                     <h5 class="title-form">Add Purchase Order Form</h5>
                     <b-form @submit="onSubmit" v-if="show">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-md-7 col-12">
                                 <b-form-group class="required">
                                     <label for="noPurchaseOrder">Purchase Order No</label>
                                     <b-form-input
@@ -31,7 +31,7 @@
                                     ></b-form-input>
                                 </b-form-group>
                             </div>
-                            <div class="col-6">
+                            <div class="col-md-5 col-12">
                                 <div style="color:black">
                                     <b-form-group class="required">
                                         <label for="datePurchaseOrder">Purchase Order Date</label>
@@ -47,7 +47,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-md-7 col-12">
                                 <b-form-group class="required">
                                     <label for="noCustRef">Customer Reference No</label>
                                     <b-form-input
@@ -59,7 +59,7 @@
                                     ></b-form-input>
                                 </b-form-group>
                             </div>
-                            <div class="col-6">
+                            <div class="col-md-5 col-12">
                                 <b-form-group class="required">
                                     <label for="noProject">Project No</label>
                                     <b-form-input
@@ -74,7 +74,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-md-7 col-12">
                                 <b-form-group class="required">
                                     <label for="companyName">Company Name</label>
                                     <b-form-input
@@ -88,7 +88,7 @@
                                     </b-form-input>
                                 </b-form-group>
                             </div>
-                            <div class="col-6">
+                            <div class="col-md-5 col-12">
                                 <b-form-group class="required">
                                     <label for="attnName">Attn Name</label>
                                     <b-form-input
@@ -114,23 +114,26 @@
                             ></b-form-input>
                         </b-form-group>
 
-                        <b-row class="required">
-                            <b-col md="5">
-                                <label>Item</label>
-                            </b-col><br>
-                            <b-col md="2">
-                                <label>Quantity</label> 
-                            </b-col><br>
-                            <b-col md="2">
-                                <label>UOM</label> 
-                            </b-col><br>
-                            <b-col md="2">
-                                <label>Unit Price (IDR)</label> 
-                            </b-col><br>
-                            <b-col md="1">
-                            </b-col>
-                            <br>
-                        </b-row>
+                        <div class="d-none d-md-block d-lg-block">
+                            <div class="row">
+                                <div class="required">
+                                    <div class="col-md-5 col-12">
+                                        <label>Item</label>
+                                    </div>
+                                    <div class="col-md-2 col-12">
+                                        <label>Quantity</label> 
+                                    </div>
+                                    <div class="col-md-2 col-12">
+                                        <label>UOM</label> 
+                                    </div>
+                                    <div class="col-md-2 col-12">
+                                        <label>Unit Price (IDR)</label> 
+                                    </div>
+                                    <div class="col-md-1 col-12">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <b-row class="purchasedItems" v-bind:key="item.id_purchased_item" v-for="item in purchasedItems">
                             <b-col>
@@ -139,11 +142,11 @@
                         </b-row>
                             
                         <b-row>
-                            <b-col md="6">
+                            <div class="col-sm-6 col-12">
                                 <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">
                                     Add Item
                                 </button>
-                            </b-col>
+                            </div>
                         </b-row>
 
                         <b-form-group class="required">
@@ -224,6 +227,7 @@ export default {
                 company : '',
                 attnName : '',
                 purchasedItems : '',
+                paymentNote : '',
                 createdBy : 'Amalia',
                 status : 'Active',
             },
@@ -329,7 +333,7 @@ export default {
     font-size: 10px;
     margin-right: 10px;
     line-height: 15px;
-    width: 80px;
+    width: 60px;
     box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
     text-align: center;
 }
