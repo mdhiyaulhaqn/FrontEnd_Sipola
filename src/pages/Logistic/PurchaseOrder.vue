@@ -52,6 +52,9 @@
                     <div slot="raw-content" class="table-responsive">
                         <b-table
                             responsive
+                            show-empty
+                            :small="true"
+                            stacked="md"
                             :items="items"
                             :fields="fields"
                             :per-page="perPage"
@@ -78,21 +81,47 @@
                                 {{row.item.purchaseOrders.total_price}}
                             </template> -->
 
+                            <template v-slot:cell(total_price) = "row">
+                                <div class="text-center">
+                                    {{formatPrice(row.item.total_price)}}
+                                </div>
+                            </template>
+
                             <template v-slot:cell(Action)="row">
                                 <router-link :to="{name: 'detail-purchase-order', params: {id:row.item.id}}">
-                                    <b-button id="view_bttn">
+                                    <b-button id="view_bttn" class="btn btn-primary">
                                         View
                                     </b-button>
                                 </router-link>
                             </template>
                         </b-table>
 
-                        <b-row align-h="end">
-                            <b-col md="3" class="my-1">
+                        <div class="row">
+                            <div v-if="perPage > purchaseOrders.length"
+                                class="col-md-7 col-sm-7 col-xs-7 col-12 d-block d-xs-block d-sm-block my-2">
+                                <b-card-sub-title>Showing {{ purchaseOrders.length }} of {{ purchaseOrders.length }}</b-card-sub-title>
+                            </div>
+                            <div v-else-if="currentPage != 1"
+                            class="col-md-7 col-sm-7 col-xs-7 col-6 d-block d-xs-block d-sm-block my-2">
+                                <b-card-sub-title>Showing {{ purchaseOrders.length % perPage }} of {{ purchaseOrders.length }}</b-card-sub-title>
+                            </div>
+                            <div v-else
+                            class="col-md-7 col-sm-7 col-xs-7 col-12 d-block d-xs-block d-sm-block my-2">
+                                <b-card-sub-title>Showing {{ perPage }} of {{ purchaseOrders.length }}</b-card-sub-title>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-3 col-6 d-block d-xs-block d-sm-block">
                                 <b-form-group
                                     label="Rows per page:"
-                                    label-cols-sm="7"
+                                    label-cols="12"
+                                    label-cols-sm="8"
+                                    label-cols-md="8"
+                                    label-cols-xl="8"
+                                    label-cols-lg="8"
+                                    label-align="right"
+                                    label-align-md="right"
                                     label-align-sm="right"
+                                    label-align-lg="right"
+                                    label-align-xl="right"
                                     label-size="sm"
                                     label-for="perPageSelect"
                                     class="mb-0"
@@ -105,8 +134,8 @@
                                     >
                                     </b-form-select>
                                 </b-form-group>
-                            </b-col>
-                            <b-col md="3" class="my-1">
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-2 col-12 d-block d-xs-block d-sm-block">
                                 <b-pagination
                                     v-model="currentPage"
                                     :total-rows="totalRows"
@@ -115,8 +144,8 @@
                                     size="sm"
                                     class="my-0"
                                 ></b-pagination>
-                            </b-col>
-                        </b-row>
+                            </div>
+                        </div>
                     </div>
                 </b-container>
             </card>
@@ -147,9 +176,7 @@ export default {
                 {key: 'noProject', label: 'Project No', sortable: true},
                 {key: 'company.nama', label: 'Company Name', sortable: true},
                 {key: 'datePurchaseOrder', label: 'Date', sortable: true},
-                {key: 'total_price', label: 'Total Price (IDR)', sortable: true, formatter: value => {
-                    return value.toLocaleString('id-ID', {maximumFractionDigits:2})
-                }},
+                {key: 'total_price', label: 'Total Price (IDR)', sortable: true},
                 'Action'
             ],
 
@@ -183,6 +210,7 @@ export default {
             .then(result => {this.purchaseOrders = result.data.result, this.getPriceData()})
             .catch(err => this.purchaseOrders = err.data.result);
         },
+
         onFiltered(filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering
         this.totalRows = filteredItems.length
@@ -199,6 +227,14 @@ export default {
                 total_price += total_price * 0.1
                 this.purchaseOrders[i].total_price = total_price;
             }
+        },
+
+        formatPrice(value) {
+            if(value < 0){
+                value *= -1
+            }
+            let val = (value/1).toFixed(2).replace('.', ',')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
         },
     }
 };
@@ -225,10 +261,9 @@ export default {
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
 }
 .judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
+  text-align: center;
+  color: black;
+  margin: 5px 0 24px 0;
 }
 .pagination{
     margin-left: 20px;

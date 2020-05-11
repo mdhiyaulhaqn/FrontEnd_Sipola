@@ -34,7 +34,7 @@
         </span>
         <div class="col-md-2 col-sm-8 col-xs-8 col-7">
             <b-form-input
-                id="uom"
+                id="unitOfMeasurement"
                 v-model="purchasedItem.unitOfMeasurement"
                 type="text"
                 required
@@ -47,7 +47,7 @@
         <span class="col-md-2 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none">
             <label class="label">Unit Price (IDR)</label>
         </span>
-        <div class="col-md-2 col-sm-8 col-xs-8 col-7">
+        <div class="col-md-2 col-sm-8 col-xs-8 col-7 text-center">
             <b-form-input
                 id="price"
                 v-model="purchasedItem.pricePerUnit"
@@ -81,13 +81,9 @@ export default {
 
 <style scoped>
 .items_row{
-    margin-bottom: 10px;
-    margin-right: 0px;
+    margin: auto;
 }
 #delete-button{
     width: 100%;
-}
-.label{
-    font-weight: 600;
 }
 </style>

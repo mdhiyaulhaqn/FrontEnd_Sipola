@@ -118,22 +118,21 @@
 
                         <div class="d-none d-md-block d-lg-block">
                             <div class="row">
-                                <div class="required">
-                                    <div class="col-md-5">
-                                        <label>Item</label>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label>Quantity</label> 
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label>UOM</label> 
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label>Unit Price (IDR)</label> 
-                                    </div>
-                                    <div class="col-md-1">
-                                    </div>
+                                <div class="col-md-5 required">
+                                    <label>Item</label>
                                 </div>
+                                <div class="col-md-2 required">
+                                    <label>Quantity</label> 
+                                </div>
+                                <div class="col-md-2 required">
+                                    <label>UOM</label> 
+                                </div>
+                                <div class="col-md-2 required">
+                                    <label>Unit Price (IDR)</label> 
+                                </div>
+                                <div class="col-md-1">
+                                </div>
+                                <br>
                             </div>
                         </div>
 
@@ -222,6 +221,9 @@
 
             <template v-slot:modal-footer="{ ok }">
                 <b-col class="button-confirm-group">
+                    <router-link :to="{name: 'purchase-order'}">
+                        <b-button class="back-button">Back to List</b-button>
+                    </router-link>
                     <b-button @click="ok()" id="ok-button" variant="outline-primary">
                         See Details
                     </b-button>
@@ -260,7 +262,7 @@ export default {
                 id_purchased_item : 0,
                 name : '',
                 quantity: '',
-                uom : '',
+                unitOfMeasurement : '',
                 pricePerUnit : '',
                 purchaseOrder: '',
             },
@@ -320,7 +322,7 @@ export default {
                 this.new_purchased_item.id_purchased_item++;
                 this.new_purchased_item.name = purchased_item[i].name;
                 this.new_purchased_item.quantity = purchased_item[i].quantity;
-                this.new_purchased_item.uom = purchased_item[i].uom;
+                this.new_purchased_item.unitOfMeasurement = purchased_item[i].unitOfMeasurement;
                 this.new_purchased_item.pricePerUnit = purchased_item[i].pricePerUnit;
 
                 let purch_item = Object.assign({}, this.new_purchased_item);
@@ -328,7 +330,7 @@ export default {
 
                 this.new_purchased_item.name = ''
                 this.new_purchased_item.quantity = ''
-                this.new_purchased_item.uom = ''
+                this.new_purchased_item.unitOfMeasurementom = ''
                 this.new_purchased_item.pricePerUnit = ''
                 this.new_purchased_item.purchaseOrder = ''
             }
@@ -421,9 +423,25 @@ export default {
   font-weight: 1000;
 }
 #ok-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-left: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
+}
+.back-button{
   color:#109CF1;
   border-color:#109CF1;
   background-color: white;
+  border-width: 1px;
+  width: 100px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
 }
 .button-confirm-group{
   text-align: right;

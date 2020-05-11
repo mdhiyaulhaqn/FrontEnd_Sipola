@@ -52,6 +52,9 @@
                     <div slot="raw-content" class="table-responsive">
                         <b-table
                             responsive
+                            show-empty
+                            :small="true"
+                            stacked="md"
                             :items="items"
                             :fields="fields"
                             :per-page="perPage"
@@ -92,12 +95,32 @@
                             </template>
                         </b-table>
 
-                        <b-row align-h="end">
-                            <b-col md="3" class="my-1">
+                        <div class="row">
+                            <div v-if="perPage > invoices.length"
+                                class="col-md-7 col-sm-7 col-xs-7 col-12 d-block d-xs-block d-sm-block my-2">
+                                <b-card-sub-title>Showing {{ invoices.length }} of {{ invoices.length }}</b-card-sub-title>
+                            </div>
+                            <div v-else-if="currentPage != 1"
+                            class="col-md-7 col-sm-7 col-xs-7 col-6 d-block d-xs-block d-sm-block my-2">
+                                <b-card-sub-title>Showing {{ invoices.length % perPage }} of {{ invoices.length }}</b-card-sub-title>
+                            </div>
+                            <div v-else
+                            class="col-md-7 col-sm-7 col-xs-7 col-12 d-block d-xs-block d-sm-block my-2">
+                                <b-card-sub-title>Showing {{ perPage }} of {{ invoices.length }}</b-card-sub-title>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-3 col-6 d-block d-xs-block d-sm-block">
                                 <b-form-group
                                     label="Rows per page:"
-                                    label-cols-sm="7"
+                                    label-cols="12"
+                                    label-cols-sm="8"
+                                    label-cols-md="8"
+                                    label-cols-xl="8"
+                                    label-cols-lg="8"
+                                    label-align="right"
+                                    label-align-md="right"
                                     label-align-sm="right"
+                                    label-align-lg="right"
+                                    label-align-xl="right"
                                     label-size="sm"
                                     label-for="perPageSelect"
                                     class="mb-0"
@@ -110,8 +133,8 @@
                                     >
                                     </b-form-select>
                                 </b-form-group>
-                            </b-col>
-                            <b-col md="3" class="my-1">
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-2 col-12 d-block d-xs-block d-sm-block">
                                 <b-pagination
                                     v-model="currentPage"
                                     :total-rows="totalRows"
@@ -120,8 +143,8 @@
                                     size="sm"
                                     class="my-0"
                                 ></b-pagination>
-                            </b-col>
-                        </b-row>
+                            </div>
+                        </div>
                     </div>
                 </b-container>
             </card>

@@ -80,7 +80,9 @@
                                         {{invoice.salesOrder.service.indexOf(row.item) + 1}}
                                     </template>
                                     <template v-slot:cell(Value(IDR))="row">
-                                        {{row.item.pricePerUnit}} * {{row.item.quantity}}
+                                        <div class="text-center">
+                                            {{row.item.pricePerUnit}} * {{row.item.quantity}}
+                                        </div>
                                     </template>
 
                                     <!-- <template slot="FOOT_Value(IDR)">
@@ -91,40 +93,41 @@
                                         <td>Grand-total Price: {{invoice.grand_total_price}}</td>
                                     </template> -->
                                 </b-table>
-                                
+                                <br>
+                                <b-row align-content="right">
+                                    <div class="col-md-7"></div>
+                                    <div class = "col-md-2 col-6">
+                                        <strong>Sub-total Price</strong>
+                                    </div>
+                                    <div class = "col-md-3 col-6">
+                                        Rp{{formatPrice(this.invoice.sub_total_price)}}
+                                    </div>
+                                </b-row>
+                                <b-row align-content="rigt">
+                                    <div class="col-md-7"></div>
+                                    <div class = "col-md-2 col-6">
+                                        <strong>VAT Price</strong>
+                                    </div>
+                                    <div class = "col-md-3 col-6">
+                                        Rp{{formatPrice(this.invoice.price_vat)}}
+                                    </div>
+                                </b-row>
+                                <b-row align-content="right">
+                                    <div class="col-md-7"></div>
+                                    <div class = "col-md-2 col-6">
+                                        <strong>Grand-total Price</strong>
+                                    </div>
+                                    <div class = "col-md-3 col-6">
+                                        Rp{{formatPrice(this.invoice.grand_total_price)}}
+                                    </div>
+                                </b-row>
                             </div>
                         </div>
                     </b-col>
                 </b-row>
-                
-                <b-row align-content="right">
-                    <div class = "col-md-6 col-6">
-                        Sub-total Price
-                    </div>
-                    <div class = "col-md-6 col-6">
-                        : {{this.invoice.sub_total_price + ",00"}}
-                    </div>
-                </b-row>
-                <b-row align-content="rigt">
-                    <div class = "col-md-6 col-6">
-                        VAT Price
-                    </div>
-                    <div class = "col-md-6 col-6">
-                        : {{this.invoice.price_vat + ",00"}}
-                    </div>
-                </b-row>
-                <b-row align-content="right">
-                    <div class = "col-md-6 col-6">
-                        Grand-total Price
-                    </div>
-                    <div class = "col-md-6 col-6">
-                        : {{this.invoice.grand_total_price + ",00"}}
-                    </div>
-                </b-row>
 
                 <b-row>
-                    <div class="col">
-                        <br>
+                    <div class="button-group col-sm-12">
                         <button v-b-modal.modal-delete id ="delete_button" class="btn btn-primary">
                             Delete
                         </button>
@@ -193,7 +196,7 @@
             </template>
             <template v-slot:modal-footer="{ ok }">
                 <b-col class="button-confirm-group">
-                    <b-button @click="ok()" id="ok-button" variant="outline-primary">
+                    <b-button @click="ok()" id="ok-button">
                         OK
                     </b-button>
                 </b-col>
@@ -282,10 +285,7 @@ export default {
             }
             this.invoice.sub_total_price = sub_total_price;
             this.invoice.price_vat = 0.1 * this.invoice.sub_total_price;
-            this.invoice.grand_total_price = (this.invoice.sub_total_price + this.invoice.price_vat).toLocaleString('id-ID', {maximumFractionDigits:2});
-
-            this.invoice.sub_total_price = this.invoice.sub_total_price.toLocaleString('id-ID', {maximumFractionDigits:2});
-            this.invoice.price_vat = this.invoice.price_vat.toLocaleString('id-ID', {maximumFractionDigits:2});
+            this.invoice.grand_total_price = this.invoice.sub_total_price + this.invoice.price_vat
         },
 
         getDetail: function(){    
@@ -303,6 +303,7 @@ export default {
             })
             .then(res => {this.showMessage(res.data.status)});
         },
+
         redirect(){
             this.$router.push({ name: 'invoice'});
         },
@@ -315,6 +316,14 @@ export default {
             this.$refs['modal-delete'].hide();
         },
 
+        formatPrice(value) {
+            if(value < 0){
+                value *= -1
+            }
+            let val = (value/1).toFixed(2).replace('.', ',')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+        },
+        
         downloadReport:function(){
             var doc = new jsPDF()
             let noInvoice = this.invoice.noInvoice
@@ -542,13 +551,8 @@ body {
 }
 #delete_button{
     font-size: 10px;
+    width: 56;
     background-color: #ff3e1d;
-    color:white;
-    border-color: white;
-}
-#edit_button{
-    font-size: 10px;
-    background-color: #109CF1;
     color:white;
     border-color: white;
 }
@@ -558,19 +562,14 @@ body {
 button{
     border-radius: 8px;
 }
-#delete_button{
-    font-size: 10px;
-    width: 56;
-    background-color: #ff3e1d;
-    color:white;
-    border-color: white;
-}
 #edit_button{
-    font-size: 10px;
-    width: 130px;
     background-color: #109CF1;
     color:white;
-    border-color: white;
+    border-color: transparent;
+    width: 110px;
+    margin-left: 10px;
+    font-size: 10px;
+    box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
 }
 .ti-trash{
     font-size: 50px;
@@ -617,5 +616,13 @@ h5{
 }
 #modal-title-success{
     color: #109CF1;
+}
+#ok-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  font-size: 12px;
+  line-height: 15px;
+  border-width: 1px;
 }
 </style>
