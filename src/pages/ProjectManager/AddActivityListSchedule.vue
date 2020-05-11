@@ -15,32 +15,28 @@
           <card>
             <h5 class="title-form">Add Activity List Schedule Form</h5>
             <b-form @submit="onSubmit" v-if="show">
-                <b-form-group id="project-name-input">
+                <b-form-group id="project-name-input" class="required">
                   <label class="label" for="projectName">Project Name</label>
                   <b-form-input
                     id="projectName"
                     v-model="newActivityListSchedule.namaProyek"
                     type="text"
                     required
+                    :maxlength="255"
                     placeholder="Project Name"
                     pattern=".*[a-zA-Z].*"
                     >
                   </b-form-input>
-                                      <!-- :state="nameState"
-                    aria-describedby="input-live-help input-live-feedback"
-                  <b-form-invalid-feedback id="input-live-feedback">
-                    Cannot contain only numbers.
-                  </b-form-invalid-feedback>
-                  <b-form-text id="input-live-help">Enter the project name.</b-form-text> -->
                 </b-form-group>
 
-                <b-form-group id="company-name-input">
-                  <label class="label" for="companyName">Company Name</label>
+                <b-form-group id="company-name-input" class="required">
+                  <label class="label" for="companyName" >Company Name</label>
                   <b-form-input
                     id="companyName"
                     v-model="newActivityListSchedule.namaPerusahaan"
                     type="text"
                     required
+                    :maxlength="255"
                     placeholder="Company Name"
                     pattern=".*[a-zA-Z].*"
                     >
@@ -49,13 +45,13 @@
 
                 <div class="d-none d-md-block d-lg-block">
                   <div class="row">
-                    <div class = "col-md-5">
+                    <div class = "col-md-5 required">
                       <label class="label">Activity Name</label>
                     </div>
-                    <div class = "col-md-3">
+                    <div class = "col-md-3 required">
                       <label class="label">Start Date</label>
                     </div>
-                    <div class = "col-md-3">
+                    <div class = "col-md-3 required">
                       <label class="label">End Date</label>
                     </div>
                     <div class = "col-md-1">
@@ -88,8 +84,8 @@
                 </b-form-group>
 
                 <div class = "button-group">
-                  <b-button class = "cancel-button" type="reset">Cancel</b-button>
                   <b-button class = "save-button" type="submit">Save</b-button>
+                  <b-button class = "cancel-button" type="reset">Cancel</b-button>
                 </div>
             </b-form>
           </card>
@@ -120,7 +116,10 @@
       </template>
       <template v-slot:modal-footer="{ ok }">
         <b-col class="button-confirm-group">
-          <b-button @click="ok()" id="ok-button" variant="outline-primary">
+          <router-link :to="{name: 'activity-list-schedule'}">
+            <b-button class="back-button">Back to List</b-button>
+          </router-link>
+          <b-button @click="ok()" class="see-button">
             See Details
           </b-button>
         </b-col>
@@ -169,12 +168,6 @@ export default {
   beforeMount() {
     this.addRow();
   },
-
-  // computed: {
-  //   nameState() {
-  //     return /(?!^\d+$)^.+$/.test(this.newActivityListSchedule.namaProyek)
-  //   }
-  // },
 
   methods: {
     addRow(){
@@ -257,7 +250,7 @@ export default {
   color:white;
   border-color: transparent;
   font-size: 10px;
-  margin-left: 10px;
+  margin-right: 10px;
   line-height: 15px;
   width: 120px;
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
@@ -275,9 +268,33 @@ export default {
   font-size: 10px;
 }
 
-.button-group{
-  margin-top: 30px;
+.see-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-left: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
   text-align: center;
+}
+
+.back-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 100px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.button-group{
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 .label{
   font-weight: 600;
@@ -306,5 +323,9 @@ h5{
   margin: -35px 0 -5px -15px;
   color: #FF3E1D;
   background: none;
+}
+.required label:after {
+  content:" *";
+  color: red;
 }
 </style>
