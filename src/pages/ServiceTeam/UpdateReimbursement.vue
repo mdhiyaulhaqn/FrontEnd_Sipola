@@ -69,16 +69,20 @@
                     <b-col>
                         <b-form-group>
                         <div class="dropzone">
-                        <input type="file" class="input-file" ref="files" accept="image/*"
+                        <input type="file" class="input-file" ref="files"
                         @change="selectFile" multiple/>
                         <p v-if="attachments.length === 0" class="call-to-action"><i class='fas fa-cloud-upload-alt' style='font-size:36px'></i> 
-                        Drag and drop your images here or <label for="file">
+                        Drag and drop your files here or <label for="file">
                             <button class="buttonFile">Select <i class='far fa-arrow-alt-circle-up'></i></button></label></p>
                         
                         <div id="kotakAttachment">
                              <b-col class="col-xs-12 col-sm-12 col-md-3 grup-attachment" v-bind:key="file" v-for="file in attachments" >
-                                <div class="foto">
+                                <div class="foto" v-if="file.type === 'image/png' || file.type==='image/jpeg' || file.type==='image.jpg'">
                                  <img :src="untukPreview+file.image" alt="Image" class="image">
+                                 <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:36px"></i></a>
+                                </div>
+                                <div class="foto" v-else>
+                                 <img src="@/assets/img/document.png">
                                  <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:36px"></i></a>
                                 </div>
                                  <p>{{file.fileName}} </p>
@@ -227,8 +231,6 @@ export default {
 
         onSubmit(evt) {
             evt.preventDefault();
-            console.log(this.attachments);
-            console.log(this.expenses);
             this.reimbursement.listExpense = this.expenses;
             this.reimbursement.listAttachment = this.attachments;
             this.updateReimbursement(JSON.stringify(this.reimbursement));
@@ -300,11 +302,7 @@ export default {
             const files = this.$refs.files.files;
             this.isAnyImage = true;
             for (let i = 0; i < files.length; i++) {
-                 if (files[i].type == "image/jpeg" || files[i].type == "image/png"){
-                    this.uploadFile(files[i]);
-                } else {
-                  alert("Type not supported for file " + files[i].name);
-                }       
+              this.uploadFile(files[i]);    
             }
         },
 
@@ -326,7 +324,7 @@ export default {
         },
 
         hideModal(){
-		    this.$refs['modal-hide'].hide();
+		      this.$refs['modal-hide'].hide();
         },
 
     }
@@ -417,7 +415,7 @@ h5{
 }
 
 .dropzone {
-    height: auto;
+    min-height: 200px;
     padding: 10px 10px;
     position: relative;
     cursor: pointer;
@@ -429,7 +427,7 @@ h5{
 .input-file{
     opacity: 0;
     width: 100%;
-    height: auto;
+    height: 200px;
     position: absolute;
     cursor: pointer;
     background: black;

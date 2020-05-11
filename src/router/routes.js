@@ -32,6 +32,8 @@ import FormReimbursement from "@/pages/ServiceTeam/FormReimbursement.vue";
 import UpdateReimbursement from "@/pages/ServiceTeam/UpdateReimbursement.vue";
 import Login from "@/pages/Login.vue";
 import Homepage from "@/pages/Homepage.vue";
+import DetailReimbursementRequest from "@/pages/Finance/DetailReimbursementFinance.vue";
+import ReimbursementRequest from "@/pages/Finance/ReimbursementRequest.vue";
 
 const routes = [
   {
@@ -169,6 +171,16 @@ const routes = [
         path: "activity-list-schedule/:id/update",
         name: "update-activity-list-schedule",
         component: UpdateActivityListSchedule
+      },
+      {
+        path: "reimbursement-finance/:id/",
+        name: "detail-request",
+        component: DetailReimbursementRequest
+      },
+      {
+        path: "reimbursement-request",
+        name: "reimbursement-request",
+        component: ReimbursementRequest
       },
       // {
       //   path: "/",

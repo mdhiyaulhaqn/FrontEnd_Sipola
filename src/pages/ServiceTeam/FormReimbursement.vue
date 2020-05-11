@@ -164,8 +164,9 @@ export default {
                 createdBy : "Ringgi Cahyo",
                 projectName : '',
                 totalReimburse : 0,
-                statusReimburse : 'On Progress',
+                statusReimburse : 1,
                 status : 'Active',
+                keterangan : '',
                 listExpense : '',
                 listAttachment : '',
             },
@@ -177,14 +178,8 @@ export default {
                 createdBy : 'Ringgi Cahyo',
                 paidBy : 'Ringgi Cahyo',
                 reimbursement : '',
-                status : 'Active'
+                status : 'Inactive'
             },
-            // new_attachment : {
-            //     id: 0,
-            //     fileName : '',
-            //     image : '',
-            //     reimbursement : '',
-            // },
             show: true,
             successModal : false,
             failedModal : false,
@@ -266,11 +261,7 @@ export default {
         selectFile(){
             const files = this.$refs.files.files;
             for (let i = 0; i < files.length; i++) {
-               if (files[i].type == "image/jpeg" || files[i].type == "image/png"){
-                    this.uploadFile(files[i]);
-                } else {
-                  alert("Type not supported for file " + files[i].name);
-                }           
+              this.uploadFile(files[i]);      
             }
         },
 
@@ -459,9 +450,5 @@ img {
 #kotakAttachment {
     padding: 10px 10px;
 }
-
-
-
-
 
 </style>
