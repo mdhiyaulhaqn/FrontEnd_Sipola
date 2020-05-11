@@ -26,7 +26,7 @@
             <b-form @submit="onSubmit" v-if="show">
                 <div class = "row">
                     <div class = "col-6">
-                        <b-form-group>
+                        <b-form-group class="required">
                             <label for="noInvoice">Invoice No</label>
                             <b-form-input
                                 id="noInvoice"
@@ -40,7 +40,7 @@
              
                     <div class = "col-3">
                         <div style="color:black">
-                        <b-form-group>
+                        <b-form-group class="required">
                             <label for="dateInvoice">Invoice Date</label>
                             <b-form-input
                                 id="dateInvoice"
@@ -54,7 +54,7 @@
                     
                     <div class = "col-3">
                         <div style="color:black">
-                        <b-form-group>
+                        <b-form-group class="required">
                             <label for="dueDatePayment">Due Date</label>
                             <b-form-input
                                 id="dueDatePayment"
@@ -69,7 +69,7 @@
 
                 <div class = "row">
                     <div class = "col-7">
-                        <b-form-group>
+                        <b-form-group class="required">
                             <label for="noPurchaseOrder">Purchase Order No</label>
                             <b-form-input
                                 id="noPurchaseOrder"
@@ -83,7 +83,7 @@
              
                     <div class = "col-5">
                         <div style="color:black">
-                        <b-form-group>
+                        <b-form-group class="required">
                             <label for="purchaseOrderDate">PurchaseOrder Date</label>
                             <b-form-input
                                 id="date"
@@ -97,7 +97,7 @@
                     </div>
                 </div>
 
-                <b-form-group>
+                <b-form-group class="required">
                     <label for="companyName">Company Name</label>
                     <b-form-input
                         id="companyName"
@@ -109,7 +109,7 @@
                     </b-form-input>
                 </b-form-group>
 
-                <b-form-group>
+                <b-form-group class="required">
                     <label for="companyAddress">Company Address</label>
                     <b-form-input
                         id="companyAddress"
@@ -121,7 +121,7 @@
                     </b-form-input>
                 </b-form-group>
 
-                <b-row>
+                <b-row class="required">
                     <b-col md="5">
                       <label>Service Order</label>
                     </b-col><br>
@@ -137,7 +137,6 @@
                     <b-col md="3">
                     <label>UnitPrice</label> 
                     </b-col><br>
-
                 </b-row>
 
                 <b-row class="service_orders" v-bind:key="item.id_service_orders" v-for="item in sales_order.serviceOrder">
@@ -148,7 +147,7 @@
 
                 <div class="row">
                     <div class="col-6">
-                        <b-form-group>
+                        <b-form-group class="required">
                             <label for="paymentTerms">Payment Terms</label>
                             <b-form-input
                                 id="paymentTerms"
@@ -163,7 +162,7 @@
                     </div>
 
                     <div class="col-6">
-                        <b-form-group>
+                        <b-form-group class="required">
                             <label for="termsOfDelivery">Terms of Delivery</label>
                             <b-form-input
                                 id="termsOfDelivery"
@@ -180,8 +179,8 @@
 
                 <!-- Add and Cancel Button -->
                 <div class = "button-group">
-                    <b-button class = "cancel-button" type="reset">Cancel</b-button>
                     <b-button class = "add-invoice-button" type="submit">Add</b-button>
+                    <b-button class = "cancel-button" type="reset">Cancel</b-button>
                 </div>
             </b-form>
             </card>
@@ -298,19 +297,31 @@ export default {
 }
 
 .add-invoice-button{
-    border-color: white;
     background-color: #109CF1;
     color:white;
+    border-color: transparent;
+    font-size: 10px;
+    margin-left: 10px;
+    line-height: 15px;
+    width: 120px;
+    box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+    text-align: center;
 }
 
 .cancel-button{
     color:#109CF1;
     border-color:#109CF1;
     background-color: white;
+    border-width: 1px;
+    width: 80px;
+    line-height: 15px;
+    text-align: center;
+    font-size: 10px;
 }
 
 .button-group{
-    float: right;
+    margin-top: 30px;
+    text-align: center;
 }
 #breadcrumb{
   font-size: 12px;
@@ -318,5 +329,9 @@ export default {
   margin: -35px 0 -5px -15px;
   color: #FF3E1D;
   background: none;
+}
+.required label:after {
+    content: " *";
+    color: red;
 }
 </style>

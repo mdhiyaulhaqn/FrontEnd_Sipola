@@ -1,5 +1,13 @@
 <template>
   <div>
+       <b-breadcrumb id="breadcrumb">
+      <b-breadcrumb-item :to="{name: 'sales-order'}">
+        Sales Order
+      </b-breadcrumb-item>
+      <b-breadcrumb-item active>
+        Add Sales Order
+      </b-breadcrumb-item>
+    </b-breadcrumb>
     <h3 class="judul"><strong>Add Sales Order</strong></h3>
     <div class = "row">
         <div class = "col-10 isi-form">
@@ -70,7 +78,7 @@
                     </b-col>
                 </b-row>
              
-
+                <div class="d-none d-md-block d-lg-block">
                 <b-row>
                     <b-col md="5">
                       <label>Description</label>
@@ -94,6 +102,7 @@
                     
                     </b-col>
                 </b-row>
+                </div>
 
                 <b-row class="service_orders" v-bind:key="item.id_service_order" v-for="item in service_orders">
                     <b-col>
@@ -101,7 +110,7 @@
                     </b-col>
                 </b-row> 
                     
-                <b-row>
+              <b-row>
                     <b-col md="5">
                         <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">+ Add Description</button>
                     </b-col>
@@ -110,14 +119,7 @@
                 
                 <b-form-group>
                     <label for="termsConditions">Terms and Conditions</label>
-                    <b-form-textarea
-                        id="termsConditions"
-                        v-model="new_sales_order.termsCondition"
-                        type="text"
-                        required
-                        placeholder="Terms and Conditions"
-                        >
-                    </b-form-textarea>
+                    <ckeditor :editor="editor"  v-model="new_sales_order.termsCondition" :config="editorConfig"></ckeditor>
                 </b-form-group>
 
                 <div class = "button-group">
@@ -140,6 +142,8 @@
 
 <script>
 import ServiceOrder from '@/pages/SalesMarketing/ServiceOrder.vue';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 import axios from 'axios';
 
 export default {
@@ -148,6 +152,7 @@ export default {
     },
     data() { 
       return {
+            editor: ClassicEditor,
             service_orders: [],
             companies : [],
             new_sales_order : {
@@ -177,8 +182,8 @@ export default {
     },
 
     beforeMount() {
-      this.addRow();
-      this.getAllCompany();
+        this.getAllCompany();
+        this.addRow();
 	},
     
     methods: {
@@ -237,10 +242,11 @@ export default {
 <style scoped>
 
 .add-button{
-    width:360px;
-    background-color: white;
-    color : #109cf1;
-    border-color: #109cf1;
+  width: 100%;
+  background-color: white;
+  color : #109cf1;
+  border-color: #109cf1;
+  margin-bottom: 10px;
 }
 
 .judul{

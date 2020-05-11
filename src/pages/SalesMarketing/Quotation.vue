@@ -76,10 +76,6 @@
                 {{row.item.date.split("T")[0].split("-").join('-') | moment("ll") }}
             </template>
 
-            <template v-slot:cell(total_price) = "row">
-                {{row.item.service[1].harga}}
-            </template>
-
             <template v-slot:cell(Lihat)="row">
               <router-link :to="{name: 'detail-quotation', params: {id:row.item.id}}">
                 <b-button id="view_button" class="btn btn-primary">
