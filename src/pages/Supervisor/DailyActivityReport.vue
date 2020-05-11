@@ -82,53 +82,61 @@
               </router-link>
             </template>
           </b-table>
-
-          <div class="row">
-            <div v-if="perPage > dailyActivityReport.length" class="col-md-7 col-sm-7 col-xs-7 col-12 d-block d-xs-block d-sm-block my-2">
-              <b-card-sub-title>Showing {{ dailyActivityReport.length }} of {{ dailyActivityReport.length }}</b-card-sub-title>
-            </div>
-            <div v-else-if="currentPage != 1" class="col-md-7 col-sm-7 col-xs-7 col-6 d-block d-xs-block d-sm-block my-2">
-              <b-card-sub-title>Showing {{ dailyActivityReport.length % perPage }} of {{ dailyActivityReport.length }}</b-card-sub-title>
-            </div>
-            <div v-else class="col-md-7 col-sm-7 col-xs-7 col-12 d-block d-xs-block d-sm-block my-2">
-              <b-card-sub-title>Showing {{ perPage }} of {{ dailyActivityReport.length }}</b-card-sub-title>
-            </div>
-            <div class="col-md-3 col-sm-3 col-xs-3 col-6 d-block d-xs-block d-sm-block">
-              <b-form-group
-                label="Rows per page:"
-                label-cols="12"
-                label-cols-sm="8"
-                label-cols-md="8"
-                label-cols-xl="8"
-                label-cols-lg="8"
-                label-align="right"
-                label-align-md="right"
-                label-align-sm="right"
-                label-align-lg="right"
-                label-align-xl="right"
-                label-size="sm"
-                label-for="perPageSelect"
-                class="mb-0"
-              >
-                <b-form-select
-                  v-model="perPage"
-                  id="perPageSelect"
-                  size="sm"
-                  :options="pageOptions"
-                ></b-form-select>
-              </b-form-group>
-            </div>
-            <div class="col-md-2 col-sm-2 col-xs-2 col-12 d-block d-xs-block d-sm-block">
-              <b-pagination
-                v-model="currentPage"
-                :total-rows="totalRows"
-                :per-page="perPage"
-                align="fill"
-                size="sm"
-                class="my-0"
-              ></b-pagination>
-            </div>
-          </div>
+          <b-row align-h="between">
+            <b-col cols="4">
+              <div v-if="perPage > dailyActivityReport.length" class="my-2">
+                <b-card-sub-title>Showing {{ dailyActivityReport.length }} of {{ dailyActivityReport.length }}</b-card-sub-title>
+              </div>
+              <div v-else-if="currentPage != 1" class="my-2">
+                <b-card-sub-title>Showing {{ dailyActivityReport.length % perPage }} of {{ dailyActivityReport.length }}</b-card-sub-title>
+              </div>
+              <div v-else class="my-2">
+                <b-card-sub-title>Showing {{ perPage }} of {{ dailyActivityReport.length }}</b-card-sub-title>
+              </div>
+            </b-col>
+            <b-col cols="8">
+              <div>
+                <b-form-group
+                  label="Rows per page:"
+                  label-cols="8"
+                  label-cols-sm="8"
+                  label-cols-md="8"
+                  label-cols-xl="10"
+                  label-cols-lg="8"
+                  label-align="right"
+                  label-align-md="right"
+                  label-align-sm="right"
+                  label-align-lg="right"
+                  label-align-xl="right"
+                  label-size="sm"
+                  label-for="perPageSelect"
+                  class="mb-0"
+                >
+                  <b-form-select
+                    v-model="perPage"
+                    id="perPageSelect"
+                    size="sm"
+                    :options="pageOptions"
+                  ></b-form-select>
+                </b-form-group>
+              </div>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <div style="margin: 10px 0 0 0;">
+                <b-pagination
+                  v-model="currentPage"
+                  :total-rows="totalRows"
+                  :per-page="perPage"
+                  align="center"
+                  size="md"
+                  class="my-1"
+                  style="margin-left: 0;"
+                ></b-pagination>
+              </div>
+            </b-col>
+          </b-row>
       </card>
     </div>
   </div>
