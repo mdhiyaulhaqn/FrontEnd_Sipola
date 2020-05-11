@@ -102,7 +102,7 @@
                         Sub-total Price
                     </div>
                     <div class = "col-md-6 col-6">
-                        : {{this.invoice.sub_total_price}}
+                        : {{this.invoice.sub_total_price + ",00"}}
                     </div>
                 </b-row>
                 <b-row align-content="rigt">
@@ -110,7 +110,7 @@
                         VAT Price
                     </div>
                     <div class = "col-md-6 col-6">
-                        : {{this.invoice.price_vat}}
+                        : {{this.invoice.price_vat + ",00"}}
                     </div>
                 </b-row>
                 <b-row align-content="right">
@@ -118,7 +118,7 @@
                         Grand-total Price
                     </div>
                     <div class = "col-md-6 col-6">
-                        : {{this.invoice.grand_total_price}}
+                        : {{this.invoice.grand_total_price + ",00"}}
                     </div>
                 </b-row>
 

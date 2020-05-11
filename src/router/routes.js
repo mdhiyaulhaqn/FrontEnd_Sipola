@@ -3,12 +3,13 @@ import DashboardLayout from "@/layout/dashboard/DashboardLayout.vue";
 import NotFound from "@/pages/NotFoundPage.vue";
 
 // Admin pagesc
-import Dashboard from "@/pages/Dashboard.vue";
+import Dashboard from "@/pages/DirekturUtama/Dashboard.vue";
 import UserProfile from "@/pages/UserProfile.vue";
 import Quotation from "@/pages/SalesMarketing/Quotation.vue";
 import SalesOrder from "@/pages/SalesMarketing/SalesOrder.vue";
 import FormSalesOrder from "@/pages/SalesMarketing/FormSalesOrder.vue";
 import DetailSalesOrder from "@/pages/SalesMarketing/DetailSalesOrder.vue";
+import UpdateSalesOrder from "@/pages/SalesMarketing/UpdateSalesOrder.vue";
 import FormQuotation from "@/pages/SalesMarketing/FormQuotation.vue";
 import UpdateQuotation from "@/pages/SalesMarketing/UpdateQuotation.vue";
 import DetailQuotation from "@/pages/SalesMarketing/DetailQuotation.vue";
@@ -22,10 +23,15 @@ import DetailInvoice from "@/pages/Finance/DetailInvoice.vue";
 import DetailSalesOrderForInvoice from "@/pages/Finance/DetailSalesOrderForInvoice.vue";
 import SalesOrderForInvoice from "@/pages/Finance/SalesOrderForInvoice.vue";
 import UpdatePengeluaran from "@/pages/Finance/UpdatePengeluaran.vue";
+import RingkasanPendapatanPengeluaran from "@/pages/Finance/RingkasanPendapatanPengeluaran.vue";
 import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue";
 import AddActivityListSchedule from "@/pages/ProjectManager/AddActivityListSchedule.vue";
 import DetailActivityListSchedule from "@/pages/ProjectManager/DetailActivityListSchedule.vue";
 import UpdateActivityListSchedule from "@/pages/ProjectManager/UpdateActivityListSchedule.vue";
+import DeliveryOrder from "@/pages/ProjectManager/DeliveryOrder.vue";
+import AddDeliveryOrder from "@/pages/ProjectManager/AddDeliveryOrder.vue";
+import DetailDeliveryOrder from "@/pages/ProjectManager/DetailDeliveryOrder.vue";
+import UpdateDeliveryOrder from "@/pages/ProjectManager/UpdateDeliveryOrder.vue";
 import ReimbursementReport from "@/pages/ServiceTeam/ReimbursementReport.vue";
 import DetailReimbursement from "@/pages/ServiceTeam/DetailReimbursement.vue";
 import FormReimbursement from "@/pages/ServiceTeam/FormReimbursement.vue";
@@ -82,6 +88,31 @@ const routes = [
         path: "sales-order/:id",
         name: "detail-sales-order",
         component: DetailSalesOrder
+      },
+      {
+        path: "sales-order/:id/update",
+        name: "update-sales-order",
+        component: UpdateSalesOrder
+      },
+      {
+        path: "delivery-order/add",
+        name: "add-delivery-order",
+        component: AddDeliveryOrder
+      },
+      {
+        path: "delivery-order",
+        name: "delivery-order",
+        component: DeliveryOrder
+      },
+      {
+        path: "delivery-order/:id",
+        name: "detail-delivery-order",
+        component: DetailDeliveryOrder
+      },
+      {
+        path: "delivery-order/:id/update",
+        name: "update-delivery-order",
+        component: UpdateDeliveryOrder
       },
       {
         path: "expense",
@@ -173,6 +204,11 @@ const routes = [
         path: "activity-list-schedule/:id/update",
         name: "update-activity-list-schedule",
         component: UpdateActivityListSchedule
+      },
+      {
+        path: "income-expense-summary",
+        name: "income-expense-summary",
+        component: RingkasanPendapatanPengeluaran
       },
       // {
       //   path: "/",
