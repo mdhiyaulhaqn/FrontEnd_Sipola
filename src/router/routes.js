@@ -28,6 +28,10 @@ import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vu
 import AddActivityListSchedule from "@/pages/ProjectManager/AddActivityListSchedule.vue";
 import DetailActivityListSchedule from "@/pages/ProjectManager/DetailActivityListSchedule.vue";
 import UpdateActivityListSchedule from "@/pages/ProjectManager/UpdateActivityListSchedule.vue";
+import DailyActivityReport from "@/pages/Supervisor/DailyActivityReport.vue";
+import AddDailyActivityReport from "@/pages/Supervisor/AddDailyActivityReport.vue";
+import DetailDailyActivityReport from "@/pages/Supervisor/DetailDailyActivityReport.vue";
+import UpdateDailyActivityReport from "@/pages/Supervisor/UpdateDailyActivityReport.vue";
 import DeliveryOrder from "@/pages/ProjectManager/DeliveryOrder.vue";
 import AddDeliveryOrder from "@/pages/ProjectManager/AddDeliveryOrder.vue";
 import DetailDeliveryOrder from "@/pages/ProjectManager/DetailDeliveryOrder.vue";
@@ -204,6 +208,26 @@ const routes = [
         path: "activity-list-schedule/:id/update",
         name: "update-activity-list-schedule",
         component: UpdateActivityListSchedule
+      },
+      {
+        path: "daily-activity-report",
+        name: "daily-activity-report",
+        component: DailyActivityReport
+      },
+      {
+        path: "daily-activity-report/add",
+        name: "add-daily-activity-report",
+        component: AddDailyActivityReport
+      },
+      {
+        path: "daily-activity-report/:id",
+        name: "detail-daily-activity-report",
+        component: DetailDailyActivityReport
+      },
+      {
+        path: "daily-activity-report/:id/update",
+        name: "update-daily-activity-report",
+        component: UpdateDailyActivityReport
       },
       {
         path: "income-expense-summary",
