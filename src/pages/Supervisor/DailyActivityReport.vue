@@ -62,9 +62,40 @@
             :sort-direction="sortDirection"
             @filtered="onFiltered"
             :borderless="true"
-            sort-icon-left
+            sort-icon-right
             :sticky-header="true"
             >
+
+            <template v-slot:head(index)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(site)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(poNumber)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(date)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(typeOfWorks)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(start)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(end)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(responsible)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(approvedBy)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(action)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
 
             <template v-slot:cell(index)="row">
               {{ row.index + 1 }}
@@ -72,6 +103,15 @@
 
             <template v-slot:cell(date)="row">
               {{ row.value | moment("ll") }}
+            </template>
+
+            <template v-slot:cell(approvedBy)="row">
+              <div v-if="row.value != ''">
+                {{ row.value }}
+              </div>
+              <div v-else>
+                Not approven yet
+              </div>
             </template>
 
             <template v-slot:cell(action)="row">
@@ -151,10 +191,14 @@ export default {
       fields: [
         { key: 'index', label: 'No' },
         { key: 'site', label: 'Site', sortable: true, },
-        { key: 'poNumber', label: 'Client Purchase Order No.', sortable: true, },
+        { key: 'poNumber', label: 'PO Number', sortable: true, },
         { key: 'date', label: 'Date Created', sortable: true, },
         { key: 'typeOfWorks', label: 'Type of Works', sortable: true, },
-        { key: 'action', label: 'Action', }
+        { key: 'start', label: 'Start Hour', sortable: true, },
+        { key: 'end', label: 'Stop Hour', sortable: true, },
+        { key: 'responsible', label: 'Responsible', sortable: true, },
+        { key: 'approvedBy', label: 'Approved by', sortable: true, },
+        { key: 'action', label: 'Action' }
       ],
       totalRows: 1,
       currentPage: 1,
