@@ -71,36 +71,30 @@
                             </div>
                         </div>
                     </b-col>
-                
                 </b-row>
+        
+                <div>
+                  <b-card border-variant="dark" class="card-attachment">
+                  <b-card-title class="title-attachment" v-b-toggle.collapse-2 style="max-height:50px">
+                    <h6>Attachments ( {{reimbursement.listAttachment.length}} )</h6>
+                    <!-- <a @click="downloadAll()"><i class="fas fa-download"></i></a> -->
+                  </b-card-title>
 
-                <div class="for-attachment" v-if="reimbursement.listAttachment.length > 0">
-                    <b-row>
-                        <b-col>
-                            <div><br>Attachments ( {{reimbursement.listAttachment.length}} )</div>
+                  <!-- Element to collapse -->
+                  <b-collapse id="collapse-2" v-if="reimbursement.listAttachment.length > 0">
+                    <b-card-body>
+                      <b-row>
+                        <b-col class="col-xs-12 col-sm-12 col-md-2 grup-attachment" v-bind:key="file" v-for="file in reimbursement.listAttachment" >
+                          <b-img thumbnail fluid v-if="file.type === 'image/jpeg'" :src="untukPreview+file.image" alt="Image" class="image"></b-img>
+                          <img v-else thumbnail fluid src="@/assets/img/document.png" alt="Image" class="image">
+                          <a @click="downloadFile(file)"><i class="fas fa-download"></i></a>
+                          <h6> {{file.fileName}}</h6>
                         </b-col>
-                    </b-row>
-                    <b-row id="kotakAttachment">
-                        <b-col class="col-xs-9 col-sm-8 col-md-2 grup-attachment" v-bind:key="file" v-for="file in reimbursement.listAttachment" >
-                                <b-card
-                                    :img-src="untukPreview+file.image"
-                                    img-alt="Image"
-                                    img-top
-                                    img-max-width="80px"
-                                    img-max-height="80px"
-                                    style="max-width: 100px;"
-                                    class="mb-2"
-                                    bg-variant="light"
-                                >
-                                <b-card-body class="row">
-                                  <b-card-title style="font-size: 12px;">
-                                      {{file.fileName}}   
-                                  </b-card-title>
-                                  <button @click="downloadFile(file)">Download</button>
-                                </b-card-body>
-                                </b-card>
-                        </b-col>
-                    </b-row>
+                      </b-row>
+                    </b-card-body>
+                  </b-collapse>
+
+                  </b-card>
                 </div>
 
                 <b-row>
@@ -109,9 +103,9 @@
                 </b-row>
 
                 <b-row>
-                    <div class="col button-group">
+                    <div class="col button-group" v-if="reimbursement.statusReimburse != 3">
                         <br>
-                        <button v-on:click="onConfirmationReject" id ="delete-button" class="btn btn-primary"  v-if="reimbursement.statusReimburse != 'Sent'">
+                        <button v-on:click="onConfirmationReject" id ="delete-button" class="btn btn-primary">
                             Reject
                         </button>
                         <button v-on:click="onConfirmationApprove" id ="edit-button" class="btn btn-success">
@@ -147,7 +141,7 @@
       >     
       <template v-slot:modal-title>
         <div class="container">
-          <h5 id="modal-title-delete">Rejection</h5>
+          <h5 id="modal-title-reject">Rejection</h5>
         </div>
       </template>     
       <template v-slot:default>
@@ -161,7 +155,7 @@
               </b-col>
               <b-col>
                 <b-form @submit.stop.prevent="submitReject">
-                    <b-form-group>
+                    <b-form-group size="sm">
                         <label for="keterangan">Reason</label>
                         <b-form-input
                             id="keteranganInput"
@@ -192,11 +186,11 @@
         </div>
       </template>
       <template v-slot:modal-footer="{ cancel }">
-        <b-col class="button-confirm-group">
-          <b-button @click="submitReject" id ="confirm_approve_button" variant="outline-success">
+        <b-col class="button-reject-group">
+          <b-button @click="submitReject" id ="confirm_reject_button" variant="outline-danger">
             Yes
           </b-button>
-          <b-button @click="cancel()" id ="cancel_approve_button" class="btn btn-success">
+          <b-button @click="cancel()" id ="cancel_reject_button" class="btn btn-danger">
             Cancel
           </b-button>
         </b-col>
@@ -396,7 +390,36 @@ export default {
           downloadLink.href = linkSource;
           downloadLink.download = fileName;
           downloadLink.click();
+        },
+
+        downloadAll() {
+          console.log('download all')
+          var zip = new JSZip();
+          var count = 0;
+          var zipFilename = "zipFilename.zip";
+          let urls = [];
+          for (let i = 0; i < files.length; i++) {
+            urls.append('data:' + this.reimbursement.listAttachment[i].type + ';base64,' + this.reimbursement.listAttachment[i].image)
+          }
+
+          urls.forEach(function(url){
+            var filename = "filename";
+            // loading a file and add it in a zip file
+            JSZipUtils.getBinaryContent(url, function (err, data) {
+              if(err) {
+                  throw err; // or handle the error
+              }
+              zip.file(filename, data, {binary:true});
+              count++;
+              if (count == urls.length) {
+                zip.generateAsync({type:'blob'}).then(function(content) {
+                    saveAs(content, zipFilename);
+                });
+              }
+            });
+          });
         }
+          
 
   }
 };
@@ -500,6 +523,11 @@ body {
 .button-confirm-group{
   text-align: right;
 }
+
+.button-reject-group{
+  text-align: right;
+}
+
 #confirm_approve_button{
   font-size: 10px;
   width: 110px;
@@ -514,6 +542,20 @@ body {
   border-color: white;
   border-width: 1px;
 }
+#confirm_reject_button{
+  font-size: 10px;
+  width: 110px;
+  border-color: #FF3E1D;
+  border-width: 1px;
+  margin-right: 10px;
+}
+#cancel_reject_button{
+  font-size: 10px;
+  background-color: #FF3E1D;
+  color:white;
+  border-color: white;
+  border-width: 1px;
+}
 h5{
   margin-bottom: -4px;
 }
@@ -522,6 +564,10 @@ h5{
 }
 #modal-title-delete{
   color:#28A745;
+  font-weight: 1000;
+}
+#modal-title-reject{
+  color:#FF3E1D;
   font-weight: 1000;
 }
 #modal-title-success{
@@ -586,6 +632,10 @@ img {
 
 .grup-attachment {
   padding: 5px 2px 5px 7px;
+}
+
+.card-attachment {
+  border: solid 1px lightgray;
 }
 
 </style>

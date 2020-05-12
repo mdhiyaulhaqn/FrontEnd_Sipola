@@ -73,33 +73,27 @@
                 
                 </b-row>
 
-                <div class="for-attachment" v-if="reimbursement.listAttachment.length > 0">
-                    <b-row>
-                        <b-col>
-                            <div><br>Attachments ( {{reimbursement.listAttachment.length}} )</div>
+                <div v-if="reimbursement.listAttachment.length > 0">
+                  <b-card bg-color="black" class="card-attachment">
+                  <b-card-title v-b-toggle.collapse-2 style="max-height:50px">
+                    <p>Attachments ( {{reimbursement.listAttachment.length}} )</p>
+                  </b-card-title>
+
+                  <!-- Element to collapse -->
+                  <b-collapse id="collapse-2" v-if="reimbursement.listAttachment.length > 0">
+                    <b-card-body>
+                      <b-row>
+                        <b-col class="col-xs-10 col-sm-10 col-md-2 grup-attachment" v-bind:key="file" v-for="file in reimbursement.listAttachment" >
+                          <b-img thumbnail fluid v-if="file.type === 'image/jpeg'" :src="untukPreview+file.image" alt="Image" class="image"></b-img>
+                          <img v-else thumbnail fluid src="@/assets/img/document.png" alt="Image" class="image">
+                          <a @click="downloadFile(file)"><i class="fas fa-download"></i></a>
+                          <h6> {{file.fileName}}</h6>
                         </b-col>
-                    </b-row>
-                    <b-row id="kotakAttachment">
-                        <b-col class="col-xs-9 col-sm-8 col-md-2 grup-attachment" v-bind:key="file" v-for="file in reimbursement.listAttachment" >
-                                <div v-if="file.type === ''"></div>
-                                <b-card
-                                    :img-src="untukPreview+file.image"
-                                    img-alt="Image"
-                                    img-top
-                                    img-max-width="80px"
-                                    img-max-height="80px"
-                                    style="max-width: 100px;"
-                                    class="mb-2"
-                                    bg-variant="light"
-                                >
-                                <b-card-body class="row">
-                                  <b-card-title style="font-size: 12px;">
-                                      {{file.fileName}}   
-                                  </b-card-title>
-                                </b-card-body>
-                                </b-card>
-                        </b-col>
-                    </b-row>
+                      </b-row>
+                    </b-card-body>
+                  </b-collapse>
+
+                  </b-card>
                 </div>
 
                 <b-row>
@@ -333,6 +327,17 @@ export default {
 
         showMessageSendModal(status){
             this.successModalSend = true;
+        },
+
+         downloadFile(file) {
+          console.log(file.fileName)
+          const linkSource = 'data:' + file.type + ';base64,' + file.image;
+          const downloadLink = document.createElement("a");
+          const fileName = file.fileName;
+
+          downloadLink.href = linkSource;
+          downloadLink.download = fileName;
+          downloadLink.click();
         },
 
         // redirectSend(){

@@ -13,7 +13,7 @@
         <div class = "col-10 isi-form">
             <card>
             <b-form @submit="onSubmit" v-if="show">
-                <b-form-group>
+                <b-form-group class="required">
                     <label for="projectName">Project</label>
                     <b-form-input
                         id="projectName"
@@ -66,22 +66,37 @@
                         <div class="dropzone">
                         <input type="file" class="input-file" ref="files" accept="image/*"
                         @change="selectFile" multiple/>
-                        <p v-if="attachments.length === 0" class="call-to-action"><i class='fas fa-cloud-upload-alt' style='font-size:36px'></i> 
-                        Drag and drop your images here or <label for="file">
+                        <p class="call-to-action"><i class='fas fa-cloud-upload-alt' style='font-size:36px'></i> 
+                        Drag and drop your files here or <label for="file">
                             <button class="buttonFile">Select <i class='far fa-arrow-alt-circle-up'></i></button></label></p>
-                        
+                        </div>
+                        </b-form-group>
+                      </b-col>
+                </b-row>
+                <b-row>
+                      <b-col>  
                         <div id="kotakAttachment">
-                             <b-col class="col-xs-12 col-sm-12 col-md-3 grup-attachment" v-bind:key="file" v-for="file in attachments" >
-                                <div class="foto">
-                                 <img :src="untukPreview+file.image" alt="Image" class="image">
-                                 <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:36px"></i></a>
-                                </div>
-                                 <p>{{file.fileName}} </p>
+                             <b-col class="col-xs-8 col-sm-8 col-md-12" v-bind:key="file" v-for="file in attachments" >
+                               <b-card no-body class="overflow-hidden" style="max-height:80px">
+                                <b-row no-gutters>
+                                  <b-col class="col-xs-2 col-sm-2 col-md-1">
+                                    <div class="foto">
+                                    <b-img thumbnail fluid :src="untukPreview+file.image" alt="Image" class="image"></b-img>
+                                    </div>
+                                  </b-col>
+                                  <b-col class="col-xs-9 col-sm-8 col-md-10">
+                                    <b-card-body>
+                                        <p style="font-size:12px">{{file.fileName}}</p>
+                                    </b-card-body>
+                                  </b-col>
+                                  <b-col class="col-xs-2 col-sm-2 col-md-1">
+                                    <a @click="removeFile(file)" class="removeIcon"><i class="fas fa-minus-circle"></i></a>
+                                  </b-col>
+                                </b-row>
+                              </b-card>
                                  
                             </b-col>
                         </div>
-                        </div>
-                        </b-form-group>
                     </b-col>
                 </b-row>
 
@@ -292,6 +307,11 @@ export default {
   background: none;
 }
 
+.required label::after {
+  content: " *";
+  color: red;
+}
+
 .add-button{
     width:100%;
     background-color: white;
@@ -355,16 +375,8 @@ export default {
     width: 100%;
 }
 
-.image-preview {
-    height: 100px;
-    width: 100px;
-    padding: 5px 10px 5px 10px;
-}
-
-
 .dropzone {
-    min-height: 200px;
-    padding: 10px 10px;
+    min-height: 100px;
     position: relative;
     cursor: pointer;
     outline: 2px dashed black; 
@@ -405,50 +417,9 @@ export default {
   text-align: right;
 }
 
-img {
-    max-width: 100px;
-    max-height: 100px;
-}
-
-.grup-attachment{
-    padding: 5px 5px 5px 5px;
-}
-
-.image {
-  opacity: 1;
-  display: block;
-  width: 100%;
-  height: auto;
-  transition: .5s ease;
-  backface-visibility: hidden;
-}
-
 .removeIcon {
-  transition: .5s ease;
-  opacity: 0;
-  position: absolute;
-  top: 50%;
-  left: 30%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  text-align: center;
-}
-
-.foto {
   position: relative;
-  width: 100%;
-}
-
-.foto:hover .image {
-  opacity: 0.3;
-}
-
-.foto:hover .removeIcon {
-  opacity: 1;
-}
-
-#kotakAttachment {
-    padding: 10px 10px;
+  text-align: right;
 }
 
 </style>
