@@ -8,7 +8,7 @@
           Detail Quotation
         </b-breadcrumb-item>
         <b-breadcrumb-item active>
-         Update Quotation
+          Update Quotation
         </b-breadcrumb-item>
       </b-breadcrumb>
     <h3 class="judul"><strong>Update Quotation</strong></h3>
@@ -19,7 +19,7 @@
             <b-form @submit="onModal" v-if="show">
                 <div class = "row">
                     <div class = "col-md-7 col-12">
-                        <b-form-group>
+                        <b-form-group class="required">
                             <label for="noQuotation">Quotation No</label>
                             <b-form-input
                                 id="noQuotation"
@@ -34,7 +34,7 @@
              
                     <div class = "col-md-5 col-12">
                         <div style="color:black">
-                        <b-form-group>
+                        <b-form-group class="required">
                             <label for="date">Quotation Date</label>
                             <b-form-input
                                 id="date"
@@ -47,7 +47,7 @@
                     </div>
                 </div>
 
-                <b-form-group>
+                <b-form-group class="required">
                     <label for="companyName">Company Name</label>
                     <b-form-input
                         id="companyName"
@@ -60,7 +60,7 @@
                     </b-form-input>
                 </b-form-group>
 
-                <b-form-group>
+                <b-form-group class="required">
                     <label for="companyAddress">Company Address</label>
                     <b-form-input
                         id="companyAddress"
@@ -74,13 +74,13 @@
 
                  <div class="d-none d-md-block d-lg-block">
                     <div class="row">
-                        <div class = "col-md-6">
+                        <div class = "col-md-6 required">
                             <label>Scope of Works</label>
                         </div>
-                        <div class = "col-md-2">
+                        <div class = "col-md-2 required">
                             <label>Quantity</label> 
                         </div>
-                        <div class = "col-md-3">
+                        <div class = "col-md-3 required">
                             <label>Unit Price</label> 
                         </div>
                         <div class = "col-md-1">
@@ -102,7 +102,7 @@
                 </b-row> 
 
                 <!-- - Waktu Kerja : Normal working hour 8 Jam per Hari - Pembayaran : 100% setelah pekerjaan selesai - Validity : 1 bulan - Untuk jam kerja lebih dari normal working hour, maka dikenakan biaya lembur Rp.350.000,00 per jam - Untuk pekerjaan yang dilakukan di hari libur (Sabtu, Minggu dan Hari libur Nasional) dikenakan biaya tambahan Rp.2.500.000,00 Per Hari -->
-                <b-form-group>
+                <b-form-group class="required">
                     <label for="termsConditions">Terms and Conditions</label>
                     <ckeditor :editor="editor"  v-model="quotation.termsCondition" :config="editorConfig"></ckeditor>
                     
@@ -143,11 +143,12 @@
         </template>
         <template v-slot:modal-footer="{ cancel }">
         <b-col class="button-confirm-group">
-            <b-button @click="cancel()" class="cancel-button">
-            Cancel
-            </b-button>
             <b-button @click="onSubmit" class="save-button">
             Save
+            </b-button>
+            
+            <b-button @click="cancel()" class="cancel-button">
+            Cancel
             </b-button>
         </b-col>
         </template>
@@ -196,9 +197,14 @@
         </template>
         <template v-slot:modal-footer="{ ok }">
             <b-col class="button-confirm-group">
-            <b-button @click="ok()" id="ok-button" variant="outline-primary">
-                See Details
-            </b-button>
+                <b-col class="button-confirm-group">
+                    <b-button @click="cancel()" class="cancel-button">
+                    Back to List
+                    </b-button>
+                    <b-button @click="ok" class="save-button">
+                    See Details
+                    </b-button>
+                </b-col>
             </b-col>
         </template>
     </b-modal>
@@ -343,8 +349,12 @@ export default {
             .then(res => {this.quotation = res.data.result, this.showMessage(res.data.status)});
         },
 
-       redirect(){
+        redirect(){
             this.$router.push({ name: 'detail-quotation',  params: {id:this.quotation.id}});
+        },
+
+        cancel(){
+            this.$router.push({ name: 'quotation'});
         },
 
         hideModal(){
@@ -355,6 +365,11 @@ export default {
 </script>
 
 <style scoped>
+
+.required label:after {
+    content: " *";
+    color: red;
+}
 .add-button{
   width: 100%;
   background-color: white;
@@ -381,7 +396,7 @@ export default {
   color:white;
   border-color: transparent;
   font-size: 10px;
-  margin-left: 10px;
+  margin-right: 10px;
   line-height: 15px;
   width: 110px;
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
@@ -397,6 +412,7 @@ export default {
   line-height: 15px;
   text-align: center;
   font-size: 10px;
+  margin-right: 10px;
 }
 
 .button-group{

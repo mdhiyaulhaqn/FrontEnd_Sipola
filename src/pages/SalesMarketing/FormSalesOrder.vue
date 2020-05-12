@@ -17,7 +17,7 @@
 
                 <b-row>
                     <b-col md="6">
-                    <b-form-group>
+                    <b-form-group class="required">
                         <label for="noSalesOrder">Sales Order No</label>
                         <b-form-input
                             id="noSalesOrder"
@@ -29,7 +29,7 @@
                     </b-form-group>
                     </b-col>
                     <b-col md="6">
-                        <b-form-group>
+                        <b-form-group class="required">
                             <label for="date">Sales Order Date</label>
                             <b-form-input
                                 id="date"
@@ -41,7 +41,7 @@
                     </b-col>
                 </b-row>
 
-                 <b-form-group>
+                 <b-form-group class="required">
                     <label for="poNumber">Purchase Order Number</label>
                     <b-form-input
                         id="poNumber"
@@ -52,7 +52,7 @@
                     </b-form-input>
                 </b-form-group>
                 
-                <b-form-group>
+                <b-form-group class="required">
                     <label for="date">Purchase Order Date</label>
                     <b-form-input
                         id="poDate"
@@ -64,7 +64,7 @@
 
                 <b-row>
                     <b-col md="12">
-                        <b-form-group>
+                        <b-form-group class="required">
                             <label for="companyName" >Company Name</label>
                             <b-form-select v-model="new_sales_order.company" required>
                                 <template slot="companyName">
@@ -79,29 +79,29 @@
                 </b-row>
              
                 <div class="d-none d-md-block d-lg-block">
-                <b-row>
-                    <b-col md="5">
-                      <label>Description</label>
-                    </b-col><br>
+                    <b-row>
+                        <b-col md="5 required">
+                        <label>Description</label>
+                        </b-col><br>
 
-                    <b-col md="2">
-                       <label>Qty</label> 
-                    </b-col><br>
+                        <b-col md="2 required">
+                        <label>Qty</label> 
+                        </b-col><br>
 
-                    <b-col md="2">
-                    <label>UOM</label> 
-                    </b-col>
-                    <br>
+                        <b-col md="2 required">
+                        <label>UOM</label> 
+                        </b-col>
+                        <br>
 
-                    <b-col md="2">
-                    <label>Unit Price</label> 
-                    </b-col>
-                    <br>
+                        <b-col md="2 required">
+                        <label>Unit Price</label> 
+                        </b-col>
+                        <br>
 
-                    <b-col md="1">
-                    
-                    </b-col>
-                </b-row>
+                        <b-col md="1">
+                        
+                        </b-col>
+                    </b-row>
                 </div>
 
                 <b-row class="service_orders" v-bind:key="item.id_service_order" v-for="item in service_orders">
@@ -117,7 +117,7 @@
                 </b-row> 
 
                 
-                <b-form-group>
+                <b-form-group class="required">
                     <label for="termsConditions">Terms and Conditions</label>
                     <ckeditor :editor="editor"  v-model="new_sales_order.termsCondition" :config="editorConfig"></ckeditor>
                 </b-form-group>
@@ -130,8 +130,40 @@
             </card>
         </div>
     </div>
-    <b-modal title="Sales Order Berhasil Tersimpan" v-model="successModal" @ok="redirect()"  centered ok-only>
-        Sales Order telah berhasil dibuat.
+
+    <b-modal
+        id="modal-success"
+        centered
+        v-model="successModal"
+        @ok="redirect()"
+        >
+        <template v-slot:modal-title>
+        <div class="container">
+            <h5 id="modal-title-success">Success!</h5>
+        </div>
+        </template>
+        <template v-slot:default>
+        <div class="container">
+            <b-row>
+            <b-col class="modal-icon col-2">
+                <img src="@/assets/img/success-icon.png" alt="" width="50px">
+            </b-col>
+            <b-col class="col-10">
+                <p id="modal-message">Sales Order was successfully added.</p>
+            </b-col>
+            </b-row>
+        </div>
+        </template>
+        <template v-slot:modal-footer="{ ok }">
+            <b-col class="button-confirm-group">
+                <b-button @click="cancel()" class="cancel-button">
+                    Back to List
+                </b-button>
+                <b-button @click="ok()" class="save-button" variant="outline-primary">
+                    See Details
+                </b-button>
+            </b-col>
+        </template>
     </b-modal>
 
     <b-modal title="Sales Order  Gagal Tersimpan" v-model="failedModal" centered ok-only>
@@ -232,6 +264,10 @@ export default {
             this.$router.push({ name: 'detail-sales-order',  params: {id:this.new_sales_order.id}});
         },
 
+        cancel(){
+            this.$router.push({ name: 'sales-order'});
+        },
+
         hideModal(){
 		    this.$refs['modal-hide'].hide();
 		},
@@ -240,6 +276,12 @@ export default {
 </script>
 
 <style scoped>
+
+
+.required label:after {
+    content: " *";
+    color: red;
+}
 
 .add-button{
   width: 100%;
@@ -266,10 +308,28 @@ export default {
     color:white;
 }
 
+.save-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 10px;
+  margin-right: 10px;
+  line-height: 15px;
+  width: 110px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
+}
+
 .cancel-button{
-    color:#109CF1;
-    border-color:#109CF1;
-    background-color: white;
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 80px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 10px;
+  margin-right: 10px;
 }
 
 .button-group{

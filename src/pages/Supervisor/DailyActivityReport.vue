@@ -62,16 +62,56 @@
             :sort-direction="sortDirection"
             @filtered="onFiltered"
             :borderless="true"
-            sort-icon-left
+            sort-icon-right
             :sticky-header="true"
             >
 
-            <template v-slot:cell(id)="row">
-              {{items.indexOf(row.item) + 1}}
+            <template v-slot:head(index)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(site)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(poNumber)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(date)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(typeOfWorks)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(start)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(end)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(responsible)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(approvedBy)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(action)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+
+            <template v-slot:cell(index)="row">
+              {{ row.index + 1 }}
             </template>
 
             <template v-slot:cell(date)="row">
-              {{ row.item.date | moment("ll") }}
+              {{ row.value | moment("ll") }}
+            </template>
+
+            <template v-slot:cell(approvedBy)="row">
+              <div v-if="row.value != ''">
+                {{ row.value }}
+              </div>
+              <div v-else>
+                Not approven yet
+              </div>
             </template>
 
             <template v-slot:cell(action)="row">
@@ -82,53 +122,61 @@
               </router-link>
             </template>
           </b-table>
-
-          <div class="row">
-            <div v-if="perPage > dailyActivityReport.length" class="col-md-7 col-sm-7 col-xs-7 col-12 d-block d-xs-block d-sm-block my-2">
-              <b-card-sub-title>Showing {{ dailyActivityReport.length }} of {{ dailyActivityReport.length }}</b-card-sub-title>
-            </div>
-            <div v-else-if="currentPage != 1" class="col-md-7 col-sm-7 col-xs-7 col-6 d-block d-xs-block d-sm-block my-2">
-              <b-card-sub-title>Showing {{ dailyActivityReport.length % perPage }} of {{ dailyActivityReport.length }}</b-card-sub-title>
-            </div>
-            <div v-else class="col-md-7 col-sm-7 col-xs-7 col-12 d-block d-xs-block d-sm-block my-2">
-              <b-card-sub-title>Showing {{ perPage }} of {{ dailyActivityReport.length }}</b-card-sub-title>
-            </div>
-            <div class="col-md-3 col-sm-3 col-xs-3 col-6 d-block d-xs-block d-sm-block">
-              <b-form-group
-                label="Rows per page:"
-                label-cols="12"
-                label-cols-sm="8"
-                label-cols-md="8"
-                label-cols-xl="8"
-                label-cols-lg="8"
-                label-align="right"
-                label-align-md="right"
-                label-align-sm="right"
-                label-align-lg="right"
-                label-align-xl="right"
-                label-size="sm"
-                label-for="perPageSelect"
-                class="mb-0"
-              >
-                <b-form-select
-                  v-model="perPage"
-                  id="perPageSelect"
-                  size="sm"
-                  :options="pageOptions"
-                ></b-form-select>
-              </b-form-group>
-            </div>
-            <div class="col-md-2 col-sm-2 col-xs-2 col-12 d-block d-xs-block d-sm-block">
-              <b-pagination
-                v-model="currentPage"
-                :total-rows="totalRows"
-                :per-page="perPage"
-                align="fill"
-                size="sm"
-                class="my-0"
-              ></b-pagination>
-            </div>
-          </div>
+          <b-row align-h="between">
+            <b-col cols="4">
+              <div v-if="perPage > dailyActivityReport.length" class="my-2">
+                <b-card-sub-title>Showing {{ dailyActivityReport.length }} of {{ dailyActivityReport.length }}</b-card-sub-title>
+              </div>
+              <div v-else-if="currentPage != 1" class="my-2">
+                <b-card-sub-title>Showing {{ dailyActivityReport.length % perPage }} of {{ dailyActivityReport.length }}</b-card-sub-title>
+              </div>
+              <div v-else class="my-2">
+                <b-card-sub-title>Showing {{ perPage }} of {{ dailyActivityReport.length }}</b-card-sub-title>
+              </div>
+            </b-col>
+            <b-col cols="8">
+              <div>
+                <b-form-group
+                  label="Rows per page:"
+                  label-cols="8"
+                  label-cols-sm="8"
+                  label-cols-md="8"
+                  label-cols-xl="10"
+                  label-cols-lg="8"
+                  label-align="right"
+                  label-align-md="right"
+                  label-align-sm="right"
+                  label-align-lg="right"
+                  label-align-xl="right"
+                  label-size="sm"
+                  label-for="perPageSelect"
+                  class="mb-0"
+                >
+                  <b-form-select
+                    v-model="perPage"
+                    id="perPageSelect"
+                    size="sm"
+                    :options="pageOptions"
+                  ></b-form-select>
+                </b-form-group>
+              </div>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <div style="margin: 10px 0 0 0;">
+                <b-pagination
+                  v-model="currentPage"
+                  :total-rows="totalRows"
+                  :per-page="perPage"
+                  align="center"
+                  size="md"
+                  class="my-1"
+                  style="margin-left: 0;"
+                ></b-pagination>
+              </div>
+            </b-col>
+          </b-row>
       </card>
     </div>
   </div>
@@ -141,20 +189,24 @@ export default {
     return {
       dailyActivityReport: [],
       fields: [
-        { key: 'id', label: 'No', sortable: false, },
+        { key: 'index', label: 'No' },
         { key: 'site', label: 'Site', sortable: true, },
-        { key: 'poNumber', label: 'Client Purchase Order No.', sortable: true, },
+        { key: 'poNumber', label: 'PO Number', sortable: true, },
         { key: 'date', label: 'Date Created', sortable: true, },
         { key: 'typeOfWorks', label: 'Type of Works', sortable: true, },
-        { key: 'action', label: 'Action', }
+        { key: 'start', label: 'Start Hour', sortable: true, },
+        { key: 'end', label: 'Stop Hour', sortable: true, },
+        { key: 'responsible', label: 'Responsible', sortable: true, },
+        { key: 'approvedBy', label: 'Approved by', sortable: true, },
+        { key: 'action', label: 'Action' }
       ],
       totalRows: 1,
       currentPage: 1,
       perPage: 5,
       pageOptions: [5, 10, 25, 50, 100],
-      sortBy: '',
-      sortDesc: false,
-      sortDirection: 'asc',
+      sortBy: 'id',
+      sortDesc: true,
+      sortDirection: 'desc',
       filter: null,
       filterOn: [],
     }
@@ -185,7 +237,7 @@ export default {
     },
     getAllDailyActivityReport: function(){
       axios.get('http://localhost:8080/api/daily-activity-report/all')
-      .then(response => this.dailyActivityReport = response.data.result);
+      .then(response => {this.dailyActivityReport = response.data.result});
     },
   }
 }
