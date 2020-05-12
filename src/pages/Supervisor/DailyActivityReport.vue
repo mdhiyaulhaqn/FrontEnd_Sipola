@@ -66,12 +66,12 @@
             :sticky-header="true"
             >
 
-            <template v-slot:cell(id)="row">
-              {{items.indexOf(row.item) + 1}}
+            <template v-slot:cell(index)="row">
+              {{ row.index + 1 }}
             </template>
 
             <template v-slot:cell(date)="row">
-              {{ row.item.date | moment("ll") }}
+              {{ row.value | moment("ll") }}
             </template>
 
             <template v-slot:cell(action)="row">
@@ -149,7 +149,7 @@ export default {
     return {
       dailyActivityReport: [],
       fields: [
-        { key: 'id', label: 'No', sortable: false, },
+        { key: 'index', label: 'No' },
         { key: 'site', label: 'Site', sortable: true, },
         { key: 'poNumber', label: 'Client Purchase Order No.', sortable: true, },
         { key: 'date', label: 'Date Created', sortable: true, },
@@ -160,9 +160,9 @@ export default {
       currentPage: 1,
       perPage: 5,
       pageOptions: [5, 10, 25, 50, 100],
-      sortBy: '',
-      sortDesc: false,
-      sortDirection: 'asc',
+      sortBy: 'id',
+      sortDesc: true,
+      sortDirection: 'desc',
       filter: null,
       filterOn: [],
     }
@@ -193,7 +193,7 @@ export default {
     },
     getAllDailyActivityReport: function(){
       axios.get('http://localhost:8080/api/daily-activity-report/all')
-      .then(response => this.dailyActivityReport = response.data.result);
+      .then(response => {this.dailyActivityReport = response.data.result});
     },
   }
 }
