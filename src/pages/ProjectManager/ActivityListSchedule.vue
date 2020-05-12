@@ -65,8 +65,8 @@
             :sticky-header="true"
             >
 
-            <template v-slot:cell(id)="row">
-              {{items.indexOf(row.item) + 1}}
+            <template v-slot:cell(index)="row">
+              {{ row.index + 1 }}
             </template>
 
             <template v-slot:cell(startDate)="row">
@@ -151,7 +151,7 @@ export default {
     return {
       activityListSchedule: [],
       fields: [
-        { key: 'id', label: 'No', sortable: false, },
+        { key: 'index', label: 'No' },
         { key: 'namaProyek', label: 'Project Name', sortable: true, },
         { key: 'namaPerusahaan', label: 'Company Name', sortable: true, },
         { key: 'startDate', label: 'Start Date', sortable: true, },
@@ -162,9 +162,9 @@ export default {
       currentPage: 1,
       perPage: 5,
       pageOptions: [5, 10, 25, 50, 100],
-      sortBy: '',
-      sortDesc: false,
-      sortDirection: 'asc',
+      sortBy: 'id',
+      sortDesc: true,
+      sortDirection: 'desc',
       filter: null,
       filterOn: [],
     }
