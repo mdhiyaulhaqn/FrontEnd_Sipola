@@ -120,6 +120,7 @@
 </template>
 <script>
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
   data() {
@@ -168,7 +169,7 @@ export default {
       console.log("Punten")
     },
     getAllPengeluaran: function(){
-      axios.get('http://localhost:8080/api/pengeluaran/all')
+      axios.get('http://localhost:8080/api/pengeluaran/all', { headers: authHeader() })
       .then(response => this.pengeluaranList = response.data.result);
     },
     formatPrice(value) {

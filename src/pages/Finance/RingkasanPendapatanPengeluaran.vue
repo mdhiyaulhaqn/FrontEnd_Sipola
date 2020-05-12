@@ -229,6 +229,7 @@
 </template>
 <script>
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
   data() {
@@ -287,16 +288,16 @@ export default {
         linkTanggal = 'tanggalAkhir=' + this.endDate
       }
 
-      axios.get('http://localhost:8080/api/pendapatan?' + linkTanggal)
+      axios.get('http://localhost:8080/api/pendapatan?' + linkTanggal, { headers: authHeader() })
       .then(response => this.pendapatanList = response.data.result);
-      axios.get('http://localhost:8080/api/pengeluaran?' + linkTanggal)
+      axios.get('http://localhost:8080/api/pengeluaran?' + linkTanggal, { headers: authHeader() })
       .then(response => this.pengeluaranList = response.data.result);
 
-      axios.get('http://localhost:8080/api/pendapatan/calculate?' + linkTanggal)
+      axios.get('http://localhost:8080/api/pendapatan/calculate?' + linkTanggal, { headers: authHeader() })
       .then(response => {
         this.totalPendapatan = response.data.result; 
         });
-      axios.get('http://localhost:8080/api/pengeluaran/calculate?' + linkTanggal)
+      axios.get('http://localhost:8080/api/pengeluaran/calculate?' + linkTanggal, { headers: authHeader() })
       .then(response => {
         this.totalPengeluaran = response.data.result; 
         });
