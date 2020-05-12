@@ -6,6 +6,7 @@
           Quotation
         </b-breadcrumb-item>
       </b-breadcrumb>
+      <h3 class="judul"><strong>Quotation</strong></h3>
         <card>
           <!-- User Interface controls -->
           <b-row align-h="between">

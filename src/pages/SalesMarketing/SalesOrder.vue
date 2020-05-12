@@ -6,6 +6,7 @@
             Sales Order
           </b-breadcrumb-item>
         </b-breadcrumb>
+        <h3 class="judul"><strong>Sales Order</strong></h3>
         <card>
           <b-row align-h="between" style="margin-top: 12px;">
             <b-col md="2">
