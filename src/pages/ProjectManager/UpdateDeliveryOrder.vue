@@ -19,13 +19,14 @@
              <b-form @submit="onModal" v-if="show">
                 <b-row>
                     <div class = "col-md-12 col-12">
-                        <b-form-group>
+                        <b-form-group class="required">
                             <label for="noDeliveryOrder">Delivery Order No</label>
                             <b-form-input
                                 id="noDeliveryOrder"
                                 v-model="delivery_order.noDeliveryOrder"
                                 type="text"
                                 required
+                                disabled=""
                                 placeholder="Delivery Order Number">
                             </b-form-input>
                         </b-form-group>
@@ -33,7 +34,7 @@
                 </b-row>
                 <b-row>
                      <div class = "col-md-12 col-12">
-                        <b-form-group>
+                        <b-form-group class="required">
                             <label for="poNumber">Purchase Order No</label>
                             <b-form-input
                                 id="poNumber"
@@ -55,7 +56,6 @@
                                 id="qcPassed"
                                 v-model="delivery_order.qcPassed"
                                 type="text"
-                                required
                                 placeholder="QC Passed / Delivery">
                             </b-form-input>
                         </b-form-group>
@@ -69,7 +69,6 @@
                                     id="shipBy"
                                     v-model="delivery_order.shipBy"
                                     type="text"
-                                    required
                                     placeholder="Ship By">
                                 </b-form-input>
                             </b-form-group>
@@ -79,7 +78,7 @@
               
                   <b-row>
                     <b-col md="12">
-                        <b-form-group>
+                        <b-form-group class="required">
                             <label for="companyName" >Company</label>
                             <b-form-select v-model="delivery_order.company" required>
                                 <template slot="companyName">
@@ -95,10 +94,10 @@
 
                 <div class="d-none d-md-block d-lg-block">
                     <div class="row">
-                        <div class = "col-md-6">
+                        <div class = "col-md-6 required">
                             <label>Description</label>
                         </div>
-                        <div class = "col-md-2">
+                        <div class = "col-md-2 required">
                             <label>Quantity</label> 
                         </div>
                         <div class = "col-md-3">
@@ -123,7 +122,7 @@
                 </b-row> 
 
                 
-                <b-form-group>
+                <b-form-group class="required">
                     <label for="termsConditions">Terms and Conditions</label>
                     <ckeditor :editor="editor"  v-model="delivery_order.termsCondition" :config="editorConfig"></ckeditor>
                 </b-form-group>
@@ -163,11 +162,11 @@
         </template>
         <template v-slot:modal-footer="{ cancel }">
         <b-col class="button-confirm-group">
-            <b-button @click="cancel()" class="cancel-button">
-            Cancel
-            </b-button>
             <b-button @click="onSubmit" class="save-button">
             Save
+            </b-button>
+            <b-button @click="cancel()" class="cancel-button">
+            Cancel
             </b-button>
         </b-col>
         </template>
@@ -198,8 +197,11 @@
         </template>
         <template v-slot:modal-footer="{ ok }">
             <b-col class="button-confirm-group">
-            <b-button @click="ok()" id="ok-button" variant="outline-primary">
-                See Details
+             <b-button @click="cancel()" class="cancel-button">
+                    Back to List
+            </b-button>
+            <b-button @click="ok" class="save-button">
+                    See Details
             </b-button>
             </b-col>
         </template>
@@ -325,6 +327,10 @@ export default {
             this.$router.push({ name: 'detail-delivery-order',  params: {id:this.quotation.id}});
         },
 
+        cancel(){
+            this.$router.push({ name: 'delivery-order'});
+        },
+
         hideModal(){
 		  	this.$refs['modal-hide'].hide();
 		},
@@ -333,6 +339,11 @@ export default {
 </script>
 
 <style scoped>
+
+.required label:after {
+    content: " *";
+    color: red;
+}
 .add-button{
   width: 100%;
   background-color: white;
@@ -359,7 +370,7 @@ export default {
   color:white;
   border-color: transparent;
   font-size: 10px;
-  margin-left: 10px;
+  margin-right: 10px;
   line-height: 15px;
   width: 110px;
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
@@ -375,6 +386,7 @@ export default {
   line-height: 15px;
   text-align: center;
   font-size: 10px;
+  margin-right: 10px;
 }
 
 .button-group{

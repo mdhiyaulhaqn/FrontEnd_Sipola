@@ -16,7 +16,7 @@
             <b-form @submit="onSubmit" v-if="show">
                 <b-row>
                     <div class = "col-md-12 col-12">
-                        <b-form-group>
+                        <b-form-group class="required">
                             <label for="deliveryOrderNo">Delivery Order No</label>
                             <b-form-input
                                 id="deliveryOrderNo"
@@ -30,7 +30,7 @@
                 </b-row>
                 <b-row>
                      <div class = "col-md-12 col-12">
-                        <b-form-group>
+                        <b-form-group class="required">
                             <label for="poNumber">Purchase Order No</label>
                             <b-form-input
                                 id="poNumber"
@@ -52,7 +52,6 @@
                                 id="qcPassed"
                                 v-model="new_delivery_order.qcPassed"
                                 type="text"
-                                required
                                 placeholder="QC Passed / Delivery">
                             </b-form-input>
                         </b-form-group>
@@ -66,7 +65,6 @@
                                     id="shipBy"
                                     v-model="new_delivery_order.shipBy"
                                     type="text"
-                                    required
                                     placeholder="Ship By">
                                 </b-form-input>
                             </b-form-group>
@@ -76,7 +74,7 @@
               
                   <b-row>
                     <b-col md="12">
-                        <b-form-group>
+                        <b-form-group class="required">
                             <label for="companyName" >Company</label>
                             <b-form-select v-model="new_delivery_order.company" required>
                                 <template slot="companyName">
@@ -92,10 +90,10 @@
 
                 <div class="d-none d-md-block d-lg-block">
                     <div class="row">
-                        <div class = "col-md-6">
+                        <div class = "col-md-6 required">
                             <label>Description</label>
                         </div>
-                        <div class = "col-md-2">
+                        <div class = "col-md-2 required">
                             <label>Quantity</label> 
                         </div>
                         <div class = "col-md-3">
@@ -120,7 +118,7 @@
                 </b-row> 
 
                 
-                <b-form-group>
+                <b-form-group class="required">
                     <label for="termsConditions">Terms and Conditions</label>
                     <ckeditor :editor="editor"  v-model="new_delivery_order.termsCondition" :config="editorConfig"></ckeditor>
                     
@@ -159,7 +157,10 @@
         </template>
         <template v-slot:modal-footer="{ ok }">
         <b-col class="button-confirm-group">
-            <b-button @click="ok()" id="ok-button" variant="outline-primary">
+            <b-button @click="redirect()" id="cancel-button" variant="outline-primary">
+                Back to List
+            </b-button>
+            <b-button @click="ok()" id="save-button" variant="outline-primary">
                 See Details
             </b-button>
         </b-col>
@@ -271,6 +272,11 @@ export default {
 
 <style scoped>
 
+.required label:after {
+    content: " *";
+    color: red;
+}
+
 .ck-editor__editable {
     min-height: 500px;
 }
@@ -298,26 +304,27 @@ export default {
 }
 
 .save-button{
-    background-color: #109CF1;
-    color:white;
-    border-color: transparent;
-    font-size: 10px;
-    margin-left: 10px;
-    line-height: 15px;
-    width: 120px;
-    box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
-    text-align: center;
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 10px;
+  margin-right: 10px;
+  line-height: 15px;
+  width: 110px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
 }
 
 .cancel-button{
-    color:#109CF1;
-    border-color:#109CF1;
-    background-color: white;
-    border-width: 1px;
-    width: 80px;
-    line-height: 15px;
-    text-align: center;
-    font-size: 10px;
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 80px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 10px;
+  margin-right: 10px;
 }
 
 .button-group{

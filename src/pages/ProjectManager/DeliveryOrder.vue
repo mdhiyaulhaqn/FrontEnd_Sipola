@@ -6,22 +6,22 @@
             Delivery Order
           </b-breadcrumb-item>
         </b-breadcrumb>
+         <h3 class="judul"><strong>Delivery Order</strong></h3>
         <card>
-           <b-container fluid>
           <b-row align-h="between" style="margin-top: 12px;">
             <b-col md="2">
               <router-link :to="{name: 'add-delivery-order'}">
-            <button id ="add_quotation_button" class="btn btn-primary">
-              <b-row align-h="center">
-                  <p style="font-size: 12px">
-                    Add Delivery Order
-                  </p>
-                  <div style="margin-left: 10px; margin-top: -3px">
-                    <img src="@/assets/img/add-circle-icon.png" alt="" width="25px">
-                  </div>
-              </b-row>
-            </button>
-          </router-link>
+                <button id ="add_quotation_button" class="btn btn-primary">
+                  <b-row align-h="center">
+                      <p style="font-size: 12px">
+                        Add Delivery Order
+                      </p>
+                      <div style="margin-left: 10px; margin-top: -3px">
+                        <img src="@/assets/img/add-circle-icon.png" alt="" width="25px">
+                      </div>
+                  </b-row>
+                </button>
+              </router-link>
             </b-col>
             <b-col md="10" class="my-1">
               <b-form-group
@@ -46,8 +46,7 @@
             </b-col>
 
           </b-row>
-                 
-          <div slot="raw-content" class="table-responsive">     
+   
               <b-table
                 show-empty
                 :small="true"
@@ -89,40 +88,61 @@
                 </template>
 
             </b-table>
-             <b-row align-h="end">
-            <b-col md="3" class="my-1">
-              <b-form-group
-                label="Rows per page:"
-                label-cols-sm="7"
-                label-align-sm="right"
-                label-size="sm"
-                label-for="perPageSelect"
-                class="mb-0"
-              >
-                <b-form-select
-                  v-model="perPage"
-                  id="perPageSelect"
-                  size="sm"
-                  :options="pageOptions"
-                ></b-form-select>
-              </b-form-group>
+              <b-row align-h="between">
+            <b-col cols="4">
+              <div v-if="perPage > delivery_orders.length" class="my-2">
+                <b-card-sub-title>Showing {{ delivery_orders.length }} of {{ delivery_orders.length }}</b-card-sub-title>
+              </div>
+              <div v-else-if="currentPage != 1" class="my-2">
+                <b-card-sub-title>Showing {{ delivery_orders.length % perPage }} of {{ delivery_orders.length }}</b-card-sub-title>
+              </div>
+              <div v-else class="my-2">
+                <b-card-sub-title>Showing {{ perPage }} of {{ delivery_orders.length }}</b-card-sub-title>
+              </div>
             </b-col>
-
-            <b-col md="3" class="my-1">
-              <b-pagination
-                v-model="currentPage"
-                :total-rows="totalRows"
-                :per-page="perPage"
-                align="fill"
-                size="sm"
-                class="my-0"
-              ></b-pagination>
+            <b-col cols="8">
+              <div>
+                <b-form-group
+                  label="Rows per page:"
+                  label-cols="8"
+                  label-cols-sm="8"
+                  label-cols-md="8"
+                  label-cols-xl="10"
+                  label-cols-lg="8"
+                  label-align="right"
+                  label-align-md="right"
+                  label-align-sm="right"
+                  label-align-lg="right"
+                  label-align-xl="right"
+                  label-size="sm"
+                  label-for="perPageSelect"
+                  class="mb-0"
+                >
+                  <b-form-select
+                    v-model="perPage"
+                    id="perPageSelect"
+                    size="sm"
+                    :options="pageOptions"
+                  ></b-form-select>
+                </b-form-group>
+              </div>
             </b-col>
           </b-row>
-
-             
-          </div>
-           </b-container>
+          <b-row>
+            <b-col>
+              <div style="margin: 10px 0 0 0;">
+                <b-pagination
+                  v-model="currentPage"
+                  :total-rows="totalRows"
+                  :per-page="perPage"
+                  align="center"
+                  size="md"
+                  class="my-1"
+                  style="margin-left: 0;"
+                ></b-pagination>
+              </div>
+            </b-col>
+          </b-row>
         </card>
       </div>
 

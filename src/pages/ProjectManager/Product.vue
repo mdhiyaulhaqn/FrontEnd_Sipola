@@ -40,7 +40,6 @@
             id="projectNo"
             v-model="product.projectNo"
             type="text"
-            required
             placeholder="Project / Service No"
             pattern="[a-zA-Z0-9-]++"
             >

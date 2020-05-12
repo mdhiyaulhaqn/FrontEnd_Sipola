@@ -121,15 +121,18 @@
 
 import { StatsCard, ChartCard } from "@/components/index";
 import PieChart from '@/pages/DirekturUtama/component/PieChart.vue';
+import LineChart from '@/pages/DirekturUtama/component/LineChart.vue';
+import BarChart from '@/pages/DirekturUtama/component/BarChart.vue';
 import Chartist from 'chartist';
 import axios from 'axios';
-
 
 export default {
   components: {
     StatsCard,
     ChartCard, 
-    PieChart
+    PieChart,
+    BarChart,
+    LineChart,
   },
   /**
    * Chart data used to render stats, charts. Should be replaced with server data
