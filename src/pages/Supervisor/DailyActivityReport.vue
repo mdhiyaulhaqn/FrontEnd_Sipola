@@ -3,18 +3,18 @@
     <div class="col-12">
       <b-breadcrumb id="breadcrumb">
         <b-breadcrumb-item active>
-          Activity List Schedule
+          Daily Activity Report
         </b-breadcrumb-item>
       </b-breadcrumb>
-      <h3 class="judul"><strong>Activity List Schedule</strong></h3>
+      <h3 class="judul"><strong>Daily Activity Report</strong></h3>
       <card>
           <b-row align-h="between">
             <b-col md="2">
-              <router-link :to="{name: 'add-activity-list-schedule'}">
-                <b-button id ="add_activity_button" class="btn btn-primary">
+              <router-link :to="{name: 'add-daily-activity-report'}">
+                <b-button id ="add_report_button" class="btn btn-primary">
                   <b-row align-h="center">
                     <p style="font-size: 12px">
-                      Add Activity
+                      Add Report
                     </p>
                     <div style="margin-left: 10px; margin-top: -4px">
                       <img src="@/assets/img/add-circle-icon.png" alt="" width="25px">
@@ -36,7 +36,7 @@
                     v-model="filter"
                     type="search"
                     id="filterInput"
-                    placeholder="Replacement ... "
+                    placeholder="PLTU ... "
                   ></b-form-input>
                   <b-input-group-append>
                     <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
@@ -44,6 +44,7 @@
                 </b-input-group>
               </b-form-group>
             </b-col>
+
           </b-row>
 
           <b-table
@@ -69,15 +70,12 @@
               {{items.indexOf(row.item) + 1}}
             </template>
 
-            <template v-slot:cell(startDate)="row">
-              {{ row.item.startDate | moment("ll") }}
-            </template>
-            <template v-slot:cell(endDate)="row">
-              {{ row.item.endDate | moment("ll") }}
+            <template v-slot:cell(date)="row">
+              {{ row.item.date | moment("ll") }}
             </template>
 
             <template v-slot:cell(action)="row">
-              <router-link :to="{name: 'detail-activity-list-schedule', params: {id:row.item.id}}">
+              <router-link :to="{name: 'detail-daily-activity-report', params: {id:row.item.id}}">
                 <b-button id="view_button" class="btn btn-primary">
                   View
                 </b-button>
@@ -86,14 +84,14 @@
           </b-table>
           <b-row align-h="between">
             <b-col cols="4">
-              <div v-if="perPage > activityListSchedule.length" class="my-2">
-                <b-card-sub-title>Showing {{ activityListSchedule.length }} of {{ activityListSchedule.length }}</b-card-sub-title>
+              <div v-if="perPage > dailyActivityReport.length" class="my-2">
+                <b-card-sub-title>Showing {{ dailyActivityReport.length }} of {{ dailyActivityReport.length }}</b-card-sub-title>
               </div>
               <div v-else-if="currentPage != 1" class="my-2">
-                <b-card-sub-title>Showing {{ activityListSchedule.length % perPage }} of {{ activityListSchedule.length }}</b-card-sub-title>
+                <b-card-sub-title>Showing {{ dailyActivityReport.length % perPage }} of {{ dailyActivityReport.length }}</b-card-sub-title>
               </div>
               <div v-else class="my-2">
-                <b-card-sub-title>Showing {{ perPage }} of {{ activityListSchedule.length }}</b-card-sub-title>
+                <b-card-sub-title>Showing {{ perPage }} of {{ dailyActivityReport.length }}</b-card-sub-title>
               </div>
             </b-col>
             <b-col cols="8">
@@ -149,13 +147,13 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      activityListSchedule: [],
+      dailyActivityReport: [],
       fields: [
         { key: 'id', label: 'No', sortable: false, },
-        { key: 'namaProyek', label: 'Project Name', sortable: true, },
-        { key: 'namaPerusahaan', label: 'Company Name', sortable: true, },
-        { key: 'startDate', label: 'Start Date', sortable: true, },
-        { key: 'endDate', label: 'End Date', sortable: true, },
+        { key: 'site', label: 'Site', sortable: true, },
+        { key: 'poNumber', label: 'Client Purchase Order No.', sortable: true, },
+        { key: 'date', label: 'Date Created', sortable: true, },
+        { key: 'typeOfWorks', label: 'Type of Works', sortable: true, },
         { key: 'action', label: 'Action', }
       ],
       totalRows: 1,
@@ -179,12 +177,12 @@ export default {
         })
     },
     items() {
-      this.totalRows = this.activityListSchedule.length;
-      return this.activityListSchedule;
+      this.totalRows = this.dailyActivityReport.length;
+      return this.dailyActivityReport;
     }
   },
   beforeMount() {
-    this.getAllActivityListSchedule();
+    this.getAllDailyActivityReport();
   },
 
   methods: {
@@ -193,15 +191,15 @@ export default {
       this.totalRows = filteredItems.length
       this.currentPage = 1
     },
-    getAllActivityListSchedule: function(){
-      axios.get('http://localhost:8080/api/activity-list-schedule/all')
-      .then(response => this.activityListSchedule = response.data.result);
+    getAllDailyActivityReport: function(){
+      axios.get('http://localhost:8080/api/daily-activity-report/all')
+      .then(response => this.dailyActivityReport = response.data.result);
     },
   }
 }
 </script>
 <style scoped>
-#add_activity_button{
+#add_report_button{
   background-color: #109CF1;
   color:white;
   border-color: transparent;
