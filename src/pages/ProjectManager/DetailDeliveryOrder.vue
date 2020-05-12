@@ -319,7 +319,7 @@ export default {
 
             //SYARAT DAN PENAWARAN
             doc.setFontStyle("bold");
-            doc.text('REMAKS : ', startX, finalY+10);
+            doc.text('REMARKS : ', startX, finalY+10);
             doc.rect(startX, finalY+15, 160, 20);
             doc.setFontStyle("light");
 
