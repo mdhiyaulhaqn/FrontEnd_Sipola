@@ -285,6 +285,7 @@ export default {
         
         fetchData : function(){
             this.sales_order.date = this.sales_order.date.substring(0,10);
+            this.sales_order.poDate = this.sales_order.poDate.substring(0,10);
             let service_quot = this.sales_order.serviceOrder;
             for(let i=0; i< service_quot.length ; i++){
                 this.new_service_order.id_service_order++;

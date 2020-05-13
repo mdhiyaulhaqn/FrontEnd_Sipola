@@ -124,7 +124,7 @@
 
                 <div class = "button-group">
                     <b-button class = "cancel-button" type="reset">Cancel</b-button>
-                    <b-button class = "add-quotation-button" type="submit">Add</b-button>
+                    <b-button class = "save-button" type="submit">Add</b-button>
                 </div>
             </b-form>
             </card>
@@ -138,30 +138,32 @@
         @ok="redirect()"
         >
         <template v-slot:modal-title>
-        <div class="container">
+            <div class="container">
             <h5 id="modal-title-success">Success!</h5>
-        </div>
+            </div>
         </template>
         <template v-slot:default>
-        <div class="container">
+            <div class="container">
             <b-row>
-            <b-col class="modal-icon col-2">
+                <b-col class="modal-icon col-2">
                 <img src="@/assets/img/success-icon.png" alt="" width="50px">
-            </b-col>
-            <b-col class="col-10">
+                </b-col>
+                <b-col class="col-10">
                 <p id="modal-message">Sales Order was successfully added.</p>
-            </b-col>
+                </b-col>
             </b-row>
-        </div>
+            </div>
         </template>
         <template v-slot:modal-footer="{ ok }">
             <b-col class="button-confirm-group">
-                <b-button @click="cancel()" class="cancel-button">
+                <b-col class="button-confirm-group">
+                    <b-button @click="cancel()" class="cancel-button">
                     Back to List
-                </b-button>
-                <b-button @click="ok()" class="save-button" variant="outline-primary">
+                    </b-button>
+                    <b-button @click="ok" class="save-button">
                     See Details
-                </b-button>
+                    </b-button>
+                </b-col>
             </b-col>
         </template>
     </b-modal>
@@ -333,7 +335,8 @@ export default {
 }
 
 .button-group{
-    float:right;
+    margin-top: 30px;
+    text-align: center;
 }
 
 </style>

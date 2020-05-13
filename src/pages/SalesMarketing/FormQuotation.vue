@@ -138,7 +138,7 @@
                 <b-button @click="cancel()" class="cancel-button">
                     Back to List
                 </b-button>
-                <b-button @click="ok()" class="save-button" variant="outline-primary">
+                <b-button @click="ok()" class="save-button">
                     See Details
                 </b-button>
             </b-col>

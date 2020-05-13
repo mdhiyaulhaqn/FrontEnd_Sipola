@@ -157,10 +157,10 @@
         </template>
         <template v-slot:modal-footer="{ ok }">
         <b-col class="button-confirm-group">
-            <b-button @click="redirect()" id="cancel-button" variant="outline-primary">
+            <b-button @click="redirect()" id="cancel-button">
                 Back to List
             </b-button>
-            <b-button @click="ok()" id="save-button" variant="outline-primary">
+            <b-button @click="ok()" id="save-button">
                 See Details
             </b-button>
         </b-col>

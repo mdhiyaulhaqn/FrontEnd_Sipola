@@ -36,7 +36,7 @@
                     v-model="filter"
                     type="search"
                     id="filterInput"
-                    placeholder="No Quotation, Company, Date"
+                    placeholder="No Sales Order, Company, Date"
                   ></b-form-input>
                   <b-input-group-append>
                     <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
