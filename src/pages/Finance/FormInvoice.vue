@@ -123,19 +123,17 @@
 
                         <div class="d-none d-md-block d-lg-block">
                             <div class="row">
-                                <div class="required">
-                                    <div class="col-md-5 col-12">
-                                        <label>Service Order</label>
-                                    </div>
-                                    <div class="col-md-2 col-12">
+                                <div class="col-md-5 required">
+                                    <label>Service Order</label>
+                                </div>
+                                <div class="col-md-2 required">
                                     <label>UOM</label> 
-                                    </div>
-                                    <div class="col-md-2 col-12">
+                                </div>
+                                <div class="col-md-2 required">
                                     <label>Qty</label> 
-                                    </div>
-                                    <div class="col-md-3 col-12">
+                                </div>
+                                <div class="col-md-3 required">
                                     <label>UnitPrice</label> 
-                                    </div>
                                 </div>
                             </div>
                         </div>
