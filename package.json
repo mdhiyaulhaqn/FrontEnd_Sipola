@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "cross-env NODE_OPTIONS=--max-old-space-size=16384 webpack",
+    "start": "cross-env NODE_OPTIONS=--max-old-space-size=8192 start",
     "serve": "vue-cli-service serve --port 8081",
     "build": "vue-cli-service build",
     "e2e": "node test/e2e/runner.js",
