@@ -106,23 +106,22 @@
                     </b-form-input>
                 </b-form-group>
 
-                <b-row class="required">
-                    <b-col md="5">
-                      <label>Service Order</label>
-                    </b-col><br>
-
-                    <b-col md="2">
-                    <label>UOM</label> 
-                    </b-col><br>
-
-                    <b-col md="2">
-                    <label>Qty</label> 
-                    </b-col>
-
-                    <b-col md="3">
-                    <label>UnitPrice</label> 
-                    </b-col><br>
-                </b-row>
+                <div class="d-none d-md-block d-lg-block">
+                    <div class="row">
+                        <div class="col-md-5 col-12 required">
+                            <label>Service Order</label>
+                        </div>
+                        <div class="col-md-2 col-12 required">
+                            <label>UOM</label> 
+                        </div>
+                        <div class="col-md-2 col-12 required">
+                            <label>Qty</label> 
+                        </div>
+                        <div class="col-md-3 col-12 required">
+                            <label>UnitPrice</label> 
+                        </div>
+                    </div>
+                </div>
 
                 <b-row class="service_orders" v-bind:key="item.id_service_orders" v-for="item in invoice.salesOrder.serviceOrder">
                     <b-col disabled>
@@ -224,6 +223,9 @@
         </template>
         <template v-slot:modal-footer="{ ok }">
             <b-col class="button-confirm-group">
+                <router-link :to="{name: 'invoice'}">
+                    <b-button class="back-button">Back to List</b-button>
+                </router-link>
                 <b-button @click="ok()" id="ok-button" variant="outline-primary">
                     See Details
                 </b-button>
@@ -373,9 +375,26 @@ export default {
 }
 
 #ok-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-left: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
+}
+
+.back-button{
   color:#109CF1;
   border-color:#109CF1;
   background-color: white;
+  border-width: 1px;
+  width: 100px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
 }
 
 #modal-title-success{
