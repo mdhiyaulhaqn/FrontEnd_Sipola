@@ -327,6 +327,7 @@ export default {
       successModal : false,
       failedModal : false,
       send : {objects : null},
+      url: 'http://sipola.herokuapp.com/api/daily-activity-report/'
     }
   },
 
@@ -347,7 +348,7 @@ export default {
     },
 
     addDailyActivityReport(dailyActivityReport){
-        axios.post('http://localhost:8080/api/daily-activity-report/add',
+        axios.post(this.url + 'add',
         dailyActivityReport,
             { headers: {
                 'Content-Type': 'application/json',

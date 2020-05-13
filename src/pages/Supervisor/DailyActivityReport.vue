@@ -209,6 +209,7 @@ export default {
       sortDirection: 'desc',
       filter: null,
       filterOn: [],
+      url: 'http://sipola.herokuapp.com/api/daily-activity-report/'
     }
   },
   computed: {
@@ -236,7 +237,7 @@ export default {
       this.currentPage = 1
     },
     getAllDailyActivityReport: function(){
-      axios.get('http://localhost:8080/api/daily-activity-report/all')
+      axios.get(this.url + 'all')
       .then(response => {this.dailyActivityReport = response.data.result});
     },
   }

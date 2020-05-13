@@ -290,6 +290,7 @@ export default {
       dailyActivityReport: '',
       all: [],
       successModal: false,
+      url: 'http://sipola.herokuapp.com/api/daily-activity-report/'
     }
   },
   beforeMount() {
@@ -317,13 +318,13 @@ export default {
     },
 
     getDetail: function(){
-      axios.get('http://localhost:8080/api/daily-activity-report/' + this.$route.params.id)
+      axios.get(this.url + this.$route.params.id)
       .then(response => {this.dailyActivityReport = response.data.result, this.all.push(response.data.result)})
       .catch(err => this.dailyActivityReport = err.data);
     },
 
     deleteDailyActivityReport(dailyActivityReport){
-      axios.put('http://localhost:8080/api/daily-activity-report/' + this.$route.params.id + '/delete',
+      axios.put(this.url + this.$route.params.id + '/delete',
       dailyActivityReport,
           { headers: {
               'Content-Type': 'application/json',
