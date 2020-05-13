@@ -2,17 +2,32 @@
   <div class="wrapper">
     <side-bar>
       <template slot="links">
-        <sidebar-link to="/dashboard" name="Dashboard"/>
-        <sidebar-link to="/quotation" name="Quotation"/>
-        <sidebar-link to="/sales-order" name="Sales Order"/>
-        <sidebar-link to="/delivery-order" name="Delivery Order"/>
-        <sidebar-link to="/purchase-order" name="Purchase Order"/>
-        <sidebar-link to="/activity-list-schedule" name="Activity List Schedule"/>
-        <sidebar-link to="/daily-activity-report" name="Daily Activity Report"/>
-        <sidebar-link to="/expense" name="Expense"/>
-        <sidebar-link to="/invoice" name="Invoice"/>
-        <sidebar-link to="/reimbursement-report" name="Reimbursement Report"/>
-        <sidebar-link to="/income-expense-summary" name="Expense & Income Summary"/>
+        <div v-if="showDirekturBoard">
+          <sidebar-link to="/dashboard" name="Dashboard"/>
+        </div>
+        <div v-if="showProjectManagerBoard">
+          <sidebar-link to="/activity-list-schedule" name="Activity List Schedule"/>
+          <sidebar-link to="/delivery-order" name="Delivery Order"/>
+        </div>
+        <div v-if="showSalesMarketingBoard">
+          <sidebar-link to="/quotation" name="Quotation"/>
+          <sidebar-link to="/sales-order" name="Sales Order"/>
+        </div>
+        <div v-if="showFinanceBoard">
+          <sidebar-link to="/reimbursement-report" name="Reimbursement Report"/>
+          <sidebar-link to="/expense" name="Expense"/>
+          <sidebar-link to="/invoice" name="Invoice"/>
+          <sidebar-link to="/income-expense-summary" name="Expense & Income Summary"/>
+        </div>
+        <div v-if="showServiceTeamBoard">
+          <sidebar-link to="/reimbursement-report" name="Reimbursement Report"/>
+        </div>
+        <div v-if="showLogistikBoard">
+          <sidebar-link to="/purchase-order" name="Purchase Order"/>
+        </div>
+        <div v-if="showSupervisorBoard">
+          <sidebar-link to="/daily-activity-report" name="Daily Activity Report"/>
+        </div>
       </template>
       <mobile-menu>
         <li class="nav-item">
@@ -73,16 +88,50 @@ export default {
       if (this.currentUser && this.currentUser.roles) {
         return this.currentUser.roles.includes('ROLE_ADMIN');
       }
-
       return false;
     },
-    showModeratorBoard() {
+    showDirekturBoard() {
       if (this.currentUser && this.currentUser.roles) {
-        return this.currentUser.roles.includes('ROLE_MODERATOR');
+        return this.currentUser.roles.includes('ROLE_DIREKTUR_UTAMA');
       }
-
       return false;
-    }
+    },
+    showProjectManagerBoard() {
+      if (this.currentUser && this.currentUser.roles) {
+        return this.currentUser.roles.includes('ROLE_PROJECT_MANAGER');
+      }
+      return false;
+    },
+    showSalesMarketingBoard() {
+      if (this.currentUser && this.currentUser.roles) {
+        return this.currentUser.roles.includes('ROLE_SALES_MARKETING');
+      }
+      return false;
+    },
+    showFinanceBoard() {
+      if (this.currentUser && this.currentUser.roles) {
+        return this.currentUser.roles.includes('ROLE_FINANCE');
+      }
+      return false;
+    },
+    showServiceTeamBoard() {
+      if (this.currentUser && this.currentUser.roles) {
+        return this.currentUser.roles.includes('ROLE_SERVICE_TEAM');
+      }
+      return false;
+    },
+    showLogistikBoard() {
+      if (this.currentUser && this.currentUser.roles) {
+        return this.currentUser.roles.includes('ROLE_LOGISTIK');
+      }
+      return false;
+    },
+    showSupervisorBoard() {
+      if (this.currentUser && this.currentUser.roles) {
+        return this.currentUser.roles.includes('ROLE_SUPERVISOR');
+      }
+      return false;
+    },
   },
 };
 </script>

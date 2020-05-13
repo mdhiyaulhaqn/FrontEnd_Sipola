@@ -19,8 +19,10 @@
       </div>
       <div class="logo">
         <div class = "user-profile">
-          <h3 id="name">Ringgi Cahyo</h3>
-          <h4 id="role">Service Team</h4>
+          <h3 id="name">{{currentUser.name}}</h3>
+          <div v-for="(role,index) in currentUser.roles" :key="index">
+            <h4 id="role" v-if="role != 'ROLE_USER'">{{generateRole(role)}}</h4>
+          </div>
         </div>
       </div>
 
@@ -101,6 +103,9 @@ export default {
      */
     arrowMovePx() {
       return this.linkHeight * this.activeLinkIndex;
+    },
+    currentUser() {
+      return this.$store.state.auth.user;
     }
   },
   data() {
@@ -129,6 +134,23 @@ export default {
       const index = this.links.indexOf(link);
       if (index > -1) {
         this.links.splice(index, 1);
+      }
+    },
+    generateRole(role){
+      if(role == "ROLE_DIREKTUR_UTAMA"){
+        return "Direktur Utama";
+      } else if (role == "ROLE_PROJECT_MANAGER"){
+        return "Project Manager";
+      } else if (role == "ROLE_SALES_MARKETING"){
+        return "Sales Marketing";
+      } else if (role == "ROLE_FINANCE"){
+        return "Finance";
+      } else if (role == "ROLE_SERVICE_TEAM"){
+        return "Service Team";
+      } else if (role == "ROLE_LOGISTIK"){
+        return "Logistik";
+      } else if (role == "ROLE_SUPERVISOR"){
+        return "Role Supervisor";
       }
     }
   },
