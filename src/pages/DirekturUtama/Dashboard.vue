@@ -8,25 +8,55 @@
        <div class="col-md-6 col-xl-3" >
         <div class = "card">
             <div class = "card-header text-right"><strong> Income </strong></div>
-            <div class = "card-body">{{income}}</div>
-          </div>
+            <div v-if="this.income - this.target > 0">
+              <div class = "card-body text-center amount profit">Rp{{formatPrice(income)}}</div>
+            </div>
+            <div v-else>
+              <div class = "card-body text-center amount loss">Rp{{formatPrice(income)}}</div>
+            </div>
+            <div class = "card-footer">
+              <strong> Target : </strong>
+              Rp{{formatPrice(target)}}
+            </div>
+        </div>
       </div>
       <div class="col-md-6 col-xl-3" >
         <div class = "card">
             <div class = "card-header text-right"><strong> Expense </strong></div>
-            <div class = "card-body">{{expense}}</div>
-          </div>
+            <div v-if="this.budget - this.expense > 0">
+              <div class = "card-body text-center amount profit">Rp{{formatPrice(expense)}}</div>
+            </div>
+            <div v-else>
+              <div class = "card-body text-center amount loss">Rp{{formatPrice(expense)}}</div>
+            </div>
+            <div class = "card-footer">
+              <strong> Budget : </strong>
+              Rp{{formatPrice(budget)}}
+            </div>
+        </div>
       </div>
       <div class="col-md-6 col-xl-3" >
         <div class = "card">
             <div class = "card-header text-right"><strong> Project </strong></div>
-            <div class = "card-body">{{project}}</div>
+            <div v-if="this.project - this.targetProject > 0">
+              <div class = "card-body text-center amount profit">{{project}}</div>
+            </div>
+            <div v-else>
+              <div class = "card-body text-center amount loss">{{project}}</div>
+            </div>
+            <div class = "card-footer"> <strong> Target : </strong> {{targetProject}} </div>
           </div>
       </div>
       <div class="col-md-6 col-xl-3" >
         <div class = "card">
             <div class = "card-header text-right"><strong> Order </strong></div>
-            <div class = "card-body">{{order}}</div>
+            <div v-if="this.project - this.targetOrder > 0">
+              <div class = "card-body text-center amount profit">{{order}}</div>
+            </div>
+            <div v-else>
+              <div class = "card-body text-center amount loss">{{order}}</div>
+            </div>
+            <div class = "card-footer"> <strong> Target : </strong> {{targetOrder}} </div>
           </div>
       </div>
       <!-- <div class="col-md-6 col-xl-3" v-for="stats in statsCards" :key="stats.title">
@@ -49,13 +79,13 @@
     <!--Charts-->
     <div class="row">
 
-      <div class="col-12">
+      <!-- <div class="col-12">
         <chart-card title="Users behavior"
                     sub-title="24 Hours performance"
                     :chart-data="usersChart.data"
                     :chart-options="usersChart.options">
           <span slot="footer">
-            <i class="ti-reload"></i> Updated 3 minutes ago
+            <i class="ti-reload"></i> <time-ago :refresh='60' class="timeago"></time-ago>
           </span>
           <div slot="legend">
             <i class="fa fa-circle text-info"></i> Open
@@ -63,6 +93,18 @@
             <i class="fa fa-circle text-warning"></i> Click Second Time
           </div>
         </chart-card>
+      </div> -->
+
+      <div class="col-12">
+        <div class="card">
+          <div class = "card-header"><div class = "judul-card">Cash Flow</div> for year 2020</div>
+          <div class="card-body">
+            <BarChart :height="300" :chartData="cashFlowCollection" :option="options"></BarChart>
+          </div>
+          <div class="card-footer">
+            <i class="ti-reload"></i> <time-ago :refresh='60' class="timeago"></time-ago>
+          </div>
+        </div>
       </div>
 
       <!-- <div class="col-md-6 col-12">
@@ -81,19 +123,21 @@
         </chart-card>
       </div> -->
       <div class="col-md-6 col-12">
-      <div class = "card">
-        <div class = "card-header"><div class = "judul-card">Project Statistics</div> for year 2020</div>
-        <div class = "card-body">
-          <PieChart :width="300" :height="300" :chartData="datacollection" :options="options"></PieChart>
-           
-        </div>
-        <div class = "card-footer">
-          <div slot="legend">
-            <i class="fa fa-circle text-info"></i> Open
-            <i class="fa fa-circle text-danger"></i> Bounce
+        <div class = "card">
+          <div class = "card-header"><div class = "judul-card">Project Statistics</div> for year 2020</div>
+
+          <div class = "card-body">
+            <PieChart :width="300" :height="300" :chartData="datacollection" :options="months"></PieChart>
           </div>
+          
+          <div class = "card-footer">
+            <div slot="legend">
+              <!-- <i class="fa fa-circle text-info"></i> Belum Seles
+              <i class="fa fa-circle text-danger"></i> Bounce -->
+            </div>
+          </div>
+
         </div>
-      </div>
       </div>
 
       <div class="col-md-6 col-12">
@@ -124,14 +168,17 @@ import LineChart from '@/pages/DirekturUtama/component/LineChart.vue';
 import BarChart from '@/pages/DirekturUtama/component/BarChart.vue';
 import Chartist from 'chartist';
 import axios from 'axios';
+import TimeAgo from 'vue2-timeago';
 
 export default {
+  name: 'app',
   components: {
     StatsCard,
     ChartCard, 
     PieChart,
     BarChart,
     LineChart,
+    TimeAgo,
   },
   /**
    * Chart data used to render stats, charts. Should be replaced with server data
@@ -139,7 +186,9 @@ export default {
   data() {
     return {
       datacollection: {},
+      cashFlowCollection: {},
       options: null,
+      months: null,
       borderColour : ['#315C9C',"#FF6F61", '#6B5B95', '#9B1B30', '#F5D6C6', '#5A3E36', '#E08119'],
       // projectData : null,
       list_income : {},
@@ -150,51 +199,60 @@ export default {
       income : '',
       order : '',
       project : '',
-      statsCards: [
-        {
-          type: "warning",
-          icon: "ti-server",
-          title: "Capacity",
-          value: "105GB",
-          footerText: "Updated now",
-          footerIcon: "ti-reload"
-        },
-        {
-          type: "success",
-          icon: "ti-wallet",
-          title: "Revenue",
-          value: "$1,345",
-          footerText: "Last day",
-          footerIcon: "ti-calendar"
-        },
-        {
-          type: "danger",
-          icon: "ti-pulse",
-          title: "Errors",
-          value: "23",
-          footerText: "In the last hour",
-          footerIcon: "ti-timer"
-        },
-        {
-          type: "info",
-          icon: "ti-twitter-alt",
-          title: "Followers",
-          value: "+45",
-          footerText: "Updated now",
-          footerIcon: "ti-reload"
-        }
-      ],
+      target : 800000000,
+      budget : 560000000,
+      targetProject : 12,
+      targetOrder : 24,
+      // timestamp : new Date().getMinutes(),
+      // statsCards: [
+      //   {
+      //     type: "warning",
+      //     icon: "ti-server",
+      //     title: "Capacity",
+      //     value: "105GB",
+      //     footerText: "Updated now",
+      //     footerIcon: "ti-reload"
+      //   },
+      //   {
+      //     type: "success",
+      //     icon: "ti-wallet",
+      //     title: "Revenue",
+      //     value: "$1,345",
+      //     footerText: "Last day",
+      //     footerIcon: "ti-calendar"
+      //   },
+      //   {
+      //     type: "danger",
+      //     icon: "ti-pulse",
+      //     title: "Errors",
+      //     value: "23",
+      //     footerText: "In the last hour",
+      //     footerIcon: "ti-timer"
+      //   },
+      //   {
+      //     type: "info",
+      //     icon: "ti-twitter-alt",
+      //     title: "Followers",
+      //     value: "+45",
+      //     footerText: "Updated now",
+      //     footerIcon: "ti-reload"
+      //   }
+      // ],
       usersChart: {
         data: {
           labels: [
-            "9:00AM",
-            "12:00AM",
-            "3:00PM",
-            "6:00PM",
-            "9:00PM",
-            "12:00PM",
-            "3:00AM",
-            "6:00AM"
+            "Jan",
+            "Feb",
+            "Mar",
+            "April",
+            "May",
+            "June",
+            "July",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"
           ],
           series: [
             [287, 385, 490, 562, 594, 626, 698, 895, 952],
@@ -217,6 +275,21 @@ export default {
           showPoint: false
         }
       },
+      months: {
+        low: 0,
+        high: 1000,
+        showArea: true,
+        height: "245px",
+        axisX: {
+          showGrid: false
+        },
+        lineSmooth: Chartist.Interpolation.simple({
+          divisor: 5
+        }),
+        showLine: true,
+        showPoint: false
+      },
+
       activityChart: {
         data: {
           labels: [
@@ -256,6 +329,10 @@ export default {
     };
   },
 
+  // created(){
+  //   setInterval(this.getNow, 1000);
+  // },
+
   beforeMount() {
       this.getProject();
   },
@@ -282,6 +359,12 @@ export default {
           .catch(err => this.list_reimbursement = err.data);
     },
 
+    // getNow: function(){
+    //   const today = new Date();
+    //   const minute = today.getMinutes;
+    //   this.timestamp = minute;
+    // },
+
     computeTotal(){
       var total = 0;
       for(let i = 0; i < this.list_income.length; i++){
@@ -302,6 +385,14 @@ export default {
         total_expense += this.list_reimbursement[i].totalReimburse;
       }
       this.expense = total_expense;
+    },
+
+    formatPrice(value) {
+      if(value < 0){
+        value *= -1
+      }
+        let val = (value/1).toFixed(2).replace('.', ',')
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     },
 
     createProjectData(){ 
@@ -353,5 +444,20 @@ export default {
 <style>
 .judul-card{
   font-size: 20px;
+}
+.amount{
+  font-size: 22px;
+  font-weight: bold;
+}
+.profit{
+  color: #1AD616;
+}
+.loss{
+  color: #FF3E1D;
+}
+.timeago{
+  margin-left: 2px;
+  font-size: 12px;
+  font-weight: bold;
 }
 </style>
