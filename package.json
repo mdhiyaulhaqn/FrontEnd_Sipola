@@ -5,7 +5,7 @@
   "scripts": {
     "start": "cross-env NODE_OPTIONS=--max-old-space-size=16384 webpack",
     "serve": "vue-cli-service serve --port 8081",
-    "build": "vue-cli-service build node --max-old-space-size=16384 build.js",
+    "build": "vue-cli-service build",
     "e2e": "node test/e2e/runner.js",
     "lint": "vue-cli-service lint",
     "lint-fix": "vue-cli-service lint --fix",
