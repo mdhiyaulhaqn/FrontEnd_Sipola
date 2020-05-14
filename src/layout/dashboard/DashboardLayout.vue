@@ -13,6 +13,7 @@
         <sidebar-link to="/invoice" name="Invoice"/>
         <sidebar-link to="/reimbursement-report" name="Reimbursement Report"/>
         <sidebar-link to="/income-expense-summary" name="Expense & Income Summary"/>
+        <sidebar-link to="/reimbursement-request" name="Reimbursement Request"/>
       </template>
       <mobile-menu>
         <li class="nav-item">

@@ -2,7 +2,7 @@
     <div class="row">
       <div class="col-12">
         <template>
-          <b-breadcrumb id="breadcrumb"> 
+          <b-breadcrumb id="breadcrumb">
             <b-breadcrumb-item active>
               Reimbursement Report
             </b-breadcrumb-item>
@@ -21,7 +21,7 @@
                   <p style="font-size: 12px">
                     Add Reimbursement Report
                   </p>
-                  <div style="margin-left: 10px; margin-top: -3px">
+                  <div style="margin-left: 10px; margin-top: -4px">
                     <img src="@/assets/img/add-circle-icon.png" alt="" width="25px">
                   </div>
                   </b-row>
@@ -52,8 +52,8 @@
             </b-col>
 
           </b-row>
-                     
-            <b-table 
+
+            <b-table
                 show-empty
                 :small="true"
                 stacked="md"
@@ -68,30 +68,55 @@
                 :sort-direction="sortDirection"
                 @filtered="onFiltered"
                 :borderless="true"
-                sort-icon-left
+                sort-icon-right
                 :sticky-header="true"
                 >
-                
-                <template v-slot:cell(no)="row">
-                   {{items.indexOf(row.item) + 1}}
+
+                <template v-slot:head(index)="data">
+                  <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                </template>
+                <template v-slot:head(projectName)="data">
+                  <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                </template>
+                <template v-slot:head(totalReimburse)="data">
+                  <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                </template>
+                <template v-slot:head(createdAt)="data">
+                  <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                </template>
+                <template v-slot:head(statusReimburse)="data">
+                  <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                </template>
+                <template v-slot:head(action)="data">
+                  <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                </template>
+
+                <template v-slot:cell(index)="row">
+                   {{ row.index + 1}}
                 </template>
 
                 <template v-slot:cell(createdAt)="row">
                     {{row.item.createdAt | moment("ll") }}
                 </template>
-                
+
+                <template v-slot:cell(totalReimburse)="row">
+                    {{row.item.totalReimburse | currency}}
+                </template>
+
                 <template v-slot:cell(statusReimburse)="row">
-                    <b-badge  v-if="row.item.statusReimburse === 'On Progress'" pill variant="warning" size=sm id ="status_reimbursement">
-                      {{row.item.statusReimburse}}
+                    <b-badge  v-if="row.item.statusReimburse === 1" pill variant="info" size=sm id ="status_reimbursement">
+                      On Progress
                     </b-badge>
-                    <b-badge  v-if="row.item.statusReimburse === 'Rejected'" pill variant="danger" size=sm id ="status_reimbursement">
-                      {{row.item.statusReimburse}}
+                    <b-badge  v-if="row.item.statusReimburse === 2" pill variant="warning" size=sm id ="status_reimbursement">
+                      Sent
                     </b-badge>
-                    <b-badge  v-if="row.item.statusReimburse === 'Accepted'" pill variant="success" size=sm id ="status_reimbursement">
-                      {{row.item.statusReimburse}}
+                    <b-badge  v-if="row.item.statusReimburse === 3" pill variant="success" size=sm id ="status_reimbursement">
+                      Accepted
                     </b-badge>
-                    <b-badge  v-if="row.item.statusReimburse === 'Sent'" pill variant="info" size=sm id ="status_reimbursement">
-                      {{row.item.statusReimburse}}
+                    <b-badge v-if="row.item.statusReimburse === 4" size=sm id ="status_reimbursement" style="background-color:#F89133; color:black">
+                      On Revision</b-badge>
+                    <b-badge  v-if="row.item.statusReimburse === 5" pill variant="danger" size=sm id ="status_reimbursement">
+                      Rejected
                     </b-badge>
                 </template>
 
@@ -105,35 +130,63 @@
 
             </b-table>
 
-            <b-row align-h="end">
-            <b-col md="3" class="my-1">
-              <b-form-group
-                label="Rows per page:"
-                label-cols-sm="7"
-                label-align-sm="right"
-                label-size="sm"
-                label-for="perPageSelect"
-                class="mb-0"
-              >
-                <b-form-select
-                  v-model="perPage"
-                  id="perPageSelect"
-                  size="sm"
-                  :options="pageOptions"
-                ></b-form-select>
-              </b-form-group>
+            <b-row align-h="between">
+            <b-col cols="4">
+              <div v-if="perPage > reimbursement.length" class="my-2">
+                <b-card-sub-title>Showing {{ reimbursement.length }} of {{ reimbursement.length }}</b-card-sub-title>
+              </div>
+              <div v-else-if="currentPage != 1" class="my-2">
+                <b-card-sub-title>Showing {{ reimbursement.length % perPage }} of {{ reimbursement.length }}</b-card-sub-title>
+              </div>
+              <div v-else class="my-2">
+                <b-card-sub-title>Showing {{ perPage }} of {{ reimbursement.length }}</b-card-sub-title>
+              </div>
             </b-col>
-            <b-col md="3" class="my-1">
-              <b-pagination
-                v-model="currentPage"
-                :total-rows="totalRows"
-                :per-page="perPage"
-                align="fill"
-                size="sm"
-                class="my-0"
-              ></b-pagination>
-            </b-col>
-          </b-row>
+
+            <b-col cols="8">
+                <div>
+                  <b-form-group
+                    label="Rows per page:"
+                    label-cols="8"
+                    label-cols-sm="8"
+                    label-cols-md="8"
+                    label-cols-xl="10"
+                    label-cols-lg="8"
+                    label-align="right"
+                    label-align-md="right"
+                    label-align-sm="right"
+                    label-align-lg="right"
+                    label-align-xl="right"
+                    label-size="sm"
+                    label-for="perPageSelect"
+                    class="mb-0"
+                  >
+                    <b-form-select
+                      v-model="perPage"
+                      id="perPageSelect"
+                      size="sm"
+                      :options="pageOptions"
+                    ></b-form-select>
+                  </b-form-group>
+                </div>
+              </b-col>
+
+              </b-row>
+            <b-row>
+              <b-col>
+                <div style="margin: 10px 0 0 0;">
+                  <b-pagination
+                    v-model="currentPage"
+                    :total-rows="totalRows"
+                    :per-page="perPage"
+                    align="center"
+                    size="md"
+                    class="my-1"
+                    style="margin-left: 0;"
+                  ></b-pagination>
+                </div>
+              </b-col>
+            </b-row>
           </b-container>
         </card>
       </div>
@@ -154,20 +207,20 @@ export default {
       currentPage: 1,
       perPage: 5,
       pageOptions: [5, 10, 25, 50, 100],
-      sortBy: '',
-      sortDesc: false,
-      sortDirection: 'asc',
+      sortBy: 'id',
+      sortDesc: true,
+      sortDirection: 'desc',
       filter: null,
       filterOn: [],
       fields: [
-          {key: 'No', label: 'No', sortable: true},
+          {key: 'index', label: 'No'},
           {key: 'projectName', label: 'Description', sortable: true},
-          {key: 'totalReimburse', label: 'Total', sortable:true},
+          {key: 'totalReimburse', label: 'Total (IDR)', sortable:true},
           {key: 'createdAt', label: 'Date', sortable:true},
           {key: 'statusReimburse', label: 'Status', sortable:true},
           {key: 'action', label: 'Action'},
       ],
-      
+
     }
   },
    computed: {
@@ -198,9 +251,6 @@ export default {
       getAllReimbursement: function(){
           axios.get('http://localhost:8080/api/reimbursement/all')
           .then(result => this.reimbursement = result.data.result);
-          console.log('masuk')
-          console.log(reimbursement)
-          console.log(statusReimburse)
       },
   }
 };
@@ -215,8 +265,8 @@ export default {
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  font-size: 10px;
-  line-height: 10px;
+  font-size: 12px;
+  line-height: 8px;
   width: 80px;
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
 }

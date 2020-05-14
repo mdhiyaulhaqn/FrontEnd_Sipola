@@ -17,7 +17,7 @@
                 <div class = "row">
                     <div class = "col-md-7 col-12">
                         <b-form-group class="required">
-                            <label for="noQuotation">Quotation No</label>
+                            <label class="label" for="noQuotation">Quotation No</label>
                             <b-form-input
                                 id="noQuotation"
                                 v-model="new_quotation.noQuotation"
@@ -31,7 +31,7 @@
                     <div class = "col-md-5 col-12">
                         <div style="color:black">
                         <b-form-group class="required">
-                            <label for="date">Quotation Date</label>
+                            <label  class="label"  for="date">Quotation Date</label>
                             <b-form-input
                                 id="date"
                                 v-model="new_quotation.date"
@@ -44,7 +44,7 @@
                 </div>
 
                 <b-form-group class="required">
-                    <label for="companyName">Company Name</label>
+                    <label class="label"  for="companyName">Company Name</label>
                     <b-form-input
                         id="companyName"
                         v-model="new_company.nama"
@@ -57,7 +57,7 @@
                 </b-form-group>
 
                 <b-form-group class="required">
-                    <label for="companyAddress">Company Address</label>
+                    <label class="label"  for="companyAddress">Company Address</label>
                     <b-form-input
                         id="companyAddress"
                         v-model="new_company.alamat"
@@ -71,13 +71,13 @@
                 <div class="d-none d-md-block d-lg-block">
                     <div class="row">
                         <div class = "col-md-6 required">
-                            <label>Scope of Works</label>
+                            <label class="label" >Scope of Works</label>
                         </div>
                         <div class = "col-md-2 required">
-                            <label>Quantity</label> 
+                            <label class="label" >Quantity</label> 
                         </div>
                         <div class = "col-md-3 required">
-                            <label>Unit Price</label> 
+                            <label class="label" >Unit Price(IDR)</label> 
                         </div>
                         <div class = "col-md-1">
                         </div>
@@ -98,13 +98,13 @@
                 </b-row> 
                 
                 <b-form-group class="required">
-                    <label for="termsConditions">Terms and Conditions</label>
+                    <label class="label" for="termsConditions">Terms and Conditions</label>
                     <ckeditor :editor="editor"  v-model="new_quotation.termsCondition" :config="editorConfig"></ckeditor>
                 </b-form-group>
 
                 <div class = "button-group">
+                    <b-button class = "save-button" type="submit">Save</b-button>
                     <b-button class = "cancel-button" type="reset">Cancel</b-button>
-                    <b-button class = "save-button" type="submit">Add</b-button>
                 </div>
             </b-form>
             </card>
@@ -138,7 +138,7 @@
                 <b-button @click="cancel()" class="cancel-button">
                     Back to List
                 </b-button>
-                <b-button @click="ok()" class="save-button" variant="outline-primary">
+                <b-button @click="ok()" class="save-button">
                     See Details
                 </b-button>
             </b-col>

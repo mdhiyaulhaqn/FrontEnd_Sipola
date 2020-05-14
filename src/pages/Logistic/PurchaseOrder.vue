@@ -3,22 +3,19 @@
         <div class="col-12">
             <b-breadcrumb id="breadcrumb">
                 <b-breadcrumb-item active>
-                    Purchase Order List
+                    Purchase Order
                 </b-breadcrumb-item>
             </b-breadcrumb>
-
-            <div class="judul">
-                <strong>Purchase Order List</strong>
-            </div>
-
+            <h3 class="judul"><strong>Purchase Order</strong></h3>
             <card>
-                <b-row align-h="between">
+              <b-container fluid>
+                <b-row align-h="between" style="margin-top: 12px;">
                     <b-col md="2">
                         <router-link :to="{name: 'purchase-order-add'}">
                             <button id="purchaseorder_bttn" class="btn btn-primary">
                                 <b-row align-h="center">
-                                    <p style="font-size: 12px"> Add Purchase Order </p>
-                                    <div style="margin-left: 10px; margin-top: -3px">
+                                    <p style="font-size: 12px">Add Purchase Order</p>
+                                    <div style="margin-left: 10px; margin-top: -4px">
                                         <img src="@/assets/img/add-circle-icon.png" alt="" width="25px">
                                     </div>
                                 </b-row>
@@ -49,7 +46,6 @@
                 </b-row>
 
                 <b-table
-                    responsive
                     show-empty
                     :small="true"
                     stacked="md"
@@ -64,24 +60,47 @@
                     :sort-direction="sortDirection"
                     @filtered="onFiltered"
                     :borderless="true"
-                    sort-icon-left
+                    sort-icon-right
                     :sticky-header="true"
                 >
+
+                    <template v-slot:head(index)="data">
+                      <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                    </template>
+                    <template v-slot:head(noPurchaseOrder)="data">
+                      <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                    </template>
+                    <template v-slot:head(noProject)="data">
+                      <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                    </template>
+                    <template v-slot:head(company.nama)="data">
+                      <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                    </template>
+                    <template v-slot:head(datePurchaseOrder)="data">
+                      <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                    </template>
+                    <template v-slot:head(total_price)="data">
+                      <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                    </template>
+                    <template v-slot:head(action)="data">
+                      <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                    </template>
+
                     <template v-slot:cell(index) = "row">
                         {{row.index + 1}}
                     </template>
 
                     <template v-slot:cell(datePurchaseOrder) = "row">
-                        {{row.item.datePurchaseOrder.split("T")[0].split("-").reverse().join('-')}}
+                        {{row.item.datePurchaseOrder | moment("ll") }}
                     </template>
-                        
+
                     <template v-slot:cell(total_price) = "row">
                         <div class="text-center">
                             {{formatPrice(row.item.total_price)}}
                         </div>
                     </template>
-                        
-                    <template v-slot:cell(Action)="row">
+
+                    <template v-slot:cell(action)="row">
                         <router-link :to="{name: 'detail-purchase-order', params: {id:row.item.id}}">
                             <b-button id="view_bttn" class="btn btn-primary">
                                 View
@@ -147,6 +166,7 @@
                         </div>
                     </b-col>
                 </b-row>
+              </b-container>
             </card>
         </div>
     </div>
@@ -154,7 +174,6 @@
 
 <script>
 import axios from "axios";
-import Datatable from "v-data-table";
 
 export default {
     data(){
@@ -170,13 +189,13 @@ export default {
             filterOn: [],
 
             fields: [
-                {key: 'index', label: 'Id', sortable: true},
+                {key: 'index', label: 'No' },
                 {key: 'noPurchaseOrder', label: 'Purchase Order No', sortable: true},
                 {key: 'noProject', label: 'Project No', sortable: true},
                 {key: 'company.nama', label: 'Company Name', sortable: true},
                 {key: 'datePurchaseOrder', label: 'Date', sortable: true},
                 {key: 'total_price', label: 'Total Price (IDR)', sortable: true},
-                'Action'
+                {key: 'action', label: 'Action'}
             ],
 
             purchaseOrders: [],
@@ -244,8 +263,8 @@ export default {
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  font-size: 10px;
-  line-height: 10px;
+  font-size: 12px;
+  line-height: 8px;
   width: 80px;
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
 }
@@ -273,5 +292,8 @@ export default {
   margin: -35px 0 -5px -15px;
   color: #FF3E1D;
   background: none;
+}
+.table{
+  font-size: 12px;
 }
 </style>

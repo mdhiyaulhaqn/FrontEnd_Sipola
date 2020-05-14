@@ -1,6 +1,6 @@
 <template>
-
 <b-row class="expense_row">
+    
     <span class = "col-md-5 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none">
         <label>Expense Name</label>
     </span>
@@ -53,7 +53,6 @@
     </div>
 
 </b-row>
-
 </template>
 
 
