@@ -258,7 +258,7 @@ export default {
     },
     getDetail: function(){
       axios.get('http://localhost:8080/api/activity-list-schedule/' + this.$route.params.id)
-      .then(response => {this.activityListSchedule = response.data, this.fetchActivity()})
+      .then(response => {this.activityListSchedule = response.data.result, this.fetchActivity()})
       .catch(err => this.activityListSchedule = err.data);
     },
 
