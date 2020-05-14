@@ -11,7 +11,10 @@
           <b-container fluid>
           <!-- User Interface controls -->
           <b-row align-h="between" style="margin-top: 12px;">
-            <b-col md="12" class="my-1">
+            <b-col md="2">
+
+            </b-col>
+            <b-col md="10" class="my-1">
               <b-form-group
                 label-cols-sm="8"
                 label-align-sm="right"
