@@ -87,9 +87,6 @@
                 </template>
 
             <template v-slot:cell(statusReimburse)="row">
-                    <b-badge  v-if="row.item.statusReimburse === 1" pill variant="warning" size=sm id ="status_reimbursement">
-                      On Progress
-                    </b-badge>
                     <b-badge  v-if="row.item.statusReimburse === 2" pill variant="info" size=sm id ="status_reimbursement">
                       Not reviewed
                     </b-badge>
