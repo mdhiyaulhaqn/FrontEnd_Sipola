@@ -273,14 +273,14 @@ export default {
     },
     getPengeluaran: function(){
         axios.get('http://localhost:8080/api/dashboard/pengeluaran/2020')
-          .then(res => {this.list_expense = res.data.result, this.getReimbursement()})
+          .then(res => {this.list_expense = res.data.result, this.computeTotal(), this.createProjectData()})
           .catch(err => this.list_expense = err.data);
     },
-    getReimbursement: function(){
-        axios.get('http://localhost:8080/api/dashboard/reimbursement/2020')
-          .then(res => {this.list_reimbursement = res.data.result,this.computeTotal(), this.createProjectData()})
-          .catch(err => this.list_reimbursement = err.data);
-    },
+    // getReimbursement: function(){
+    //     axios.get('http://localhost:8080/api/dashboard/reimbursement/2020')
+    //       .then(res => {this.list_reimbursement = res.data.result,this.computeTotal(), this.createProjectData()})
+    //       .catch(err => this.list_reimbursement = err.data);
+    // },
 
     computeTotal(){
       var total = 0;
@@ -298,9 +298,9 @@ export default {
       for(let i = 0; i < this.list_expense.length; i++){
         total_expense += this.list_expense[i].nominal;
       }
-      for(let i = 0; i < this.list_reimbursement.length; i++){
-        total_expense += this.list_reimbursement[i].totalReimburse;
-      }
+      // for(let i = 0; i < this.list_reimbursement.length; i++){
+      //   total_expense += this.list_reimbursement[i].totalReimburse;
+      // }
       this.expense = total_expense;
     },
 
