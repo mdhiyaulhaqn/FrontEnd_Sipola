@@ -13,7 +13,7 @@
         <div class = "col-10 isi-form">
             <card>
             <b-form @submit="onSubmit" v-if="show">
-                <b-form-group>
+                <b-form-group class="required">
                     <label for="projectName">Project</label>
                     <b-form-input
                         id="projectName"
@@ -64,22 +64,28 @@
                     <b-col>
                         <b-form-group>
                         <div class="dropzone">
-                        <input type="file" class="input-file" ref="files" accept="image/*"
-                        @change="selectFile" multiple/>
-                        <p v-if="attachments.length === 0" class="call-to-action"><i class='fas fa-cloud-upload-alt' style='font-size:36px'></i> 
-                        Drag and drop your images here or <label for="file">
-                            <button class="buttonFile">Select <i class='far fa-arrow-alt-circle-up'></i></button></label></p>
-                        
-                        <div id="kotakAttachment">
-                             <b-col class="col-xs-12 col-sm-12 col-md-3 grup-attachment" v-bind:key="file" v-for="file in attachments" >
-                                <div class="foto">
-                                 <img :src="untukPreview+file.image" alt="Image" class="image">
-                                 <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:36px"></i></a>
-                                </div>
-                                 <p>{{file.fileName}} </p>
-                                 
-                            </b-col>
-                        </div>
+                          <input type="file" class="input-file" ref="files"
+                          @change="selectFile" multiple/>
+                          <p v-if="attachments.length === 0" class="call-to-action"><i class='fas fa-cloud-upload-alt' style='font-size:36px'></i> 
+                          Drag and drop your files here or <label for="file">
+                              <button class="buttonFile">Select <i class='far fa-arrow-alt-circle-up'></i></button></label></p>
+                          
+                          <label for="file" >
+                              <button class="buttonFile" v-if="attachments.length > 0">Select <i class='far fa-arrow-alt-circle-up'></i></button></label>
+                          <div class="row" id="kotakAttachment">
+                              <b-col class="col-xs-6 col-sm-6 col-md-3 grup-attachment" v-bind:key="file" v-for="file in attachments" >
+                                  <div class="foto" v-if="file.type === 'image/png' || file.type==='image/jpeg' || file.type==='image.jpg'">
+                                  <img :src="untukPreview+file.image" alt="Image" class="image">
+                                  <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:36px"></i></a>
+                                  </div>
+                                  <div class="foto" v-else>
+                                  <img src="@/assets/img/document.png">
+                                  <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:36px"></i></a>
+                                  </div>
+                                  <p>{{file.fileName}} </p>
+                                  
+                              </b-col>
+                          </div>
                         </div>
                         </b-form-group>
                     </b-col>
@@ -101,7 +107,7 @@
       >
       <template v-slot:modal-title>
         <div class="container">
-          <h5 id="modal-title-success">Success!</h5>
+          <h5 id="modal-title-success" style="color: #109CF1;">Success!</h5>
         </div>
       </template>
       <template v-slot:default>
@@ -118,7 +124,10 @@
       </template>
       <template v-slot:modal-footer="{ ok }">
         <b-col class="button-confirm-group">
-          <b-button @click="ok()" id="ok-button" variant="outline-primary">
+          <router-link :to="{name: 'reimbursement-report'}">
+            <b-button class="back-button">Back to List</b-button>
+          </router-link>
+          <b-button @click="ok()" class="see-button">
             See Details
           </b-button>
         </b-col>
@@ -164,8 +173,9 @@ export default {
                 createdBy : "Ringgi Cahyo",
                 projectName : '',
                 totalReimburse : 0,
-                statusReimburse : 'On Progress',
+                statusReimburse : 1,
                 status : 'Active',
+                keterangan : '',
                 listExpense : '',
                 listAttachment : '',
             },
@@ -177,14 +187,8 @@ export default {
                 createdBy : 'Ringgi Cahyo',
                 paidBy : 'Ringgi Cahyo',
                 reimbursement : '',
-                status : 'Active'
+                status : 'Inactive'
             },
-            // new_attachment : {
-            //     id: 0,
-            //     fileName : '',
-            //     image : '',
-            //     reimbursement : '',
-            // },
             show: true,
             successModal : false,
             failedModal : false,
@@ -266,11 +270,7 @@ export default {
         selectFile(){
             const files = this.$refs.files.files;
             for (let i = 0; i < files.length; i++) {
-               if (files[i].type == "image/jpeg" || files[i].type == "image/png"){
-                    this.uploadFile(files[i]);
-                } else {
-                  alert("Type not supported for file " + files[i].name);
-                }           
+              this.uploadFile(files[i]);      
             }
         },
 
@@ -299,6 +299,11 @@ export default {
   margin: -35px 0 -5px -15px;
   color: #FF3E1D;
   background: none;
+}
+
+.required label::after {
+  content: " *";
+  color: red;
 }
 
 .add-button{
@@ -364,13 +369,6 @@ export default {
     width: 100%;
 }
 
-.image-preview {
-    height: 100px;
-    width: 100px;
-    padding: 5px 10px 5px 10px;
-}
-
-
 .dropzone {
     min-height: 200px;
     padding: 10px 10px;
@@ -400,18 +398,8 @@ export default {
     padding: 70px 0;
 }
 
-.buttonFile {
-    background-color: white;
-    border: 1px solid gray;
-}
-
-#ok-button{
-  color:#109CF1;
-  border-color:#109CF1;
-  background-color: white;
-}
-.button-confirm-group{
-  text-align: right;
+#kotakAttachment {
+    padding: 10px 10px;
 }
 
 img {
@@ -456,12 +444,35 @@ img {
   opacity: 1;
 }
 
-#kotakAttachment {
-    padding: 10px 10px;
+.buttonFile {
+    background-color: white;
+    border: 1px solid gray;
 }
 
+.button-confirm-group{
+  text-align: right;
+}
 
-
-
+.back-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 100px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
+}
+.see-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-left: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
+}
 
 </style>
