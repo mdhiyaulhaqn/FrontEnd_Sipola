@@ -268,6 +268,11 @@
         </b-col>
       </template>
     </b-modal>
+
+    <b-modal title="Failed" v-model="failedModal" centered ok-only>
+        Invoice was failed to be changed.
+    </b-modal>
+
     </div>
 </template>
 
@@ -286,6 +291,7 @@ export default {
             successModal : false,
             rejectModal : false,
             approveModal : false,
+            failedModal : false,
             revision : false,
             fields: [
                 {key: 'id', label: 'No', sortable: true},
@@ -322,7 +328,12 @@ export default {
         },
         
         showMessage(status){
-            this.successModal = true;
+            if(status == 200){
+                this.successModal = true;
+            }
+            else if(status == 500){
+                this.failedModal = true;
+            } 
         },
 
         getDetail: function(){    
@@ -352,10 +363,6 @@ export default {
 
         hideModalReject(){
             this.$refs['modal-reject'].hide();
-        },
-
-        showMessageRejectModal(status){
-            this.rejectModal = true;
         },
 
         handleSubmit(evt) {
