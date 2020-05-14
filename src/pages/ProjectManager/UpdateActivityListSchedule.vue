@@ -25,6 +25,7 @@
                     v-model="activityListSchedule.namaProyek"
                     type="text"
                     required
+                    :maxlength="255"
                     placeholder="Project Name"
                     pattern=".*[a-zA-Z].*"
                     disabled>
@@ -38,6 +39,7 @@
                     v-model="activityListSchedule.namaPerusahaan"
                     type="text"
                     required
+                    :maxlength="255"
                     placeholder="Company Name"
                     pattern=".*[a-zA-Z].*"
                     disabled>
@@ -85,10 +87,10 @@
                 </b-form-group>
 
                 <div class = "button-group">
+                  <b-button class="save-button" type="submit">Save</b-button>
                   <router-link :to="{name: 'detail-activity-list-schedule', params: {id:activityListSchedule.id}}">
                     <b-button class="cancel-button" type="reset">Cancel</b-button>
                   </router-link>
-                  <b-button class="save-button" type="submit">Save</b-button>
                 </div>
             </b-form>
           </card>
@@ -118,11 +120,11 @@
       </template>
       <template v-slot:modal-footer="{ cancel }">
         <b-col class="button-confirm-group">
-          <b-button @click="cancel()" class="cancel-button">
-            Cancel
-          </b-button>
           <b-button @click="onSubmit" class="save-button">
             Save
+          </b-button>
+          <b-button @click="cancel()" class="cancel-button">
+            Cancel
           </b-button>
         </b-col>
       </template>
@@ -152,7 +154,10 @@
       </template>
       <template v-slot:modal-footer="{ ok }">
         <b-col class="button-confirm-group">
-          <b-button @click="ok()" id="ok-button" variant="outline-primary">
+          <router-link :to="{name: 'activity-list-schedule'}">
+            <b-button class="back-button">Back to List</b-button>
+          </router-link>
+          <b-button @click="ok()" class="see-button">
             See Details
           </b-button>
         </b-col>
@@ -264,11 +269,11 @@ export default {
             'Content-Type': 'application/json',
         }
       })
-      .then(res => {this.newActivityListSchedule = res.data.result, this.showMessage(res.data.status)});
+      .then(res => {this.activityListSchedule = res.data.result, this.showMessage(res.data.status)});
     },
 
     redirect(){
-        this.$router.push({ name: 'detail-activity-list-schedule',  params: {id:this.newActivityListSchedule.id}});
+        this.$router.push({ name: 'detail-activity-list-schedule',  params: {id:this.activityListSchedule.id}});
     },
 
     hideModal(){
@@ -311,7 +316,7 @@ export default {
   color:white;
   border-color: transparent;
   font-size: 10px;
-  margin-left: 10px;
+  margin-right: 10px;
   line-height: 15px;
   width: 110px;
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
@@ -329,9 +334,33 @@ export default {
   font-size: 10px;
 }
 
-.button-group{
-  margin-top: 30px;
+.see-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-left: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
   text-align: center;
+}
+
+.back-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 100px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.button-group{
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 .label{
   font-weight: 600;

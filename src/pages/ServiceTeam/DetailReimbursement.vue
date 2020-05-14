@@ -42,7 +42,7 @@
                 <b-row>
                     <div class = "col-lg-5 col-sm-5 col-6"><br>Expense</div>
                     <div class="col-lg-7 col-sm-7 col-6" v-if="reimbursement.statusReimburse != 'Sent'">
-                        <button v-b-modal.modal-send id ="send_button" class="btn btn-primary">
+                        <button v-b-modal.modal-send id="send_button" class="btn btn-primary">
                             Send to Finance
                             <i class="fas fa-location-arrow"></i>
                         </button>
@@ -74,18 +74,19 @@
                 </b-row>
 
                 <div v-if="reimbursement.listAttachment.length > 0">
-                  <b-card bg-color="black" class="card-attachment">
-                  <b-card-title v-b-toggle.collapse-2 style="max-height:50px">
-                    <p>Attachments ( {{reimbursement.listAttachment.length}} )</p>
+                  <b-card class="card-attachment">
+                  <b-card-title class="title-attachment" v-b-toggle.collapse-2 style="max-height:50px">
+                    <h6>Attachments ( {{reimbursement.listAttachment.length}} )</h6>
+                    <!-- <a @click="downloadAll()"><i class="fas fa-download"></i></a> -->
                   </b-card-title>
 
                   <!-- Element to collapse -->
                   <b-collapse id="collapse-2" v-if="reimbursement.listAttachment.length > 0">
                     <b-card-body>
                       <b-row>
-                        <b-col class="col-xs-10 col-sm-10 col-md-2 grup-attachment" v-bind:key="file" v-for="file in reimbursement.listAttachment" >
+                        <b-col class="col-xs-12 col-sm-12 col-md-2 grup-attachment" v-bind:key="file" v-for="file in reimbursement.listAttachment" >
                           <b-img thumbnail fluid v-if="file.type === 'image/jpeg'" :src="untukPreview+file.image" alt="Image" class="image"></b-img>
-                          <img v-else thumbnail fluid src="@/assets/img/document.png" alt="Image" class="image">
+                          <img v-else thumbnail fluid src="@/assets/img/document.png" alt="Image" class="img-fluid img-thumbnail">
                           <a @click="downloadFile(file)"><i class="fas fa-download"></i></a>
                           <h6> {{file.fileName}}</h6>
                         </b-col>
@@ -383,6 +384,7 @@ body {
     background-color: green;
     color:white;
     border-color: white;
+    margin-bottom: 5px;
 }
 
 .ti-download{
@@ -540,4 +542,7 @@ img {
   padding: 5px 2px 5px 7px;
 }
 
+.card-attachment {
+  border: solid 1px gray;
+}
 </style>

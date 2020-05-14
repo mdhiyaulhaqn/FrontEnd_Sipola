@@ -3,24 +3,25 @@
       <div class="col-12">
          <b-breadcrumb id="breadcrumb">
           <b-breadcrumb-item active>
-            Sales Order
+            Delivery Order
           </b-breadcrumb-item>
         </b-breadcrumb>
+         <h3 class="judul"><strong>Delivery Order</strong></h3>
         <card>
           <b-row align-h="between" style="margin-top: 12px;">
             <b-col md="2">
-              <router-link :to="{name: 'add-sales-order'}">
-            <button id ="add_quotation_button" class="btn btn-primary">
-              <b-row align-h="center">
-                  <p style="font-size: 12px">
-                    Add Sales Order
-                  </p>
-                  <div style="margin-left: 10px; margin-top: -3px">
-                    <img src="@/assets/img/add-circle-icon.png" alt="" width="25px">
-                  </div>
-              </b-row>
-            </button>
-          </router-link>
+              <router-link :to="{name: 'add-delivery-order'}">
+                <button id ="add_quotation_button" class="btn btn-primary">
+                  <b-row align-h="center">
+                      <p style="font-size: 12px">
+                        Add Delivery Order
+                      </p>
+                      <div style="margin-left: 10px; margin-top: -3px">
+                        <img src="@/assets/img/add-circle-icon.png" alt="" width="25px">
+                      </div>
+                  </b-row>
+                </button>
+              </router-link>
             </b-col>
             <b-col md="10" class="my-1">
               <b-form-group
@@ -35,7 +36,7 @@
                     v-model="filter"
                     type="search"
                     id="filterInput"
-                    placeholder="No Quotation, Company, Date"
+                    placeholder="No Delivery Order, Company, Date"
                   ></b-form-input>
                   <b-input-group-append>
                     <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
@@ -44,7 +45,8 @@
               </b-form-group>
             </b-col>
 
-          </b-row>  
+          </b-row>
+   
               <b-table
                 show-empty
                 :small="true"
@@ -68,32 +70,34 @@
                    {{items.indexOf(row.item) + 1}}
                 </template>
 
-                <template v-slot:cell(date)="row">
-                   {{row.item.date.split("T")[0].split("-").join('-') | moment("ll") }}
+                <template v-slot:cell(createdAt)="row">
+                   {{row.item.createdAt.split("T")[0].split("-").join('-') | moment("ll") }}
                 </template>
+
 <!-- 
                  <template v-slot:cell(total_price) = "row">
                     {{row.item.service[1].harga}}
                 </template> -->
 
                 <template v-slot:cell(Action)="row">
-                    <router-link :to="{name: 'detail-sales-order', params: {id:row.item.id}}">
+                    <router-link :to="{name: 'detail-delivery-order', params: {id:row.item.id}}">
                          <b-button id="view_button" class="btn btn-primary">
                           View
                         </b-button>
                     </router-link>
                 </template>
-              </b-table>
+
+            </b-table>
               <b-row align-h="between">
             <b-col cols="4">
-              <div v-if="perPage > sales_orders.length" class="my-2">
-                <b-card-sub-title>Showing {{ sales_orders.length }} of {{ sales_orders.length }}</b-card-sub-title>
+              <div v-if="perPage > delivery_orders.length" class="my-2">
+                <b-card-sub-title>Showing {{ delivery_orders.length }} of {{ delivery_orders.length }}</b-card-sub-title>
               </div>
               <div v-else-if="currentPage != 1" class="my-2">
-                <b-card-sub-title>Showing {{ sales_orders.length % perPage }} of {{ sales_orders.length }}</b-card-sub-title>
+                <b-card-sub-title>Showing {{ delivery_orders.length % perPage }} of {{ delivery_orders.length }}</b-card-sub-title>
               </div>
               <div v-else class="my-2">
-                <b-card-sub-title>Showing {{ perPage }} of {{ sales_orders.length }}</b-card-sub-title>
+                <b-card-sub-title>Showing {{ perPage }} of {{ delivery_orders.length }}</b-card-sub-title>
               </div>
             </b-col>
             <b-col cols="8">
@@ -139,7 +143,6 @@
               </div>
             </b-col>
           </b-row>
-
         </card>
       </div>
 
@@ -157,14 +160,15 @@ export default {
       
       fields: [
           {key: 'id', label: 'Id', sortable: true},
-          {key: 'noSalesOrder', label: 'Sales Order No', sortable: true},
+          {key: 'noDeliveryOrder', label: 'Delivery Order No', sortable: true},
           {key: 'poNumber', label: 'Purchase Order No', sortable: true},
           {key: 'company.nama', label: 'Company Name', sortable:true},
-          {key: 'total_harga_semua', label: 'Total Price (IDR)', sortable:true},
-          {key: 'date', label: 'Date', sortable:true},
+          {key: 'totalOrder', label: 'Total Order', sortable:true},
+          {key: 'createdAt', label: 'Created At', sortable:true},
+         
           'Action'
       ],
-      sales_orders :[],
+      delivery_orders :[],
 
       totalRows: 1,
       currentPage: 1,
@@ -187,35 +191,28 @@ export default {
           })
       },
       items() {
-         this.totalRows = this.sales_orders.length;
-        return this.sales_orders;
+         this.totalRows = this.delivery_orders.length;
+        return this.delivery_orders;
       },
   },
 
   beforeMount(){
-      this.getAllSalesOrder();
+      this.getAllDeliveryOrder();
   },
   methods:{
-      getAllSalesOrder: function(){
-          axios.get('http://localhost:8080/api/sales-order/all')
-          .then(result => {this.sales_orders = result.data.result, this.getPriceData()});
+      getAllDeliveryOrder: function(){
+          axios.get('http://localhost:8080/api/delivery-order/all')
+          .then(result => {this.delivery_orders = result.data.result, this.getAllOrder()});
+      },
+      getAllOrder(){
+          for(let i = 0; i < this.delivery_orders.length; i++){
+              this.delivery_orders[i].totalOrder = this.delivery_orders[i].product.length;
+          }
       },
       onFiltered(filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering
         this.totalRows = filteredItems.length
         this.currentPage = 1
-      },
-
-      getPriceData(){
-
-          for(let i = 0 ; i < this.sales_orders.length ; i++){
-            var total_harga_semua = 0;
-            for (let j = 0; j < this.sales_orders[i].serviceOrder.length ; j++) {
-                this.sales_orders[i].serviceOrder[j].total_harga = this.sales_orders[i].serviceOrder[j].pricePerUnit * this.sales_orders[i].serviceOrder[j].quantity;
-                total_harga_semua +=  this.sales_orders[i].serviceOrder[j].total_harga;
-            }
-            this.sales_orders[i].total_harga_semua = 'Rp ' + total_harga_semua.toLocaleString('de-DE') + ',00';
-          }
       },
   }
 };
@@ -226,7 +223,7 @@ export default {
   color:white;
   border-color: transparent;
   font-size: 10px;
-  width: 140px;
+  width: 160px;
   height: 36px;
   margin-bottom: 4px;
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);

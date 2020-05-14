@@ -10,6 +10,7 @@
             v-model="activity.namaTugas"
             type="text"
             required
+            :maxlength="255"
             placeholder="Activity Name"
             pattern=".*[a-zA-Z].*"
             >

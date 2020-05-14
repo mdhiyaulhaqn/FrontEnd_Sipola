@@ -69,26 +69,28 @@
                     <b-col>
                         <b-form-group>
                         <div class="dropzone">
-                        <input type="file" class="input-file" ref="files"
-                        @change="selectFile" multiple/>
-                        <p v-if="attachments.length === 0" class="call-to-action"><i class='fas fa-cloud-upload-alt' style='font-size:36px'></i> 
-                        Drag and drop your files here or <label for="file">
-                            <button class="buttonFile">Select <i class='far fa-arrow-alt-circle-up'></i></button></label></p>
-                        
-                        <div id="kotakAttachment">
-                             <b-col class="col-xs-12 col-sm-12 col-md-3 grup-attachment" v-bind:key="file" v-for="file in attachments" >
-                                <div class="foto" v-if="file.type === 'image/png' || file.type==='image/jpeg' || file.type==='image.jpg'">
-                                 <img :src="untukPreview+file.image" alt="Image" class="image">
-                                 <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:36px"></i></a>
-                                </div>
-                                <div class="foto" v-else>
-                                 <img src="@/assets/img/document.png">
-                                 <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:36px"></i></a>
-                                </div>
-                                 <p>{{file.fileName}} </p>
-                                 
-                            </b-col>
-                        </div>
+                          <input type="file" class="input-file" ref="files"
+                          @change="selectFile" multiple/>
+                          <p v-if="attachments.length === 0" class="call-to-action"><i class='fas fa-cloud-upload-alt' style='font-size:36px'></i> 
+                          Drag and drop your files here or <label for="file">
+                              <button class="buttonFile">Select <i class='far fa-arrow-alt-circle-up'></i></button></label></p>
+                          
+                          <label for="file">
+                              <button class="buttonFile">Select <i class='far fa-arrow-alt-circle-up'></i></button></label>
+                          <div class="row" id="kotakAttachment">
+                              <b-col class="col-xs-6 col-sm-6 col-md-3 grup-attachment" v-bind:key="file" v-for="file in attachments" >
+                                  <div class="foto" v-if="file.type === 'image/png' || file.type==='image/jpeg' || file.type==='image.jpg'">
+                                  <img :src="untukPreview+file.image" alt="Image" class="image">
+                                  <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:36px"></i></a>
+                                  </div>
+                                  <div class="foto" v-else>
+                                  <img src="@/assets/img/document.png">
+                                  <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:36px"></i></a>
+                                  </div>
+                                  <p>{{file.fileName}} </p>
+                                  
+                              </b-col>
+                          </div>
                         </div>
                         </b-form-group>
                     </b-col>
@@ -160,7 +162,10 @@
       </template>
       <template v-slot:modal-footer="{ ok }">
         <b-col class="button-confirm-group">
-          <b-button @click="ok()" id="ok-button" variant="outline-primary">
+          <router-link :to="{name: 'reimbursement-report'}">
+            <b-button class="back-button">Back to List</b-button>
+          </router-link>
+          <b-button @click="ok()" id="see-button" variant="outline-primary">
             See Details
           </b-button>
         </b-col>
@@ -402,11 +407,7 @@ export default {
   color: #109CF1;
   font-weight: 1000;
 }
-#ok-button{
-  color:#109CF1;
-  border-color:#109CF1;
-  background-color: white;
-}
+
 .button-confirm-group{
   text-align: right;
 }
@@ -487,6 +488,29 @@ img {
 
 #kotakAttachment {
     padding: 10px 10px;
+}
+
+.back-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 100px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
+}
+
+#see-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-left: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
 }
 
 </style>

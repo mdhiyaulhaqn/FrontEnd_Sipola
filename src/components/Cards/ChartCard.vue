@@ -31,6 +31,9 @@
 </template>
 <script>
 import Card from "./Card.vue";
+import { mixins } from 'vue-chartjs'
+const { reactiveProp } = mixins
+
 export default {
   name: "chart-card",
   components: {
@@ -98,6 +101,7 @@ export default {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
   },
+  mixins: [reactiveProp],
   mounted() {
     this.updateChartId();
     import('chartist').then((Chartist) => {

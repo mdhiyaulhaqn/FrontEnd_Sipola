@@ -22,7 +22,7 @@
                       :height="'400'"
                       :editable-create="false"
                       :show-work-hours="false"
-                      :show-work-days="false"               
+                      :show-work-days="false"
                       :data-source="activityListSchedule.listTugas"
                       :editable-drag-percent-complete="false"
                       :editable-update="false"
@@ -53,7 +53,7 @@
         </b-row>
       </card>
     </div>
-    
+
     <b-modal
       id="modal-delete"
       ref="modal-delete"
@@ -113,7 +113,7 @@
       </template>
       <template v-slot:modal-footer="{ ok }">
         <b-col class="button-confirm-group">
-          <b-button @click="ok()" id="ok-button" variant="outline-primary">
+          <b-button @click="ok()" id="ok-button">
             OK
           </b-button>
         </b-col>
@@ -159,7 +159,7 @@ export default {
   beforeMount() {
     this.getDetail();
   },
-  
+
   methods: {
     parameterMap: function(options, operation) {
       if (operation !== 'read') {
@@ -190,9 +190,9 @@ export default {
         this.activityListSchedule.listTugas[i].expanded = false;
         this.activityListSchedule.listTugas[i].start = new Date(this.activityListSchedule.listTugas[i].tanggalMulaiTugas);
         this.activityListSchedule.listTugas[i].end =  new Date(this.activityListSchedule.listTugas[i].tanggalSelesaiTugas);
-      }      
+      }
       var parentActivity = {};
-      parentActivity.id = 0;  
+      parentActivity.id = 0;
       parentActivity.orderId = 0;
       parentActivity.parentId = null;
       parentActivity.title = this.activityListSchedule.namaProyek;
@@ -243,7 +243,8 @@ export default {
   border-color: transparent;
   width: 110px;
   margin-left: 10px;
-  font-size: 10px;
+  line-height: 15px;
+  font-size: 12px;
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
 }
 
@@ -251,12 +252,15 @@ export default {
   background-color: #FF3E1D;
   border-color: #FF3E1D;
   width: 80px;
-  font-size: 10px;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
 }
 
 .button-group{
-  margin-top: 30px;
+  margin-top: 20px;
   text-align: center;
+  margin-bottom: 10px;
 }
 p{
   font-size: 12px;
@@ -270,19 +274,22 @@ p{
   text-align: right;
 }
 #confirm_delete_button{
-  font-size: 10px;
+  font-size: 12px;
   width: 110px;
   border-color: #ff3e1d;
   border-width: 1px;
   margin-right: 10px;
+  line-height: 15px;
 }
 #cancel_delete_button{
-  font-size: 10px;
+  font-size: 12px;
   background-color: #ff3e1d;
   color:white;
   border-color: white;
   border-width: 1px;
+  line-height: 15px;
 }
+
 h5{
   margin-bottom: -4px;
 }
@@ -301,6 +308,9 @@ h5{
   color:#109CF1;
   border-color:#109CF1;
   background-color: white;
+  font-size: 12px;
+  line-height: 15px;
+  border-width: 1px;
 }
 #breadcrumb{
   font-size: 12px;

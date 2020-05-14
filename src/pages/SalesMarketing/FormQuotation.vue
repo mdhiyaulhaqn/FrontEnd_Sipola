@@ -16,7 +16,7 @@
             <b-form @submit="onSubmit" v-if="show">
                 <div class = "row">
                     <div class = "col-md-7 col-12">
-                        <b-form-group>
+                        <b-form-group class="required">
                             <label for="noQuotation">Quotation No</label>
                             <b-form-input
                                 id="noQuotation"
@@ -30,7 +30,7 @@
              
                     <div class = "col-md-5 col-12">
                         <div style="color:black">
-                        <b-form-group>
+                        <b-form-group class="required">
                             <label for="date">Quotation Date</label>
                             <b-form-input
                                 id="date"
@@ -43,7 +43,7 @@
                     </div>
                 </div>
 
-                <b-form-group>
+                <b-form-group class="required">
                     <label for="companyName">Company Name</label>
                     <b-form-input
                         id="companyName"
@@ -56,7 +56,7 @@
                     </b-form-input>
                 </b-form-group>
 
-                <b-form-group>
+                <b-form-group class="required">
                     <label for="companyAddress">Company Address</label>
                     <b-form-input
                         id="companyAddress"
@@ -70,13 +70,13 @@
 
                 <div class="d-none d-md-block d-lg-block">
                     <div class="row">
-                        <div class = "col-md-6">
+                        <div class = "col-md-6 required">
                             <label>Scope of Works</label>
                         </div>
-                        <div class = "col-md-2">
+                        <div class = "col-md-2 required">
                             <label>Quantity</label> 
                         </div>
-                        <div class = "col-md-3">
+                        <div class = "col-md-3 required">
                             <label>Unit Price</label> 
                         </div>
                         <div class = "col-md-1">
@@ -89,21 +89,17 @@
                     <b-col>
                         <Service v-bind:service="item" v-on:del-service="deleteRow" />
                     </b-col>
-                </b-row> 
+                </b-row>
                     
                 <b-row>
                     <div class ="col-md-6 col-12">
                         <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">+ Add Scope of Works</button>
                     </div>
                 </b-row> 
-
                 
-
-                
-                <b-form-group>
+                <b-form-group class="required">
                     <label for="termsConditions">Terms and Conditions</label>
                     <ckeditor :editor="editor"  v-model="new_quotation.termsCondition" :config="editorConfig"></ckeditor>
-                    
                 </b-form-group>
 
                 <div class = "button-group">
@@ -138,11 +134,14 @@
         </div>
         </template>
         <template v-slot:modal-footer="{ ok }">
-        <b-col class="button-confirm-group">
-            <b-button @click="ok()" id="ok-button" variant="outline-primary">
-                See Details
-            </b-button>
-        </b-col>
+            <b-col class="button-confirm-group">
+                <b-button @click="cancel()" class="cancel-button">
+                    Back to List
+                </b-button>
+                <b-button @click="ok()" class="save-button" variant="outline-primary">
+                    See Details
+                </b-button>
+            </b-col>
         </template>
     </b-modal>
     <!-- <b-modal title="Quotation Berhasil Tersimpan" v-model="successModal" @ok="redirect()"  centered ok-only>
@@ -247,6 +246,10 @@ export default {
             this.$router.push({ name: 'detail-quotation',  params: {id:this.new_quotation.id}});
         },
 
+        cancel(){
+            this.$router.push({ name: 'quotation'});
+        },
+
         // Gajadi dipake soalnya udah dihandle di backend
         // submitCompany() {
         //     console.log("cihuy22");
@@ -294,6 +297,11 @@ export default {
 
 <style scoped>
 
+.required label:after {
+    content: " *";
+    color: red;
+}
+
 .ck-editor__editable {
     min-height: 500px;
 }
@@ -320,26 +328,27 @@ export default {
 }
 
 .save-button{
-    background-color: #109CF1;
-    color:white;
-    border-color: transparent;
-    font-size: 10px;
-    margin-left: 10px;
-    line-height: 15px;
-    width: 120px;
-    box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
-    text-align: center;
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 10px;
+  margin-right: 10px;
+  line-height: 15px;
+  width: 110px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
 }
 
 .cancel-button{
-    color:#109CF1;
-    border-color:#109CF1;
-    background-color: white;
-    border-width: 1px;
-    width: 80px;
-    line-height: 15px;
-    text-align: center;
-    font-size: 10px;
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 80px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 10px;
+  margin-right: 10px;
 }
 
 .button-group{
@@ -349,6 +358,7 @@ export default {
 .label{
     font-weight: 600;
 }
+
 #modal-message{
     font-size: 16px;
 }
@@ -356,11 +366,7 @@ export default {
     color: #109CF1;
     font-weight: 1000;
 }
-#ok-button{
-    color:#109CF1;
-    border-color:#109CF1;
-    background-color: white;
-}
+
 .button-confirm-group{
     text-align: right;
 }

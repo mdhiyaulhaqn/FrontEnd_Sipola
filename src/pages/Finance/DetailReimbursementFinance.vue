@@ -16,8 +16,9 @@
             </div> 
             
             <card>
+               <div class="container-fluid">
                 <b-row>
-                    <div class = "col-lg-7 col-sm-7 col-8">Reimbursement Report</div>
+                    <div class = "col-lg-7 col-sm-7 col-8"><strong>Reimbursement Report</strong></div>
                 </b-row>
                 <b-row>
                     <div class = "col-lg-2 col-sm-2 col-6">Created by</div>
@@ -73,8 +74,8 @@
                     </b-col>
                 </b-row>
         
-                <div>
-                  <b-card border-variant="dark" class="card-attachment">
+                <div v-if="reimbursement.listAttachment.length > 0">
+                  <b-card class="card-attachment">
                   <b-card-title class="title-attachment" v-b-toggle.collapse-2 style="max-height:50px">
                     <h6>Attachments ( {{reimbursement.listAttachment.length}} )</h6>
                     <!-- <a @click="downloadAll()"><i class="fas fa-download"></i></a> -->
@@ -86,7 +87,7 @@
                       <b-row>
                         <b-col class="col-xs-12 col-sm-12 col-md-2 grup-attachment" v-bind:key="file" v-for="file in reimbursement.listAttachment" >
                           <b-img thumbnail fluid v-if="file.type === 'image/jpeg'" :src="untukPreview+file.image" alt="Image" class="image"></b-img>
-                          <img v-else thumbnail fluid src="@/assets/img/document.png" alt="Image" class="image">
+                          <img v-else thumbnail fluid src="@/assets/img/document.png" alt="Image" class="img-fluid img-thumbnail">
                           <a @click="downloadFile(file)"><i class="fas fa-download"></i></a>
                           <h6> {{file.fileName}}</h6>
                         </b-col>
@@ -113,25 +114,10 @@
                         </button>
                     </div>
                 </b-row>
+               </div>
 
             </card>
         </div>
-
-        <b-modal
-      id="modal-foto"
-      ref="modal-foto"
-      centered
-      >
-      <template v-slot:default>
-        <div class="container">
-          <b-row>
-            <b-col class="modal-icon col-12">
-              <img :src="untukPreview+file.image" alt="image" width="100px">
-            </b-col>
-          </b-row>
-        </div>
-      </template>
-    </b-modal>
 
     <b-modal
       id="modal-reject"
@@ -145,7 +131,7 @@
         </div>
       </template>     
       <template v-slot:default>
-        <div class="container">
+        <div class="container" fluid>
           <b-row>
               <b-col class="modal-icon col-2">
                   <img src="@/assets/img/delete-confirm-icon.png" alt="" width="50px">
@@ -153,25 +139,24 @@
               <b-col class="col-10">
                   <p id="modal-message">Do you want to reject reimbursement report requested by Nindya?</p>
               </b-col>
-              <b-col>
+              <div class="col-xs-12 col-md-12 col-sm-8">
                 <b-form @submit.stop.prevent="submitReject">
                     <b-form-group size="sm">
                         <label for="keterangan">Reason</label>
-                        <b-form-input
+                        <b-form-input 
+                            class="mb-8 mr-sm-8 mb-sm-4"
                             id="keteranganInput"
                             v-model="keterangan"
                             type="text"
                             required
                             placeholder="State your reason here..."
-                            maxlength="180"
                             list="idlist"
                             >
                             </b-form-input>
-                            <datalist id="idlist">
-                              <option>Cumulative price did not adds up</option>
-                              <option>No document supported</option>
-                              <option>Duplicate report</option>
-                            </datalist>
+                            <div class="col-xs-4 col-md-10 col-sm-8" fluid>
+                            <b-form-datalist id="idlist" :options="options">
+                            </b-form-datalist>
+                            </div>
                             </b-form-group>
                           <b-form-group>
                             <b-form-checkbox
@@ -181,7 +166,7 @@
                             >Ask for revision</b-form-checkbox>
                           </b-form-group>
                   </b-form>
-              </b-col>
+              </div>
           </b-row>
         </div>
       </template>
@@ -280,6 +265,7 @@ export default {
     data() {
         return {
             previewFile:[],
+            foto: '@/assets/img/document.png',
             reimbursement : '',
             untukPreview: 'data:image/jpeg;base64, ',
             keterangan: '',
@@ -293,6 +279,11 @@ export default {
                 {key: 'tanggal', label: 'Date', sortable: true},
                 {key: 'nominal', label: 'Price(IDR)', sortable: true},
                 {key: 'action', label: 'Action'}
+            ],
+            options : [
+              'Cumulative price did not adds up',
+              'No document supported',
+              'Duplicate report'
             ]
         };
     },
@@ -446,14 +437,6 @@ body {
     font-size:20px;
     margin-bottom: 20px;
 }
-.nama-perusahaan{
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
-}
-.tabel-service{
-    font-size:15px;
-}
 #send_button{
     font-size: 12px;
     float:right;
@@ -580,28 +563,6 @@ h5{
   background-color: white;
 }
 
-#cancel_send_button{
-  background-color: #109CF1;
-  color:white;
-  border-color: transparent;
-  font-size: 10px;
-  margin-left: 10px;
-  line-height: 15px;
-  width: 110px;
-  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
-  text-align: center;
-}
-
-#confirm_send_button{
-  color:#109CF1;
-  border-color:#109CF1;
-  background-color: white;
-  border-width: 1px;
-  width: 80px;
-  line-height: 15px;
-  text-align: center;
-  font-size: 10px;
-}
 
 #edit-button{
   background-color: #28A745;
@@ -635,7 +596,7 @@ img {
 }
 
 .card-attachment {
-  border: solid 1px lightgray;
+  border: solid 1px gray;
 }
 
 </style>

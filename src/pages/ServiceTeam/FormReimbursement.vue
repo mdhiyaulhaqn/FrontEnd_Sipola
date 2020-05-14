@@ -64,39 +64,30 @@
                     <b-col>
                         <b-form-group>
                         <div class="dropzone">
-                        <input type="file" class="input-file" ref="files" accept="image/*"
-                        @change="selectFile" multiple/>
-                        <p class="call-to-action"><i class='fas fa-cloud-upload-alt' style='font-size:36px'></i> 
-                        Drag and drop your files here or <label for="file">
-                            <button class="buttonFile">Select <i class='far fa-arrow-alt-circle-up'></i></button></label></p>
+                          <input type="file" class="input-file" ref="files"
+                          @change="selectFile" multiple/>
+                          <p v-if="attachments.length === 0" class="call-to-action"><i class='fas fa-cloud-upload-alt' style='font-size:36px'></i> 
+                          Drag and drop your files here or <label for="file">
+                              <button class="buttonFile">Select <i class='far fa-arrow-alt-circle-up'></i></button></label></p>
+                          
+                          <label for="file" >
+                              <button class="buttonFile" v-if="attachments.length > 0">Select <i class='far fa-arrow-alt-circle-up'></i></button></label>
+                          <div class="row" id="kotakAttachment">
+                              <b-col class="col-xs-6 col-sm-6 col-md-3 grup-attachment" v-bind:key="file" v-for="file in attachments" >
+                                  <div class="foto" v-if="file.type === 'image/png' || file.type==='image/jpeg' || file.type==='image.jpg'">
+                                  <img :src="untukPreview+file.image" alt="Image" class="image">
+                                  <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:36px"></i></a>
+                                  </div>
+                                  <div class="foto" v-else>
+                                  <img src="@/assets/img/document.png">
+                                  <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:36px"></i></a>
+                                  </div>
+                                  <p>{{file.fileName}} </p>
+                                  
+                              </b-col>
+                          </div>
                         </div>
                         </b-form-group>
-                      </b-col>
-                </b-row>
-                <b-row>
-                      <b-col>  
-                        <div id="kotakAttachment">
-                             <b-col class="col-xs-8 col-sm-8 col-md-12" v-bind:key="file" v-for="file in attachments" >
-                               <b-card no-body class="overflow-hidden" style="max-height:80px">
-                                <b-row no-gutters>
-                                  <b-col class="col-xs-2 col-sm-2 col-md-1">
-                                    <div class="foto">
-                                    <b-img thumbnail fluid :src="untukPreview+file.image" alt="Image" class="image"></b-img>
-                                    </div>
-                                  </b-col>
-                                  <b-col class="col-xs-9 col-sm-8 col-md-10">
-                                    <b-card-body>
-                                        <p style="font-size:12px">{{file.fileName}}</p>
-                                    </b-card-body>
-                                  </b-col>
-                                  <b-col class="col-xs-2 col-sm-2 col-md-1">
-                                    <a @click="removeFile(file)" class="removeIcon"><i class="fas fa-minus-circle"></i></a>
-                                  </b-col>
-                                </b-row>
-                              </b-card>
-                                 
-                            </b-col>
-                        </div>
                     </b-col>
                 </b-row>
 
@@ -116,7 +107,7 @@
       >
       <template v-slot:modal-title>
         <div class="container">
-          <h5 id="modal-title-success">Success!</h5>
+          <h5 id="modal-title-success" style="color: #109CF1;">Success!</h5>
         </div>
       </template>
       <template v-slot:default>
@@ -133,7 +124,10 @@
       </template>
       <template v-slot:modal-footer="{ ok }">
         <b-col class="button-confirm-group">
-          <b-button @click="ok()" id="ok-button" variant="outline-primary">
+          <router-link :to="{name: 'reimbursement-report'}">
+            <b-button class="back-button">Back to List</b-button>
+          </router-link>
+          <b-button @click="ok()" class="see-button">
             See Details
           </b-button>
         </b-col>
@@ -376,7 +370,8 @@ export default {
 }
 
 .dropzone {
-    min-height: 100px;
+    min-height: 200px;
+    padding: 10px 10px;
     position: relative;
     cursor: pointer;
     outline: 2px dashed black; 
@@ -403,23 +398,81 @@ export default {
     padding: 70px 0;
 }
 
+#kotakAttachment {
+    padding: 10px 10px;
+}
+
+img {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.grup-attachment{
+    padding: 5px 5px 5px 5px;
+}
+
+.image {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.removeIcon {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.foto {
+  position: relative;
+  width: 100%;
+}
+
+.foto:hover .image {
+  opacity: 0.3;
+}
+
+.foto:hover .removeIcon {
+  opacity: 1;
+}
+
 .buttonFile {
     background-color: white;
     border: 1px solid gray;
 }
 
-#ok-button{
-  color:#109CF1;
-  border-color:#109CF1;
-  background-color: white;
-}
 .button-confirm-group{
   text-align: right;
 }
 
-.removeIcon {
-  position: relative;
-  text-align: right;
+.back-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 100px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
+}
+.see-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-left: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
 }
 
 </style>
