@@ -12,113 +12,141 @@
             </div>
 
             <card>
-                <b-container fluid>
-                    <b-row align-h="between" style="margin-top: 12px">
-                        <b-col md="2">
-                            <router-link :to="{name: 'purchase-order-add'}">
-                                <button id="purchaseorder_bttn" class="btn btn-primary">
-                                    <b-row align-h="center">
-                                        <p style="font-size: 12px"> Add Purchase Order </p>
-                                        <div style="margin-left: 10px; margin-top: -3px">
-                                            <img src="@/assets/img/add-circle-icon.png" alt="" width="25px">
-                                        </div>
-                                    </b-row>
-                                </button>
-                            </router-link>
-                        </b-col>
-                        <b-col md="10">
+                <b-row align-h="between">
+                    <b-col md="2">
+                        <router-link :to="{name: 'purchase-order-add'}">
+                            <button id="purchaseorder_bttn" class="btn btn-primary">
+                                <b-row align-h="center">
+                                    <p style="font-size: 12px"> Add Purchase Order </p>
+                                    <div style="margin-left: 10px; margin-top: -3px">
+                                        <img src="@/assets/img/add-circle-icon.png" alt="" width="25px">
+                                    </div>
+                                </b-row>
+                            </button>
+                        </router-link>
+                    </b-col>
+                    <b-col md="10" class="my-1">
+                        <b-form-group
+                            label-cols-sm="8"
+                            label-align-sm="right"
+                            label-size="sm"
+                            label-for="filterInput"
+                            class="mb-0"
+                        >
+                            <b-input-group size="sm">
+                                <b-form-input
+                                    v-model="filter"
+                                    type="search"
+                                    id="filterInput"
+                                    placeholder="Search">
+                                </b-form-input>
+                                <b-input-group-append>
+                                    <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+                                </b-input-group-append>
+                            </b-input-group>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+
+                <b-table
+                    responsive
+                    show-empty
+                    :small="true"
+                    stacked="md"
+                    :items="items"
+                    :fields="fields"
+                    :per-page="perPage"
+                    :current-page="currentPage"
+                    :filter="filter"
+                    :filter-included-fields="filterOn"
+                    :sort-by.sync="sortBy"
+                    :sort-desc.sync="sortDesc"
+                    :sort-direction="sortDirection"
+                    @filtered="onFiltered"
+                    :borderless="true"
+                    sort-icon-left
+                    :sticky-header="true"
+                >
+                    <template v-slot:cell(index) = "row">
+                        {{row.index + 1}}
+                    </template>
+
+                    <template v-slot:cell(datePurchaseOrder) = "row">
+                        {{row.item.datePurchaseOrder.split("T")[0].split("-").reverse().join('-')}}
+                    </template>
+                        
+                    <template v-slot:cell(total_price) = "row">
+                        <div class="text-center">
+                            {{formatPrice(row.item.total_price)}}
+                        </div>
+                    </template>
+                        
+                    <template v-slot:cell(Action)="row">
+                        <router-link :to="{name: 'detail-purchase-order', params: {id:row.item.id}}">
+                            <b-button id="view_bttn" class="btn btn-primary">
+                                View
+                            </b-button>
+                        </router-link>
+                    </template>
+                </b-table>
+
+                <b-row align-h="between">
+                    <b-col cols="4">
+                        <div v-if="perPage > purchaseOrders.length" class="my-2">
+                            <b-card-sub-title>Showing {{ purchaseOrders.length }} of {{ purchaseOrders.length }}</b-card-sub-title>
+                        </div>
+                        <div v-else-if="currentPage != 1" class="my-2">
+                            <b-card-sub-title>Showing {{ purchaseOrders.length % perPage }} of {{ purchaseOrders.length }}</b-card-sub-title>
+                        </div>
+                        <div v-else class="my-2">
+                            <b-card-sub-title>Showing {{ perPage }} of {{ purchaseOrders.length }}</b-card-sub-title>
+                        </div>
+                    </b-col>
+                    <b-col cols="8">
+                        <div>
                             <b-form-group
+                                label="Rows per page:"
+                                label-cols="8"
                                 label-cols-sm="8"
+                                label-cols-md="8"
+                                label-cols-xl="10"
+                                label-cols-lg="8"
+                                label-align="right"
+                                label-align-md="right"
                                 label-align-sm="right"
+                                label-align-lg="right"
+                                label-align-xl="right"
                                 label-size="sm"
-                                label-for="filterInput"
+                                label-for="perPageSelect"
                                 class="mb-0"
                             >
-                                <b-input-group size="sm">
-                                    <b-form-input
-                                        v-model="filter"
-                                        type="search"
-                                        id="filterInput"
-                                        placeholder="Search">
-                                    </b-form-input>
-                                    <b-input-group-append>
-                                        <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
-                                    </b-input-group-append>
-                                </b-input-group>
-                            </b-form-group>
-                        </b-col>
-                    </b-row>
-
-                    <div slot="raw-content" class="table-responsive">
-                        <b-table
-                            responsive
-                            :items="items"
-                            :fields="fields"
-                            :per-page="perPage"
-                            :current-page="currentPage"
-                            :filter="filter"
-                            :filter-included-fields="filterOn"
-                            :sort-by.sync="sortBy"
-                            :sort-desc.sync="sortDesc"
-                            :sort-direction="sortDirection"
-                            @filtered="onFiltered"
-                            :borderless="true"
-                            sort-icon-left
-                            :sticky-header="true"
-                        >
-                            <template v-slot:cell(id) = "row">
-                                {{items.indexOf(row.item) + 1}}
-                            </template>
-
-                            <template v-slot:cell(datePurchaseOrder) = "row">
-                                {{row.item.datePurchaseOrder.split("T")[0].split("-").reverse().join('-')}}
-                            </template>
-
-                            <template v-slot:cell(total_price) = "row">
-                                {{row.item.purchasedItems[1].pricePerUnit}}
-                            </template>
-
-                            <template v-slot:cell(Action) = "row">
-                                <router-link :to="{name: 'detail-purchase-order', params: {id:row.item.id}}">
-                                    <b-button id="purchaseorder_bttn">
-                                        View
-                                    </b-button>
-                                </router-link>
-                            </template>
-                        </b-table>
-
-                        <b-row align-h="end">
-                            <b-col md="3" class="my-1">
-                                <b-form-group
-                                    label="Rows per page:"
-                                    label-cols-sm="7"
-                                    label-align-sm="right"
-                                    label-size="sm"
-                                    label-for="perPageSelect"
-                                    class="mb-0"
-                                >
-                                    <b-form-select
-                                        v-model="perPage"
-                                        id="perPageSelect"
-                                        size="sm"
-                                        :options="pageOptions"
-                                    >
-                                    </b-form-select>
-                                </b-form-group>
-                            </b-col>
-                            <b-col md="3" class="my-1">
-                                <b-pagination
-                                    v-model="currentPage"
-                                    :total-rows="totalRows"
-                                    :per-page="perPage"
-                                    align="fill"
+                                <b-form-select
+                                    v-model="perPage"
+                                    id="perPageSelect"
                                     size="sm"
-                                    class="my-0"
-                                ></b-pagination>
-                            </b-col>
-                        </b-row>
-                    </div>
-                </b-container>
+                                    :options="pageOptions"
+                                >
+                                </b-form-select>
+                            </b-form-group>
+                        </div>
+                    </b-col>
+                </b-row>
+
+                <b-row>
+                    <b-col>
+                        <div style="margin: 10px 0 0 0;">
+                                <b-pagination
+                                v-model="currentPage"
+                                :total-rows="totalRows"
+                                :per-page="perPage"
+                                align="center"
+                                size="md"
+                                class="my-1"
+                                style="margin-left: 0;"
+                            ></b-pagination>
+                        </div>
+                    </b-col>
+                </b-row>
             </card>
         </div>
     </div>
@@ -135,22 +163,20 @@ export default {
             currentPage: 1,
             perPage: 5,
             pageOptions: [5, 10, 25, 50, 100],
-            sortBy: '',
-            sortDesc: false,
-            sortDirection: 'asc',
+            sortBy: 'id',
+            sortDesc: true,
+            sortDirection: 'desc',
             filter: null,
             filterOn: [],
 
             fields: [
-                {key: 'id', label: 'Id', sortable: true},
+                {key: 'index', label: 'Id', sortable: true},
                 {key: 'noPurchaseOrder', label: 'Purchase Order No', sortable: true},
                 {key: 'noProject', label: 'Project No', sortable: true},
                 {key: 'company.nama', label: 'Company Name', sortable: true},
                 {key: 'datePurchaseOrder', label: 'Date', sortable: true},
-                {key: 'total_price', label: 'Total Price (IDR)', sortable: true, formatter: value => {
-                    return value.toLocaleString('id-ID', {maximumFractionDigits:2})
-                }},
-                'View'
+                {key: 'total_price', label: 'Total Price (IDR)', sortable: true},
+                'Action'
             ],
 
             purchaseOrders: [],
@@ -183,6 +209,7 @@ export default {
             .then(result => {this.purchaseOrders = result.data.result, this.getPriceData()})
             .catch(err => this.purchaseOrders = err.data.result);
         },
+
         onFiltered(filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering
         this.totalRows = filteredItems.length
@@ -200,26 +227,42 @@ export default {
                 this.purchaseOrders[i].total_price = total_price;
             }
         },
+
+        formatPrice(value) {
+            if(value < 0){
+                value *= -1
+            }
+            let val = (value/1).toFixed(2).replace('.', ',')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+        },
     }
 };
 </script>
 
 <style>
+#view_bttn{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 10px;
+  line-height: 10px;
+  width: 80px;
+  box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
+}
 #purchaseorder_bttn{
   background-color: #109CF1;
   color:white;
   border-color: transparent;
   font-size: 10px;
-  width: 170px;
+  width: 180px;
   height: 36px;
   margin-bottom: 4px;
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
 }
 .judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
+  text-align: center;
+  color: black;
+  margin: 5px 0 24px 0;
 }
 .pagination{
     margin-left: 20px;

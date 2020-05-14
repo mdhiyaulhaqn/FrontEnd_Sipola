@@ -19,7 +19,7 @@
             <b-form @submit="onModal" v-if="show">
                  <b-row>
                     <b-col md="6">
-                    <b-form-group>
+                    <b-form-group class="required">
                         <label for="noSalesOrder">Sales Order No</label>
                         <b-form-input
                             id="noSalesOrder"
@@ -30,7 +30,7 @@
                         </b-form-input>
                     </b-form-group>
                     </b-col>
-                    <b-col md="6">
+                    <b-col md="6" class="required">
                         <b-form-group>
                             <label for="date">Sales Order Date</label>
                             <b-form-input
@@ -43,7 +43,7 @@
                     </b-col>
                 </b-row>
 
-                 <b-form-group>
+                 <b-form-group class="required">
                     <label for="poNumber">Purchase Order Number</label>
                     <b-form-input
                         id="poNumber"
@@ -54,7 +54,7 @@
                     </b-form-input>
                 </b-form-group>
                 
-                <b-form-group>
+                <b-form-group class="required">
                     <label for="date">Purchase Order Date</label>
                     <b-form-input
                         id="poDate"
@@ -82,20 +82,20 @@
 
                 <div class="d-none d-md-block d-lg-block">
                     <b-row>
-                        <b-col md="5">
+                        <b-col md="5 required">
                         <label>Description</label>
                         </b-col><br>
 
-                        <b-col md="2">
+                        <b-col md="2 required">
                         <label>Qty</label> 
                         </b-col><br>
 
-                        <b-col md="2">
+                        <b-col md="2 required">
                         <label>UOM</label> 
                         </b-col>
                         <br>
 
-                        <b-col md="2">
+                        <b-col md="2 required">
                         <label>Unit Price</label> 
                         </b-col>
                         <br>
@@ -119,7 +119,7 @@
                 </b-row> 
 
                 
-                <b-form-group>
+                <b-form-group class="required">
                     <label for="termsConditions">Terms and Conditions</label>
                     <ckeditor :editor="editor"  v-model="sales_order.termsCondition" :config="editorConfig"></ckeditor>
                 </b-form-group>
@@ -195,9 +195,14 @@
         </template>
         <template v-slot:modal-footer="{ ok }">
             <b-col class="button-confirm-group">
-            <b-button @click="ok()" id="ok-button" variant="outline-primary">
-                See Details
-            </b-button>
+                <b-col class="button-confirm-group">
+                    <b-button @click="cancel()" class="cancel-button">
+                    Back to List
+                    </b-button>
+                    <b-button @click="ok" class="save-button">
+                    See Details
+                    </b-button>
+                </b-col>
             </b-col>
         </template>
     </b-modal>
@@ -279,7 +284,7 @@ export default {
         },
         
         fetchData : function(){
-            this.sales_order.poDate = this.sales_order.poDate.substring(0,10);
+            this.sales_order.date = this.sales_order.date.substring(0,10);
             let service_quot = this.sales_order.serviceOrder;
             for(let i=0; i< service_quot.length ; i++){
                 this.new_service_order.id_service_order++;
@@ -321,8 +326,12 @@ export default {
             .then(result => this.companies = result.data.result);
         },
 
-       redirect(){
+        redirect(){
             this.$router.push({ name: 'detail-sales-order',  params: {id:this.sales_order.id}});
+        },
+
+        cancel(){
+            this.$router.push({ name: 'sales-order'});
         },
 
         hideModal(){
@@ -333,6 +342,10 @@ export default {
 </script>
 
 <style scoped>
+.required label:after {
+    content: " *";
+    color: red;
+}
 .add-button{
   width: 100%;
   background-color: white;
@@ -359,7 +372,7 @@ export default {
   color:white;
   border-color: transparent;
   font-size: 10px;
-  margin-left: 10px;
+  margin-right: 10px;
   line-height: 15px;
   width: 110px;
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
@@ -375,6 +388,7 @@ export default {
   line-height: 15px;
   text-align: center;
   font-size: 10px;
+  margin-right: 10px;
 }
 
 .button-group{

@@ -2,32 +2,31 @@
   <div>
     <!--Stats cards-->
     <div class="row">
+      <div class="col-md-1">Period</div>
+    </div>
+    <div class="row">
        <div class="col-md-6 col-xl-3" >
         <div class = "card">
-            <div class = "card-header">INCOME</div>
+            <div class = "card-header text-right"><strong> Income </strong></div>
             <div class = "card-body">{{income}}</div>
-             <div class = "card-footer">Target :</div>
           </div>
       </div>
       <div class="col-md-6 col-xl-3" >
         <div class = "card">
-            <div class = "card-header">Expense</div>
+            <div class = "card-header text-right"><strong> Expense </strong></div>
             <div class = "card-body">{{expense}}</div>
-             <div class = "card-footer">Target :</div>
           </div>
       </div>
       <div class="col-md-6 col-xl-3" >
         <div class = "card">
-            <div class = "card-header">Project</div>
+            <div class = "card-header text-right"><strong> Project </strong></div>
             <div class = "card-body">{{project}}</div>
-             <div class = "card-footer">Target :</div>
           </div>
       </div>
       <div class="col-md-6 col-xl-3" >
         <div class = "card">
-            <div class = "card-header">Order</div>
+            <div class = "card-header text-right"><strong> Order </strong></div>
             <div class = "card-body">{{order}}</div>
-             <div class = "card-footer">Target :</div>
           </div>
       </div>
       <!-- <div class="col-md-6 col-xl-3" v-for="stats in statsCards" :key="stats.title">
@@ -121,15 +120,18 @@
 
 import { StatsCard, ChartCard } from "@/components/index";
 import PieChart from '@/pages/DirekturUtama/component/PieChart.vue';
+import LineChart from '@/pages/DirekturUtama/component/LineChart.vue';
+import BarChart from '@/pages/DirekturUtama/component/BarChart.vue';
 import Chartist from 'chartist';
 import axios from 'axios';
-
 
 export default {
   components: {
     StatsCard,
     ChartCard, 
-    PieChart
+    PieChart,
+    BarChart,
+    LineChart,
   },
   /**
    * Chart data used to render stats, charts. Should be replaced with server data
