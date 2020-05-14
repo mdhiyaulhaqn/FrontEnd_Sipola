@@ -8,41 +8,39 @@
       </b-breadcrumb>
       <h3 class="judul"><strong>Income & Expense Summary</strong></h3>
       <card>
-        <b-col>
-          <b-row align-h="center">
+        <b-container fluid>
+          <b-row align-h="center" style="margin: 12px 0 0 0;">
             <b-form>
               <b-row align-v="end">
-                  <b-form-group class="form-tanggal">
-                      <label class="label" for="startDate">Start Date</label>
-                      <b-form-input
-                          id="startDate"
-                          v-model="startDate"
-                          type="date"
-                          placeholder="Start Date"
-                          >
-                      </b-form-input>
-                  </b-form-group>
+                <b-form-group class="form-tanggal">
+                    <label class="label" for="startDate">Start Date</label>
+                    <b-form-input
+                        id="startDate"
+                        v-model="startDate"
+                        type="date"
+                        placeholder="Start Date"
+                        >
+                    </b-form-input>
+                </b-form-group>
 
-                  <b-form-group class="form-tanggal">
-                      <label class="label" for="endDate">End Date</label>
-                      <b-form-input
-                          id="endDate"
-                          v-model="endDate"
-                          type="date"
-                          placeholder="End Date"
-                          >
-                      </b-form-input>
-                  </b-form-group>
-
-                  <div class = "button_group">
-                    <b-button class ="find-button" @click="onSubmit" style="font-size:13px">
-                      Find
-                      <i class="fa fa-search" style="color: white; margin-left: 5px;"></i>
-                    </b-button>
-
-                  </div>
-                </b-row>
-              </b-form>
+                <b-form-group class="form-tanggal">
+                    <label class="label" for="endDate">End Date</label>
+                    <b-form-input
+                        id="endDate"
+                        v-model="endDate"
+                        type="date"
+                        placeholder="End Date"
+                        >
+                    </b-form-input>
+                </b-form-group>
+                <div class = "button_group">
+                  <b-button class ="find-button" @click="onSubmit" style="font-size:13px">
+                    Find
+                    <i class="fa fa-search" style="color: white; margin-left: 5px;"></i>
+                  </b-button>
+                </div>
+              </b-row>
+            </b-form>
           </b-row>
 
           <!-- SUMMARY STATEMENT -->
@@ -296,7 +294,7 @@
               </b-row>
             </b-col>
           </b-row>
-        </b-col>
+        </b-container>
       </card>
     </div>
   </div>
