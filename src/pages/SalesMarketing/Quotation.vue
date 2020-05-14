@@ -13,7 +13,7 @@
             <b-row align-h="between" style="margin-top: 12px;">
               <b-col md="2">
                 <router-link :to="{name: 'add-quotation'}">
-                  <b-button id ="add_quotation_button" class="btn btn-primary">
+                  <b-button id ="add_quotation_button" class="btn btn-primary" style="margin-left: 0;">
                     <b-row align-h="center">
                         <p style="font-size: 12px">
                           Add Quotation
@@ -178,7 +178,7 @@ export default {
         fields: [
           {key: 'index', label: 'No'},
           {key: 'noQuotation', label: 'No Quotation', sortable: true},
-          {key: 'company.nama', label: 'Company Nama', sortable:true},
+          {key: 'company.nama', label: 'Company Name', sortable:true},
           {key: 'service.length', label: 'Total Works', sortable:true},
           {key: 'total_harga_semua', label: 'Total Price (IDR)', sortable:true},
           {key: 'date', label: 'Date', sortable:true},
