@@ -9,18 +9,46 @@
       <form name="form" @submit.prevent="handleRegister">
         <div v-if="!successful">
           <div class="form-group">
-            <label for="username">Username</label>
+            <label for="name">Name</label>
             <input
-              v-model="user.username"
-              v-validate="'required|min:3|max:20'"
+              v-model="user.name"
+              
               type="text"
               class="form-control"
-              name="username"
+              name="name"
             />
             <div
-              v-if="submitted && errors.has('username')"
+              v-if="submitted && errors.has('name')"
               class="alert-danger"
-            >{{errors.first('username')}}</div>
+            >{{errors.first('name')}}</div>
+          </div>
+          <div class="form-group">
+            <label for="alamat">Address</label>
+            <input
+              v-model="user.alamat"
+              
+              type="text"
+              class="form-control"
+              name="alamat"
+            />
+            <div
+              v-if="submitted && errors.has('alamat')"
+              class="alert-danger"
+            >{{errors.first('alamat')}}</div>
+          </div>
+          <div class="form-group">
+            <label for="noHP">Phone Number</label>
+            <input
+              v-model="user.noHP"
+              
+              type="number"
+              class="form-control"
+              name="noHP"
+            />
+            <div
+              v-if="submitted && errors.has('noHP')"
+              class="alert-danger"
+            >{{errors.first('noHP')}}</div>
           </div>
           <div class="form-group">
             <label for="email">Email</label>
@@ -35,7 +63,31 @@
               v-if="submitted && errors.has('email')"
               class="alert-danger"
             >{{errors.first('email')}}</div>
+          </div>        
+
+          <div class="form-group">
+            <label for="role">Role</label>
+            <b-form-select v-model="selectedRole" :options="roles"></b-form-select>
+            <div
+              v-if="submitted && errors.has('role')"
+              class="alert-danger"
+            >{{errors.first('role')}}</div>
           </div>
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input
+              v-model="user.username"
+              v-validate="'required|min:3|max:20'"
+              type="text"
+              class="form-control"
+              name="username"
+            />
+            <div
+              v-if="submitted && errors.has('username')"
+              class="alert-danger"
+            >{{errors.first('username')}}</div>
+          </div>
+          
           <div class="form-group">
             <label for="password">Password</label>
             <input
@@ -72,10 +124,22 @@ export default {
   name: 'Register',
   data() {
     return {
-      user: new User('', '', ''),
+      user: new User('', '', '', [], '', '', ''),
       submitted: false,
       successful: false,
-      message: ''
+      message: '',
+      selectedRole: null,
+      roles: [
+        { value: null, text: '-- Choose Role --'},
+        { value: 'admin', text: 'Admin'},
+        { value: 'direktur_utama', text: 'Direktur Utama'},
+        { value: 'project_manager', text: 'Project Manager'},
+        { value: 'sales_marketing', text: 'Sales Marketing'},
+        { value: 'finance', text: 'Finance'},
+        { value: 'service_team', text: 'Service Team'},
+        { value: 'logistik', text: 'Logistik'},
+        { value: 'supervisor', text: 'Supervisor'},
+      ]
     };
   },
   computed: {
@@ -90,10 +154,14 @@ export default {
   },
   methods: {
     handleRegister() {
+      console.log("Masuk Register");
+      this.user.role.push(this.selectedRole);
+
       this.message = '';
       this.submitted = true;
       this.$validator.validate().then(isValid => {
         if (isValid) {
+          console.log("Masuk Register Valid");
           this.$store.dispatch('auth/register', this.user).then(
             data => {
               this.message = data.message;
