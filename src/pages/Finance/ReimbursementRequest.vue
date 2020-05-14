@@ -64,7 +64,7 @@
             <template v-slot:head(totalReimburse)="data">
               <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
             </template>
-            <template v-slot:head(createdAt)="data">
+            <template v-slot:head(createdBy)="data">
               <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
             </template>
             <template v-slot:head(statusReimburse)="data">
@@ -76,10 +76,6 @@
 
             <template v-slot:cell(index)="row">
                 {{ row.index + 1}}
-            </template>
-
-            <template v-slot:cell(createdAt)="row">
-                {{row.item.createdAt| moment("ll") }}
             </template>
 
              <template v-slot:cell(totalReimburse)="row">
@@ -188,7 +184,7 @@ export default {
           {key: 'index', label: 'No'},
           {key: 'projectName', label: 'Project Description', sortable: true},
           {key: 'totalReimburse', label: 'Total (IDR)', sortable:true},
-          {key: 'createdAt', label: 'Created at', sortable:true},
+          {key: 'createdBy', label: 'Created by', sortable:true},
           {key: 'statusReimburse', label: 'Status', sortable:true},
           {key: 'action', label: 'Action'},
         ],
