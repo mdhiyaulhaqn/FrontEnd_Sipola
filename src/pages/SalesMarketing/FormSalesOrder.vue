@@ -18,7 +18,7 @@
                 <b-row>
                     <b-col md="6">
                     <b-form-group class="required">
-                        <label for="noSalesOrder">Sales Order No</label>
+                        <label class="label"  for="noSalesOrder">Sales Order No</label>
                         <b-form-input
                             id="noSalesOrder"
                             v-model="new_sales_order.noSalesOrder"
@@ -30,7 +30,7 @@
                     </b-col>
                     <b-col md="6">
                         <b-form-group class="required">
-                            <label for="date">Sales Order Date</label>
+                            <label class="label" for="date">Sales Order Date</label>
                             <b-form-input
                                 id="date"
                                 v-model="new_sales_order.date"
@@ -42,7 +42,7 @@
                 </b-row>
 
                  <b-form-group class="required">
-                    <label for="poNumber">Purchase Order Number</label>
+                    <label class="label" for="poNumber">Purchase Order Number</label>
                     <b-form-input
                         id="poNumber"
                         v-model="new_sales_order.poNumber"
@@ -53,7 +53,7 @@
                 </b-form-group>
                 
                 <b-form-group class="required">
-                    <label for="date">Purchase Order Date</label>
+                    <label class="label" for="date">Purchase Order Date</label>
                     <b-form-input
                         id="poDate"
                         v-model="new_sales_order.poDate"
@@ -65,7 +65,7 @@
                 <b-row>
                     <b-col md="12">
                         <b-form-group class="required">
-                            <label for="companyName" >Company Name</label>
+                            <label class="label" for="companyName" >Company Name</label>
                             <b-form-select v-model="new_sales_order.company" required>
                                 <template slot="companyName">
                                     <option :value="null" disabled>-- Choose Company --</option>
@@ -81,20 +81,20 @@
                 <div class="d-none d-md-block d-lg-block">
                     <b-row>
                         <b-col md="5 required">
-                        <label>Description</label>
+                        <label class="label" >Description</label>
                         </b-col><br>
 
                         <b-col md="2 required">
-                        <label>Qty</label> 
+                        <label class="label" >Qty</label> 
                         </b-col><br>
 
                         <b-col md="2 required">
-                        <label>UOM</label> 
+                        <label class="label" >UOM</label> 
                         </b-col>
                         <br>
 
                         <b-col md="2 required">
-                        <label>Unit Price</label> 
+                        <label class="label" >Unit Price (IDR)</label> 
                         </b-col>
                         <br>
 
@@ -118,13 +118,13 @@
 
                 
                 <b-form-group class="required">
-                    <label for="termsConditions">Terms and Conditions</label>
+                    <label class="label" for="termsConditions">Terms and Conditions</label>
                     <ckeditor :editor="editor"  v-model="new_sales_order.termsCondition" :config="editorConfig"></ckeditor>
                 </b-form-group>
 
                 <div class = "button-group">
+                    <b-button class = "save-button" type="submit">Add</b-button>
                     <b-button class = "cancel-button" type="reset">Cancel</b-button>
-                    <b-button class = "add-quotation-button" type="submit">Add</b-button>
                 </div>
             </b-form>
             </card>
@@ -138,30 +138,32 @@
         @ok="redirect()"
         >
         <template v-slot:modal-title>
-        <div class="container">
+            <div class="container">
             <h5 id="modal-title-success">Success!</h5>
-        </div>
+            </div>
         </template>
         <template v-slot:default>
-        <div class="container">
+            <div class="container">
             <b-row>
-            <b-col class="modal-icon col-2">
+                <b-col class="modal-icon col-2">
                 <img src="@/assets/img/success-icon.png" alt="" width="50px">
-            </b-col>
-            <b-col class="col-10">
+                </b-col>
+                <b-col class="col-10">
                 <p id="modal-message">Sales Order was successfully added.</p>
-            </b-col>
+                </b-col>
             </b-row>
-        </div>
+            </div>
         </template>
         <template v-slot:modal-footer="{ ok }">
             <b-col class="button-confirm-group">
-                <b-button @click="cancel()" class="cancel-button">
+                <b-col class="button-confirm-group">
+                    <b-button @click="cancel()" class="cancel-button">
                     Back to List
-                </b-button>
-                <b-button @click="ok()" class="save-button" variant="outline-primary">
+                    </b-button>
+                    <b-button @click="ok" class="save-button">
                     See Details
-                </b-button>
+                    </b-button>
+                </b-col>
             </b-col>
         </template>
     </b-modal>
@@ -283,6 +285,10 @@ export default {
     color: red;
 }
 
+.label{
+  font-weight: 600;
+}
+
 .add-button{
   width: 100%;
   background-color: white;
@@ -333,7 +339,8 @@ export default {
 }
 
 .button-group{
-    float:right;
+    margin-top: 30px;
+    text-align: center;
 }
 
 </style>
