@@ -139,12 +139,11 @@
               <b-col class="col-10">
                   <p id="modal-message">Do you want to reject reimbursement report requested by Nindya?</p>
               </b-col>
-              <div class="col-xs-12 col-md-12 col-sm-8">
+              <div class="col-xs-10 col-md-12 col-sm-8">
                 <b-form @submit.stop.prevent="submitReject">
                     <b-form-group size="sm">
                         <label for="keterangan">Reason</label>
                         <b-form-input 
-                            class="mb-8 mr-sm-8 mb-sm-4"
                             id="keteranganInput"
                             v-model="keterangan"
                             type="text"
@@ -153,10 +152,8 @@
                             list="idlist"
                             >
                             </b-form-input>
-                            <div class="col-xs-4 col-md-10 col-sm-8" fluid>
                             <b-form-datalist id="idlist" :options="options">
                             </b-form-datalist>
-                            </div>
                             </b-form-group>
                           <b-form-group>
                             <b-form-checkbox

@@ -74,8 +74,8 @@
               <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
             </template>
 
-            <template v-slot:cell(No)="row">
-                {{items.indexOf(row.item) + 1}}
+            <template v-slot:cell(index)="row">
+                {{ row.index + 1}}
             </template>
 
             <template v-slot:cell(createdAt)="row">
@@ -186,7 +186,7 @@ export default {
   data() {
     return {
         fields: [
-          {key: 'No', label: 'No', sortable: true},
+          {key: 'index', label: 'No'},
           {key: 'projectName', label: 'Project Description', sortable: true},
           {key: 'totalReimburse', label: 'Total (IDR)', sortable:true},
           {key: 'createdBy', label: 'Created By', sortable:true},
@@ -199,9 +199,9 @@ export default {
         currentPage: 1,
         perPage: 5,
         pageOptions: [5, 10, 25, 50, 100],
-        sortBy: '',
-        sortDesc: false,
-        sortDirection: 'asc',
+        sortBy: 'id',
+        sortDesc: true,
+        sortDirection: 'desc',
         filter: null,
         filterOn: [],
     }

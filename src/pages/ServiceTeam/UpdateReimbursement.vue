@@ -203,7 +203,7 @@ export default {
                 createdBy : 'Adi',
                 paidBy : 'Adi',
                 reimbursement : '',
-                status : 'Active'
+                status : ''
             },
             new_attachment : {
                 id_attachment : 0,
@@ -263,6 +263,7 @@ export default {
                 this.new_expense.nama = listExpense[i].nama;
                 this.new_expense.nominal = listExpense[i].nominal;
                 this.new_expense.tanggal = listExpense[i].tanggal.substring(0,10);
+                this.new_expense.status = listExpense[i].status;
 
                 let expense = Object.assign({}, this.new_expense);
                 this.expenses.push(expense);
