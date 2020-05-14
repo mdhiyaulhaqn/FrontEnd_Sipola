@@ -8,7 +8,8 @@
       </b-breadcrumb>
       <h3 class="judul"><strong>Daily Activity Report</strong></h3>
       <card>
-          <b-row align-h="between">
+        <b-container fluid>
+          <b-row align-h="between" style="margin-top: 12px;">
             <b-col md="2">
               <router-link :to="{name: 'add-daily-activity-report'}">
                 <b-button id ="add_report_button" class="btn btn-primary">
@@ -177,6 +178,7 @@
               </div>
             </b-col>
           </b-row>
+        </b-container>
       </card>
     </div>
   </div>

@@ -2,7 +2,7 @@
     <div class="row">
       <div class="col-12">
         <template>
-          <b-breadcrumb id="breadcrumb"> 
+          <b-breadcrumb id="breadcrumb">
             <b-breadcrumb-item active>
               Reimbursement Report
             </b-breadcrumb-item>
@@ -21,7 +21,7 @@
                   <p style="font-size: 12px">
                     Add Reimbursement Report
                   </p>
-                  <div style="margin-left: 10px; margin-top: -3px">
+                  <div style="margin-left: 10px; margin-top: -4px">
                     <img src="@/assets/img/add-circle-icon.png" alt="" width="25px">
                   </div>
                   </b-row>
@@ -52,8 +52,8 @@
             </b-col>
 
           </b-row>
-                     
-            <b-table 
+
+            <b-table
                 show-empty
                 :small="true"
                 stacked="md"
@@ -68,11 +68,11 @@
                 :sort-direction="sortDirection"
                 @filtered="onFiltered"
                 :borderless="true"
-                sort-icon-left
+                sort-icon-right
                 :sticky-header="true"
                 >
 
-                <template v-slot:head(no)="data">
+                <template v-slot:head(index)="data">
                   <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
                 </template>
                 <template v-slot:head(projectName)="data">
@@ -90,7 +90,7 @@
                 <template v-slot:head(action)="data">
                   <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
                 </template>
-                
+
                 <template v-slot:cell(index)="row">
                    {{ row.index + 1}}
                 </template>
@@ -102,7 +102,7 @@
                 <template v-slot:cell(totalReimburse)="row">
                     {{row.item.totalReimburse | currency}}
                 </template>
-                
+
                 <template v-slot:cell(statusReimburse)="row">
                     <b-badge  v-if="row.item.statusReimburse === 1" pill variant="info" size=sm id ="status_reimbursement">
                       On Progress
@@ -118,7 +118,7 @@
                     <b-badge  v-if="row.item.statusReimburse === 5" pill variant="danger" size=sm id ="status_reimbursement">
                       Rejected
                     </b-badge>
-            </template>
+                </template>
 
                 <template v-slot:cell(action)="row">
                   <router-link :to="{name: 'detail-reimbursement', params: {id:row.item.id}}">
@@ -220,7 +220,7 @@ export default {
           {key: 'statusReimburse', label: 'Status', sortable:true},
           {key: 'action', label: 'Action'},
       ],
-      
+
     }
   },
    computed: {
@@ -265,8 +265,8 @@ export default {
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  font-size: 10px;
-  line-height: 10px;
+  font-size: 12px;
+  line-height: 8px;
   width: 80px;
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
 }

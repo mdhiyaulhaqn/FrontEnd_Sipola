@@ -51,11 +51,11 @@
             :sort-direction="sortDirection"
             @filtered="onFiltered"
             :borderless="true"
-            sort-icon-left
+            sort-icon-right
             :sticky-header="true"
             >
 
-            <template v-slot:head(no)="data">
+            <template v-slot:head(index)="data">
               <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
             </template>
             <template v-slot:head(projectName)="data">
@@ -179,7 +179,6 @@
 </template>
 <script>
 import axios from 'axios';
-import DataTable from 'v-data-table'
 
 export default {
 
@@ -189,9 +188,9 @@ export default {
           {key: 'index', label: 'No'},
           {key: 'projectName', label: 'Project Description', sortable: true},
           {key: 'totalReimburse', label: 'Total (IDR)', sortable:true},
-          {key: 'createdBy', label: 'Created By', sortable:true},
+          {key: 'createdAt', label: 'Created at', sortable:true},
           {key: 'statusReimburse', label: 'Status', sortable:true},
-          {key: 'action', label: 'Action', sortable:true},
+          {key: 'action', label: 'Action'},
         ],
         reimbursement :[],
 
@@ -236,7 +235,7 @@ export default {
             this.totalRows = filteredItems.length
             this.currentPage = 1
         },
-      
+
     }
 };
 </script>
@@ -248,8 +247,8 @@ export default {
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  font-size: 10px;
-  line-height: 10px;
+  font-size: 12px;
+  line-height: 8px;
   width: 80px;
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
 }
