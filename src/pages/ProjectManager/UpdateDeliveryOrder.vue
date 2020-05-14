@@ -20,7 +20,7 @@
                 <b-row>
                     <div class = "col-md-12 col-12">
                         <b-form-group class="required">
-                            <label for="noDeliveryOrder">Delivery Order No</label>
+                            <label class="label" for="noDeliveryOrder">Delivery Order No</label>
                             <b-form-input
                                 id="noDeliveryOrder"
                                 v-model="delivery_order.noDeliveryOrder"
@@ -35,7 +35,7 @@
                 <b-row>
                      <div class = "col-md-12 col-12">
                         <b-form-group class="required">
-                            <label for="poNumber">Purchase Order No</label>
+                            <label class="label" for="poNumber">Purchase Order No</label>
                             <b-form-input
                                 id="poNumber"
                                 v-model="delivery_order.poNumber"
@@ -51,7 +51,7 @@
              <b-row>
                      <div class = "col-md-6 col-12">
                         <b-form-group>
-                            <label for="qcPassed">QC Passed / Delivery</label>
+                            <label class="label" for="qcPassed">QC Passed / Delivery</label>
                             <b-form-input
                                 id="qcPassed"
                                 v-model="delivery_order.qcPassed"
@@ -64,7 +64,7 @@
                      <div class = "col-md-6 col-12">
                         <div style="color:black">
                             <b-form-group>
-                                <label for="shipBy">Ship By</label>
+                                <label class="label" for="shipBy">Ship By</label>
                                 <b-form-input
                                     id="shipBy"
                                     v-model="delivery_order.shipBy"
@@ -79,7 +79,7 @@
                   <b-row>
                     <b-col md="12">
                         <b-form-group class="required">
-                            <label for="companyName" >Company</label>
+                            <label class="label" for="companyName" >Company</label>
                             <b-form-select v-model="delivery_order.company" required>
                                 <template slot="companyName">
                                     <option :value="null" disabled>-- Choose Company --</option>
@@ -95,13 +95,13 @@
                 <div class="d-none d-md-block d-lg-block">
                     <div class="row">
                         <div class = "col-md-6 required">
-                            <label>Description</label>
+                            <label class="label" >Description</label>
                         </div>
                         <div class = "col-md-2 required">
-                            <label>Quantity</label> 
+                            <label class="label" >Quantity</label> 
                         </div>
                         <div class = "col-md-3">
-                            <label>Project / Service No</label> 
+                            <label class="label" >Project / Service No</label> 
                         </div>
                         <div class = "col-md-1">
                         </div>
@@ -123,15 +123,15 @@
 
                 
                 <b-form-group class="required">
-                    <label for="termsConditions">Terms and Conditions</label>
+                    <label class="label" for="termsConditions">Terms and Conditions</label>
                     <ckeditor :editor="editor"  v-model="delivery_order.termsCondition" :config="editorConfig"></ckeditor>
                 </b-form-group>
 
                 <div class = "button-group">
+                    <b-button class = "save-button" type="submit">Update</b-button>
                     <router-link :to="{name: 'detail-delivery-order', params: {id:delivery_order.id}}">
                     <b-button class = "cancel-button">Cancel</b-button>
                     </router-link >
-                    <b-button class = "save-button" type="submit">Update</b-button>
                 </div>
             </b-form>
             </card>

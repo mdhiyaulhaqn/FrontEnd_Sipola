@@ -6,6 +6,7 @@
           Quotation
         </b-breadcrumb-item>
       </b-breadcrumb>
+      <h3 class="judul"><strong>Quotation</strong></h3>
         <card>
           <!-- User Interface controls -->
           <b-row align-h="between">
@@ -75,7 +76,7 @@
                 {{row.item.date.split("T")[0].split("-").join('-') | moment("ll") }}
             </template>
 
-            <template v-slot:cell(Lihat)="row">
+            <template v-slot:cell(Action)="row">
               <router-link :to="{name: 'detail-quotation', params: {id:row.item.id}}">
                 <b-button id="view_button" class="btn btn-primary">
                   View
@@ -161,7 +162,7 @@ export default {
           {key: 'service.length', label: 'Total Works', sortable:true},
           {key: 'total_harga_semua', label: 'Total Price', sortable:true},
           {key: 'date', label: 'Date', sortable:true},
-          'Lihat'
+          'Action'
         ],
         quotations :[],
         quotations_total_price : [],
