@@ -99,7 +99,7 @@
         <div class="card">
           <div class = "card-header"><div class = "judul-card">Cash Flow</div> for year 2020</div>
           <div class="card-body">
-            <BarChart :height="300" :chartData="cashFlowCollection" :option="options"></BarChart>
+            <BarChart :height="300" :chartData="cashFlowCollection" :options="months"></BarChart>
           </div>
           <div class="card-footer">
             <i class="ti-reload"></i> <time-ago :refresh='60' class="timeago"></time-ago>
@@ -125,22 +125,21 @@
       <div class="col-md-6 col-12">
         <div class = "card">
           <div class = "card-header"><div class = "judul-card">Project Statistics</div> for year 2020</div>
-
           <div class = "card-body">
-            <PieChart :width="300" :height="300" :chartData="datacollection" :options="months"></PieChart>
+            <PieChart :width="300" :height="300" :chartData="datacollection" :options="options"></PieChart>
           </div>
           
-          <div class = "card-footer">
+          <!-- <div class = "card-footer">
             <div slot="legend">
-              <!-- <i class="fa fa-circle text-info"></i> Belum Seles
-              <i class="fa fa-circle text-danger"></i> Bounce -->
+              <i class="fa fa-circle text-info"></i> Belum Seles
+              <i class="fa fa-circle text-danger"></i> Bounce
             </div>
-          </div>
+          </div> -->
 
         </div>
       </div>
 
-      <div class="col-md-6 col-12">
+      <!-- <div class="col-md-6 col-12">
         <chart-card title="2015 Sales"
                     sub-title="All products including Taxes"
                     :chart-data="activityChart.data"
@@ -153,6 +152,15 @@
             <i class="fa fa-circle text-warning"></i> BMW 5 Series
           </div>
         </chart-card>
+      </div> -->
+
+      <div class="col-md-6 col-12">
+        <div class="card">
+          <div class = "card-header"><div class = "judul-card">Profits</div> for year 2020</div>
+          <div class = "card-body">
+            <LineChart :width="300" :height="300" :chartData="dataprofit" :options="month"></LineChart>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -187,8 +195,10 @@ export default {
     return {
       datacollection: {},
       cashFlowCollection: {},
+      dataprofit: {},
       options: null,
       months: null,
+      month: null,
       borderColour : ['#315C9C',"#FF6F61", '#6B5B95', '#9B1B30', '#F5D6C6', '#5A3E36', '#E08119'],
       // projectData : null,
       list_income : {},
@@ -238,94 +248,94 @@ export default {
       //     footerIcon: "ti-reload"
       //   }
       // ],
-      usersChart: {
-        data: {
-          labels: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "April",
-            "May",
-            "June",
-            "July",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec"
-          ],
-          series: [
-            [287, 385, 490, 562, 594, 626, 698, 895, 952],
-            [67, 152, 193, 240, 387, 435, 535, 642, 744],
-            [23, 113, 67, 108, 190, 239, 307, 410, 410]
-          ]
-        },
-        options: {
-          low: 0,
-          high: 1000,
-          showArea: true,
-          height: "245px",
-          axisX: {
-            showGrid: false
-          },
-          lineSmooth: Chartist.Interpolation.simple({
-            divisor: 3
-          }),
-          showLine: true,
-          showPoint: false
-        }
-      },
-      months: {
-        low: 0,
-        high: 1000,
-        showArea: true,
-        height: "245px",
-        axisX: {
-          showGrid: false
-        },
-        lineSmooth: Chartist.Interpolation.simple({
-          divisor: 5
-        }),
-        showLine: true,
-        showPoint: false
-      },
+      // usersChart: {
+      //   data: {
+      //     labels: [
+      //       "Jan",
+      //       "Feb",
+      //       "Mar",
+      //       "April",
+      //       "May",
+      //       "June",
+      //       "July",
+      //       "Aug",
+      //       "Sep",
+      //       "Oct",
+      //       "Nov",
+      //       "Dec"
+      //     ],
+      //     series: [
+      //       [287, 385, 490, 562, 594, 626, 698, 895, 952],
+      //       [67, 152, 193, 240, 387, 435, 535, 642, 744],
+      //       [23, 113, 67, 108, 190, 239, 307, 410, 410]
+      //     ]
+      //   },
+      //   options: {
+      //     low: 0,
+      //     high: 1000,
+      //     showArea: true,
+      //     height: "245px",
+      //     axisX: {
+      //       showGrid: false
+      //     },
+      //     lineSmooth: Chartist.Interpolation.simple({
+      //       divisor: 3
+      //     }),
+      //     showLine: true,
+      //     showPoint: false
+      //   }
+      // },
+      // months: {
+      //   low: 0,
+      //   high: 1000,
+      //   showArea: true,
+      //   height: "245px",
+      //   axisX: {
+      //     showGrid: false
+      //   },
+      //   lineSmooth: Chartist.Interpolation.simple({
+      //     divisor: 5
+      //   }),
+      //   showLine: true,
+      //   showPoint: false
+      // },
 
-      activityChart: {
-        data: {
-          labels: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "Mai",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec"
-          ],
-          series: [
-            [542, 543, 520, 680, 653, 753, 326, 434, 568, 610, 756, 895],
-            [230, 293, 380, 480, 503, 553, 600, 664, 698, 710, 736, 795]
-          ]
-        },
-        options: {
-          seriesBarDistance: 10,
-          axisX: {
-            showGrid: false
-          },
-          height: "245px"
-        }
-      },
-      preferencesChart: {
-        data: {
-          labels: ["50%", "20%", "20%","10%"],
-          series: [50,20,20,10]
-        },
-        options: {}
-      }
+      // activityChart: {
+      //   data: {
+      //     labels: [
+      //       "Jan",
+      //       "Feb",
+      //       "Mar",
+      //       "Apr",
+      //       "Mai",
+      //       "Jun",
+      //       "Jul",
+      //       "Aug",
+      //       "Sep",
+      //       "Oct",
+      //       "Nov",
+      //       "Dec"
+      //     ],
+      //     series: [
+      //       [542, 543, 520, 680, 653, 753, 326, 434, 568, 610, 756, 895],
+      //       [230, 293, 380, 480, 503, 553, 600, 664, 698, 710, 736, 795]
+      //     ]
+      //   },
+      //   options: {
+      //     seriesBarDistance: 10,
+      //     axisX: {
+      //       showGrid: false
+      //     },
+      //     height: "245px"
+      //   }
+      // },
+      // preferencesChart: {
+      //   data: {
+      //     labels: ["50%", "20%", "20%","10%"],
+      //     series: [50,20,20,10]
+      //   },
+      //   options: {}
+      // }
     };
   },
 
@@ -393,6 +403,24 @@ export default {
       }
         let val = (value/1).toFixed(2).replace('.', ',')
         return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    },
+
+    computeProfit(){
+      var jan = 0;
+      var feb = 0;
+      var mar = 0;
+      var apr = 0;
+      var may = 0;
+      var jun = 0;
+      var jul = 0;
+      var aug = 0;
+      var sep = 0;
+      var oct = 0;
+      var nov = 0;
+      var dec = 0;
+      for(let i=0; i < this.list_income.length; i++){
+        if(this.list_income[i].cre)
+      }
     },
 
     createProjectData(){ 
