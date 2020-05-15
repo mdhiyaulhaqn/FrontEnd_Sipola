@@ -174,7 +174,7 @@ export default {
                 {key: 'deskripsi', label: 'Description', sortable: true},
                 {key: 'uom', label: 'UOM', sortable: true},
                 {key: 'quantity', label: 'Quantity', sortable: true},
-                {key: 'pricePerUnit', label: 'Unit Price(IDR)', formatter: value => {
+                {key: 'harga_satuan', label: 'Unit Price(IDR)', formatter: value => {
                     return value.toLocaleString('de-DE')}},
                 {key: 'total_harga', label:  'Total_Price(IDR)', formatter: value => {
                     return value.toLocaleString('de-DE')}},
@@ -207,7 +207,7 @@ export default {
             this.sales_order.total_harga_semua = total_harga_semua;
 
             for (let i = 0; i < this.sales_order.serviceOrder.length; i++) {
-                this.sales_order.serviceOrder[i].pricePerUnit = 'Rp ' + this.sales_order.serviceOrder[i].pricePerUnit.toLocaleString('de-DE') + ',00';
+                this.sales_order.serviceOrder[i].harga_satuan = 'Rp ' + this.sales_order.serviceOrder[i].pricePerUnit.toLocaleString('de-DE') + ',00';
                 this.sales_order.serviceOrder[i].total_harga =  'Rp ' +this.sales_order.serviceOrder[i].total_harga.toLocaleString('de-DE') + ',00';
             }
 
@@ -396,5 +396,20 @@ button{
     color:white;
     border-color: white;
     border-width: 1px;
+}
+#modal-message{
+    font-size: 16px;
+}
+#modal-title-delete{
+    color:#FF3E1D;
+    font-weight: 1000;
+}
+#modal-title-download{
+    color: #109CF1;
+    font-weight: 1000;
+}
+#modal-title-success{
+    color: #109CF1;
+    font-weight: 1000;
 }
 </style>
