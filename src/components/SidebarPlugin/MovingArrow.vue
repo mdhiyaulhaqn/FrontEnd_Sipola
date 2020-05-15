@@ -33,7 +33,7 @@ $bg-nude: #F7F8FC !default;
   display: inline-block;
   position: absolute;
   left: 243px;
-  top: 190px;
+  top: 195px;
   transition: all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1);
 }
 @media (max-width: 992px) {

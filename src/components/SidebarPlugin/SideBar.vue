@@ -10,10 +10,20 @@
     <div class="sidebar-wrapper" id="style-3">
       <div class="logo">
         <a href="#" class="simple-text">
+          <div class = "row">
+
+            <div class = "col-3">
+          
             <div class="logo-img">
                 <img src="@/assets/img/company-logo.png" alt="">
             </div>
-            <span>{{title}}</span>
+            </div>
+            <div class = "col-9">
+            <p class = "title">{{title}}</p>
+            <p class = "subtitle">{{subtitle}}</p>
+            </div>
+
+          </div>
           
         </a>
       </div>
@@ -51,6 +61,10 @@ export default {
     title: {
       type: String,
       default: 'SIPOLA'
+    },
+    subtitle : {
+      type: String,
+      default: 'Sistem Informasi Pengelolaan Penjualan'
     },
     backgroundColor: {
       type: String,
@@ -105,7 +119,7 @@ export default {
   },
   data() {
     return {
-      linkHeight: 45,
+      linkHeight: 43,
       activeLinkIndex: 85,
       windowWidth: 0,
       isWindows: false,
