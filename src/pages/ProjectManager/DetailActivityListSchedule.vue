@@ -10,48 +10,53 @@
         </b-breadcrumb-item>
       </b-breadcrumb>
       <h3 class="judul"><strong>Detail Activity List Schedule</strong></h3>
-      <card>
-        <b-row>
-          <div class="col-sm-12 text-center">
-            <b class="col-sm-12">{{activityListSchedule.namaProyek}}</b>
-            <p class="col-sm-12">{{activityListSchedule.namaPerusahaan}}</p>
-          </div>
-        </b-row>
-        <div class="vue-app col-sm-12">
-          <kendo-gantt id="gantt"
-                      :height="'400'"
-                      :editable-create="false"
-                      :show-work-hours="false"
-                      :show-work-days="false"
-                      :data-source="activityListSchedule.listTugas"
-                      :editable-drag-percent-complete="false"
-                      :editable-update="false"
-                      :editable-reorder="false"
-                      :editable-move="false"
-                      :editable-destroy="false"
-                      :editable-dependency-create="false"
-                      :editable-dependency-destroy="false">
-            <!-- <kendo-gantt-view :type="'day'"></kendo-gantt-view> -->
-            <kendo-gantt-view :type="'week'" :selected="true"></kendo-gantt-view>
-            <!-- <kendo-gantt-view :type="'month'"></kendo-gantt-view> -->
-            <kendo-gantt-column :field="'title'" :title="'Activity Name'" :sortable="true"></kendo-gantt-column>
-          </kendo-gantt>
+      <div class = "row">
+        <div class="col-md-12 col-sm-12 col-xs-12 col-12 d-block d-xs-block d-sm-block center">
+          <card>
+            <h5 class="text-center" style="margin-bottom: 10px;">Activity List Schedule</h5>
+            <b-row>
+              <div class="col-sm-12 text-center">
+                <b class="col-sm-12">{{activityListSchedule.namaProyek}}</b>
+                <p class="col-sm-12">{{activityListSchedule.namaPerusahaan}}</p>
+              </div>
+            </b-row>
+            <div class="vue-app col-sm-12">
+              <kendo-gantt id="gantt"
+                          :height="'400'"
+                          :editable-create="false"
+                          :show-work-hours="false"
+                          :show-work-days="false"
+                          :data-source="activityListSchedule.listTugas"
+                          :editable-drag-percent-complete="false"
+                          :editable-update="false"
+                          :editable-reorder="false"
+                          :editable-move="false"
+                          :editable-destroy="false"
+                          :editable-dependency-create="false"
+                          :editable-dependency-destroy="false">
+                <!-- <kendo-gantt-view :type="'day'"></kendo-gantt-view> -->
+                <kendo-gantt-view :type="'week'" :selected="true"></kendo-gantt-view>
+                <!-- <kendo-gantt-view :type="'month'"></kendo-gantt-view> -->
+                <kendo-gantt-column :field="'title'" :title="'Activity Name'" :sortable="true"></kendo-gantt-column>
+              </kendo-gantt>
+            </div>
+            <b-row>
+              <div class = "col-sm-12" id="notes">
+                <h6 class="col-sm-12">Notes :</h6>
+                <p class="col-sm-12">{{activityListSchedule.catatan}}</p>
+              </div>
+            </b-row>
+            <b-row>
+              <div class = "button-group col-sm-12">
+                <b-button v-b-modal.modal-delete id="delete-button" class="btn btn-primary">Delete</b-button>
+                <router-link :to="{name: 'update-activity-list-schedule'}">
+                  <b-button id="edit-button" class="btn btn-primary">Edit</b-button>
+                </router-link>
+              </div>
+            </b-row>
+          </card>
         </div>
-        <b-row>
-          <div class = "col-sm-12" id="notes">
-            <h6 class="col-sm-12">Notes :</h6>
-            <p class="col-sm-12">{{activityListSchedule.catatan}}</p>
-          </div>
-        </b-row>
-        <b-row>
-          <div class = "button-group col-sm-12">
-            <b-button v-b-modal.modal-delete id="delete-button" class="btn btn-primary">Delete</b-button>
-            <router-link :to="{name: 'update-activity-list-schedule'}">
-              <b-button id="edit-button" class="btn btn-primary">Edit</b-button>
-            </router-link>
-          </div>
-        </b-row>
-      </card>
+      </div>
     </div>
 
     <b-modal
@@ -292,6 +297,7 @@ p{
 
 h5{
   margin-bottom: -4px;
+  font-weight: 600;
 }
 #modal-message{
   font-size: 16px;

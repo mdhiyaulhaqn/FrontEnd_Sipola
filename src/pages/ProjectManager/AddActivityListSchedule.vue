@@ -249,7 +249,7 @@ export default {
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  font-size: 10px;
+  font-size: 12px;
   margin-right: 10px;
   line-height: 15px;
   width: 120px;
@@ -265,7 +265,7 @@ export default {
   width: 80px;
   line-height: 15px;
   text-align: center;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .see-button{
