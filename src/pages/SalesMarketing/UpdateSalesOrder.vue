@@ -26,6 +26,7 @@
                             v-model="sales_order.noSalesOrder"
                             type="text"
                             required
+                            disabled
                             placeholder="Sales Order Number">
                         </b-form-input>
                     </b-form-group>
