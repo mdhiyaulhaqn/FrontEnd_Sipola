@@ -93,7 +93,7 @@
                         <br>
 
                         <b-col md="3 required">
-                        <label class="label" >Unit Price(IDR)</label>
+                        <label class="label" >Unit Price (IDR)</label>
                         </b-col>
                         <br>
 

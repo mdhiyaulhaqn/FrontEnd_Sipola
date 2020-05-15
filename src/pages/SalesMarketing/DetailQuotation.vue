@@ -95,7 +95,7 @@
             >
             <template v-slot:modal-title>
                 <div class="container">
-                <h5 id="modal-title-download">Download Quotation</h5>
+                <h5 id="modal-title-download">Downloading Quotation ...</h5>
                 </div>
             </template>
             <template v-slot:default>
@@ -135,7 +135,7 @@
                         <img src="@/assets/img/delete-confirm-icon.png" alt="" width="50px">
                     </b-col>
                     <b-col class="col-10">
-                        <p id="modal-message"> Quotation no {{quotation.noQuotation}} will be removed from the list.</p>
+                        <p id="modal-message">Quotation no {{quotation.noQuotation}} will be removed from the list.</p>
                     </b-col>
                 </b-row>
                 </div>
@@ -519,14 +519,17 @@ h5{
 #modal-title-delete{
     color:#FF3E1D;
     font-weight: 1000;
+    margin-bottom: -4px;
 }
 #modal-title-download{
     color: #109CF1;
     font-weight: 1000;
+    margin-bottom: -4px;
 }
 #modal-title-success{
     color: #109CF1;
     font-weight: 1000;
+    margin-bottom: -4px;
 }
 #ok-button{
   color:#109CF1;

@@ -77,7 +77,7 @@
                             <label class="label" >Quantity</label>
                         </div>
                         <div class = "col-md-3 required">
-                            <label class="label" >Unit Price(IDR)</label>
+                            <label class="label" >Unit Price (IDR)</label>
                         </div>
                         <div class = "col-md-1">
                         </div>

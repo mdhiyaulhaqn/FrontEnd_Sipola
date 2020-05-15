@@ -1,7 +1,7 @@
 <template>
 
 <b-row class="activity_row">
-    <span class="col-md-5 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none">
+    <span class="col-md-5 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
         <label class="label">Activity Name</label>
     </span>
     <div class="col-md-5 col-sm-8 col-xs-8 col-7">
@@ -17,7 +17,7 @@
         </b-form-input>
     </div>
 
-    <span class="col-md-3 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none">
+    <span class="col-md-3 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
         <label class="label">Start Date</label>
     </span>
     <div class="col-md-3 col-sm-8 col-xs-8 col-7">
@@ -30,7 +30,7 @@
         </b-form-input>
     </div>
 
-    <span class="col-md-3 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none">
+    <span class="col-md-3 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
         <label class="label">End Date</label>
     </span>
     <div class = "col-md-3 col-sm-8 col-xs-8 col-7">
@@ -72,5 +72,9 @@ export default {
 }
 .label{
   font-weight: 600;
+}
+.required label:after {
+  content:" *";
+  color: red;
 }
 </style>
