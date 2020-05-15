@@ -2,26 +2,22 @@
     <div>
         <b-breadcrumb id="breadcrumb">
             <b-breadcrumb-item :to="{name: 'purchase-order'}">
-                Purchase Order List
+                Purchase Order
             </b-breadcrumb-item>
             <b-breadcrumb-item active>
                 Add Purchase Order
             </b-breadcrumb-item>
         </b-breadcrumb>
-
-        <h3 class="judul">
-            <strong>Add Purchase Order</strong>
-        </h3>
-
+        <h3 class="judul"><strong>Add Purchase Order</strong></h3>
         <div class="row">
-            <div class="col-10 isi-form">
-                <card>
+            <div class="col-md-8 col-sm-8 col-xs-8 col-12 d-block d-xs-block d-sm-block isi-form">
+                <card class="col">
                     <h5 class="title-form">Add Purchase Order Form</h5>
                     <b-form @submit="onSubmit" v-if="show">
                         <div class="row">
                             <div class="col-md-7 col-12">
                                 <b-form-group class="required">
-                                    <label for="noPurchaseOrder">Purchase Order No</label>
+                                    <label for="noPurchaseOrder" class="label">Purchase Order No</label>
                                     <b-form-input
                                         id="noPurchaseOrder"
                                         v-model="purchaseOrder.noPurchaseOrder"
@@ -34,7 +30,7 @@
                             <div class="col-md-5 col-12">
                                 <div style="color:black">
                                     <b-form-group class="required">
-                                        <label for="datePurchaseOrder">Purchase Order Date</label>
+                                        <label for="datePurchaseOrder" class="label">Purchase Order Date</label>
                                         <b-form-input
                                             id="datePurchaseOrder"
                                             v-model="purchaseOrder.datePurchaseOrder"
@@ -49,7 +45,7 @@
                         <div class="row">
                             <div class="col-md-7 col-12">
                                 <b-form-group class="required">
-                                    <label for="noCustRef">Customer Reference No</label>
+                                    <label for="noCustRef" class="label">Customer Reference No</label>
                                     <b-form-input
                                         id="noCustRef"
                                         v-model="purchaseOrder.noCustRef"
@@ -61,7 +57,7 @@
                             </div>
                             <div class="col-md-5 col-12">
                                 <b-form-group class="required">
-                                    <label for="noProject">Project No</label>
+                                    <label for="noProject" class="label">Project No</label>
                                     <b-form-input
                                         id="noProject"
                                         v-model="purchaseOrder.noProject"
@@ -76,21 +72,21 @@
                         <div class="row">
                             <div class="col-md-7 col-12">
                                 <b-form-group class="required">
-                                    <label for="companyName">Company Name</label>
+                                    <label for="companyName" class="label">Company Name</label>
                                     <b-form-input
                                         id="companyName"
                                         v-model="company.nama"
                                         type="text"
                                         required
                                         placeholder="Company Name"
-                                        pattern="[a-zA-Z0-9-]++"
+                                        pattern="[a-zA-Z0-9-].*"
                                         >
                                     </b-form-input>
                                 </b-form-group>
                             </div>
                             <div class="col-md-5 col-12">
                                 <b-form-group class="required">
-                                    <label for="attnName">Attn Name</label>
+                                    <label for="attnName" class="label">Attn Name</label>
                                     <b-form-input
                                         id="attnName"
                                         v-model="purchaseOrder.attnName"
@@ -104,7 +100,7 @@
                         </div>
 
                         <b-form-group class="required">
-                            <label for="companyAddress">Company Address</label>
+                            <label for="companyAddress" class="label">Company Address</label>
                             <b-form-input
                                 id="companyAddress"
                                 v-model="company.alamat"
@@ -116,17 +112,17 @@
 
                         <div class="d-none d-md-block d-lg-block">
                             <div class="row">
-                                <div class="col-md-5 required">
-                                    <label>Item</label>
+                                <div class="col-md-4 required">
+                                    <label class="label">Item</label>
                                 </div>
                                 <div class="col-md-2 required">
-                                    <label>Quantity</label> 
+                                    <label class="label">Quantity</label>
                                 </div>
                                 <div class="col-md-2 required">
-                                    <label>UOM</label> 
+                                    <label class="label">UOM</label>
                                 </div>
-                                <div class="col-md-2 required">
-                                    <label>Unit Price (IDR)</label> 
+                                <div class="col-md-3 required">
+                                    <label class="label">Unit Price (IDR)</label>
                                 </div>
                                 <div class="col-md-1">
                                 </div>
@@ -139,7 +135,7 @@
                                 <PurchasedItem v-bind:purchasedItem="item" v-on:delete-item="deleteRow" />
                             </b-col>
                         </b-row>
-                            
+
                         <b-row>
                             <div class="col-sm-6 col-12">
                                 <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">
@@ -149,13 +145,13 @@
                         </b-row>
 
                         <b-form-group class="required">
-                            <label for="paymentNote">Payment Notes</label>
-                            <ckeditor :editor="editor" v-model="purchaseOrder.paymentNote" :config="editorConfig"></ckeditor>
+                            <label for="paymentNote" class="label">Payment Notes</label>
+                            <ckeditor :editor="editor" v-model="purchaseOrder.paymentNote"></ckeditor>
                         </b-form-group>
 
                         <!-- Add & Cancel Button -->
                         <div class = "button-group">
-                            <b-button class = "save-button" type="submit">Add</b-button>
+                            <b-button class = "save-button" type="submit">Save</b-button>
                             <b-button class = "cancel-button" type="reset">Cancel</b-button>
                         </div>
                     </b-form>
@@ -177,7 +173,7 @@
                         <img src="@/assets/img/success-icon.png" alt="" width="50px">
                     </b-col>
                     <b-col class="col-10">
-                        <p id="modal-message">Purchase Order was successfully added.</p>
+                        <p id="modal-message">Purchase order was successfully added.</p>
                     </b-col>
                     </b-row>
                 </div>
@@ -185,13 +181,10 @@
 
             <template v-slot:modal-footer="{ ok }">
                 <b-col class="button-confirm-group">
-                    <!-- <router-link :to="{name: 'purchase-order'}">
-                        <b-button class="cancel-button"> Back to Purchase Order List </b-button>
-                    </router-link> -->
                     <router-link :to="{name: 'purchase-order'}">
                         <b-button class="back-button">Back to List</b-button>
                     </router-link>
-                    <b-button @click="ok()" id="ok-button" variant="outline-primary">
+                    <b-button @click="ok()" class="see-button">
                         See Details
                     </b-button>
                 </b-col>
@@ -199,7 +192,7 @@
         </b-modal>
 
         <b-modal title="Failed" v-model="failedModal" centered ok-only>
-            Sorry, purchase order couldn't be added. 
+            Sorry, purchase order couldn't be added.
         </b-modal>
     </div>
 </template>
@@ -213,7 +206,7 @@ export default {
     components : {
         PurchasedItem
     },
-    
+
     data(){
         return {
             editor: ClassicEditor,
@@ -284,11 +277,10 @@ export default {
             }
             else if(status == 500){
                 this.failedModal = true;
-            } 
+            }
         },
 
         addPurchaseOrder(purchaseOrder){
-            console.log("masuk gaksii")
             axios.post('http://localhost:8080/api/purchase-order/add',
             purchaseOrder,
                 {
@@ -313,26 +305,35 @@ export default {
 
 <style scoped>
 .judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
+  text-align: center;
+  color: black;
+  margin: 5px 0 24px 0;
 }
 
 .ck-editor__editable {
     min-height: 500px;
 }
 
-.isi-form{
-    margin-left: auto;
-    margin-right: auto;
+.title-form {
+  font-weight: 600;
+  margin-bottom: 20px;
 }
-
+.isi-form{
+  margin-left: auto;
+  margin-right: auto;
+}
+.add-button{
+  width: 100%;
+  background-color: white;
+  color : #109cf1;
+  border-color: #109cf1;
+  margin-bottom: 10px;
+}
 .save-button{
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  font-size: 10px;
+  font-size: 12px;
   margin-right: 10px;
   line-height: 15px;
   width: 120px;
@@ -341,52 +342,17 @@ export default {
 }
 
 .cancel-button{
-    color:#109CF1;
-    border-color:#109CF1;
-    background-color: white;
-    border-width: 1px;
-    width: 80px;
-    line-height: 15px;
-    text-align: center;
-    font-size: 10px;
-}
-
-.button-group{
-    margin-top: 30px;
-    text-align: center;
-}
-
-#breadcrumb{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 80px;
+  line-height: 15px;
+  text-align: center;
   font-size: 12px;
-  /* text-decoration: underline; */
-  margin: -35px 0 -5px -15px;
-  color: #FF3E1D;
-  background: none;
-}
-.required label:after {
-    content: " *";
-    color: red;
 }
 
-.title-form {
-    font-weight: 600;
-    margin-bottom: 20px;
-}
-
-.label{
-    font-weight: 600;
-}
-
-#modal-message{
-    font-size: 16px;
-}
-
-#modal-title-success{
-    color: #109CF1;
-    font-weight: 1000;
-}
-
-#ok-button{
+.see-button{
   background-color: #109CF1;
   color:white;
   border-color: transparent;
@@ -409,14 +375,43 @@ export default {
   font-size: 12px;
 }
 
+.button-group{
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.label{
+  font-weight: 600;
+}
+#modal-message{
+  font-size: 16px;
+}
+#modal-title-success{
+  color: #109CF1;
+  font-weight: 1000;
+}
+#ok-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+}
 .button-confirm-group{
-    text-align: right;
+  text-align: right;
 }
-
 h5{
-    margin-bottom: -4px;
+  margin-bottom: -4px;
 }
-
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
+}
+.required label:after {
+  content:" *";
+  color: red;
+}
 #paymentNote{
     height: 200px;
 }

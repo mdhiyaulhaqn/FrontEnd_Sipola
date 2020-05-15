@@ -3,18 +3,17 @@
         <div class="col-12">
             <b-breadcrumb id="breadcrumb">
                 <b-breadcrumb-item :to="{name: 'purchase-order'}">
-                    Purchase Order List
+                    Purchase Order
                 </b-breadcrumb-item>
                 <b-breadcrumb-item active>
                     Detail Purchase Order
                 </b-breadcrumb-item>
             </b-breadcrumb>
-
-            <div class="judul">
-                <strong>Detail Purchase Order</strong>
-            </div>
-
-            <card>
+            <h3 class="judul"><strong>Detail Purchase Order</strong></h3>
+            <div class = "row">
+            <div class="col-md-12 col-sm-12 col-xs-12 col-12 d-block d-xs-block d-sm-block center">
+            <card class="col">
+              <h5 class="text-center">Purchase Order</h5>
                 <div class="container-fluid">
                     <b-row>
                         <div class="company-name">
@@ -31,7 +30,7 @@
 
                     <b-row>
                         <div class = "col-md-2 col-6">PO Date</div>
-                        <div class = "col-md-5 col-6">: {{ purchaseOrder.datePurchaseOrder.split("T")[0].split("-").reverse().join('-') }}</div>
+                        <div class = "col-md-5 col-6">: {{ purchaseOrder.datePurchaseOrder | moment('ll') }}</div>
                         <div class = "col-md-2 col-6">Project No</div>
                         <div class = "col-md-3 col-6">: {{ purchaseOrder.noProject }}</div>
                     </b-row>
@@ -47,7 +46,7 @@
                         <div class = "col-md-2 col-6">Address</div>
                         <div class = "col-md-5 col-6">: {{ purchaseOrder.company.alamat }}</div>
                         <div class = "col-md-2 col-6">Created At</div>
-                        <div class = "col-md-3 col-6">: {{ purchaseOrder.createdAt.split("T")[0].split("-").reverse().join('-') }}</div>
+                        <div class = "col-md-3 col-6">: {{ purchaseOrder.createdAt  | moment('ll') }}</div>
                     </b-row>
 
                     <b-row>
@@ -60,21 +59,21 @@
                                 <span class="ti-download"></span>
                             </button>
                         </div>
-                    </b-row>    
+                    </b-row>
                     <br>
 
                     <b-row>
                         <b-col >
                             <div class="tabel-service">
                                 <div slot="raw-content" class="table-responsive" style="font-size:12px">
-                                    <b-table 
-                                    :items="purchaseOrder.purchasedItems" 
+                                    <b-table
+                                    :items="purchaseOrder.purchasedItems"
                                     :fields="fields"
                                     >
                                         <template v-slot:cell(No)="row">
                                             {{purchaseOrder.purchasedItems.indexOf(row.item) + 1}}
                                         </template>
-                                        
+
                                         <template v-slot:cell(Total Price(IDR))="row">
                                             <div class="text-center">
                                                 {{row.item.pricePerUnit}} * {{row.item.quantity}}
@@ -120,18 +119,20 @@
 
                     <b-row>
                         <div class="button-group col-sm-12">
-                            <button v-b-modal.modal-delete id ="delete-button" class="btn btn-primary">
+                            <b-button v-b-modal.modal-delete id ="delete-button" class="btn btn-primary">
                                 Delete
-                            </button>
+                            </b-button>
                             <router-link :to="{name: 'update-purchase-order'}">
-                                <button id ="edit-button" class="btn btn-primary">
+                                <b-button id ="edit-button" class="btn btn-primary">
                                     Edit
-                                </button>
+                                </b-button>
                             </router-link>
                         </div>
                     </b-row>
                 </div>
             </card>
+            </div>
+            </div>
         </div>
 
         <!-- Modal Delete Confirmation -->
@@ -149,7 +150,7 @@
                             <img src="@/assets/img/delete-confirm-icon.png" alt="" width="50px">
                         </b-col>
                         <b-col class="col-10">
-                            <p id="modal-message"> Purchase Order no {{purchaseOrder.noPurchaseOrder}} will be removed from the list.</p>
+                            <p id="modal-message">Purchase order no. {{purchaseOrder.noPurchaseOrder}} will be removed from the list.</p>
                         </b-col>
                     </b-row>
                 </div>
@@ -199,7 +200,7 @@
         <b-modal id="modal-download" ref="modal-download" centered>
             <template v-slot:modal-title>
                 <div class="container">
-                    <h5 id="modal-title-download">Download Purchase Order</h5>
+                    <h5 id="modal-title-download">Downloading Purchase Order ...</h5>
                 </div>
             </template>
             <template v-slot:default>
@@ -219,7 +220,7 @@
                     <b-button @click="ok()" id="ok-button">
                         OK
                     </b-button>
-                </b-col>                
+                </b-col>
             </template>
         </b-modal>
     </div>
@@ -279,15 +280,14 @@ export default {
         },
 
         getDetail: function(){
-            console.log("haloo")
             axios.get('http://localhost:8080/api/purchase-order/' +this.$route.params.id)
             .then(res => {this.purchaseOrder = res.data, this.computePrice()})
             .catch(err => this.purchaseOrder = err.data);
         },
 
         deletePurchaseOrder(purchaseOrder){
-            axios.put('http://localhost:8080/api/purchase-order/' + this.$route.params.id + '/delete', 
-            purchaseOrder, 
+            axios.put('http://localhost:8080/api/purchase-order/' + this.$route.params.id + '/delete',
+            purchaseOrder,
                 { headers: {
                     'Content-Type': 'application/json',
                 }
@@ -372,7 +372,7 @@ export default {
             doc.text(splitAddr, startX, startY+47)
             doc.setFontStyle("bold")
             doc.text("Attn. "+attnName, startX, startY+65)
-            
+
             // right column
             doc.text("Date", 130, startY+37)
             doc.setFontStyle("normal")
@@ -465,10 +465,6 @@ export default {
 </script>
 
 <style scoped>
-body {
-    font-family: 'Muli', sans-serif;
-    background: #fafafa;
-}
 
 .judul{
     text-align: center;
@@ -506,38 +502,30 @@ body {
 .modal-header{
     background-color: #FF3E1D;
 }
-.button_back{
-    background-color: #FF3E1D;
-    color:white;
-    border-color: white;
-    float:right;
-    margin-top: 40px;
+#edit-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  width: 110px;
+  margin-left: 10px;
+  line-height: 15px;
+  font-size: 12px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
 }
-.button_oke{
-    background-color:white;
-    color:#FF3E1D;
-    border-color: #FF3E1D;
-    float:right;
-    margin-top: 40px;
-}
-#ok-button{
-  color:#109CF1;
-  border-color:#109CF1;
-  background-color: white;
+
+#delete-button{
+  background-color: #FF3E1D;
+  border-color: #FF3E1D;
+  width: 80px;
   font-size: 12px;
   line-height: 15px;
-  border-width: 1px;
-}
-#manage-button{
-    margin-left: auto;
-    margin-right: auto;
+  text-align: center;
 }
 
 .button-group{
-    text-align: center;
-}
-button{
-    border-radius: 8px;
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 #delete-button{
     font-size: 10px;
@@ -546,14 +534,14 @@ button{
     color:white;
     border-color: white;
 }
-#edit-button{
-    background-color: #109CF1;
-    color:white;
-    border-color: transparent;
-    width: 110px;
-    margin-left: 10px;
-    font-size: 10px;
-    box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+
+#ok-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  font-size: 12px;
+  line-height: 15px;
+  border-width: 1px;
 }
 .ti-trash{
     font-size: 50px;
@@ -561,21 +549,23 @@ button{
     color:#ff3e1d;
 }
 .button-confirm-group{
-    text-align: right;
+  text-align: right;
 }
 #confirm_delete_button{
-    font-size: 10px;
-    width: 130px;
-    border-color: #ff3e1d;
-    border-width: 1px;
-    margin-right: 10px;
+  font-size: 12px;
+  width: 110px;
+  border-color: #ff3e1d;
+  border-width: 1px;
+  margin-right: 10px;
+  line-height: 15px;
 }
 #cancel_delete_button{
-    font-size: 10px;
-    background-color: #ff3e1d;
-    color:white;
-    border-color: white;
-    border-width: 1px;
+  font-size: 12px;
+  background-color: #ff3e1d;
+  color:white;
+  border-color: white;
+  border-width: 1px;
+  line-height: 15px;
 }
 #breadcrumb{
   font-size: 12px;
@@ -585,7 +575,7 @@ button{
   background: none;
 }
 h5{
-    margin-bottom: -4px;
+  font-weight: bold;
 }
 #modal-message{
     font-size: 16px;
@@ -593,10 +583,12 @@ h5{
 #modal-title-delete{
     color:#FF3E1D;
     font-weight: 1000;
+    margin-bottom: -4px;
 }
 #modal-title-download{
     color: #109CF1;
     font-weight: 1000;
+    margin-bottom: -4px;
 }
 #modal-title-success{
     color: #109CF1;
