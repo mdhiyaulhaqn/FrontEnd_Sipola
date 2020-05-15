@@ -20,7 +20,7 @@
                  <b-row>
                     <b-col md="6">
                     <b-form-group class="required">
-                        <label for="noSalesOrder">Sales Order No</label>
+                        <label class="label" for="noSalesOrder">Sales Order No</label>
                         <b-form-input
                             id="noSalesOrder"
                             v-model="sales_order.noSalesOrder"
@@ -32,7 +32,7 @@
                     </b-col>
                     <b-col md="6" class="required">
                         <b-form-group>
-                            <label for="date">Sales Order Date</label>
+                            <label class="label" for="date">Sales Order Date</label>
                             <b-form-input
                                 id="date"
                                 v-model="sales_order.date"
@@ -44,7 +44,7 @@
                 </b-row>
 
                  <b-form-group class="required">
-                    <label for="poNumber">Purchase Order Number</label>
+                    <label class="label" for="poNumber">Purchase Order Number</label>
                     <b-form-input
                         id="poNumber"
                         v-model="sales_order.poNumber"
@@ -55,7 +55,7 @@
                 </b-form-group>
                 
                 <b-form-group class="required">
-                    <label for="date">Purchase Order Date</label>
+                    <label class="label" for="date">Purchase Order Date</label>
                     <b-form-input
                         id="poDate"
                         v-model="sales_order.poDate"
@@ -67,7 +67,7 @@
                  <b-row>
                     <b-col md="12">
                         <b-form-group>
-                            <label for="companyName" >Company Name</label>
+                            <label class="label" for="companyName" >Company Name</label>
                             <b-form-select v-model="sales_order.company" required>
                                 <template slot="companyName">
                                     <option :value="null" disabled>-- Choose Company --</option>
@@ -83,20 +83,20 @@
                 <div class="d-none d-md-block d-lg-block">
                     <b-row>
                         <b-col md="5 required">
-                        <label>Description</label>
+                        <label class="label" >Description</label>
                         </b-col><br>
 
                         <b-col md="2 required">
-                        <label>Qty</label> 
+                        <label class="label" >Qty</label> 
                         </b-col><br>
 
                         <b-col md="2 required">
-                        <label>UOM</label> 
+                        <label class="label" >UOM</label> 
                         </b-col>
                         <br>
 
                         <b-col md="2 required">
-                        <label>Unit Price</label> 
+                        <label class="label" >Unit Price (IDR)</label> 
                         </b-col>
                         <br>
 
@@ -126,10 +126,10 @@
 
 
                 <div class = "button-group">
+                    <b-button class = "save-button" type="submit">Update</b-button>
                     <router-link :to="{name: 'detail-sales-order', params: {id:sales_order.id}}">
                         <b-button class = "cancel-button">Cancel</b-button>
                     </router-link >
-                    <b-button class = "save-button" type="submit">Update</b-button>
                 </div>
             </b-form>
             </card>
@@ -285,6 +285,7 @@ export default {
         
         fetchData : function(){
             this.sales_order.date = this.sales_order.date.substring(0,10);
+            this.sales_order.poDate = this.sales_order.poDate.substring(0,10);
             let service_quot = this.sales_order.serviceOrder;
             for(let i=0; i< service_quot.length ; i++){
                 this.new_service_order.id_service_order++;

@@ -17,7 +17,7 @@
                 <b-row>
                     <div class = "col-md-12 col-12">
                         <b-form-group class="required">
-                            <label for="deliveryOrderNo">Delivery Order No</label>
+                            <label class="label" for="deliveryOrderNo">Delivery Order No</label>
                             <b-form-input
                                 id="deliveryOrderNo"
                                 v-model="new_delivery_order.noDeliveryOrder"
@@ -31,7 +31,7 @@
                 <b-row>
                      <div class = "col-md-12 col-12">
                         <b-form-group class="required">
-                            <label for="poNumber">Purchase Order No</label>
+                            <label class="label" for="poNumber">Purchase Order No</label>
                             <b-form-input
                                 id="poNumber"
                                 v-model="new_delivery_order.poNumber"
@@ -47,7 +47,7 @@
              <b-row>
                      <div class = "col-md-6 col-12">
                         <b-form-group>
-                            <label for="qcPassed">QC Passed / Delivery</label>
+                            <label class="label" for="qcPassed">QC Passed / Delivery</label>
                             <b-form-input
                                 id="qcPassed"
                                 v-model="new_delivery_order.qcPassed"
@@ -60,7 +60,7 @@
                      <div class = "col-md-6 col-12">
                         <div style="color:black">
                             <b-form-group>
-                                <label for="shipBy">Ship By</label>
+                                <label class="label" for="shipBy">Ship By</label>
                                 <b-form-input
                                     id="shipBy"
                                     v-model="new_delivery_order.shipBy"
@@ -75,7 +75,7 @@
                   <b-row>
                     <b-col md="12">
                         <b-form-group class="required">
-                            <label for="companyName" >Company</label>
+                            <label class="label" for="companyName" >Company</label>
                             <b-form-select v-model="new_delivery_order.company" required>
                                 <template slot="companyName">
                                     <option :value="null" disabled>-- Choose Company --</option>
@@ -91,13 +91,13 @@
                 <div class="d-none d-md-block d-lg-block">
                     <div class="row">
                         <div class = "col-md-6 required">
-                            <label>Description</label>
+                            <label class="label" >Description</label>
                         </div>
                         <div class = "col-md-2 required">
-                            <label>Quantity</label> 
+                            <label class="label" >Quantity</label> 
                         </div>
                         <div class = "col-md-3">
-                            <label>Project / Service No</label> 
+                            <label class="label" >Project / Service No</label> 
                         </div>
                         <div class = "col-md-1">
                         </div>
@@ -119,14 +119,14 @@
 
                 
                 <b-form-group class="required">
-                    <label for="termsConditions">Terms and Conditions</label>
+                    <label class="label" for="termsConditions">Terms and Conditions</label>
                     <ckeditor :editor="editor"  v-model="new_delivery_order.termsCondition" :config="editorConfig"></ckeditor>
                     
                 </b-form-group>
 
                 <div class = "button-group">
+                    <b-button class = "save-button" type="submit">Save</b-button>
                     <b-button class = "cancel-button" type="reset">Cancel</b-button>
-                    <b-button class = "save-button" type="submit">Add</b-button>
                 </div>
             </b-form>
             </card>
@@ -157,10 +157,10 @@
         </template>
         <template v-slot:modal-footer="{ ok }">
         <b-col class="button-confirm-group">
-            <b-button @click="redirect()" id="cancel-button" variant="outline-primary">
+            <b-button @click="redirect()" id="cancel-button">
                 Back to List
             </b-button>
-            <b-button @click="ok()" id="save-button" variant="outline-primary">
+            <b-button @click="ok()" id="save-button">
                 See Details
             </b-button>
         </b-col>

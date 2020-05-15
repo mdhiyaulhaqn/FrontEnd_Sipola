@@ -20,7 +20,7 @@
                 <div class = "row">
                     <div class = "col-md-7 col-12">
                         <b-form-group class="required">
-                            <label for="noQuotation">Quotation No</label>
+                            <label class="label" for="noQuotation">Quotation No</label>
                             <b-form-input
                                 id="noQuotation"
                                 v-model="quotation.noQuotation"
@@ -35,7 +35,7 @@
                     <div class = "col-md-5 col-12">
                         <div style="color:black">
                         <b-form-group class="required">
-                            <label for="date">Quotation Date</label>
+                            <label class="label" for="date">Quotation Date</label>
                             <b-form-input
                                 id="date"
                                 v-model="quotation.date"
@@ -48,7 +48,7 @@
                 </div>
 
                 <b-form-group class="required">
-                    <label for="companyName">Company Name</label>
+                    <label class="label" for="companyName">Company Name</label>
                     <b-form-input
                         id="companyName"
                         v-model="quotation.company.nama"
@@ -61,7 +61,7 @@
                 </b-form-group>
 
                 <b-form-group class="required">
-                    <label for="companyAddress">Company Address</label>
+                    <label class="label" for="companyAddress">Company Address</label>
                     <b-form-input
                         id="companyAddress"
                         v-model="quotation.company.alamat"
@@ -75,13 +75,13 @@
                  <div class="d-none d-md-block d-lg-block">
                     <div class="row">
                         <div class = "col-md-6 required">
-                            <label>Scope of Works</label>
+                            <label class="label" >Scope of Works</label>
                         </div>
                         <div class = "col-md-2 required">
-                            <label>Quantity</label> 
+                            <label class="label" >Quantity</label> 
                         </div>
                         <div class = "col-md-3 required">
-                            <label>Unit Price</label> 
+                            <label class="label" >Unit Price (IDR)</label> 
                         </div>
                         <div class = "col-md-1">
                         </div>
@@ -103,16 +103,16 @@
 
                 <!-- - Waktu Kerja : Normal working hour 8 Jam per Hari - Pembayaran : 100% setelah pekerjaan selesai - Validity : 1 bulan - Untuk jam kerja lebih dari normal working hour, maka dikenakan biaya lembur Rp.350.000,00 per jam - Untuk pekerjaan yang dilakukan di hari libur (Sabtu, Minggu dan Hari libur Nasional) dikenakan biaya tambahan Rp.2.500.000,00 Per Hari -->
                 <b-form-group class="required">
-                    <label for="termsConditions">Terms and Conditions</label>
+                    <label class="label" for="termsConditions">Terms and Conditions</label>
                     <ckeditor :editor="editor"  v-model="quotation.termsCondition" :config="editorConfig"></ckeditor>
                     
                 </b-form-group>
 
                 <div class = "button-group">
+                    <b-button class = "save-button" type="submit">Update</b-button>
                     <router-link :to="{name: 'detail-quotation', params: {id:quotation.id}}">
                     <b-button class = "cancel-button">Cancel</b-button>
                     </router-link >
-                    <b-button class = "save-button" type="submit">Update</b-button>
                 </div>
             </b-form>
             </card>

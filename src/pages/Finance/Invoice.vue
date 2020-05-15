@@ -3,22 +3,19 @@
         <div class="col-12">
             <b-breadcrumb id="breadcrumb">
                 <b-breadcrumb-item active>
-                    Invoice List
+                    Invoice
                 </b-breadcrumb-item>
             </b-breadcrumb>
-
-            <div class="judul">
-                <strong>Invoice List</strong>
-            </div>
-
+            <h3 class="judul"><strong>Invoice</strong></h3>
             <card>
-                <b-row align-h="between">
+              <b-container fluid>
+                <b-row align-h="between" style="margin-top: 12px;">
                     <b-col md="2">
                         <router-link :to="{name: 'sales-order-for-invoice'}">
                             <button id="invoice_bttn" class="btn btn-primary">
                                 <b-row align-h="center">
-                                    <p style="font-size: 12px"> Add Invoice </p>
-                                    <div style="margin-left: 10px; margin-top: -3px">
+                                    <p style="font-size: 12px">Add Invoice</p>
+                                    <div style="margin-left: 10px; margin-top: -4px">
                                         <img src="@/assets/img/add-circle-icon.png" alt="" width="25px">
                                     </div>
                                 </b-row>
@@ -49,7 +46,6 @@
                 </b-row>
 
                 <b-table
-                    responsive
                     show-empty
                     :small="true"
                     stacked="md"
@@ -64,25 +60,47 @@
                     :sort-direction="sortDirection"
                     @filtered="onFiltered"
                     :borderless="true"
-                    sort-icon-left
+                    sort-icon-right
                     :sticky-header="true"
                 >
+
+                    <template v-slot:head(index)="data">
+                      <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                    </template>
+                    <template v-slot:head(noInvoice)="data">
+                      <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                    </template>
+                    <template v-slot:head(salesOrder.poNumber)="data">
+                      <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                    </template>
+                    <template v-slot:head(salesOrder.company.nama)="data">
+                      <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                    </template>
+                    <template v-slot:head(dateInvoice)="data">
+                      <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                    </template>
+                    <template v-slot:head(dueDatePayment)="data">
+                      <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                    </template>
+                    <template v-slot:head(action)="data">
+                      <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                    </template>
 
                     <template v-slot:cell(index) = "row">
                         {{row.index + 1}}
                     </template>
 
                     <template v-slot:cell(dateInvoice)="row">
-                        {{row.item.dateInvoice.split("T")[0].split("-").reverse().join('-') }}
+                        {{row.item.dateInvoice | moment("ll") }}
                     </template>
 
                     <template v-slot:cell(dueDatePayment)="row">
-                        {{row.item.dueDatePayment.split("T")[0].split("-").reverse().join('-') }}
+                        {{row.item.dueDatePayment | moment("ll") }}
                     </template>
 
-                    <template v-slot:cell(Action)="row">
+                    <template v-slot:cell(action)="row">
                         <router-link :to="{name: 'detail-invoice', params: {id:row.item.id}}">
-                            <b-button id="view_bttn">
+                            <b-button id="view_bttn" class="btn btn-primary">
                                 View
                             </b-button>
                         </router-link>
@@ -90,7 +108,7 @@
                 </b-table>
 
                 <b-row align-h="between">
-                    <b-col col="4">
+                    <b-col cols="4">
                         <div v-if="perPage > invoices.length" class="my-2">
                             <b-card-sub-title>Showing {{ invoices.length }} of {{ invoices.length }}</b-card-sub-title>
                         </div>
@@ -101,33 +119,33 @@
                             <b-card-sub-title>Showing {{ perPage }} of {{ invoices.length }}</b-card-sub-title>
                         </div>
                     </b-col>
+                    <b-col cols="8">
                         <div>
-                            <b-form-group
-                                label="Rows per page:"
-                                label-cols="12"
-                                label-cols-sm="8"
-                                label-cols-md="8"
-                                label-cols-xl="8"
-                                label-cols-lg="8"
-                                label-align="right"
-                                label-align-md="right"
-                                label-align-sm="right"
-                                label-align-lg="right"
-                                label-align-xl="right"
-                                label-size="sm"
-                                label-for="perPageSelect"
-                                class="mb-0"
-                            >
-                                <b-form-select
-                                    v-model="perPage"
-                                    id="perPageSelect"
-                                    size="sm"
-                                    :options="pageOptions"
-                                >
-                                </b-form-select>
-                            </b-form-group>
+                          <b-form-group
+                            label="Rows per page:"
+                            label-cols="8"
+                            label-cols-sm="8"
+                            label-cols-md="8"
+                            label-cols-xl="10"
+                            label-cols-lg="8"
+                            label-align="right"
+                            label-align-md="right"
+                            label-align-sm="right"
+                            label-align-lg="right"
+                            label-align-xl="right"
+                            label-size="sm"
+                            label-for="perPageSelect"
+                            class="mb-0"
+                          >
+                            <b-form-select
+                              v-model="perPage"
+                              id="perPageSelect"
+                              size="sm"
+                              :options="pageOptions"
+                            ></b-form-select>
+                          </b-form-group>
                         </div>
-                    <b-col cols="8"></b-col>
+                      </b-col>
                 </b-row>
                 <b-row>
                     <b-col>
@@ -144,6 +162,7 @@
                         </div>
                     </b-col>
                 </b-row>
+              </b-container>
             </card>
         </div>
     </div>
@@ -151,9 +170,7 @@
 
 <script>
 import axios from "axios";
-import Datatable from "v-data-table";
 
-// get data from backend
 export default {
     data(){
         return{
@@ -165,16 +182,16 @@ export default {
             sortDesc: true,
             sortDirection: 'desc',
             filter: null,
-            filerOn: [],
+            filterOn: [],
 
             fields: [
-                {key: 'index', label: 'Id', sortable: true},
+                {key: 'index', label: 'No' },
                 {key: 'noInvoice', label: 'No Invoice', sortable: true},
                 {key: 'salesOrder.poNumber', label: 'No Purchase Order', sortable: true},
                 {key: 'salesOrder.company.nama', label: 'Company Name', sortable: true},
                 {key: 'dateInvoice', label: 'Invoice Date', sortable: true},
                 {key: 'dueDatePayment', label: 'Due Date', sortable: true},
-                'Action'
+                {key: 'action', label: 'Action'}
             ],
 
             invoices: [],
@@ -212,7 +229,6 @@ export default {
             .then(result => this.invoices = result.data.result)
             .catch(err => this.invoices = err.data.result);
 
-            console.log(this.items.getAllInvoice);
         },
 
         // to clear the search keywords
@@ -238,8 +254,8 @@ export default {
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  font-size: 10px;
-  line-height: 10px;
+  font-size: 12px;
+  line-height: 8px;
   width: 80px;
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
 }
@@ -258,5 +274,8 @@ export default {
   margin: -35px 0 -5px -15px;
   color: #FF3E1D;
   background: none;
+}
+.table{
+  font-size: 12px;
 }
 </style>
