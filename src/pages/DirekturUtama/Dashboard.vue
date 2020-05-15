@@ -99,7 +99,7 @@
         <div class="card">
           <div class = "card-header"><div class = "judul-card">Cash Flow</div> for year 2020</div>
           <div class="card-body">
-            <BarChart :height="300" :chartData="cashFlowCollection" :options="months"></BarChart>
+            <BarChart :height="300" :chartData="cashFlowCollection" :options="options"></BarChart>
           </div>
           <div class="card-footer">
             <i class="ti-reload"></i> <time-ago :refresh='60' class="timeago"></time-ago>
@@ -158,7 +158,7 @@
         <div class="card">
           <div class = "card-header"><div class = "judul-card">Profits</div> for year 2020</div>
           <div class = "card-body">
-            <LineChart :width="300" :height="300" :chartData="dataprofit" :options="month"></LineChart>
+            <LineChart :width="300" :height="300" :chartData="dataprofit" :options="options"></LineChart>
           </div>
         </div>
       </div>
@@ -197,10 +197,8 @@ export default {
       cashFlowCollection: {},
       dataprofit: {},
       options: null,
-      months: null,
-      month: null,
       borderColour : ['#315C9C',"#FF6F61", '#6B5B95', '#9B1B30', '#F5D6C6', '#5A3E36', '#E08119'],
-      // projectData : null,
+      projectData : null,
       list_income : {},
       list_project : {},
       list_expense : {},
@@ -349,21 +347,25 @@ export default {
 
   methods: {
     getProject : function(){
+      console.log("misiiii?")
       axios.get('http://localhost:8080/api/dashboard/projects/2020')
           .then(res => {this.list_project = res.data.result, this.getIncome()})
           .catch(err => this.list_project = err.data);
     },
     getIncome: function(){
+        console.log("knock knock")
         axios.get('http://localhost:8080/api/dashboard/income/2020')
           .then(res => {this.list_income = res.data.result, this.getPengeluaran()})
           .catch(err => this.list_income = err.data);
     },
     getPengeluaran: function(){
+        console.log("masuk halooo?")
         axios.get('http://localhost:8080/api/dashboard/pengeluaran/2020')
           .then(res => {this.list_expense = res.data.result, this.getReimbursement()})
           .catch(err => this.list_expense = err.data);
     },
     getReimbursement: function(){
+        console.log("masuk ngaaa?")
         axios.get('http://localhost:8080/api/dashboard/reimbursement/2020')
           .then(res => {this.list_reimbursement = res.data.result,this.computeTotal(), this.createProjectData()})
           .catch(err => this.list_reimbursement = err.data);
@@ -375,27 +377,27 @@ export default {
     //   this.timestamp = minute;
     // },
 
-    computeTotal(){
-      var total = 0;
-      for(let i = 0; i < this.list_income.length; i++){
-        for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
-          total += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
-        }
-      }
-      this.income = total;
+    // computeTotal(){
+    //   var total = 0;
+    //   for(let i = 0; i < this.list_income.length; i++){
+    //     for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+    //       total += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+    //     }
+    //   }
+    //   this.income = total;
 
-      this.project = this.list_project.length;
-      this.order = this.list_income.length;
+    //   this.project = this.list_project.length;
+    //   this.order = this.list_income.length;
 
-      var total_expense = 0;
-      for(let i = 0; i < this.list_expense.length; i++){
-        total_expense += this.list_expense[i].nominal;
-      }
-      for(let i = 0; i < this.list_reimbursement.length; i++){
-        total_expense += this.list_reimbursement[i].totalReimburse;
-      }
-      this.expense = total_expense;
-    },
+    //   var total_expense = 0;
+    //   for(let i = 0; i < this.list_expense.length; i++){
+    //     total_expense += this.list_expense[i].nominal;
+    //   }
+    //   for(let i = 0; i < this.list_reimbursement.length; i++){
+    //     total_expense += this.list_reimbursement[i].totalReimburse;
+    //   }
+    //   this.expense = total_expense;
+    // },
 
     formatPrice(value) {
       if(value < 0){
@@ -405,22 +407,107 @@ export default {
         return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     },
 
-    computeProfit(){
-      var jan = 0;
-      var feb = 0;
-      var mar = 0;
-      var apr = 0;
-      var may = 0;
-      var jun = 0;
-      var jul = 0;
-      var aug = 0;
-      var sep = 0;
-      var oct = 0;
-      var nov = 0;
-      var dec = 0;
-      for(let i=0; i < this.list_income.length; i++){
-        if(this.list_income[i].cre)
+    computeTotal(){
+      var jan = 0; var jan_ex = 0;
+      var feb = 0; var feb_ex = 0;
+      var mar = 0; var mar_ex = 0;
+      var apr = 0; var apr_ex = 0;
+      var may = 0; var may_ex = 0;
+      var jun = 0; var jun_ex = 0;
+      var jul = 0; var jul_ex = 0;
+      var aug = 0; var aug_ex = 0;
+      var sep = 0; var sep_ex = 0;
+      var oct = 0; var oct_ex = 0;
+      var nov = 0; var nov_ex = 0;
+      var dec = 0; var dec_ex = 0;
+      var total = 0; var total_expense = 0;
+      for(let i = 0; i < this.list_income.length; i++){
+        if(this.list_income[i].createdAt.substring(5,7) == 1){
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            jan += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }else if(this.list_income[i].createdAt.substring(5,7) == 2){
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            feb += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }else if(this.list_income[i].createdAt.substring(5,7) == 3){
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            mar += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }else if(this.list_income[i].createdAt.substring(5,7) == 4){
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            apr += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }else if(this.list_income[i].createdAt.substring(5,7) == 5){
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            may += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }else if(this.list_income[i].createdAt.substring(5,7) == 6){
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            jun += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }else if(this.list_income[i].createdAt.substring(5,7) == 7){
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            jul += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }else if(this.list_income[i].createdAt.substring(5,7) == 8){
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            aug += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }else if(this.list_income[i].createdAt.substring(5,7) == 9){
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            sep += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }else if(this.list_income[i].createdAt.substring(5,7) == 10){
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            oct += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }else if(this.list_income[i].createdAt.substring(5,7) == 11){
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            nov += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }else{
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            dec += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }
       }
+      total = jan + feb + mar + apr + may + jun + jul + aug + sep + oct + nov + dec;
+      this.income = total;
+
+      this.project = this.list_project.length;
+      this.order = this.list_income.length;
+      
+      for(let i = 0; i < this.list_expense.length; i++){
+        if(this.list_expense[i].createdAt.substring(5,7) == 1){
+          jan_ex += this.list_expense[i].nominal
+        }else if(this.list_expense[i].createdAt.substring(5,7) == 2){
+          feb_ex += this.list_expense[i].nominal
+        }else if(this.list_expense[i].createdAt.substring(5,7) == 3){
+          mar_ex += this.list_expense[i].nominal
+        }else if(this.list_expense[i].createdAt.substring(5,7) == 4){
+          apr_ex += this.list_expense[i].nominal
+        }else if(this.list_expense[i].createdAt.substring(5,7) == 5){
+          may_ex += this.list_expense[i].nominal
+        }else if(this.list_expense[i].createdAt.substring(5,7) == 6){
+          jun_ex += this.list_expense[i].nominal
+        }else if(this.list_expense[i].createdAt.substring(5,7) == 7){
+          jul_ex += this.list_expense[i].nominal
+        }else if(this.list_expense[i].createdAt.substring(5,7) == 8){
+          aug_ex += this.list_expense[i].nominal
+        }else if(this.list_expense[i].createdAt.substring(5,7) == 9){
+          sep_ex += this.list_expense[i].nominal
+        }else if(this.list_expense[i].createdAt.substring(5,7) == 10){
+          oct_ex += this.list_expense[i].nominal
+        }else if(this.list_expense[i].createdAt.substring(5,7) == 11){
+          nov_ex += this.list_expense[i].nominal
+        }else{
+          dec_ex += this.list_expense[i].nominal
+        }
+      }
+      total_expense = jan_ex + feb_ex + mar_ex + apr_ex + may_ex + jun_ex + jul_ex + aug_ex + sep_ex + oct_ex + nov_ex + dec_ex;
+      
+      this.expense = total_expense;
     },
 
     createProjectData(){ 
@@ -444,10 +531,10 @@ export default {
       var label_data = [" Sudah Selesai", "Belum Selesai"]
       var series_data = [persen_sudah_selesai, persen_belum_selesai]
 
-      // this.projectData = {
-      //   labels: label_data,
-      //   series: series_data
-      // };
+      this.projectData = {
+        labels: label_data,
+        series: series_data
+      };
 
       this.options = {
           responsive :true,
