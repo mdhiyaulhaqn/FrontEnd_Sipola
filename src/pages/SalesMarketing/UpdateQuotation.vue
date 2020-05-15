@@ -13,9 +13,9 @@
       </b-breadcrumb>
     <h3 class="judul"><strong>Update Quotation</strong></h3>
     <div class = "row">
-        <div class = "col-10 isi-form">
-            <card>
-            <h5 class = "title-form">Update Quotation Form </h5>
+        <div class = "col-md-8 col-sm-8 col-xs-8 col-12 d-block d-xs-block d-sm-block isi-form">
+            <card class="col">
+            <h5 class = "title-form">Update Quotation Form</h5>
             <b-form @submit="onModal" v-if="show">
                 <div class = "row">
                     <div class = "col-md-7 col-12">
@@ -31,7 +31,7 @@
                             </b-form-input>
                         </b-form-group>
                     </div>
-             
+
                     <div class = "col-md-5 col-12">
                         <div style="color:black">
                         <b-form-group class="required">
@@ -55,7 +55,7 @@
                         type="text"
                         required
                         placeholder="Company Name"
-                        pattern="[a-zA-Z0-9-]++"
+                        pattern=".*[a-zA-Z0-9-].*"
                         >
                     </b-form-input>
                 </b-form-group>
@@ -78,10 +78,10 @@
                             <label class="label" >Scope of Works</label>
                         </div>
                         <div class = "col-md-2 required">
-                            <label class="label" >Quantity</label> 
+                            <label class="label" >Quantity</label>
                         </div>
                         <div class = "col-md-3 required">
-                            <label class="label" >Unit Price (IDR)</label> 
+                            <label class="label" >Unit Price (IDR)</label>
                         </div>
                         <div class = "col-md-1">
                         </div>
@@ -93,25 +93,25 @@
                     <b-col>
                     <Service v-bind:service="item" v-on:del-service="deleteRow" />
                     </b-col>
-                </b-row> 
-                    
+                </b-row>
+
                   <b-row>
                     <div class ="col-md-6 col-12">
                         <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">+ Add Scope of Works</button>
                     </div>
-                </b-row> 
+                </b-row>
 
                 <!-- - Waktu Kerja : Normal working hour 8 Jam per Hari - Pembayaran : 100% setelah pekerjaan selesai - Validity : 1 bulan - Untuk jam kerja lebih dari normal working hour, maka dikenakan biaya lembur Rp.350.000,00 per jam - Untuk pekerjaan yang dilakukan di hari libur (Sabtu, Minggu dan Hari libur Nasional) dikenakan biaya tambahan Rp.2.500.000,00 Per Hari -->
                 <b-form-group class="required">
                     <label class="label" for="termsConditions">Terms and Conditions</label>
-                    <ckeditor :editor="editor"  v-model="quotation.termsCondition" :config="editorConfig"></ckeditor>
-                    
+                    <ckeditor :editor="editor"  v-model="quotation.termsCondition"></ckeditor>
+
                 </b-form-group>
 
                 <div class = "button-group">
-                    <b-button class = "save-button" type="submit">Update</b-button>
-                    <router-link :to="{name: 'detail-quotation', params: {id:quotation.id}}">
-                    <b-button class = "cancel-button">Cancel</b-button>
+                    <b-button class = "save-button" type="submit">Save</b-button>
+                    <router-link :to="{name: 'detail-quotation'}">
+                    <b-button class = "cancel-button" type="reset">Cancel</b-button>
                     </router-link >
                 </div>
             </b-form>
@@ -146,31 +146,13 @@
             <b-button @click="onSubmit" class="save-button">
             Save
             </b-button>
-            
+
             <b-button @click="cancel()" class="cancel-button">
             Cancel
             </b-button>
         </b-col>
         </template>
     </b-modal>
-
-    <!-- <b-modal id="modal-hide" ref="modal-download" v-model="warningModal" hide-footer centered title="Save Changes?" ok-only>
-        <br>
-        <div class = "container">
-            <div class = "info">
-            <b-row>
-                Quotation no {{quotation.noQuotation}} will be changed soon once you click the save button.
-            </b-row>
-            </div>
-            <div class = "tombol_okay">
-                <b-row>
-                    <b-button id="cancel_update_button" @click="hideModal" size="md" variant="primary">Cancel</b-button>
-                    <b-button id="confirm_update_button" @click="onSubmit" size="md" variant="primary">Save</b-button>
-                </b-row>
-            </div>
-    
-        </div>
-    </b-modal> -->
 
      <b-modal
         id="modal-success"
@@ -197,14 +179,12 @@
         </template>
         <template v-slot:modal-footer="{ ok }">
             <b-col class="button-confirm-group">
-                <b-col class="button-confirm-group">
-                    <b-button @click="cancel()" class="cancel-button">
-                    Back to List
-                    </b-button>
-                    <b-button @click="ok" class="save-button">
-                    See Details
-                    </b-button>
-                </b-col>
+                <b-button @click="cancel()" class="back-button">
+                  Back to List
+                </b-button>
+                <b-button @click="ok" class="see-button">
+                  See Details
+                </b-button>
             </b-col>
         </template>
     </b-modal>
@@ -222,9 +202,9 @@
                     <b-button id="cancel_update_button" @click="redirect" size="md" variant="primary">See Details</b-button>
                 </b-row>
             </div>
-    
+
         </div>
-       
+
     </b-modal> -->
 
     <b-modal title="Quotation Gagal Tersimpan" v-model="failedModal" centered ok-only>
@@ -243,8 +223,8 @@ export default {
     components : {
       Service
     },
-    
-    data() { 
+
+    data() {
       return {
             editor: ClassicEditor,
             services: [],
@@ -252,7 +232,7 @@ export default {
             timestamp:"",
 
             quotation : {
-                
+
             },
             new_service : {
                 id_service : 0,
@@ -277,7 +257,7 @@ export default {
     beforeMount() {
         this.getDetail();
 	},
-    
+
     methods: {
         addRow(){
             this.new_service.id_service++;
@@ -297,9 +277,9 @@ export default {
             // this.$refs['modal-confirmation'].hide();
 
             evt.preventDefault();
-            
+
             this.quotation.service = this.services;
-            
+
             this.updateQuotation(JSON.stringify(this.quotation));
         },
 
@@ -309,9 +289,9 @@ export default {
             }
             else if(status == 500){
                 this.failedModal = true;
-            } 
+            }
         },
-        
+
         fetchData : function(){
             this.quotation.date = this.quotation.date.substring(0,10);
             let service_quot = this.quotation.service
@@ -336,12 +316,10 @@ export default {
             .then(res => {this.quotation = res.data, this.fetchData()})
             .catch(err => this.quotation = err.data);
         },
-        
+
         updateQuotation(quot){
-            console.log("cihuy")
-            console.log(this.quotation.service)
-            axios.put('http://localhost:8080/api/quotation/update/' + this.$route.params.id, 
-            quot, 
+            axios.put('http://localhost:8080/api/quotation/update/' + this.$route.params.id,
+            quot,
                 { headers: {
                     'Content-Type': 'application/json',
                 }
@@ -395,10 +373,10 @@ export default {
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  font-size: 10px;
+  font-size: 12px;
   margin-right: 10px;
   line-height: 15px;
-  width: 110px;
+  width: 120px;
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
   text-align: center;
 }
@@ -411,13 +389,36 @@ export default {
   width: 80px;
   line-height: 15px;
   text-align: center;
-  font-size: 10px;
-  margin-right: 10px;
+  font-size: 12px;
+}
+
+.see-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-left: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
+}
+
+.back-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 100px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
 }
 
 .button-group{
-  margin-top: 30px;
+  margin-top: 20px;
   text-align: center;
+  margin-bottom: 10px;
 }
 .label{
   font-weight: 600;

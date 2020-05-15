@@ -9,14 +9,12 @@
                 Detail Quotation
                 </b-breadcrumb-item>
             </b-breadcrumb>
-            <div class="judul">
-                <strong>
-                    Detail Quotation
-                </strong>
-            </div>
+            <h3 class="judul"><strong>Detail Quotation</strong></h3>
             <div ref="content">
-
-            <card>
+            <div class = "row">
+            <div class="col-md-12 col-sm-12 col-xs-12 col-12 d-block d-xs-block d-sm-block center">
+            <card class="col">
+              <h5 class="text-center">Quotation</h5>
                 <div class="container-fluid">
                 <b-row>
                     <div class = "col-lg-7 col-sm-7 col-xs-6 nama-perusahaan">{{quotation.company.nama}}</div>
@@ -86,41 +84,9 @@
 
             </card>
             </div>
+            </div>
+            </div>
         </div>
-
-         <b-modal
-            id="modal-delete"
-            ref="modal-delete"
-            centered
-            >
-            <template v-slot:modal-title>
-                <div class="container">
-                <h5 id="modal-title-delete">Delete Quotation?</h5>
-                </div>
-            </template>
-            <template v-slot:default>
-                <div class="container">
-                <b-row>
-                    <b-col class="modal-icon col-2">
-                        <img src="@/assets/img/delete-confirm-icon.png" alt="" width="50px">
-                    </b-col>
-                    <b-col class="col-10">
-                        <p id="modal-message"> Quotation no {{quotation.noQuotation}} will be removed from the list.</p>
-                    </b-col>
-                </b-row>
-                </div>
-            </template>
-            <template v-slot:modal-footer="{ cancel }">
-                <b-col class="button-confirm-group">
-                <b-button @click="onSubmit" id ="confirm_delete_button" variant="outline-danger">
-                    Yes, delete it
-                </b-button>
-                <b-button @click="cancel()" id ="cancel_delete_button" class="btn btn-danger">
-                    Cancel
-                </b-button>
-                </b-col>
-            </template>
-        </b-modal>
 
         <b-modal
             id="modal-download"
@@ -146,30 +112,12 @@
             </template>
              <template v-slot:modal-footer="{ ok }">
                 <b-col class="button-confirm-group">
-                <b-button @click="ok()" id="ok-button" variant="outline-primary">
+                <b-button @click="ok()" id="ok-button">
                     OK
                 </b-button>
                 </b-col>
             </template>
         </b-modal>
-        
-
-         <!-- <b-modal id="modal-download" ref="modal-download" hide-footer centered title="Download Quotation">
-			<br>
-            <div class = "container">
-                <div class = "info">
-                <b-row>
-                    <span class="ti-download"></span>The system is downloading quotation no. {{quotation.noQuotation}}<br><br>
-                </b-row>
-                </div>
-                <div class = "tombol_okay">
-                    <b-row>
-                        <b-button id = "edit_button" @click="hideModal" size="md" variant="primary">Okay</b-button>
-                    </b-row>
-                </div>
-
-            </div>
-        </b-modal> -->
         <b-modal
             id="modal-delete"
             ref="modal-delete"
@@ -230,7 +178,7 @@
             </template>
             <template v-slot:modal-footer="{ ok }">
                 <b-col class="button-confirm-group">
-                <b-button @click="ok()" id="ok-button" variant="outline-primary">
+                <b-button @click="ok()" id="ok-button">
                     OK
                 </b-button>
                 </b-col>
@@ -351,7 +299,7 @@ export default {
             doc.setFontStyle("light");
             doc.setFont('times new roman');
             doc.setFontSize(10);
-            doc.text('Inquiry No ', startX, startY+35); doc.text(': ', 55,startY+35); doc.text('Date : ' + date, 150,startY+35); 
+            doc.text('Inquiry No ', startX, startY+35); doc.text(': ', 55,startY+35); doc.text('Date : ' + date, 150,startY+35);
             doc.text('Quotation No ', startX, startY+40); doc.text(': '+ noQuotation, 55,startY+40);
             doc.text('Revision ', startX, startY+45); doc.text(': ', 55,startY+45);
 
@@ -375,15 +323,15 @@ export default {
 
             doc.autoTable(columns, service, {
                 startY:startY+88,
-                margin:25,  
+                margin:25,
                 headStyles: {
-                    fillColor: [218,37,28],  
-                    textColor: [255, 255, 255], //White    
-                    align : "center" 
+                    fillColor: [218,37,28],
+                    textColor: [255, 255, 255], //White
+                    align : "center"
                 },
                 bodyStyles : {
-                     textColor: [0, 0, 0], //White  
-                     fontSize : 8, 
+                     textColor: [0, 0, 0], //White
+                     fontSize : 8,
                 },
                 theme:'striped',
             });
@@ -428,12 +376,12 @@ export default {
             //         var service = '-' + termsSplit[i+1]
             //         var lines = doc.splitTextToSize(service, (pdfInMM-lMargin-rMargin));
             //         newY = finalY + 25 + i*5
-                    
+
             //         doc.text(lines, startX, newY);
-                    
+
             //     }
             // }
-            
+
             //FOOTER
             var footerY = doc.internal.pageSize.height-5
 
@@ -444,10 +392,10 @@ export default {
 
             doc.text(createdBy, startX, footerY-40);
             doc.setDrawColor(0, 0, 0);
-           
+
 
             doc.line(startX, footerY-35, startX+170, footerY-35);
-            
+
             doc.addImage(img, 'png', startX, footerY-30, 20, 20);
 
             doc.setFont("muli")
@@ -504,60 +452,6 @@ body {
     margin-right: 10px;
 }
 
-/* .fa-warning{
-    margin-left:10px;
-    margin-right: 10px;
-}
-
-.modal-header{
-    background-color: #FF3E1D;
-}
-
-.button_back{
-    background-color: #FF3E1D;
-    color:white;
-    border-color: white;
-    float:right;
-    margin-top: 40px;
-}
-
-.button_oke{
-    background-color:white;
-    color:#FF3E1D;
-    border-color: #FF3E1D;
-    float:right;
-    margin-top: 40px;
-}
-
-.tombol_okay{
-    float:right;
-}
-
-#manage-button{
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#delete_button{
-    font-size: 10px;
-    background-color: #ff3e1d;
-    color:white;
-    border-color: white;
-}
-#edit_button{
-    font-size: 10px;
-    background-color: #109CF1;
-    color:white;
-    border-color: white;
-}
-.button-group{
-    text-align: center;
-}
-
-button{
-    border-radius: 8px;
-} */
-
 .judul{
     text-align: center;
     color: black;
@@ -565,25 +459,29 @@ button{
     margin-bottom: 20px;
 }
 #edit-button{
-    background-color: #109CF1;
-    color:white;
-    border-color: transparent;
-    width: 110px;
-    margin-left: 10px;
-    font-size: 10px;
-    box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  width: 110px;
+  margin-left: 10px;
+  line-height: 15px;
+  font-size: 12px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
 }
 
 #delete-button{
-    background-color: #FF3E1D;
-    border-color: #FF3E1D;
-    width: 80px;
-    font-size: 10px;
+  background-color: #FF3E1D;
+  border-color: #FF3E1D;
+  width: 80px;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
 }
 
 .button-group{
-    margin-top: 30px;
-    text-align: center;
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 p{
     font-size: 12px;
@@ -597,21 +495,23 @@ p{
     text-align: right;
 }
 #confirm_delete_button{
-    font-size: 10px;
-    width: 110px;
-    border-color: #ff3e1d;
-    border-width: 1px;
-    margin-right: 10px;
+  font-size: 12px;
+  width: 110px;
+  border-color: #ff3e1d;
+  border-width: 1px;
+  margin-right: 10px;
+  line-height: 15px;
 }
 #cancel_delete_button{
-    font-size: 10px;
-    background-color: #ff3e1d;
-    color:white;
-    border-color: white;
-    border-width: 1px;
+  font-size: 12px;
+  background-color: #ff3e1d;
+  color:white;
+  border-color: white;
+  border-width: 1px;
+  line-height: 15px;
 }
 h5{
-    margin-bottom: -4px;
+  font-weight: bold;
 }
 #modal-message{
     font-size: 16px;
@@ -629,9 +529,12 @@ h5{
     font-weight: 1000;
 }
 #ok-button{
-    color:#109CF1;
-    border-color:#109CF1;
-    background-color: white;
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  font-size: 12px;
+  line-height: 15px;
+  border-width: 1px;
 }
 #breadcrumb{
     font-size: 12px;
