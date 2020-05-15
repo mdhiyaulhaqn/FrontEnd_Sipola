@@ -137,7 +137,9 @@ export default {
       }
     },
     generateRole(role){
-      if(role == "ROLE_DIREKTUR_UTAMA"){
+      if(role == "ROLE_ADMIN"){
+        return "Admin";
+      } else if(role == "ROLE_DIREKTUR_UTAMA"){
         return "Direktur Utama";
       } else if (role == "ROLE_PROJECT_MANAGER"){
         return "Project Manager";

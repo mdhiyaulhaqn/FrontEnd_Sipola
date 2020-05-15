@@ -12,7 +12,7 @@
             <label for="name">Name</label>
             <input
               v-model="user.name"
-              
+              v-validate="'required|min:1|max:30'"
               type="text"
               class="form-control"
               name="name"
@@ -26,7 +26,7 @@
             <label for="alamat">Address</label>
             <input
               v-model="user.alamat"
-              
+              v-validate="'required|min:1|max:30'"
               type="text"
               class="form-control"
               name="alamat"
@@ -40,7 +40,7 @@
             <label for="noHP">Phone Number</label>
             <input
               v-model="user.noHP"
-              
+              v-validate="'required|min:1|max:30'"
               type="number"
               class="form-control"
               name="noHP"
@@ -128,9 +128,9 @@ export default {
       submitted: false,
       successful: false,
       message: '',
-      selectedRole: null,
+      selectedRole: '',
       roles: [
-        { value: null, text: '-- Choose Role --'},
+        { value: '', text: '-- Choose Role --'},
         { value: 'admin', text: 'Admin'},
         { value: 'direktur_utama', text: 'Direktur Utama'},
         { value: 'project_manager', text: 'Project Manager'},
@@ -154,7 +154,6 @@ export default {
   },
   methods: {
     handleRegister() {
-      console.log("Masuk Register");
       this.user.role.push(this.selectedRole);
 
       this.message = '';
