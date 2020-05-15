@@ -1,10 +1,10 @@
 <template>
 
     <b-row class="service_order_row">
-        <span class = "col-md-6 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none">
-            <label>Description</label>
+        <span class = "col-md-6 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
+            <label class="label">Description</label>
         </span>
-        <div class = "col-md-5 col-sm-8 col-xs-8 col-7">
+        <div class = "col-md-4 col-sm-8 col-xs-8 col-7">
             <b-form-input
                 id="deskripsi"
                 v-model="service_order.deskripsi"
@@ -15,8 +15,8 @@
             </b-form-input>
         </div>
 
-         <span class = "col-md-2 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none">
-            <label>Quantity</label>
+         <span class = "col-md-2 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
+            <label class="label">Quantity</label>
         </span>
 
          <div class= "col-md-2 col-sm-8 col-xs-8 col-7">
@@ -30,8 +30,8 @@
             </b-form-input>
         </div>
 
-         <span class = "col-md-2 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none">
-            <label>UOM</label>
+         <span class = "col-md-2 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
+            <label class="label">UOM</label>
         </span>
 
          <div class= "col-md-2 col-sm-8 col-xs-8 col-7">
@@ -45,11 +45,11 @@
             </b-form-input>
         </div>
 
-         <span class = "col-md-2 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none">
-            <label>Price Per Unit</label>
+         <span class = "col-md-2 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
+            <label class="label">Unit Price (IDR)</label>
         </span>
 
-        <div class= "col-md-2 col-sm-8 col-xs-8 col-7">
+        <div class= "col-md-3 col-sm-8 col-xs-8 col-7">
             <b-form-input
                 id="pricePerUnit"
                 v-model="service_order.pricePerUnit"
@@ -89,5 +89,11 @@ export default {
     margin-bottom: 10px;
     margin-right: 0px;
 }
-
+.label{
+  font-weight: 600;
+}
+.required label:after {
+  content:" *";
+  color: red;
+}
 </style>

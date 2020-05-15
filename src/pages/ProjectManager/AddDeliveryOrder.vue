@@ -10,7 +10,7 @@
     </b-breadcrumb>
     <h3 class="judul"><strong>Add Delivery Order</strong></h3>
     <div class = "row">
-        <div class = "col-10 isi-form">
+        <div class = "col-md-12 col-sm-12 col-xs-12 col-12 d-block d-xs-block d-sm-block isi-form">
             <card>
             <h5 class = "title-form">Add Delivery Form </h5>
             <b-form @submit="onSubmit" v-if="show">
@@ -26,7 +26,7 @@
                                 placeholder="Delivery Order Number">
                             </b-form-input>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <b-row>
                      <div class = "col-md-12 col-12">
@@ -43,7 +43,7 @@
                     </div>
                 </b-row>
 
-                
+
              <b-row>
                      <div class = "col-md-6 col-12">
                         <b-form-group>
@@ -56,7 +56,7 @@
                             </b-form-input>
                         </b-form-group>
                     </div>
-                    
+
                      <div class = "col-md-6 col-12">
                         <div style="color:black">
                             <b-form-group>
@@ -71,7 +71,7 @@
                         </div>
                     </div>
              </b-row>
-              
+
                   <b-row>
                     <b-col md="12">
                         <b-form-group class="required">
@@ -94,10 +94,10 @@
                             <label class="label" >Description</label>
                         </div>
                         <div class = "col-md-2 required">
-                            <label class="label" >Quantity</label> 
+                            <label class="label" >Quantity</label>
                         </div>
                         <div class = "col-md-3">
-                            <label class="label" >Project / Service No</label> 
+                            <label class="label" >Project / Service No</label>
                         </div>
                         <div class = "col-md-1">
                         </div>
@@ -109,19 +109,19 @@
                     <b-col>
                         <Product v-bind:product="item" v-on:del-product="deleteRow" />
                     </b-col>
-                </b-row> 
-                    
+                </b-row>
+
                 <b-row>
                     <div class ="col-md-6 col-12">
                         <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">+ Add Description</button>
                     </div>
-                </b-row> 
+                </b-row>
 
-                
+
                 <b-form-group class="required">
                     <label class="label" for="termsConditions">Terms and Conditions</label>
                     <ckeditor :editor="editor"  v-model="new_delivery_order.termsCondition" :config="editorConfig"></ckeditor>
-                    
+
                 </b-form-group>
 
                 <div class = "button-group">
@@ -180,10 +180,10 @@ export default {
     components : {
       Product
     },
-    data() { 
+    data() {
       return {
            editor: ClassicEditor,
-           
+
             products: [],
             companies : [],
             timestamp:"",
@@ -216,7 +216,7 @@ export default {
         this.getAllCompany();
         this.addRow();
 	},
-    
+
     methods: {
         addRow(){
             this.new_product.id_product++;
@@ -240,12 +240,12 @@ export default {
             }
             else if(status == 500){
                 this.failedModal = true;
-            } 
+            }
         },
-        
+
         addDeliveryOrder(quot){
-            axios.post('http://localhost:8080/api/delivery-order/add', 
-            quot, 
+            axios.post('http://localhost:8080/api/delivery-order/add',
+            quot,
                 { headers: {
                     'Content-Type': 'application/json',
                 }
