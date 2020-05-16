@@ -3,8 +3,7 @@
     <side-bar>
       <template slot="links">
         <div v-if="showAdminBoard">
-          <sidebar-link to="/user" name="User"/>
-          <sidebar-link to="/user/add" name="Add User"/>
+          <sidebar-link to="/user" name="Manage User"/>
         </div>
         <div v-if="showDirekturBoard">
           <sidebar-link to="/dashboard" name="Dashboard"/>

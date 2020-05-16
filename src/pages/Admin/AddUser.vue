@@ -137,7 +137,7 @@
                                 class="form-control"
                                 name="password_confirmation"
                                 v-validate="'required|confirmed:password'"
-                                data-vv-as="password"
+                                 data-vv-as="password"
                                 required
                                 placeholder="Password Confirmation">
                             </b-form-input>
@@ -156,7 +156,7 @@
                     </div>
                 </div>
                 <div class = "button-group">
-                    <b-button class = "cancel-button" type="reset">Cancel</b-button>
+                    <b-button class = "cancel-button" type="reset" v-on:click="redirect()">Cancel</b-button>
                     <b-button class = "save-button" type="submit">Add</b-button>
                 </div>
             </form>

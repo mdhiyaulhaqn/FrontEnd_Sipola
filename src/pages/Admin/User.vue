@@ -10,7 +10,7 @@
       <card>
           <b-row align-h="between">
             <b-col md="2">
-              <router-link :to="{name: 'add-user'}">
+              <router-link :to="{name: 'user-add'}">
                 <b-button id ="add_user_button" class="btn btn-primary">
                   <b-row align-h="center">
                     <p style="font-size: 12px">
