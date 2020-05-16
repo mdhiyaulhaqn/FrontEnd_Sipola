@@ -4,8 +4,8 @@
             <b-breadcrumb-item :to="{name: 'expense'}">
                 Expense
             </b-breadcrumb-item>
-            <b-breadcrumb-item :to="{name: 'expense-detail', params: {id:pengeluaran.id}}">
-                Expense Detail
+            <b-breadcrumb-item :to="{name: 'expense-detail'}">
+                Detail Expense
             </b-breadcrumb-item>
             <b-breadcrumb-item active>
                 Update Expense
@@ -13,11 +13,11 @@
         </b-breadcrumb>
     <h3 class="judul"><strong>Update Expense</strong></h3>
     <div class = "row">
-        <div class = "col-10 isi-form">
-            <card>
-            <h5 class = "title-form">Update Expense Form </h5>
+        <div class = "col-md-8 col-sm-8 col-xs-8 col-12 d-block d-xs-block d-sm-block isi-form">
+            <card class="col">
+            <h5 class = "title-form">Update Expense Form</h5>
             <b-form @reset="onReset" @submit="onConfirmation" v-if="show">
-                <b-form-group>
+                <b-form-group class="required">
                     <label class="label" for="nama">Expense Name</label>
                     <b-form-input
                         id="companyName"
@@ -29,20 +29,20 @@
                     </b-form-input>
                 </b-form-group>
 
-                <b-form-group>
+                <b-form-group class="required">
                     <label class="label" for="nominal">Nominal</label>
                     <b-form-input
                         id="companyAddress"
                         v-model="pengeluaran.nominal"
                         type="number"
                         required
-                        placeholder="Nominal"
+                        placeholder="0"
                         min=0
                         >
                     </b-form-input>
                 </b-form-group>
 
-                <b-form-group>
+                <b-form-group class="required">
                     <label class="label" for="tanggal">Date</label>
                     <b-form-input
                         id="companyName"
@@ -54,7 +54,7 @@
                     </b-form-input>
                 </b-form-group>
 
-                <b-form-group>
+                <b-form-group class="required">
                     <label class="label" for="paidBy">Paid by</label>
                     <b-form-input
                         id="companyName"
@@ -66,16 +66,10 @@
                         >
                     </b-form-input>
                 </b-form-group>
-
                 <div class = "button-group">
-
-                <router-link :to="{name: 'expense-detail', params: {id:pengeluaran.id}}">
-                    <b-button class = "cancel-button" type="reset">Cancel</b-button>
-                </router-link>
-                <b-button class = "update-pengeluaran-button" type="submit">Save</b-button>
-
+                  <b-button class = "save-button" type="submit">Save</b-button>
+                  <b-button class = "cancel-button" type="reset">Cancel</b-button>
                 </div>
-                
             </b-form>
             </card>
         </div>
@@ -84,7 +78,7 @@
     <b-modal id="modal-confirm" v-model="confirmationModal" hide-footer centered>
         <template v-slot:modal-title>
                 <div class="container">
-                    <h5 id="modal-title-success">Update Expense</h5>
+                    <h5 id="modal-title-success">Save Changes?</h5>
                 </div>
         </template>
         <template v-slot:default>
@@ -95,19 +89,17 @@
                         <img src="@/assets/img/update-confirm-icon.png" alt="" width="60px">
                     </b-col>
                     <b-col cols="9">
-                        Expense will be changed soon once you click the save button
+                        <p id="modal-message">Expense will be changed soon once you click the save button.</p>
                     </b-col>
                 </b-row>
                 </div>
-                <b-row>
-                    <b-col class="button-confirm-group">
-                        <b-button @click="hideModal" id ="cancel_update_button" class="cancel-button"> 
-                            Cancel
-                        </b-button>
-                        <b-button @click="updatePengeluaran()" type="submit" id ="confirm_delete_button" class="update-pengeluaran-button" v-b-modal.modal-success>
-                            Save
-                        </b-button>
-                    </b-col>
+                <b-row class="button-confirm-group">
+                  <b-button @click="updatePengeluaran()" type="submit" class="save-button" v-b-modal.modal-success>
+                      Save
+                  </b-button>
+                  <b-button @click="hideModal" class="cancel-button">
+                      Cancel
+                  </b-button>
                 </b-row>
             </div>
         </template>
@@ -126,12 +118,15 @@
                             <img src="@/assets/img/success-icon.png" alt="" width="60px">
                         </b-col>
                         <b-col cols="9">
-                            <p id="modal-message"> {{pengeluaran.nama}} expense was successfully updated. </p>
+                            <p id="modal-message">{{pengeluaran.nama}} expense was successfully changed.</p>
                         </b-col>
                     </b-row>
                     </div>
                     <b-row class="button-detail-group">
-                        <b-button @click="toDetailPage" id ="button-see-detail" variant="outline-primary">
+                        <router-link :to="{name: 'expense'}">
+                          <b-button class="back-button">Back to List</b-button>
+                        </router-link>
+                        <b-button @click="toDetailPage" class="see-button">
                             See Details
                         </b-button>
                     </b-row>
@@ -145,13 +140,13 @@
 import axios from 'axios';
   export default {
     components : {
-        
+
     },
     data() {
       return {
             services: [],
             id_services : {id:0},
-            
+
             pengeluaran: {
                 id: null,
                 nama : null,
@@ -168,7 +163,7 @@ import axios from 'axios';
     beforeMount(){
         this.getDetail();
     },
-    
+
     methods: {
         onConfirmation(evt) {
           this.confirmationModal = true;
@@ -176,11 +171,11 @@ import axios from 'axios';
         hideModal(){
             this.confirmationModal = false;
         },
-        getDetail: function(){    
+        getDetail: function(){
             axios.get('http://localhost:8080/api/pengeluaran/' +this.$route.params.id)
             .then(res => {
                 this.pengeluaran = res.data.result
-                this.pengeluaran.tanggal = res.data.result.tanggal.substring(0,10)                
+                this.pengeluaran.tanggal = res.data.result.tanggal.substring(0,10)
                 })
             .catch(err => this.pengeluaran = err.data);
         },
@@ -238,14 +233,14 @@ import axios from 'axios';
 }
 
 .judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
+  text-align: center;
+  color: black;
+  margin: 5px 0 24px 0;
 }
 
 .title-form{
-    font-weight: 900;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 
 .isi-form{
@@ -254,31 +249,65 @@ import axios from 'axios';
 }
 
 .label{
-    font-weight: 700;
+    font-weight: 600;
 }
 
-.button-group{
-    text-align: center;
-}
-
-.update-pengeluaran-button{
-    margin-left: 10px;
-    border-color: #109CF1;
-    border-width: 1px;
-    background-color: #109CF1;
-    color:white;
+.save-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-right: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
 }
 
 .cancel-button{
-    color:#109CF1;
-    border-color:#109CF1;
-    border-width: 1px;
-    background-color: white;
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 80px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.see-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-left: 10px;
+  line-height: 13px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
+}
+
+.back-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 100px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.button-group{
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .button-confirm-group{
-    text-align: right;
-    margin-top: 50px;
+    float: right;
+    margin-top: 20px;
+    margin-bottom: -2px;
 }
 
 .modal-icon{
@@ -287,7 +316,8 @@ import axios from 'axios';
 
 .button-detail-group{
     float:right;
-    margin-top: 50px;
+    margin-top: 20px;
+    margin-bottom: -2px;
 }
 
 #modal-title-success{
@@ -299,11 +329,8 @@ import axios from 'axios';
 #modal-message{
   font-size: 16px;
 }
-
-#button-see-detail{
-    color: #109CF1;
-    border-color: #109CF1;
-    border-width: 1px;
+.required label:after {
+  content:" *";
+  color: red;
 }
-
 </style>
