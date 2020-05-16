@@ -70,6 +70,12 @@
               {{items.indexOf(row.item) + 1}}
             </template>
 
+            <template v-slot:cell(role)="row">
+              <div v-for="(role,index) in row.item.roles" :key="index">
+                <span id="role" v-if="role != 'ROLE_USER'">{{generateRole(role)}}</span>
+              </div>
+            </template>
+
             <template v-slot:cell(date)="row">
               {{ row.item.date | moment("ll") }}
             </template>
@@ -143,6 +149,7 @@
 </template>
 <script>
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
   data() {
@@ -153,7 +160,7 @@ export default {
         { key: 'username', label: 'Username', sortable: true, },
         { key: 'role', label: 'Role', sortable: true, },
         { key: 'name', label: 'Nama', sortable: true, },
-        { key: 'noHp', label: 'No HP', sortable: true, },
+        { key: 'noHP', label: 'No HP', sortable: true, },
         { key: 'email', label: 'Email', sortable: true, },
         { key: 'update', label: 'Update', },
         { key: 'delete', label: 'Delete', }
@@ -194,9 +201,29 @@ export default {
       this.currentPage = 1
     },
     getAllUser: function(){
-      axios.get('http://localhost:8080/api/user/all')
+      axios.get('http://localhost:8080/api/user/all', { headers: authHeader() })
       .then(response => this.users = response.data.result);
     },
+    generateRole(role){
+      console.log("ROLES HEHE : " +  role.name);
+      if(role.name == "ROLE_ADMIN"){
+        return "Admin";
+      } else if(role.name == "ROLE_DIREKTUR_UTAMA"){
+        return "Direktur Utama";
+      } else if (role.name == "ROLE_PROJECT_MANAGER"){
+        return "Project Manager";
+      } else if (role.name == "ROLE_SALES_MARKETING"){
+        return "Sales Marketing";
+      } else if (role.name == "ROLE_FINANCE"){
+        return "Finance";
+      } else if (role.name == "ROLE_SERVICE_TEAM"){
+        return "Service Team";
+      } else if (role.name == "ROLE_LOGISTIK"){
+        return "Logistik";
+      } else if (role.name == "ROLE_SUPERVISOR"){
+        return "Supervisor";
+      }
+    }
   }
 }
 </script>
@@ -233,6 +260,9 @@ export default {
   background: none;
 }
 .table{
+  font-size: 12px;
+}
+#role{
   font-size: 12px;
 }
 </style>

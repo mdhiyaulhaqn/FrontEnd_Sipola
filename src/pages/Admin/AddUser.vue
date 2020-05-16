@@ -119,25 +119,42 @@
                                 type="password"
                                 class="form-control"
                                 name="password"
+                                ref="password"
                                 required
                                 placeholder="Password">
                             </b-form-input>
                         </b-form-group>
                     </div>  
                 </b-row>
-                <!-- <b-row>
+                <b-row>
                     <div class = "col-md-12 col-12">
                         <b-form-group>
-                            <label for="PasswordConfirmation">Password Confirmation</label>
+                            <label for="password_confirmation">Password Confirmation</label>
                             <b-form-input
-                                id="PasswordConfirmation"
+                                id="password_confirmation"
+                                v-model="PasswordConfirmation"
                                 type="password"
+                                class="form-control"
+                                name="password_confirmation"
+                                v-validate="'required|confirmed:password'"
+                                data-vv-as="password"
                                 required
                                 placeholder="Password Confirmation">
                             </b-form-input>
                         </b-form-group>
                     </div>  
-                </b-row> -->
+                </b-row>
+                <div class="alert alert-danger" v-show="errors.any()">
+                    <div v-if="errors.has('password')">
+                        {{ errors.first('password') }}
+                    </div>
+                    <div v-if="errors.has('password_confirmation')">
+                        {{ errors.first('password_confirmation') }}
+                    </div>
+                    <div v-else>
+
+                    </div>
+                </div>
                 <div class = "button-group">
                     <b-button class = "cancel-button" type="reset">Cancel</b-button>
                     <b-button class = "save-button" type="submit">Add</b-button>
@@ -207,6 +224,7 @@ export default {
       successful: false,
       message: '',
       selectedRole: null,
+    //   passwordConfirmation: '',
       roles: [
         { value: null, text: '-- Choose Role --'},
         { value: 'admin', text: 'Admin'},
@@ -236,7 +254,9 @@ export default {
 
       this.message = '';
       this.submitted = true;
+
       this.$validator.validate().then(isValid => {
+        // isValid = isValid && checkPasswordConfirmation();
         if (isValid) {
           console.log("Masuk Register Valid");
           this.$store.dispatch('auth/register', this.user).then(
@@ -255,6 +275,9 @@ export default {
         }
       });
     },
+    // checkPasswordConfirmation(){
+    //     return this.user.password == this.passwordConfirmation;
+    // },
     redirect(){
         this.$router.push({ name: 'user' });
     },
