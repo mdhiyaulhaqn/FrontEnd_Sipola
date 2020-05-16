@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class = "col-12">
-            <b-breadcrumb id="breadcrumb"> 
+            <b-breadcrumb id="breadcrumb">
                 <b-breadcrumb-item :to="{name: 'reimbursement-report'}">
                     Reimbursement Report
                 </b-breadcrumb-item>
@@ -9,15 +9,12 @@
                     Detail Reimbursement Report
                 </b-breadcrumb-item>
             </b-breadcrumb>
-            <div class="judul">
-                <strong>
-                    Detail Reimbursement Report
-                </strong>
-            </div> 
-            
-            <card>
+            <h3 class="judul"><strong>Detail Reimbursement Report</strong></h3>
+            <div class = "row">
+            <div class="col-md-10 col-sm-10 col-xs-10 col-12 d-block d-xs-block d-sm-block center">
+              <card class="col">
                 <b-row>
-                    <div class = "col-lg-7 col-sm-7 col-6"><strong>Reimbursement Report</strong></div>
+                    <h5 class = "col-lg-7 col-sm-7 col-6"><strong>Reimbursement Report</strong></h5>
                     <div class="col-lg-3 col-sm-3 col-6 grup-status" style="float:right">
                       <div class="col-lg-5 col-sm-5 col-12 status" >Status</div>
                       <div class="col-lg-7 col-sm-7 col-8">
@@ -67,13 +64,13 @@
                         </button>
                     </div>
                 </b-row>
-                
+
                 <b-row>
                     <b-col >
                         <div class="tabel-expense">
                             <div slot="raw-content" class="table-responsive" style="font-size:12px">
-                                <b-table 
-                                :items="reimbursement.listExpense" 
+                                <b-table
+                                :items="reimbursement.listExpense"
                                 :fields="fields">
                                 <template v-slot:cell(id)="row">
                                     {{reimbursement.listExpense.indexOf(row.item) + 1}}
@@ -85,14 +82,14 @@
                                     {{ row.item.tanggal | moment("ll") }}
                                 </template>
                                 </b-table>
-                                
+
                             </div>
                         </div>
                     </b-col>
-                
+
                 </b-row>
 
-                <div v-if="reimbursement.listAttachment.length > 0">
+                <div v-if="reimbursement.listAttachment != undefined && reimbursement.listAttachment.length > 0">
                   <b-card class="card-attachment">
                   <b-card-title class="title-attachment" v-b-toggle.collapse-2 style="max-height:50px">
                     <h6>Attachments ( {{reimbursement.listAttachment.length}} )</h6>
@@ -100,7 +97,7 @@
                   </b-card-title>
 
                   <!-- Element to collapse -->
-                  <b-collapse id="collapse-2" v-if="reimbursement.listAttachment.length > 0">
+                  <b-collapse id="collapse-2" v-if="reimbursement.listAttachment != undefined && reimbursement.listAttachment.length > 0">
                     <b-card-body>
                       <b-row>
                         <b-col class="col-xs-12 col-sm-12 col-md-2 grup-attachment" v-bind:key="file" v-for="file in reimbursement.listAttachment" >
@@ -116,7 +113,7 @@
                   </b-card>
                 </div>
 
-                <b-row v-if="reimbursement.keterangan.length > 0">
+                <b-row v-if="reimbursement.keterangan != undefined && reimbursement.keterangan.length > 0">
                     <div class = "col-lg-2 col-sm-2 col-4"><i class='fas fa-exclamation-triangle' style='color:red'></i>
                     Notes</div>
                     <div class = "col-lg-5 col-sm-5 col-8">: {{reimbursement.keterangan}}</div>
@@ -135,8 +132,9 @@
                          </router-link>
                     </div>
                 </b-row>
-
             </card>
+            </div>
+            </div>
         </div>
 
         <b-modal
@@ -156,7 +154,7 @@
               <img src="@/assets/img/update-confirm-icon.png" alt="" width="50px">
             </b-col>
             <b-col class="col-10">
-              <p id="modal-message">You cannot change reimbursement report once you click button send.</p>
+              <p id="modal-message">You cannot change reimbursement report once you click the send button.</p>
             </b-col>
           </b-row>
         </div>
@@ -197,16 +195,13 @@
       </template>
       <template v-slot:modal-footer="{ ok }">
         <b-col class="button-confirm-group">
-          <b-button @click="ok()" id="ok-button" variant="outline-primary">
+          <b-button @click="ok()" class="ok-button" variant="outline-primary">
             OK
           </b-button>
         </b-col>
       </template>
     </b-modal>
-
-
-
-        <b-modal
+    <b-modal
       id="modal-delete"
       ref="modal-delete"
       centered
@@ -230,10 +225,10 @@
       </template>
       <template v-slot:modal-footer="{ cancel }">
         <b-col class="button-confirm-group">
-          <b-button @click="onSubmit" id ="confirm_delete_button" variant="outline-danger">
+          <b-button @click="onSubmit" class ="confirm_delete_button" variant="outline-danger">
             Yes, delete it
           </b-button>
-          <b-button @click="cancel()" id ="cancel_delete_button" class="btn btn-danger">
+          <b-button @click="cancel()" class="btn btn-danger cancel_delete_button">
             Cancel
           </b-button>
         </b-col>
@@ -265,7 +260,7 @@
       </template>
       <template v-slot:modal-footer="{ ok }">
         <b-col class="button-confirm-group">
-          <b-button @click="ok()" id="ok-button" variant="outline-primary">
+          <b-button @click="ok()" class="ok-button">
             OK
           </b-button>
         </b-col>
@@ -302,12 +297,12 @@ export default {
             evt.preventDefault();
             this.deleteReimbursement(JSON.stringify(this.reimbursement));
         },
-        
+
         showMessage(status){
             this.successModal = true;
         },
 
-        getDetail: function(){    
+        getDetail: function(){
             axios.get('http://localhost:8080/api/reimbursement/detail/' +this.$route.params.id)
             .then(res => {this.reimbursement = res.data, console.log(this.reimbursement)})
             .catch(err => this.reimbursement = err.data);
@@ -315,8 +310,8 @@ export default {
         },
 
         deleteReimbursement(reimburse){
-            axios.delete('http://localhost:8080/api/reimbursement/delete/' + this.$route.params.id, 
-            reimburse, 
+            axios.delete('http://localhost:8080/api/reimbursement/delete/' + this.$route.params.id,
+            reimburse,
                 { headers: {
                     'Content-Type': 'application/json',
                 }
@@ -370,7 +365,10 @@ export default {
 </script>
 
 <style scoped>
-
+.center{
+  margin-left: auto;
+  margin-right: auto;
+}
 #breadcrumb{
   font-size: 12px;
   /* text-decoration: underline; */
@@ -378,17 +376,13 @@ export default {
   color: #FF3E1D;
   background: none;
 }
-
-body {
-    font-family: 'Muli', sans-serif;
-    background: #fafafa;
+.label{
+  font-weight: 600;
 }
-
 .judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
+  text-align: center;
+  color: black;
+  margin: 5px 0 24px 0;
 }
 .nama-perusahaan{
     color: black;
@@ -421,42 +415,30 @@ body {
     background-color: #FF3E1D;
 }
 
-.button_back{
-    background-color: #FF3E1D;
-    color:white;
-    border-color: white;
-    float:right;
-    margin-top: 40px;
+#edit-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  width: 110px;
+  margin-left: 10px;
+  line-height: 15px;
+  font-size: 12px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
 }
 
-.button_oke{
-    background-color:white;
-    color:#FF3E1D;
-    border-color: #FF3E1D;
-    float:right;
-    margin-top: 40px;
+#delete-button{
+  background-color: #FF3E1D;
+  border-color: #FF3E1D;
+  width: 80px;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
 }
 
-.tombol_okay{
-    float:right;
-}
-
-#manage-button{
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#delete_button{
-    font-size: 10px;
-    background-color: #ff3e1d;
-    color:white;
-    border-color: white;
-}
-#edit_button{
-    font-size: 10px;
-    background-color: #109CF1;
-    color:white;
-    border-color: white;
+.button-group{
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 #kotakAttachment {
@@ -474,22 +456,24 @@ body {
 .button-confirm-group{
   text-align: right;
 }
-#confirm_delete_button{
-  font-size: 10px;
+.confirm_delete_button{
+  font-size: 12px;
   width: 110px;
   border-color: #ff3e1d;
   border-width: 1px;
   margin-right: 10px;
+  line-height: 15px;
 }
-#cancel_delete_button{
-  font-size: 10px;
+.cancel_delete_button{
+  font-size: 12px;
   background-color: #ff3e1d;
   color:white;
   border-color: white;
   border-width: 1px;
+  line-height: 15px;
 }
 h5{
-  margin-bottom: -4px;
+  font-weight: bold;
 }
 #modal-message{
   font-size: 16px;
@@ -497,22 +481,27 @@ h5{
 #modal-title-delete{
   color:#FF3E1D;
   font-weight: 1000;
+  margin-bottom: -4px;
 }
 #modal-title-success{
   color: #109CF1;
   font-weight: 1000;
+  margin-bottom: -4px;
 }
-#ok-button{
+.ok-button{
   color:#109CF1;
   border-color:#109CF1;
   background-color: white;
+  font-size: 12px;
+  line-height: 15px;
+  border-width: 1px;
 }
 
 #cancel_send_button{
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  font-size: 10px;
+  font-size: 12px;
   margin-left: 10px;
   line-height: 15px;
   width: 110px;
@@ -528,29 +517,7 @@ h5{
   width: 80px;
   line-height: 15px;
   text-align: center;
-  font-size: 10px;
-}
-
-#edit-button{
-  background-color: #109CF1;
-  color:white;
-  border-color: transparent;
-  width: 110px;
-  margin-left: 10px;
-  font-size: 10px;
-  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
-}
-
-#delete-button{
-  background-color: #FF3E1D;
-  border-color: #FF3E1D;
-  width: 80px;
-  font-size: 10px;
-}
-
-.button-group{
-  margin-top: 30px;
-  text-align: center;
+  font-size: 12px;
 }
 
 img {
