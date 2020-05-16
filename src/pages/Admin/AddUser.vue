@@ -84,7 +84,9 @@
                     <div class = "col-md-12 col-12">
                         <b-form-group>
                             <label for="Role">Role</label>
-                            <b-form-select v-model="selectedRole" :options="roles"></b-form-select>
+                            <b-form-select v-model="selectedRole" :options="roles" required>
+                                <input :required="!selected">
+                            </b-form-select>
                             <div
                                 v-if="submitted && errors.has('role')"
                                 class="alert-danger"
