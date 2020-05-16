@@ -188,7 +188,7 @@
               <img src="@/assets/img/success-icon.png" alt="" width="50px">
             </b-col>
             <b-col class="col-10">
-              <p id="modal-message">Reimbursement Report for {{reimbursement.projectName}} was successfully sent to finance.</p>
+              <p id="modal-message">Reimbursement Report for {{reimbursement.projectName}} was successfully sent to Finance.</p>
             </b-col>
           </b-row>
         </div>

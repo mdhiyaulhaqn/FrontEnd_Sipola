@@ -68,7 +68,9 @@
                 </b-form-group>
                 <div class = "button-group">
                   <b-button class = "save-button" type="submit">Save</b-button>
-                  <b-button class = "cancel-button" type="reset">Cancel</b-button>
+                  <router-link :to="{name: 'expense-detail'}">
+                    <b-button class="cancel-button" type="reset">Cancel</b-button>
+                  </router-link>
                 </div>
             </b-form>
             </card>
