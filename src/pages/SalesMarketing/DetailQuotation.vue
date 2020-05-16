@@ -17,13 +17,15 @@
               <h5 class="text-center">Quotation</h5>
                 <div class="container-fluid">
                 <b-row>
-                    <div class = "col-lg-7 col-sm-7 col-xs-6 nama-perusahaan" style="font-weight: 600">{{quotation.company.nama}}</div>
+                    <div class = "col-lg-7 col-sm-7 col-xs-6 nama-perusahaan" style="font-weight: 600">
+                      {{quotation.company.nama}}
+                    </div>
                     <div class = "col-lg-5 col-sm-5 col-xs-6">
                         <div class ="row">
                             <div class = "col-lg-5 col-sm-5 col-6">Created By </div>
                             <div class = "col-lg-7 col-sm-7 col-6">: {{quotation.createdBy}} </div>
                             <div class = "col-lg-5 col-sm-5 col-6">Created At </div>
-                            <div class = "col-lg-7 col-sm-7 col-6">: {{ quotation.createdAt.split("T")[0].split("-").reverse().join('-') }}</div>
+                            <div class = "col-lg-7 col-sm-7 col-6">: {{ quotation.createdAt.slice(0, 19) | moment('lll') }}</div>
                         </div>
                     </div>
                 </b-row>
@@ -33,7 +35,7 @@
                 </b-row>
                 <b-row>
                     <div class = "col-lg-3 col-sm-4 col-6">Quotation Date </div>
-                    <div class = "col-lg-6 col-sm-8 col-6">: {{ quotation.date.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-lg-6 col-sm-8 col-6">: {{ quotation.date | moment('ll') }}</div>
                 </b-row>
                 <b-row>
                     <div class = "col-lg-3 col-sm-4 col-6">Address </div>

@@ -19,7 +19,7 @@
                     <b-col cols="6" class="detail-text">: Rp{{formatPrice(pengeluaran.nominal)}}</b-col>
                 </b-row>
                 <b-row align-h="end">
-                    <b-col class="detail-label col-5 col-md-2">Date</b-col>
+                    <b-col class="detail-label col-5 col-md-2">Expense Date</b-col>
                     <b-col cols="6" class="detail-text">: {{pengeluaran.tanggal | moment("ll")}}</b-col>
                 </b-row>
                 <b-row align-h="end">
@@ -27,8 +27,8 @@
                     <b-col cols="6" class="detail-text">: {{pengeluaran.paidBy}}</b-col>
                 </b-row>
                 <b-row align-h="end">
-                    <b-col class="detail-label col-5 col-md-2">Created date</b-col>
-                    <b-col cols="6" class="detail-text">: {{pengeluaran.createdAt | moment("ll")}}</b-col>
+                    <b-col class="detail-label col-5 col-md-2">Created at</b-col>
+                    <b-col cols="6" class="detail-text">: {{pengeluaran.createdAt.slice(0, 19) | moment('lll')}}</b-col>
                 </b-row>
                 <b-row align-h="end">
                     <b-col class="detail-label col-5 col-md-2">Created by</b-col>

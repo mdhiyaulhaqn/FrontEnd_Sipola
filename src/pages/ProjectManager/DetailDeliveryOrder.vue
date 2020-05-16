@@ -35,10 +35,10 @@
                     </div>
                     <div class = "col-lg-4 col-sm-5 col-xs-6">
                         <b-row>
-                            <div class = "col-lg-5 col-sm-5 col-6">Created By</div>
+                            <div class = "col-lg-5 col-sm-5 col-6">Created by</div>
                             <div class = "col-lg-7 col-sm-7 col-6">: {{delivery_order.createdBy}} </div>
-                            <div class = "col-lg-5 col-sm-5 col-6">Created At</div>
-                            <div class = "col-lg-7 col-sm-7 col-6">: {{delivery_order.createdAt | moment('ll') }}</div>
+                            <div class = "col-lg-5 col-sm-5 col-6">Created at</div>
+                            <div class = "col-lg-7 col-sm-7 col-6">: {{delivery_order.createdAt.slice(0, 19) | moment('lll') }}</div>
                         </b-row>
                     </div>
                 </b-row>

@@ -20,20 +20,20 @@
                     <div class = "col-lg-7 col-sm-7 col-xs-6 nama-perusahaan">{{sales_order.company.nama}}</div>
                     <div class = "col-lg-5 col-sm-5 col-xs-6">
                         <div class ="row">
-                            <div class = "col-lg-5 col-sm-5 col-5">Created By </div>
+                            <div class = "col-lg-5 col-sm-5 col-5">Created by</div>
                             <div class = "col-lg-7 col-sm-7 col-7">: {{sales_order.createdBy}} </div>
-                            <div class = "col-lg-5 col-sm-5 col-5">Created At </div>
-                            <div class = "col-lg-7 col-sm-7 col-7">: {{sales_order.createdAt.split("T")[0].split("-").reverse().join('-') }}</div>
+                            <div class = "col-lg-5 col-sm-5 col-5">Created at</div>
+                            <div class = "col-lg-7 col-sm-7 col-7">: {{sales_order.createdAt.slice(0, 19) | moment('lll') }}</div>
                         </div>
                     </div>
                 </b-row>
                 <b-row>
-                    <div class = "col-lg-3 col-sm-4 col-5">Sales Order Number </div>
+                    <div class = "col-lg-3 col-sm-4 col-5">Sales Order Number</div>
                     <div class = "col-lg-6 col-sm-8 col-7">: {{sales_order.noSalesOrder}}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-lg-3 col-sm-4 col-5">Sales Order Date </div>
-                    <div class = "col-lg-6 col-sm-8 col-7">: {{ sales_order.date.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-lg-3 col-sm-4 col-5">Sales Order Date</div>
+                    <div class = "col-lg-6 col-sm-8 col-7">: {{ sales_order.date | moment('ll') }}</div>
                 </b-row>
                 <b-row>
                     <div class = "col-lg-3 col-sm-4 col-5">Address </div>

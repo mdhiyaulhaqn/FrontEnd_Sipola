@@ -38,15 +38,15 @@
                     <b-row>
                         <div class = "col-md-2 col-6">Attn.</div>
                         <div class = "col-md-5 col-6">: {{ purchaseOrder.attnName }}</div>
-                        <div class = "col-md-2 col-6">Created By</div>
+                        <div class = "col-md-2 col-6">Created by</div>
                         <div class = "col-md-3 col-6">: {{ purchaseOrder.createdBy }}</div>
                     </b-row>
 
                     <b-row>
                         <div class = "col-md-2 col-6">Address</div>
                         <div class = "col-md-5 col-6">: {{ purchaseOrder.company.alamat }}</div>
-                        <div class = "col-md-2 col-6">Created At</div>
-                        <div class = "col-md-3 col-6">: {{ purchaseOrder.createdAt  | moment('ll') }}</div>
+                        <div class = "col-md-2 col-6">Created at</div>
+                        <div class = "col-md-3 col-6">: {{ purchaseOrder.createdAt.slice(0, 19) | moment('lll') }}</div>
                     </b-row>
 
                     <b-row>
