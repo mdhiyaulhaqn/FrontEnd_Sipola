@@ -83,7 +83,7 @@
                                         type="text"
                                         required
                                         placeholder="Company Name"
-                                        pattern="[a-zA-Z0-9-]++"
+                                        pattern=".*[a-zA-Z0-9-].*"
                                         >
                                     </b-form-input>
                                 </b-form-group>
@@ -126,7 +126,7 @@
                                     <label class="label">UOM</label>
                                 </div>
                                 <div class="col-md-3 required">
-                                    <label>Unit Price (IDR)</label>
+                                    <label class="label">Unit Price (IDR)</label>
                                 </div>
                                 <div class="col-md-1">
                                 </div>
@@ -155,7 +155,7 @@
 
                         <!-- Add & Cancel Button -->
                         <div class = "button-group">
-                            <b-button class = "save-button" type="submit">Update</b-button>
+                            <b-button class = "save-button" type="submit">Save</b-button>
                             <router-link :to="{name: 'detail-purchase-order'}">
                                 <b-button class = "cancel-button" type="reset">Cancel</b-button>
                             </router-link>

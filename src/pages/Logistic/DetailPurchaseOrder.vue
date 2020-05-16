@@ -16,7 +16,7 @@
               <h5 class="text-center">Purchase Order</h5>
                 <div class="container-fluid">
                     <b-row>
-                        <div class="company-name">
+                        <div class="company-name col-lg-7 col-sm-7 col-xs-6">
                             <strong>{{ purchaseOrder.company.nama }}</strong>
                         </div>
                     </b-row>
@@ -81,7 +81,7 @@
                                         </template>
                                     </b-table>
                                     <br>
-                                    <b-row align-content="right">
+                                    <b-row align-content="end">
                                         <div class="col-md-7"></div>
                                         <div class = "col-md-2 col-6">
                                             <strong>Sub-total</strong>
@@ -90,7 +90,7 @@
                                             Rp{{formatPrice(this.purchaseOrder.sub_total_price)}}
                                         </div>
                                     </b-row>
-                                    <b-row align-content="rigt">
+                                    <b-row align-content="end">
                                         <div class="col-md-7"></div>
                                         <div class = "col-md-2 col-6">
                                             <strong>PPN (10%)</strong>
@@ -99,7 +99,7 @@
                                             Rp{{formatPrice(this.purchaseOrder.price_ppn)}}
                                         </div>
                                     </b-row>
-                                    <b-row align-content="right">
+                                    <b-row align-content="end">
                                         <div class="col-md-7"></div>
                                         <div class = "col-md-2 col-6">
                                             <strong>Total Price</strong>
@@ -526,13 +526,6 @@ export default {
   margin-top: 20px;
   text-align: center;
   margin-bottom: 10px;
-}
-#delete-button{
-    font-size: 10px;
-    width: 56;
-    background-color: #ff3e1d;
-    color:white;
-    border-color: white;
 }
 
 #ok-button{

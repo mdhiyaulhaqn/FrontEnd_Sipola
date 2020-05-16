@@ -17,7 +17,7 @@
               <h5 class="text-center">Quotation</h5>
                 <div class="container-fluid">
                 <b-row>
-                    <div class = "col-lg-7 col-sm-7 col-xs-6 nama-perusahaan">{{quotation.company.nama}}</div>
+                    <div class = "col-lg-7 col-sm-7 col-xs-6 nama-perusahaan" style="font-weight: 600">{{quotation.company.nama}}</div>
                     <div class = "col-lg-5 col-sm-5 col-xs-6">
                         <div class ="row">
                             <div class = "col-lg-5 col-sm-5 col-6">Created By </div>
