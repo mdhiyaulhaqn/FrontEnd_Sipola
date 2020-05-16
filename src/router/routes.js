@@ -146,12 +146,12 @@ const routes = [
         component: Invoice
       },
       {
-        path: "detail-invoice/:id",
+        path: "invoice/:id",
         name: "detail-invoice",
         component: DetailInvoice
       },
       {
-        path: "invoice-add",
+        path: "invoice/add",
         name: "invoice-add",
         component: FormInvoice
       },
@@ -166,7 +166,7 @@ const routes = [
         component: SalesOrderForInvoice
       },
       {
-        path: "detail-sales-order-for-invoice",
+        path: "sales-order-for-invoice/:id",
         name: "detail-sales-order-for-invoice",
         component: DetailSalesOrderForInvoice
       },
@@ -247,12 +247,12 @@ const routes = [
         component: PurchaseOrder
       },
       {
-        path: "detail-purchase-order/:id",
+        path: "purchase-order/:id",
         name: "detail-purchase-order",
         component: DetailPurchaseOrder
       },
       {
-        path: "purchase-order-add",
+        path: "purchase-order/add",
         name: "purchase-order-add",
         component: FormPurchaseOrder
       },

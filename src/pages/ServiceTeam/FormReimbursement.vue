@@ -187,7 +187,7 @@ export default {
                 createdBy : 'Ringgi Cahyo',
                 paidBy : 'Ringgi Cahyo',
                 reimbursement : '',
-                status : 'Inactive'
+                status : 'Not Approved'
             },
             show: true,
             successModal : false,

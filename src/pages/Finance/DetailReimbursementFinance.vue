@@ -18,7 +18,23 @@
             <card>
                <div class="container-fluid">
                 <b-row>
-                    <div class = "col-lg-7 col-sm-7 col-8"><strong>Reimbursement Report</strong></div>
+                    <div class = "col-lg-7 col-sm-7 col-6"><strong>Reimbursement Report</strong></div>
+                    <div class="col-lg-3 col-sm-3 col-6 grup-status">
+                      <div class="col-lg-5 col-sm-5 col-12 status" >Status</div>
+                      <div class="col-lg-7 col-sm-7 col-8">
+                        <b-badge  v-if="reimbursement.statusReimburse === 2" pill variant="info" size=sm id ="status_reimbursement">
+                          Not Reviewed
+                        </b-badge>
+                        <b-badge  v-if="reimbursement.statusReimburse === 3" pill variant="success" size=sm id ="status_reimbursement">
+                          Accepted
+                        </b-badge>
+                        <b-badge v-if="reimbursement.statusReimburse === 4" size=sm id ="status_reimbursement" style="background-color:#F89133; color:black">
+                          On Revision</b-badge>
+                        <b-badge  v-if="reimbursement.statusReimburse === 5" pill variant="danger" size=sm id ="status_reimbursement">
+                          Rejected
+                        </b-badge>
+                      </div>
+                    </div>
                 </b-row>
                 <b-row>
                     <div class = "col-lg-2 col-sm-2 col-6">Created by</div>
@@ -98,9 +114,10 @@
                   </b-card>
                 </div>
 
-                <b-row>
-                  <div class = "col-lg-5 col-sm-5 col-6" v-if="reimbursement.keterangan.length > 0"><br><i class='fas fa-exclamation-triangle' style='color:red'></i>
-                  Notes : {{reimbursement.keterangan}}</div>
+                <b-row v-if="reimbursement.keterangan.length > 0">
+                    <div class = "col-lg-2 col-sm-2 col-4"><i class='fas fa-exclamation-triangle' style='color:red'></i>
+                    Notes</div>
+                    <div class = "col-lg-5 col-sm-5 col-8">: {{reimbursement.keterangan}}</div>
                 </b-row>
 
                 <b-row>
@@ -251,6 +268,11 @@
         </b-col>
       </template>
     </b-modal>
+
+    <b-modal title="Failed" v-model="failedModal" centered ok-only>
+        Invoice was failed to be changed.
+    </b-modal>
+
     </div>
 </template>
 
@@ -269,6 +291,7 @@ export default {
             successModal : false,
             rejectModal : false,
             approveModal : false,
+            failedModal : false,
             revision : false,
             fields: [
                 {key: 'id', label: 'No', sortable: true},
@@ -305,7 +328,12 @@ export default {
         },
         
         showMessage(status){
-            this.successModal = true;
+            if(status == 200){
+                this.successModal = true;
+            }
+            else if(status == 500){
+                this.failedModal = true;
+            } 
         },
 
         getDetail: function(){    
@@ -335,10 +363,6 @@ export default {
 
         hideModalReject(){
             this.$refs['modal-reject'].hide();
-        },
-
-        showMessageRejectModal(status){
-            this.rejectModal = true;
         },
 
         handleSubmit(evt) {
@@ -594,6 +618,11 @@ img {
 
 .card-attachment {
   border: solid 1px gray;
+}
+
+.grup-status{
+  position: absolute;
+  right: 16px;
 }
 
 </style>
