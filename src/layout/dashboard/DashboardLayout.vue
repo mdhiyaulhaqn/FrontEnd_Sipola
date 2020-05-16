@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <side-bar>
+    <side-bar v-if="currentUser">
       <template slot="links">
         <div v-if="showAdminBoard">
           <sidebar-link to="/user" name="Manage User"/>
@@ -65,7 +65,7 @@
         <dashboard-content @click.native="toggleSidebar">
 
           </dashboard-content>
-      </div>
+      </div>  
     </div>
   </div>
 </template>
