@@ -1,8 +1,8 @@
 <template>
 <b-row class="expense_row">
-    
-    <span class = "col-md-5 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none">
-        <label>Expense Name</label>
+
+    <span class = "col-md-5 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
+        <label class="label">Expense Name</label>
     </span>
 
     <div class = "col-md-5 col-sm-8 col-xs-8 col-7">
@@ -17,8 +17,8 @@
         </b-form-input>
     </div>
 
-    <span class = "col-md-3 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none">
-        <label>Price</label>
+    <span class = "col-md-3 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
+        <label class="label">Price (IDR)</label>
     </span>
     <div class= "col-md-3 col-sm-8 col-xs-8 col-7">
            <b-form-input
@@ -33,8 +33,8 @@
         </b-form-input>
     </div>
 
-    <span class = "col-md-3 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none">
-        <label>Date</label>
+    <span class = "col-md-3 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
+        <label class="label">Date</label>
     </span>
     <div class = "col-md-3 col-sm-8 col-xs-8 col-7">
            <b-form-input
@@ -42,7 +42,6 @@
             v-model="expense.tanggal"
             type="date"
             required
-            placeholder="0"
             >
         </b-form-input>
     </div>
@@ -73,8 +72,11 @@ export default {
     margin-bottom: 10px;
     margin-right: 0px;
 }
-
 .label{
   font-weight: 600;
+}
+.required label:after {
+  content:" *";
+  color: red;
 }
 </style>

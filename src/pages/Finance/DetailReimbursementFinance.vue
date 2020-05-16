@@ -1,25 +1,21 @@
 <template>
     <div class="row">
         <div class = "col-12">
-            <b-breadcrumb id="breadcrumb"> 
+            <b-breadcrumb id="breadcrumb">
                 <b-breadcrumb-item :to="{name: 'reimbursement-request'}">
                     Reimbursement Request
                 </b-breadcrumb-item>
                 <b-breadcrumb-item active>
-                    Detail Reimbursement Report
+                    Detail Reimbursement Request
                 </b-breadcrumb-item>
             </b-breadcrumb>
-            <div class="judul">
-                <strong>
-                    Detail Reimbursement Request
-                </strong>
-            </div> 
-            
-            <card>
-               <div class="container-fluid">
+            <h3 class="judul"><strong>Detail Reimbursement Request</strong></h3>
+            <div class = "row">
+            <div class="col-md-10 col-sm-10 col-xs-10 col-12 d-block d-xs-block d-sm-block center">
+            <card class="col">
                 <b-row>
-                    <div class = "col-lg-7 col-sm-7 col-6"><strong>Reimbursement Report</strong></div>
-                    <div class="col-lg-3 col-sm-3 col-6 grup-status">
+                    <h5 class = "col-lg-7 col-sm-7 col-6"><strong>Reimbursement Report</strong></h5>
+                    <div class="col-lg-3 col-sm-3 col-6 grup-status" style="float:right;">
                       <div class="col-lg-5 col-sm-5 col-12 status" >Status</div>
                       <div class="col-lg-7 col-sm-7 col-8">
                         <b-badge  v-if="reimbursement.statusReimburse === 2" pill variant="info" size=sm id ="status_reimbursement">
@@ -59,13 +55,13 @@
                 <b-row>
                     <div class = "col-lg-5 col-sm-5 col-6"><br>Expense</div>
                 </b-row>
-                
+
                 <b-row>
                     <b-col >
                         <div class="tabel-expense">
                             <div slot="raw-content" class="table-responsive" style="font-size:12px">
-                                <b-table 
-                                :items="reimbursement.listExpense" 
+                                <b-table
+                                :items="reimbursement.listExpense"
                                 :fields="fields">
                                  <template v-slot:cell(id)="row">
                                     {{reimbursement.listExpense.indexOf(row.item) + 1}}
@@ -84,13 +80,13 @@
                                   </router-link>
                                 </template>
                                 </b-table>
-                                
+
                             </div>
                         </div>
                     </b-col>
                 </b-row>
-        
-                <div v-if="reimbursement.listAttachment.length > 0">
+
+                <div v-if="reimbursement.listAttachment != undefined && reimbursement.listAttachment.length > 0">
                   <b-card class="card-attachment">
                   <b-card-title class="title-attachment" v-b-toggle.collapse-2 style="max-height:50px">
                     <h6>Attachments ( {{reimbursement.listAttachment.length}} )</h6>
@@ -98,7 +94,7 @@
                   </b-card-title>
 
                   <!-- Element to collapse -->
-                  <b-collapse id="collapse-2" v-if="reimbursement.listAttachment.length > 0">
+                  <b-collapse id="collapse-2" v-if="reimbursement.listAttachment != undefined && reimbursement.listAttachment.length > 0">
                     <b-card-body>
                       <b-row>
                         <b-col class="col-xs-12 col-sm-12 col-md-2 grup-attachment" v-bind:key="file" v-for="file in reimbursement.listAttachment" >
@@ -114,14 +110,14 @@
                   </b-card>
                 </div>
 
-                <b-row v-if="reimbursement.keterangan.length > 0">
+                <b-row v-if="reimbursement.keterangan != undefined && reimbursement.keterangan.length > 0">
                     <div class = "col-lg-2 col-sm-2 col-4"><i class='fas fa-exclamation-triangle' style='color:red'></i>
                     Notes</div>
                     <div class = "col-lg-5 col-sm-5 col-8">: {{reimbursement.keterangan}}</div>
                 </b-row>
 
                 <b-row>
-                    <div class="col button-group" v-if="reimbursement.statusReimburse != 3">
+                    <div class="col button-group" v-if="reimbursement.keterangan != undefined && reimbursement.statusReimburse != 3">
                         <br>
                         <button v-on:click="onConfirmationReject" id ="delete-button" class="btn btn-primary">
                             Reject
@@ -131,9 +127,9 @@
                         </button>
                     </div>
                 </b-row>
-               </div>
-
             </card>
+            </div>
+          </div>
         </div>
 
     <b-modal
@@ -141,12 +137,12 @@
       ref="modal-reject"
       v-model="rejectModal"
       centered
-      >     
+      >
       <template v-slot:modal-title>
         <div class="container">
-          <h5 id="modal-title-reject">Rejection</h5>
+          <h5 id="modal-title-reject">Reject Request?</h5>
         </div>
-      </template>     
+      </template>
       <template v-slot:default>
         <div class="container" fluid>
           <b-row>
@@ -154,13 +150,13 @@
                   <img src="@/assets/img/delete-confirm-icon.png" alt="" width="50px">
               </b-col>
               <b-col class="col-10">
-                  <p id="modal-message">Do you want to reject reimbursement report requested by Nindya?</p>
+                  <p id="modal-message">You can still change your decision later.</p>
               </b-col>
               <div class="col-xs-10 col-md-12 col-sm-8">
                 <b-form @submit.stop.prevent="submitReject">
-                    <b-form-group size="sm">
-                        <label for="keterangan">Reason</label>
-                        <b-form-input 
+                    <b-form-group size="sm" style="margin-top: 15px;">
+                        <label for="keterangan" class="label">Reason</label>
+                        <b-form-input
                             id="keteranganInput"
                             v-model="keterangan"
                             type="text"
@@ -187,14 +183,14 @@
       <template v-slot:modal-footer="{ cancel }">
         <b-col class="button-reject-group">
           <b-button @click="submitReject" id ="confirm_reject_button" variant="outline-danger">
-            Yes
+            Reject
           </b-button>
           <b-button @click="cancel()" id ="cancel_reject_button" class="btn btn-danger">
             Cancel
           </b-button>
         </b-col>
       </template>
-      
+
     </b-modal>
 
 
@@ -207,7 +203,7 @@
       >
       <template v-slot:modal-title>
         <div class="container">
-          <h5 id="modal-title-delete">Approval</h5>
+          <h5 id="modal-title-approval">Approve Request?</h5>
         </div>
       </template>
       <template v-slot:default>
@@ -217,7 +213,7 @@
                   <img src="@/assets/img/approval-icon.png" alt="" width="50px">
               </b-col>
               <b-col class="col-10">
-                  <p id="modal-message">Do you want to approve reimbursement report requested by Nindya?</p>
+                  <p id="modal-message">You cannot undo this action once you click the approve button.</p>
               </b-col>
           </b-row>
         </div>
@@ -225,7 +221,7 @@
       <template v-slot:modal-footer="{ cancel }">
         <b-col class="button-confirm-group">
           <b-button @click="onSubmit" id ="confirm_approve_button" variant="outline-success">
-            Yes
+            Approve
           </b-button>
           <b-button @click="cancel()" id ="cancel_approve_button" class="btn btn-success">
             Cancel
@@ -262,7 +258,7 @@
       </template>
       <template v-slot:modal-footer="{ ok }">
         <b-col class="button-confirm-group">
-          <b-button @click="ok()" id="ok-button" variant="outline-primary">
+          <b-button @click="ok()" id="ok-button">
             OK
           </b-button>
         </b-col>
@@ -297,7 +293,7 @@ export default {
                 {key: 'id', label: 'No', sortable: true},
                 {key: 'nama', label: 'Expense Item', sortable: true},
                 {key: 'tanggal', label: 'Date', sortable: true},
-                {key: 'nominal', label: 'Price(IDR)', sortable: true},
+                {key: 'nominal', label: 'Price (IDR)', sortable: true},
                 {key: 'action', label: 'Action'}
             ],
             options : [
@@ -318,34 +314,32 @@ export default {
         },
 
         onConfirmationApprove(evt) {
-          console.log('masuk')
           this.approveModal = true;
         },
 
         onConfirmationReject(evt) {
-          console.log('masuk')
           this.rejectModal = true;
         },
-        
+
         showMessage(status){
             if(status == 200){
                 this.successModal = true;
             }
             else if(status == 500){
                 this.failedModal = true;
-            } 
+            }
         },
 
-        getDetail: function(){    
+        getDetail: function(){
             axios.get('http://localhost:8080/api/reimbursement/detail/' +this.$route.params.id)
-            .then(res => {this.reimbursement = res.data, console.log(this.reimbursement)})
+            .then(res => {this.reimbursement = res.data })
             .catch(err => this.reimbursement = err.data);
             // this.previewImage();
         },
 
         approveReimbursement(reimburse) {
-          axios.put('http://localhost:8080/api/reimbursement/changeStatus/' + this.$route.params.id, 
-            reimburse, 
+          axios.put('http://localhost:8080/api/reimbursement/changeStatus/' + this.$route.params.id,
+            reimburse,
                 { headers: {
                     'Content-Type': 'application/json',
                 }
@@ -371,8 +365,6 @@ export default {
         },
 
         submitReject(){
-          console.log(this.reimbursement.keterangan);
-          console.log(this.revision);
           this.reimbursement.keterangan = this.keterangan;
           if (this.revision == true) {
             this.reimbursement.statusReimburse = 4;
@@ -384,8 +376,8 @@ export default {
         },
 
         rejectReimbursement(reimburse){
-          axios.put('http://localhost:8080/api/reimbursement/changeStatus/' + this.$route.params.id, 
-            reimburse, 
+          axios.put('http://localhost:8080/api/reimbursement/changeStatus/' + this.$route.params.id,
+            reimburse,
                 { headers: {
                     'Content-Type': 'application/json',
                 }
@@ -394,7 +386,6 @@ export default {
         },
 
         downloadFile(file) {
-          console.log(file.fileName)
           const linkSource = 'data:' + file.type + ';base64,' + file.image;
           const downloadLink = document.createElement("a");
           const fileName = file.fileName;
@@ -405,7 +396,6 @@ export default {
         },
 
         downloadAll() {
-          console.log('download all')
           var zip = new JSZip();
           var count = 0;
           var zipFilename = "zipFilename.zip";
@@ -431,14 +421,17 @@ export default {
             });
           });
         }
-          
+
 
   }
 };
 </script>
 
 <style scoped>
-
+.center{
+  margin-left: auto;
+  margin-right: auto;
+}
 #breadcrumb{
   font-size: 12px;
   /* text-decoration: underline; */
@@ -446,17 +439,13 @@ export default {
   color: #FF3E1D;
   background: none;
 }
-
-body {
-    font-family: 'Muli', sans-serif;
-    background: #fafafa;
+.label{
+  font-weight: 600;
 }
-
 .judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
+  text-align: center;
+  color: black;
+  margin: 5px 0 24px 0;
 }
 #send_button{
     font-size: 12px;
@@ -480,36 +469,30 @@ body {
     background-color: #FF3E1D;
 }
 
-.button_back{
-    background-color: #FF3E1D;
-    color:white;
-    border-color: white;
-    float:right;
-    margin-top: 40px;
+#edit-button{
+  background-color: #28A745;
+  color:white;
+  border-color: transparent;
+  width: 110px;
+  margin-left: 10px;
+  line-height: 15px;
+  font-size: 12px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
 }
 
-.button_oke{
-    background-color:white;
-    color:#FF3E1D;
-    border-color: #FF3E1D;
-    float:right;
-    margin-top: 40px;
+#delete-button{
+  background-color: #FF3E1D;
+  border-color: #FF3E1D;
+  width: 80px;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
 }
 
-.tombol_okay{
-    float:right;
-}
-
-#manage-button{
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#delete_button{
-    font-size: 10px;
-    background-color: #ff3e1d;
-    color:white;
-    border-color: white;
+.button-group{
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 #kotakAttachment {
@@ -533,78 +516,64 @@ body {
 }
 
 #confirm_approve_button{
-  font-size: 10px;
-  width: 110px;
+  font-size: 12px;
   border-color: #28A745;
   border-width: 1px;
   margin-right: 10px;
+  line-height: 15px;
 }
 #cancel_approve_button{
-  font-size: 10px;
+  font-size: 12px;
   background-color: #28A745;
   color:white;
   border-color: white;
   border-width: 1px;
+  line-height: 15px;
 }
 #confirm_reject_button{
-  font-size: 10px;
-  width: 110px;
+  font-size: 12px;
+  width: 80px;
   border-color: #FF3E1D;
   border-width: 1px;
   margin-right: 10px;
+  line-height: 15px;
 }
 #cancel_reject_button{
-  font-size: 10px;
+  font-size: 12px;
   background-color: #FF3E1D;
   color:white;
   border-color: white;
   border-width: 1px;
+  line-height: 15px;
 }
 h5{
-  margin-bottom: -4px;
+  font-weight: bold;
 }
 #modal-message{
   font-size: 16px;
 }
-#modal-title-delete{
+#modal-title-approval{
   color:#28A745;
   font-weight: 1000;
+  margin-bottom: -4px;
 }
 #modal-title-reject{
   color:#FF3E1D;
   font-weight: 1000;
+  margin-bottom: -4px;
 }
 #modal-title-success{
   color: #109CF1;
   font-weight: 1000;
+  margin-bottom: -4px;
 }
 #ok-button{
   color:#109CF1;
   border-color:#109CF1;
   background-color: white;
-}
-
-
-#edit-button{
-  background-color: #28A745;
-  color:white;
-  border-color: transparent;
-  width: 110px;
-  margin-left: 10px;
-  font-size: 10px;
-  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
-}
-
-#delete-button{
-  background-color: #FF3E1D;
-  border-color: #FF3E1D;
-  width: 80px;
-  font-size: 10px;
-}
-
-.button-group{
-  margin-top: 30px;
-  text-align: center;
+  font-size: 12px;
+  line-height: 15px;
+  border-width: 1px;
 }
 
 img {

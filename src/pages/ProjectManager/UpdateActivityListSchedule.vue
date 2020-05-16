@@ -14,11 +14,11 @@
       </b-breadcrumb>
       <h3 class="judul"><strong>Update Activity List Schedule</strong></h3>
     <div class = "row">
-        <div class="col-10 isi-form">
-          <card>
+        <div class="col-md-8 col-sm-8 col-xs-8 col-12 d-block d-xs-block d-sm-block isi-form">
+          <card class="col">
             <h5 class="title-form">Update Activity List Schedule Form</h5>
             <b-form @submit="onConfirmation" v-if="show">
-                <b-form-group id="project-name-input">
+                <b-form-group id="project-name-input" class="required">
                   <label class="label" for="projectName">Project Name</label>
                   <b-form-input
                     id="projectName"
@@ -32,7 +32,7 @@
                   </b-form-input>
                 </b-form-group>
 
-                <b-form-group id="company-name-input">
+                <b-form-group id="company-name-input" class="required">
                   <label class="label" for="companyName">Company Name</label>
                   <b-form-input
                     id="companyName"
@@ -315,10 +315,10 @@ export default {
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  font-size: 10px;
+  font-size: 12px;
   margin-right: 10px;
   line-height: 15px;
-  width: 110px;
+  width: 120px;
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
   text-align: center;
 }
@@ -331,7 +331,7 @@ export default {
   width: 80px;
   line-height: 15px;
   text-align: center;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .see-button{
@@ -389,5 +389,9 @@ h5{
   margin: -35px 0 -5px -15px;
   color: #FF3E1D;
   background: none;
+}
+.required label:after {
+  content:" *";
+  color: red;
 }
 </style>
