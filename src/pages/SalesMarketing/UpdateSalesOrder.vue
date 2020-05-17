@@ -243,6 +243,7 @@ export default {
             failedModal : false,
             warningModal : false,
             send : {objects : null},
+            companies: []
         }
     },
 

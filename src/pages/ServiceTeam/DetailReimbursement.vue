@@ -41,7 +41,7 @@
                 </b-row>
                 <b-row>
                     <div class = "col-lg-2 col-sm-2 col-6">Created at</div>
-                    <div class = "col-lg-5 col-sm-5 col-6">:  {{ reimbursement.createdAt.slice(0, 19) | moment('lll')}}</div>
+                    <div class = "col-lg-5 col-sm-5 col-6">: {{ reimbursement.createdAt.slice(0, 19) | moment('lll')}}</div>
                 </b-row>
                 <b-row>
                     <div class = "col-lg-2 col-sm-2 col-6">ID Report</div>
@@ -277,7 +277,9 @@ export default {
     data() {
         return {
             previewFile:[],
-            reimbursement : '',
+            reimbursement : {
+              createdAt: []
+            },
             untukPreview: 'data:image/jpeg;base64, ',
             successModal : false,
             successModalSend : false,

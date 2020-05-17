@@ -17,7 +17,7 @@
               <h5 class="text-center">Sales Order</h5>
                 <div class="container-fluid">
                 <b-row>
-                    <div class = "col-lg-7 col-sm-7 col-xs-6 nama-perusahaan">{{sales_order.company.nama}}</div>
+                    <div class = "col-lg-7 col-sm-7 col-xs-6 nama-perusahaan">{{company.nama}}</div>
                     <div class = "col-lg-5 col-sm-5 col-xs-6">
                         <div class ="row">
                             <div class = "col-lg-5 col-sm-5 col-5">Created by</div>
@@ -36,8 +36,8 @@
                     <div class = "col-lg-6 col-sm-8 col-7">: {{ sales_order.date | moment('ll') }}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-lg-3 col-sm-4 col-5">Address </div>
-                    <div class = "col-lg-6 col-sm-8 col-7">: {{sales_order.company.alamat}}</div>
+                    <div class = "col-lg-3 col-sm-4 col-5">Address</div>
+                    <div class = "col-lg-6 col-sm-8 col-7">: {{company.alamat}}</div>
                 </b-row>
                 <b-row>
                     <div class = "col-lg-6 col-sm-4 col-12"><br>Service Order</div>
@@ -167,7 +167,9 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            sales_order : {},
+            sales_order : {
+              createdAt: []
+            },
             successModal : false,
             fields: [
                 {key: 'nomer', label: 'No', sortable: true},
@@ -178,7 +180,12 @@ export default {
                     return value.toLocaleString('de-DE')}},
                 {key: 'total_harga', label:  'Total_Price(IDR)', formatter: value => {
                     return value.toLocaleString('de-DE')}},
-            ]
+            ],
+            company:{
+              id: '',
+              nama: '',
+              alamat: ''
+            }
         };
     },
     beforeMount(){
@@ -218,7 +225,7 @@ export default {
 
         getDetail: function(){
             axios.get('http://localhost:8080/api/sales-order/' +this.$route.params.id)
-            .then(res => {this.sales_order = res.data, this.fetchData()})
+            .then(res => {this.sales_order = res.data, this.fetchData(), this.company = res.data.company})
             .catch(err => this.sales_order = err.data);
         },
 

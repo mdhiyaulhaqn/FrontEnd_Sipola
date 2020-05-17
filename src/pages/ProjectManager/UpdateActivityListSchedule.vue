@@ -88,7 +88,7 @@
 
                 <div class = "button-group">
                   <b-button class="save-button" type="submit">Save</b-button>
-                  <router-link :to="{name: 'detail-activity-list-schedule', params: {id:activityListSchedule.id}}">
+                  <router-link :to="{name: 'detail-activity-list-schedule'}">
                     <b-button class="cancel-button" type="reset">Cancel</b-button>
                   </router-link>
                 </div>

@@ -131,7 +131,8 @@ export default {
     return {
       pengeluaran : {
           nama: '',
-          tanggal : ''
+          tanggal : '',
+          createdAt: []
       },
       successModal: false,
     };
