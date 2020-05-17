@@ -253,13 +253,10 @@ export default {
 <style scoped>
 
 .judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
 }
-
-
 #edit-button{
   background-color: #109CF1;
   color:white;

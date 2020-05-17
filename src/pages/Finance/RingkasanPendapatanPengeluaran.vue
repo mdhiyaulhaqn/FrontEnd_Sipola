@@ -420,9 +420,9 @@ export default {
 }
 
 .judul{
-    text-align: center;
-    color: black;
-    margin: 5px 0 24px 0;
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
 }
 
 /* .form-group{
