@@ -110,7 +110,7 @@
                 </b-row>
 
               <b-row>
-                    <b-col md="5">
+                    <b-col md="4">
                         <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">+ Add Description</button>
                     </b-col>
                 </b-row>
