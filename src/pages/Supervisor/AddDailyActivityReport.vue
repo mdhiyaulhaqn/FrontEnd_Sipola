@@ -380,18 +380,6 @@ export default {
 
 <style scoped>
 
-.add-button{
-  width: 100%;
-  background-color: white;
-  color : #109cf1;
-  border-color: #109cf1;
-  margin-bottom: 10px;
-  border-width: 1.5px;
-  line-height: 12px;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 500;
-}
 .judul{
   text-align: center;
   color: black;

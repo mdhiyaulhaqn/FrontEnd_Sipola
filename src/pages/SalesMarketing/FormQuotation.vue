@@ -10,9 +10,9 @@
     </b-breadcrumb>
     <h3 class="judul"><strong>Add Quotation</strong></h3>
     <div class = "row">
-        <div class = "col-10 isi-form">
-            <card>
-            <h5 class = "title-form">Add Quotation Form </h5>
+        <div class = "col-md-8 col-sm-8 col-xs-8 col-12 d-block d-xs-block d-sm-block isi-form">
+            <card class="col">
+            <h5 class = "title-form">Add Quotation Form</h5>
             <b-form @submit="onSubmit" v-if="show">
                 <div class = "row">
                     <div class = "col-md-7 col-12">
@@ -27,7 +27,7 @@
                             </b-form-input>
                         </b-form-group>
                     </div>
-             
+
                     <div class = "col-md-5 col-12">
                         <div style="color:black">
                         <b-form-group class="required">
@@ -51,7 +51,7 @@
                         type="text"
                         required
                         placeholder="Company Name"
-                        pattern="[a-zA-Z0-9-]++"
+                        pattern=".*[a-zA-Z0-9-].*"
                         >
                     </b-form-input>
                 </b-form-group>
@@ -74,10 +74,10 @@
                             <label class="label" >Scope of Works</label>
                         </div>
                         <div class = "col-md-2 required">
-                            <label class="label" >Quantity</label> 
+                            <label class="label" >Quantity</label>
                         </div>
                         <div class = "col-md-3 required">
-                            <label class="label" >Unit Price(IDR)</label> 
+                            <label class="label" >Unit Price (IDR)</label>
                         </div>
                         <div class = "col-md-1">
                         </div>
@@ -90,16 +90,16 @@
                         <Service v-bind:service="item" v-on:del-service="deleteRow" />
                     </b-col>
                 </b-row>
-                    
+
                 <b-row>
                     <div class ="col-md-6 col-12">
                         <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">+ Add Scope of Works</button>
                     </div>
-                </b-row> 
-                
+                </b-row>
+
                 <b-form-group class="required">
                     <label class="label" for="termsConditions">Terms and Conditions</label>
-                    <ckeditor :editor="editor"  v-model="new_quotation.termsCondition" :config="editorConfig"></ckeditor>
+                    <ckeditor :editor="editor"  v-model="new_quotation.termsCondition"></ckeditor>
                 </b-form-group>
 
                 <div class = "button-group">
@@ -135,10 +135,10 @@
         </template>
         <template v-slot:modal-footer="{ ok }">
             <b-col class="button-confirm-group">
-                <b-button @click="cancel()" class="cancel-button">
+                <b-button @click="cancel()" class="back-button">
                     Back to List
                 </b-button>
-                <b-button @click="ok()" class="save-button">
+                <b-button @click="ok()" class="see-button">
                     See Details
                 </b-button>
             </b-col>
@@ -164,10 +164,10 @@ export default {
     components : {
       Service
     },
-    data() { 
+    data() {
       return {
            editor: ClassicEditor,
-           
+
             services: [],
             id_services : {id:0},
             timestamp:"",
@@ -203,7 +203,7 @@ export default {
     beforeMount() {
       this.addRow();
 	},
-    
+
     methods: {
         addRow(){
             this.new_service.id_service++;
@@ -228,13 +228,12 @@ export default {
             }
             else if(status == 500){
                 this.failedModal = true;
-            } 
+            }
         },
-        
+
         addQuotation(quot){
-            console.log("cihuy")
-            axios.post('http://localhost:8080/api/quotation/add', 
-            quot, 
+            axios.post('http://localhost:8080/api/quotation/add',
+            quot,
                 { headers: {
                     'Content-Type': 'application/json',
                 }
@@ -249,44 +248,6 @@ export default {
         cancel(){
             this.$router.push({ name: 'quotation'});
         },
-
-        // Gajadi dipake soalnya udah dihandle di backend
-        // submitCompany() {
-        //     console.log("cihuy22");
-        //     this.new_company.quotation = this.new_quotation;
-        //     this.addCompany(JSON.stringify(this.new_company));
-        // },
-
-        // addCompany(company){
-        //     console.log("cihuy333")
-        //     axios.post('http://localhost:8080/api/company/add', 
-        //     company, 
-        //         { headers: {
-        //             'Content-Type': 'application/json',
-        //         }
-        //     })
-        //     .then(res => {this.new_company = res.data.result, this.submitService()});
-        // },
-
-        // submitService() {
-        //     console.log("cihuy4444")
-        //     for (var i = 0; i < this.services.length; i++) {
-        //         this.services[i].quotation = this.new_quotation;
-        //     }
-        //     this.addServices(JSON.stringify(this.services));
-        //     console.log("yuhuhu");
-        // },
-
-        // addServices(n_services){
-        //     console.log("cihuy55555")
-        //     axios.post('http://localhost:8080/api/service/add', 
-        //     n_services, 
-        //         { headers: {
-        //             'Content-Type': 'application/json',
-        //         }
-        //     })
-        //     .then(res => {this.showMessage(res.data.status)});
-        // },
 
         hideModal(){
 		    this.$refs['modal-hide'].hide();
@@ -331,10 +292,10 @@ export default {
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  font-size: 10px;
+  font-size: 12px;
   margin-right: 10px;
   line-height: 15px;
-  width: 110px;
+  width: 120px;
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
   text-align: center;
 }
@@ -347,18 +308,38 @@ export default {
   width: 80px;
   line-height: 15px;
   text-align: center;
-  font-size: 10px;
-  margin-right: 10px;
+  font-size: 12px;
 }
 
 .button-group{
-    margin-top: 30px;
-    text-align: center;
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 .label{
     font-weight: 600;
 }
-
+.see-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-left: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
+}
+.back-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 100px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
+}
 #modal-message{
     font-size: 16px;
 }

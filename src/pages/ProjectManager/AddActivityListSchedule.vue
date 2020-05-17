@@ -11,8 +11,8 @@
     </b-breadcrumb>
     <h3 class="judul"><strong>Add Activity List Schedule</strong></h3>
     <div class = "row">
-        <div class="col-10 isi-form">
-          <card>
+        <div class="col-md-8 col-sm-8 col-xs-8 col-12 d-block d-xs-block d-sm-block isi-form">
+          <card class="col">
             <h5 class="title-form">Add Activity List Schedule Form</h5>
             <b-form @submit="onSubmit" v-if="show">
                 <b-form-group id="project-name-input" class="required">
@@ -43,7 +43,7 @@
                   </b-form-input>
                 </b-form-group>
 
-                <div class="d-none d-md-block d-lg-block">
+                <div class="col-12 d-none d-md-block d-lg-block">
                   <div class="row">
                     <div class = "col-md-5 required">
                       <label class="label">Activity Name</label>
@@ -249,7 +249,7 @@ export default {
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  font-size: 10px;
+  font-size: 12px;
   margin-right: 10px;
   line-height: 15px;
   width: 120px;
@@ -265,7 +265,7 @@ export default {
   width: 80px;
   line-height: 15px;
   text-align: center;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .see-button{

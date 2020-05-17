@@ -10,8 +10,8 @@
     </b-breadcrumb>
     <h3 class="judul"><strong>Add Delivery Order</strong></h3>
     <div class = "row">
-        <div class = "col-10 isi-form">
-            <card>
+        <div class = "col-md-8 col-sm-8 col-xs-8 col-12 d-block d-xs-block d-sm-block isi-form">
+            <card class="col">
             <h5 class = "title-form">Add Delivery Form </h5>
             <b-form @submit="onSubmit" v-if="show">
                 <b-row>
@@ -26,7 +26,7 @@
                                 placeholder="Delivery Order Number">
                             </b-form-input>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <b-row>
                      <div class = "col-md-12 col-12">
@@ -43,7 +43,7 @@
                     </div>
                 </b-row>
 
-                
+
              <b-row>
                      <div class = "col-md-6 col-12">
                         <b-form-group>
@@ -56,7 +56,7 @@
                             </b-form-input>
                         </b-form-group>
                     </div>
-                    
+
                      <div class = "col-md-6 col-12">
                         <div style="color:black">
                             <b-form-group>
@@ -71,7 +71,7 @@
                         </div>
                     </div>
              </b-row>
-              
+
                   <b-row>
                     <b-col md="12">
                         <b-form-group class="required">
@@ -94,10 +94,10 @@
                             <label class="label" >Description</label>
                         </div>
                         <div class = "col-md-2 required">
-                            <label class="label" >Quantity</label> 
+                            <label class="label" >Quantity</label>
                         </div>
                         <div class = "col-md-3">
-                            <label class="label" >Project / Service No</label> 
+                            <label class="label" >Project / Service No</label>
                         </div>
                         <div class = "col-md-1">
                         </div>
@@ -109,19 +109,19 @@
                     <b-col>
                         <Product v-bind:product="item" v-on:del-product="deleteRow" />
                     </b-col>
-                </b-row> 
-                    
+                </b-row>
+
                 <b-row>
                     <div class ="col-md-6 col-12">
                         <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">+ Add Description</button>
                     </div>
-                </b-row> 
+                </b-row>
 
-                
+
                 <b-form-group class="required">
                     <label class="label" for="termsConditions">Terms and Conditions</label>
-                    <ckeditor :editor="editor"  v-model="new_delivery_order.termsCondition" :config="editorConfig"></ckeditor>
-                    
+                    <ckeditor :editor="editor"  v-model="new_delivery_order.termsCondition"></ckeditor>
+
                 </b-form-group>
 
                 <div class = "button-group">
@@ -150,17 +150,17 @@
                 <img src="@/assets/img/success-icon.png" alt="" width="50px">
             </b-col>
             <b-col class="col-10">
-                <p id="modal-message">Delivery Order was successfully added.</p>
+                <p id="modal-message">Delivery order was successfully added.</p>
             </b-col>
             </b-row>
         </div>
         </template>
         <template v-slot:modal-footer="{ ok }">
         <b-col class="button-confirm-group">
-            <b-button @click="redirect()" id="cancel-button">
+            <b-button @click="redirect()" class="back-button">
                 Back to List
             </b-button>
-            <b-button @click="ok()" id="save-button">
+            <b-button @click="ok()" class="see-button">
                 See Details
             </b-button>
         </b-col>
@@ -180,10 +180,10 @@ export default {
     components : {
       Product
     },
-    data() { 
+    data() {
       return {
            editor: ClassicEditor,
-           
+
             products: [],
             companies : [],
             timestamp:"",
@@ -216,7 +216,7 @@ export default {
         this.getAllCompany();
         this.addRow();
 	},
-    
+
     methods: {
         addRow(){
             this.new_product.id_product++;
@@ -240,12 +240,12 @@ export default {
             }
             else if(status == 500){
                 this.failedModal = true;
-            } 
+            }
         },
-        
+
         addDeliveryOrder(quot){
-            axios.post('http://localhost:8080/api/delivery-order/add', 
-            quot, 
+            axios.post('http://localhost:8080/api/delivery-order/add',
+            quot,
                 { headers: {
                     'Content-Type': 'application/json',
                 }
@@ -307,10 +307,10 @@ export default {
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  font-size: 10px;
+  font-size: 12px;
   margin-right: 10px;
   line-height: 15px;
-  width: 110px;
+  width: 120px;
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
   text-align: center;
 }
@@ -323,13 +323,36 @@ export default {
   width: 80px;
   line-height: 15px;
   text-align: center;
-  font-size: 10px;
-  margin-right: 10px;
+  font-size: 12px;
+}
+
+.see-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-left: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
+}
+
+.back-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 100px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
 }
 
 .button-group{
-    margin-top: 30px;
-    text-align: center;
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 .label{
     font-weight: 600;

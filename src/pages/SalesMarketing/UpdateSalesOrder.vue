@@ -13,8 +13,8 @@
       </b-breadcrumb>
     <h3 class="judul"><strong>Update Sales Order</strong></h3>
     <div class = "row">
-        <div class = "col-10 isi-form">
-            <card>
+        <div class = "col-md-8 col-sm-8 col-xs-8 col-12 d-block d-xs-block d-sm-block isi-form">
+            <card class="col">
             <h5 class = "title-form">Update Sales Order Form </h5>
             <b-form @submit="onModal" v-if="show">
                  <b-row>
@@ -26,6 +26,7 @@
                             v-model="sales_order.noSalesOrder"
                             type="text"
                             required
+                            disabled
                             placeholder="Sales Order Number">
                         </b-form-input>
                     </b-form-group>
@@ -37,7 +38,7 @@
                                 id="date"
                                 v-model="sales_order.date"
                                 type="date"
-                                required>   
+                                required>
                             </b-form-input>
                         </b-form-group>
                     </b-col>
@@ -53,7 +54,7 @@
                         placeholder="Sales Order Number">
                     </b-form-input>
                 </b-form-group>
-                
+
                 <b-form-group class="required">
                     <label class="label" for="date">Purchase Order Date</label>
                     <b-form-input
@@ -82,26 +83,26 @@
 
                 <div class="d-none d-md-block d-lg-block">
                     <b-row>
-                        <b-col md="5 required">
+                        <b-col md="4 required">
                         <label class="label" >Description</label>
                         </b-col><br>
 
                         <b-col md="2 required">
-                        <label class="label" >Qty</label> 
+                        <label class="label" >Quantity</label>
                         </b-col><br>
 
                         <b-col md="2 required">
-                        <label class="label" >UOM</label> 
+                        <label class="label" >UOM</label>
                         </b-col>
                         <br>
 
-                        <b-col md="2 required">
-                        <label class="label" >Unit Price (IDR)</label> 
+                        <b-col md="3 required">
+                        <label class="label" >Unit Price (IDR)</label>
                         </b-col>
                         <br>
 
                         <b-col md="1">
-                        
+
                         </b-col>
                     </b-row>
                 </div>
@@ -110,24 +111,24 @@
                     <b-col>
                     <ServiceOrder v-bind:service_order="item" v-on:del-service-order="deleteRow" />
                     </b-col>
-                </b-row> 
-                    
+                </b-row>
+
                 <b-row>
                     <b-col md="5">
                         <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">+ Add Description</button>
                     </b-col>
-                </b-row> 
+                </b-row>
 
-                
+
                 <b-form-group class="required">
                     <label for="termsConditions">Terms and Conditions</label>
-                    <ckeditor :editor="editor"  v-model="sales_order.termsCondition" :config="editorConfig"></ckeditor>
+                    <ckeditor :editor="editor"  v-model="sales_order.termsCondition"></ckeditor>
                 </b-form-group>
 
 
                 <div class = "button-group">
-                    <b-button class = "save-button" type="submit">Update</b-button>
-                    <router-link :to="{name: 'detail-sales-order', params: {id:sales_order.id}}">
+                    <b-button class = "save-button" type="submit">Save</b-button>
+                    <router-link :to="{name: 'detail-sales-order'}">
                         <b-button class = "cancel-button">Cancel</b-button>
                     </router-link >
                 </div>
@@ -160,11 +161,11 @@
         </template>
         <template v-slot:modal-footer="{ cancel }">
         <b-col class="button-confirm-group">
-            <b-button @click="cancel()" class="cancel-button">
-            Cancel
-            </b-button>
             <b-button @click="onSubmit" class="save-button">
             Save
+            </b-button>
+            <b-button @click="cancel()" class="cancel-button">
+            Cancel
             </b-button>
         </b-col>
         </template>
@@ -196,10 +197,10 @@
         <template v-slot:modal-footer="{ ok }">
             <b-col class="button-confirm-group">
                 <b-col class="button-confirm-group">
-                    <b-button @click="cancel()" class="cancel-button">
+                    <b-button @click="cancel()" class="back-button">
                     Back to List
                     </b-button>
-                    <b-button @click="ok" class="save-button">
+                    <b-button @click="ok" class="see-button">
                     See Details
                     </b-button>
                 </b-col>
@@ -219,8 +220,8 @@ export default {
     components : {
       ServiceOrder
     },
-    
-    data() { 
+
+    data() {
       return {
             editor: ClassicEditor,
             service_orders: [],
@@ -228,7 +229,7 @@ export default {
 
             sales_order : {
             },
-            
+
             new_service_order : {
                 id_service_order : 0,
                 deskripsi : '',
@@ -249,7 +250,7 @@ export default {
         this.getAllCompany();
         this.getDetail();
 	},
-    
+
     methods: {
         addRow(){
             this.new_service_order.id_service_order++;
@@ -268,9 +269,9 @@ export default {
         onSubmit(evt) {
 
             evt.preventDefault();
-            
+
             this.sales_order.serviceOrder = this.service_orders;
-            
+
             this.updateSalesOrder(JSON.stringify(this.sales_order));
         },
 
@@ -280,9 +281,9 @@ export default {
             }
             else if(status == 500){
                 this.failedModal = true;
-            } 
+            }
         },
-        
+
         fetchData : function(){
             this.sales_order.date = this.sales_order.date.substring(0,10);
             this.sales_order.poDate = this.sales_order.poDate.substring(0,10);
@@ -310,11 +311,11 @@ export default {
             .then(res => {this.sales_order = res.data, this.fetchData()})
             .catch(err => this.sales_order = err.data);
         },
-        
+
         updateSalesOrder(quot){
             console.log(this.sales_order.service_order)
-            axios.put('http://localhost:8080/api/sales-order/update/' + this.$route.params.id, 
-            quot, 
+            axios.put('http://localhost:8080/api/sales-order/update/' + this.$route.params.id,
+            quot,
                 { headers: {
                     'Content-Type': 'application/json',
                 }
@@ -372,10 +373,10 @@ export default {
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  font-size: 10px;
+  font-size: 12px;
   margin-right: 10px;
   line-height: 15px;
-  width: 110px;
+  width: 120px;
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
   text-align: center;
 }
@@ -388,13 +389,36 @@ export default {
   width: 80px;
   line-height: 15px;
   text-align: center;
-  font-size: 10px;
-  margin-right: 10px;
+  font-size: 12px;
+}
+
+.see-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-left: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
+}
+
+.back-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 100px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
 }
 
 .button-group{
-  margin-top: 30px;
+  margin-top: 20px;
   text-align: center;
+  margin-bottom: 10px;
 }
 .label{
   font-weight: 600;
