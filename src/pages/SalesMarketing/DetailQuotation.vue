@@ -17,13 +17,15 @@
               <h5 class="text-center">Quotation</h5>
                 <div class="container-fluid">
                 <b-row>
-                    <div class = "col-lg-7 col-sm-7 col-xs-6 nama-perusahaan" style="font-weight: 600">{{quotation.company.nama}}</div>
+                    <div class = "col-lg-7 col-sm-7 col-xs-6 nama-perusahaan" style="font-weight: 600">
+                      {{company.nama}}
+                    </div>
                     <div class = "col-lg-5 col-sm-5 col-xs-6">
                         <div class ="row">
-                            <div class = "col-lg-5 col-sm-5 col-6">Created By </div>
+                            <div class = "col-lg-5 col-sm-5 col-6">Created by</div>
                             <div class = "col-lg-7 col-sm-7 col-6">: {{quotation.createdBy}} </div>
-                            <div class = "col-lg-5 col-sm-5 col-6">Created At </div>
-                            <div class = "col-lg-7 col-sm-7 col-6">: {{ quotation.createdAt.split("T")[0].split("-").reverse().join('-') }}</div>
+                            <div class = "col-lg-5 col-sm-5 col-6">Created at</div>
+                            <div class = "col-lg-7 col-sm-7 col-6">: {{ quotation.createdAt.slice(0, 19) | moment('lll') }}</div>
                         </div>
                     </div>
                 </b-row>
@@ -33,11 +35,11 @@
                 </b-row>
                 <b-row>
                     <div class = "col-lg-3 col-sm-4 col-6">Quotation Date </div>
-                    <div class = "col-lg-6 col-sm-8 col-6">: {{ quotation.date.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-lg-6 col-sm-8 col-6">: {{ quotation.date | moment('ll') }}</div>
                 </b-row>
                 <b-row>
                     <div class = "col-lg-3 col-sm-4 col-6">Address </div>
-                    <div class = "col-lg-6 col-sm-8 col-6">: {{quotation.company.alamat}}</div>
+                    <div class = "col-lg-6 col-sm-8 col-6">: {{company.alamat}}</div>
                 </b-row>
                 <b-row>
                     <div class = "col-lg-6 col-sm-4 col-12"><br>Service</div>
@@ -197,7 +199,9 @@ import html2canvas from "html2canvas"
 export default {
     data() {
         return {
-            quotation : '',
+            quotation : {
+              createdAt: []
+            },
             successModal : false,
             fields: [
                 {key: 'id', label: 'No', sortable: true},
@@ -209,7 +213,12 @@ export default {
                 {key: 'total_harga', label:  'Total_Price(IDR)', formatter: value => {
                     return value.toLocaleString('de-DE')}
                 }
-            ]
+            ],
+            company : {
+              id: '',
+              nama: '',
+              alamat: ''
+            }
         };
     },
 
@@ -246,7 +255,7 @@ export default {
 
         getDetail: function(){
             axios.get('http://localhost:8080/api/quotation/' +this.$route.params.id)
-            .then(res => {this.quotation = res.data, this.computeTotal()})
+            .then(res => {this.quotation = res.data, this.computeTotal(), this.company = res.data.company})
             .catch(err => this.quotation = err.data);
         },
 

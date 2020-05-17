@@ -72,9 +72,6 @@ export default {
 .product_row{
     margin:auto;
 }
-#delete-button{
-    width: 100%;
-}
 .label{
   font-weight: 600;
 }

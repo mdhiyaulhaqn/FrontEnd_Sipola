@@ -79,7 +79,7 @@
                                     <label for="companyName" class="label">Company Name</label>
                                     <b-form-input
                                         id="companyName"
-                                        v-model="purchaseOrder.company.nama"
+                                        v-model="company.nama"
                                         type="text"
                                         required
                                         placeholder="Company Name"
@@ -107,7 +107,7 @@
                             <label for="companyAddress" class="label">Company Address</label>
                             <b-form-input
                                 id="companyAddress"
-                                v-model="purchaseOrder.company.alamat"
+                                v-model="company.alamat"
                                 type="text"
                                 required
                                 placeholder="Company Address"
@@ -336,7 +336,7 @@ export default {
 
         getDetail: function(){
             axios.get('http://localhost:8080/api/purchase-order/' + this.$route.params.id)
-            .then(res => {this.purchaseOrder = res.data, this.fetchData()})
+            .then(res => {this.purchaseOrder = res.data, this.fetchData(), this.company = res.data.company})
             .catch(err => this.purchaseOrder = err.data)
         },
 

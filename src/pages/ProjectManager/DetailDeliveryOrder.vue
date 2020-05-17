@@ -18,8 +18,8 @@
                 <div class="container-fluid">
                 <b-row>
                     <div class="perusahaan col-sm-12 text-center">
-                        <b class="col-sm-12">{{delivery_order.company.nama}}</b>
-                        <p class="col-sm-12">{{delivery_order.company.alamat}}</p>
+                        <b class="col-sm-12">{{company.nama}}</b>
+                        <p class="col-sm-12">{{company.alamat}}</p>
                     </div>
                 </b-row>
 
@@ -35,10 +35,10 @@
                     </div>
                     <div class = "col-lg-4 col-sm-5 col-xs-6">
                         <b-row>
-                            <div class = "col-lg-5 col-sm-5 col-6">Created By</div>
+                            <div class = "col-lg-5 col-sm-5 col-6">Created by</div>
                             <div class = "col-lg-7 col-sm-7 col-6">: {{delivery_order.createdBy}} </div>
-                            <div class = "col-lg-5 col-sm-5 col-6">Created At</div>
-                            <div class = "col-lg-7 col-sm-7 col-6">: {{delivery_order.createdAt | moment('ll') }}</div>
+                            <div class = "col-lg-5 col-sm-5 col-6">Created at</div>
+                            <div class = "col-lg-7 col-sm-7 col-6">: {{delivery_order.createdAt.slice(0, 19) | moment('lll') }}</div>
                         </b-row>
                     </div>
                 </b-row>
@@ -212,14 +212,21 @@ import * as autoTable from 'jspdf-autotable';
 export default {
     data() {
         return {
-            delivery_order : '',
+            delivery_order : {
+              createdAt: []
+            },
             successModal : false,
             fields: [
                 {key: 'id', label: 'No', sortable: true},
                 {key: 'nama', label: 'Name', sortable: true},
                 {key: 'quantity', label: 'Quantity', sortable: true},
                 {key: 'projectNo', label: 'ProjectNo', sortable: true},
-            ]
+            ],
+            company: {
+              id: '',
+              nama: '',
+              alamat: '',
+            }
         };
     },
     beforeMount(){
@@ -240,7 +247,7 @@ export default {
 
         getDetail: function(){
             axios.get('http://localhost:8080/api/delivery-order/' +this.$route.params.id)
-            .then(res => {this.delivery_order = res.data, this.getNumber()})
+            .then(res => {this.delivery_order = res.data, this.getNumber(), this.company = res.data.company})
             .catch(err => this.delivery_order = err.data);
         },
 

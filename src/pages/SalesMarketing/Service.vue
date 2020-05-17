@@ -73,9 +73,6 @@ export default {
 .service_row{
     margin:auto;
 }
-#delete-button{
-    width: 100%;
-}
 .label{
   font-weight: 600;
 }
