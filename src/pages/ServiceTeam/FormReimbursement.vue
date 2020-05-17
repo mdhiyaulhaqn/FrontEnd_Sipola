@@ -1,6 +1,6 @@
 <template>
   <div>
-      <b-breadcrumb id="breadcrumb"> 
+      <b-breadcrumb id="breadcrumb">
             <b-breadcrumb-item :to="{name: 'reimbursement-report'}">
                 Reimbursement Report
             </b-breadcrumb-item>
@@ -10,11 +10,12 @@
         </b-breadcrumb>
     <h3 class="judul"><strong>Add Reimbursement Report</strong></h3>
     <div class = "row">
-        <div class = "col-10 isi-form">
-            <card>
+        <div class = "col-md-8 col-sm-8 col-xs-8 col-12 d-block d-xs-block d-sm-block isi-form">
+          <card class="col">
+            <h5 class="title-form">Add Reimbursement Report Form</h5>
             <b-form @submit="onSubmit" v-if="show">
                 <b-form-group class="required">
-                    <label for="projectName">Project</label>
+                    <label for="projectName" class="label">Project</label>
                     <b-form-input
                         id="projectName"
                         v-model="newReimbursement.projectName"
@@ -28,13 +29,13 @@
 
                 <div class="d-none d-md-block d-lg-block">
                   <div class="row">
-                    <div class = "col-md-5">
+                    <div class = "col-md-5 required">
                       <label class="label">Expense Name</label>
                     </div>
-                    <div class = "col-md-3">
-                      <label class="label">Price</label>
+                    <div class = "col-md-3 required">
+                      <label class="label">Price (IDR)</label>
                     </div>
-                    <div class = "col-md-3">
+                    <div class = "col-md-3 required">
                       <label class="label">Date</label>
                     </div>
                     <div class = "col-md-1">
@@ -46,31 +47,31 @@
                     <b-col>
                         <Expense v-bind:expense="item" v-on:del-expense="deleteRow" />
                     </b-col>
-                </b-row> 
+                </b-row>
 
                  <b-row>
                     <div class="col-md-6 col-12">
                         <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">+ Add More Item</button>
                     </div>
                 </b-row><br>
-                
+
                 <b-row>
                     <b-col>
-                    <label>Attachment</label>
+                    <label class="label">Attachment</label>
                     </b-col>
                 </b-row>
 
-                <b-row> 
+                <b-row>
                     <b-col>
                         <b-form-group>
                         <div class="dropzone">
                           <input type="file" class="input-file" ref="files"
                           @change="selectFile" multiple/>
-                          <p v-if="attachments.length === 0" class="call-to-action"><i class='fas fa-cloud-upload-alt' style='font-size:36px'></i> 
+                          <p v-if="attachments.length === 0" class="call-to-action"><i class='fas fa-cloud-upload-alt' style='font-size:36px'></i>
                           Drag and drop your files here or <label for="file">
                               <button class="buttonFile">Select <i class='far fa-arrow-alt-circle-up'></i></button></label></p>
-                          
-                          <label for="file" >
+
+                          <label for="file" class="label">
                               <button class="buttonFile" v-if="attachments.length > 0">Select <i class='far fa-arrow-alt-circle-up'></i></button></label>
                           <div class="row" id="kotakAttachment">
                               <b-col class="col-xs-6 col-sm-6 col-md-3 grup-attachment" v-bind:key="file" v-for="file in attachments" >
@@ -83,7 +84,7 @@
                                   <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:36px"></i></a>
                                   </div>
                                   <p>{{file.fileName}} </p>
-                                  
+
                               </b-col>
                           </div>
                         </div>
@@ -92,8 +93,8 @@
                 </b-row>
 
                 <div class ="button-group">
-                    <b-button class = "cancel-button" type="reset">Cancel</b-button>
-                    <b-button class = "save-button" type="submit">Save</b-button>
+                  <b-button class = "save-button" type="submit">Save</b-button>
+                  <b-button class = "cancel-button" type="reset">Cancel</b-button>
                 </div>
             </b-form>
             </card>
@@ -117,7 +118,7 @@
               <img src="@/assets/img/success-icon.png" alt="" width="50px">
             </b-col>
             <b-col class="col-10">
-              <p id="modal-message">Reimbursement Report was successfully added.</p>
+              <p id="modal-message">Reimbursement report was successfully added.</p>
             </b-col>
           </b-row>
         </div>
@@ -134,8 +135,8 @@
       </template>
     </b-modal>
 
-    <b-modal title="Reimbursement Gagal Tersimpan" v-model="failedModal" centered ok-only>
-        Reimbursement gagal dibuat.
+    <b-modal title="Failed" v-model="failedModal" centered ok-only>
+        Failed to add reimbursement.
     </b-modal>
   </div>
 </template>
@@ -144,14 +145,14 @@
 
 import Expense from '@/pages/ServiceTeam/ExpenseReimbursement.vue';
 import axios from 'axios';
-   
+
 export default {
     components : {
       Expense,
     },
-    data() { 
+    data() {
       return {
-            
+
             // variabel for attachment
             uploading : false,
             file: '',
@@ -193,14 +194,14 @@ export default {
             successModal : false,
             failedModal : false,
             send : {objects : null},
-            
+
       }
     },
 
     beforeMount() {
       this.addRow();
     },
-    
+
     methods: {
         addRow(){
             this.new_expense.id_expense++;
@@ -230,10 +231,8 @@ export default {
         },
 
         addReimbursement(reimburse){
-            console.log("add reimburse")
-            console.log(reimburse);
-            axios.post('http://localhost:8080/api/reimbursement/add', 
-            reimburse, 
+            axios.post('http://localhost:8080/api/reimbursement/add',
+            reimburse,
                 { headers: {
                     'Content-Type': 'application/json',
                 }
@@ -242,9 +241,7 @@ export default {
         },
 
         removeFile(file) {
-            console.log("masuk remove")
             this.attachments.splice(this.attachments.indexOf(file), 1);
-            console.log(this.attachments);
         },
 
         redirect(){
@@ -257,7 +254,7 @@ export default {
 
 
         handleFilesUpload(){
-            this.file = this.$refs.file.files[0];            
+            this.file = this.$refs.file.files[0];
             let image = this.$refs.file.files[0];
             let reader = new FileReader();
             reader.readAsDataURL(image);
@@ -270,14 +267,14 @@ export default {
         selectFile(){
             const files = this.$refs.files.files;
             for (let i = 0; i < files.length; i++) {
-              this.uploadFile(files[i]);      
+              this.uploadFile(files[i]);
             }
         },
 
         uploadFile(attach) {
             let formData = new FormData();
             formData.append('file', attach);
-            axios.post('http://localhost:8080/api/attachment/uploadFile',
+            axios.post('http://sipola.herokuapp.com/api/attachment/uploadFile',
             formData,
             {
                 headers: {
@@ -286,7 +283,7 @@ export default {
             })
             .then(res => {this.attachments.push(res.data.result)});
         },
- 
+
     }
 }
 </script>
@@ -313,12 +310,26 @@ export default {
     border-color: #109cf1;
 }
 
+.judul{
+  text-align: center;
+  color: black;
+  margin: 5px 0 24px 0;
+}
+.title-form {
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.isi-form{
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .save-button{
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  font-size: 10px;
-  margin-left: 10px;
+  font-size: 12px;
+  margin-right: 10px;
   line-height: 15px;
   width: 120px;
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
@@ -333,36 +344,64 @@ export default {
   width: 80px;
   line-height: 15px;
   text-align: center;
-  font-size: 10px;
+  font-size: 12px;
 }
 
-.button-group{
-  margin-top: 30px;
+.see-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-left: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
   text-align: center;
 }
 
-.judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
-}
-.isi-form{
-    margin-left: auto;
-    margin-right: auto;
+.back-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 100px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
 }
 
+.button-group{
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.label{
+  font-weight: 600;
+}
+#modal-message{
+  font-size: 16px;
+}
+#modal-title-success{
+  color: #109CF1;
+  font-weight: 1000;
+}
+#ok-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+}
+.button-confirm-group{
+  text-align: right;
+}
+h5{
+  margin-bottom: -4px;
+}
 .add-reimbursement-button{
     border-color: white;
     background-color: #109CF1;
     color:white;
 }
 
-.cancel-button{
-    color:#109CF1;
-    border-color:#109CF1;
-    background-color: white;
-}
 
 .file-label {
     height: 100px;
@@ -374,7 +413,7 @@ export default {
     padding: 10px 10px;
     position: relative;
     cursor: pointer;
-    outline: 2px dashed black; 
+    outline: 2px dashed black;
     outline-offset: -10px;
     border: white;
 }
@@ -447,32 +486,6 @@ img {
 .buttonFile {
     background-color: white;
     border: 1px solid gray;
-}
-
-.button-confirm-group{
-  text-align: right;
-}
-
-.back-button{
-  color:#109CF1;
-  border-color:#109CF1;
-  background-color: white;
-  border-width: 1px;
-  width: 100px;
-  line-height: 15px;
-  text-align: center;
-  font-size: 12px;
-}
-.see-button{
-  background-color: #109CF1;
-  color:white;
-  border-color: transparent;
-  font-size: 12px;
-  margin-left: 10px;
-  line-height: 15px;
-  width: 120px;
-  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
-  text-align: center;
 }
 
 </style>

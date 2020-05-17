@@ -93,7 +93,7 @@
                   </template>
 
                   <template v-slot:cell(createdAt)="row">
-                    {{row.item.createdAt | moment("ll") }}
+                    {{row.item.createdAt.slice(0, 19) | moment('ll') }}
                   </template>
 
   <!--

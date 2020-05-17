@@ -10,48 +10,53 @@
         </b-breadcrumb-item>
       </b-breadcrumb>
       <h3 class="judul"><strong>Detail Activity List Schedule</strong></h3>
-      <card>
-        <b-row>
-          <div class="col-sm-12 text-center">
-            <b class="col-sm-12">{{activityListSchedule.namaProyek}}</b>
-            <p class="col-sm-12">{{activityListSchedule.namaPerusahaan}}</p>
-          </div>
-        </b-row>
-        <div class="vue-app col-sm-12">
-          <kendo-gantt id="gantt"
-                      :height="'400'"
-                      :editable-create="false"
-                      :show-work-hours="false"
-                      :show-work-days="false"
-                      :data-source="activityListSchedule.listTugas"
-                      :editable-drag-percent-complete="false"
-                      :editable-update="false"
-                      :editable-reorder="false"
-                      :editable-move="false"
-                      :editable-destroy="false"
-                      :editable-dependency-create="false"
-                      :editable-dependency-destroy="false">
-            <!-- <kendo-gantt-view :type="'day'"></kendo-gantt-view> -->
-            <kendo-gantt-view :type="'week'" :selected="true"></kendo-gantt-view>
-            <!-- <kendo-gantt-view :type="'month'"></kendo-gantt-view> -->
-            <kendo-gantt-column :field="'title'" :title="'Activity Name'" :sortable="true"></kendo-gantt-column>
-          </kendo-gantt>
+      <div class = "row">
+        <div class="col-md-12 col-sm-12 col-xs-12 col-12 d-block d-xs-block d-sm-block center">
+          <card>
+            <h5 class="text-center" style="margin-bottom: 10px;">Activity List Schedule</h5>
+            <b-row>
+              <div class="col-sm-12 text-center">
+                <b class="col-sm-12">{{activityListSchedule.namaProyek}}</b>
+                <p class="col-sm-12">{{activityListSchedule.namaPerusahaan}}</p>
+              </div>
+            </b-row>
+            <div class="vue-app col-sm-12">
+              <kendo-gantt id="gantt"
+                          :height="'400'"
+                          :editable-create="false"
+                          :show-work-hours="false"
+                          :show-work-days="false"
+                          :data-source="activityListSchedule.listTugas"
+                          :editable-drag-percent-complete="false"
+                          :editable-update="false"
+                          :editable-reorder="false"
+                          :editable-move="false"
+                          :editable-destroy="false"
+                          :editable-dependency-create="false"
+                          :editable-dependency-destroy="false">
+                <!-- <kendo-gantt-view :type="'day'"></kendo-gantt-view> -->
+                <kendo-gantt-view :type="'week'" :selected="true"></kendo-gantt-view>
+                <!-- <kendo-gantt-view :type="'month'"></kendo-gantt-view> -->
+                <kendo-gantt-column :field="'title'" :title="'Activity Name'" :sortable="true"></kendo-gantt-column>
+              </kendo-gantt>
+            </div>
+            <b-row>
+              <div class = "col-sm-12" id="notes">
+                <h6 class="col-sm-12">Notes :</h6>
+                <p class="col-sm-12">{{activityListSchedule.catatan}}</p>
+              </div>
+            </b-row>
+            <b-row>
+              <div class = "button-group col-sm-12">
+                <b-button v-b-modal.modal-delete id="delete-button" class="btn btn-primary">Delete</b-button>
+                <router-link :to="{name: 'update-activity-list-schedule'}">
+                  <b-button id="edit-button" class="btn btn-primary">Edit</b-button>
+                </router-link>
+              </div>
+            </b-row>
+          </card>
         </div>
-        <b-row>
-          <div class = "col-sm-12" id="notes">
-            <h6 class="col-sm-12">Notes :</h6>
-            <p class="col-sm-12">{{activityListSchedule.catatan}}</p>
-          </div>
-        </b-row>
-        <b-row>
-          <div class = "button-group col-sm-12">
-            <b-button v-b-modal.modal-delete id="delete-button" class="btn btn-primary">Delete</b-button>
-            <router-link :to="{name: 'update-activity-list-schedule'}">
-              <b-button id="edit-button" class="btn btn-primary">Edit</b-button>
-            </router-link>
-          </div>
-        </b-row>
-      </card>
+      </div>
     </div>
 
     <b-modal
@@ -127,30 +132,12 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      // datasource: [{
-      //     id: 0,
-      //     orderId: 0,
-      //     parentId: null,
-      //     title: "Main Project",
-      //     summary: true,
-      //     expanded: true,
-      //     start: new Date("2014/6/17 9:00"),
-      //     end: new Date("2014/7/01 11:00")
-      // },
-      // {
-      //     id: 1,
-      //     orderId: 1,
-      //     // parentId: 0,
-      //     title: "Task1",
-      //     start: new Date("2014/6/17 11:00"),
-      //     end: new Date("2014/6/20 14:00")
-      // }],
-      // dependencydatasource: [{
-      //     predecessorId: 1,
-      //     successorId: 2,
-      //     type: 1
-      // }],
-      activityListSchedule: '',
+      activityListSchedule: {
+        namaProyek: '',
+        namaPerusahaan: '',
+        catatan: '',
+      },
+      dataSource: [],
       successModal: false,
       headerBorderVariant: 'white',
       footerBorderVariant: 'warning',
@@ -174,7 +161,16 @@ export default {
     showMessage(status){
       this.successModal = true;
     },
-
+    // addData(){
+    //   var datasource= new kendo.data.DataSource({
+    //     data: [
+    //       this.activityListSchedule.listTugas
+    //     ]
+    //   });
+    //   datasource.add(this.activityListSchedule.listTugas);
+    //   this.dataSource = datasource.data();
+    //   this.dataSource.push(datasource.data());
+    // },
     getDetail: function(){
       axios.get('http://localhost:8080/api/activity-list-schedule/' + this.$route.params.id)
       .then(response => {this.activityListSchedule = response.data.result, this.getActivity()})
@@ -202,6 +198,7 @@ export default {
       parentActivity.end = new Date(this.activityListSchedule.listTugas.slice(-1)[0].tanggalSelesaiTugas);
 
       this.activityListSchedule.listTugas.push(parentActivity);
+      console.log(this.activityListSchedule.listTugas);
     },
     deleteActivityListSchedule(activityListSchedule){
       axios.put('http://localhost:8080/api/activity-list-schedule/' + this.$route.params.id + '/delete',
@@ -292,6 +289,7 @@ p{
 
 h5{
   margin-bottom: -4px;
+  font-weight: 600;
 }
 #modal-message{
   font-size: 16px;

@@ -95,9 +95,7 @@
                     </template>
 
                     <template v-slot:cell(total_price) = "row">
-                        <div class="text-center">
-                            {{formatPrice(row.item.total_price)}}
-                        </div>
+                        {{formatPrice(row.item.total_price)}}
                     </template>
 
                     <template v-slot:cell(action)="row">

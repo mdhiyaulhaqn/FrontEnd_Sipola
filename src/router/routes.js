@@ -181,17 +181,17 @@ const routes = [
         component: ReimbursementReport
       },
       {
-        path: "reimbursement/detail/:id",
+        path: "reimbursement-report/detail/:id",
         name: "detail-reimbursement",
         component: DetailReimbursement
       },
       {
-        path: "reimbursement/add",
+        path: "reimbursement-report/add",
         name: "add-reimbursement",
         component: FormReimbursement
       },
       {
-        path: "reimbursement/:id/update",
+        path: "reimbursement-report/:id/update",
         name: "update-reimbursement",
         component: UpdateReimbursement
 
@@ -262,7 +262,7 @@ const routes = [
         component: UpdatePurchaseOrder
       },
       {
-        path: "reimbursement-finance/:id/",
+        path: "reimbursement-request/detail/:id/",
         name: "detail-request",
         component: DetailReimbursementRequest
       },

@@ -1,6 +1,6 @@
 <template>
   <div>
-      <b-breadcrumb id="breadcrumb"> 
+      <b-breadcrumb id="breadcrumb">
         <b-breadcrumb-item :to="{name: 'reimbursement-report'}">
             Reimbursement Report
         </b-breadcrumb-item>
@@ -13,11 +13,12 @@
     </b-breadcrumb>
     <h3 class="judul"><strong>Update Reimbursement Report</strong></h3>
     <div class = "row">
-        <div class = "col-10 isi-form">
-            <card>
+        <div class = "col-md-8 col-sm-8 col-xs-8 col-12 d-block d-xs-block d-sm-block isi-form">
+          <card class="col">
+            <h5 class="title-form">Update Reimbursement Report Form</h5>
             <b-form @submit="onConfirmation" v-if="show">
-                <b-form-group>
-                    <label for="projectName">Project</label>
+                <b-form-group class="required">
+                    <label for="projectName" class="label">Project</label>
                     <b-form-input
                         id="projectName"
                         v-model="reimbursement.projectName"
@@ -29,54 +30,56 @@
                     </b-form-input>
                 </b-form-group>
 
-                <b-row>
-                    <b-col md="5">
-                      <label>Expense Name</label>
+                <div class="d-none d-md-block d-lg-block">
+                  <div class="row">
+                    <b-col md="5" class="required">
+                      <label class="label">Expense Name</label>
                     </b-col><br>
 
-                    <b-col md="3">
-                    <label>Price</label> 
+                    <b-col md="3" class="required">
+                    <label class="label">Price (IDR)</label>
                     </b-col>
                     <br>
 
-                    <b-col md="3">
-                    <label>Date</label>
+                    <b-col md="3" class="required">
+                    <label class="label">Date</label>
                     </b-col><br>
 
                     <b-col md="1">
                     </b-col>
-                </b-row>
+                  </div>
+                </div>
 
                 <b-row class="expenses" v-bind:key="item.id_expense" v-for="item in expenses">
                     <b-col>
                     <Expense v-bind:expense="item" v-on:del-expense="deleteRow" />
                     </b-col>
-                </b-row> 
+                </b-row>
 
                  <b-row>
                     <div class ="col-md-6 col-12">
                         <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">+ Add More Item</button>
                     </div>
-                </b-row> 
-                
+                </b-row>
+
                 <b-row>
                     <b-col>
-                    <label>Attachment</label>
+                    <label class="label">Attachment</label>
                     </b-col>
                 </b-row>
 
-                <b-row> 
+                <b-row>
                     <b-col>
                         <b-form-group>
                         <div class="dropzone">
                           <input type="file" class="input-file" ref="files"
                           @change="selectFile" multiple/>
-                          <p v-if="attachments.length === 0" class="call-to-action"><i class='fas fa-cloud-upload-alt' style='font-size:36px'></i> 
+                          <p v-if="attachments.length === 0" class="call-to-action"><i class='fas fa-cloud-upload-alt' style='font-size:36px'></i>
                           Drag and drop your files here or <label for="file">
                               <button class="buttonFile">Select <i class='far fa-arrow-alt-circle-up'></i></button></label></p>
-                          
+
                           <label for="file">
-                              <button class="buttonFile">Select <i class='far fa-arrow-alt-circle-up'></i></button></label>
+                              <button class="buttonFile" v-if="attachments.length > 0">Select <i class='far fa-arrow-alt-circle-up'></i></button></label>
                           <div class="row" id="kotakAttachment">
                               <b-col class="col-xs-6 col-sm-6 col-md-3 grup-attachment" v-bind:key="file" v-for="file in attachments" >
                                   <div class="foto" v-if="file.type === 'image/png' || file.type==='image/jpeg' || file.type==='image.jpg'">
@@ -88,17 +91,19 @@
                                   <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:36px"></i></a>
                                   </div>
                                   <p>{{file.fileName}} </p>
-                                  
+
                               </b-col>
                           </div>
                         </div>
                         </b-form-group>
                     </b-col>
                 </b-row>
-                
+
                 <div class = "button-group">
-                    <b-button class = "cancel-button" type="reset">Cancel</b-button>
                     <b-button class = "save-button" type="submit">Save</b-button>
+                    <router-link :to="{name: 'detail-reimbursement'}">
+                      <b-button class="cancel-button" type="reset">Cancel</b-button>
+                    </router-link>
                 </div>
             </b-form>
             </card>
@@ -121,18 +126,18 @@
               <img src="@/assets/img/update-confirm-icon.png" alt="" width="50px">
             </b-col>
             <b-col class="col-10">
-              <p id="modal-message">Activity list schedule will be changed soon once you click the save button.</p>
+              <p id="modal-message">Reimbursement report will be changed soon once you click the save button.</p>
             </b-col>
           </b-row>
         </div>
       </template>
       <template v-slot:modal-footer="{ cancel }">
         <b-col class="button-confirm-group">
-          <b-button @click="cancel()" class="cancel-button">
-            Cancel
-          </b-button>
           <b-button @click="onSubmit" class="save-button">
             Save
+          </b-button>
+          <b-button @click="cancel()" class="cancel-button">
+            Cancel
           </b-button>
         </b-col>
       </template>
@@ -155,7 +160,7 @@
               <img src="@/assets/img/success-icon.png" alt="" width="50px">
             </b-col>
             <b-col class="col-10">
-              <p id="modal-message">Reimbursement Report for project {{reimbursement.projectName}} was successfully changed.</p>
+              <p id="modal-message">Reimbursement report for project {{reimbursement.projectName}} was successfully changed.</p>
             </b-col>
           </b-row>
         </div>
@@ -165,7 +170,7 @@
           <router-link :to="{name: 'reimbursement-report'}">
             <b-button class="back-button">Back to List</b-button>
           </router-link>
-          <b-button @click="ok()" id="see-button" variant="outline-primary">
+          <b-button @click="ok()" class="see-button">
             See Details
           </b-button>
         </b-col>
@@ -187,7 +192,7 @@ export default {
     components : {
       Expense
     },
-    data() { 
+    data() {
       return {
             expenses: [],
             id_expense : {id:0},
@@ -222,7 +227,7 @@ export default {
     beforeMount() {
       this.getDetail();
 	},
-    
+
     methods: {
         addRow(){
             this.new_expense.id_expense++;
@@ -275,24 +280,20 @@ export default {
             }
 
             let listAttachment = this.reimbursement.listAttachment;
-            console.log(this.reimbursement.listAttachment);
             for(let i=0; i< listAttachment.length ; i++){
                 this.attachments.push(this.reimbursement.listAttachment[i]);
             }
-            console.log(this.attachments);
         },
 
-        getDetail: function(){    
+        getDetail: function(){
             axios.get('http://localhost:8080/api/reimbursement/detail/' +this.$route.params.id)
             .then(res => {this.reimbursement = res.data, this.fetchData()})
             .catch(err => this.reimbursement = err.data);
         },
 
         updateReimbursement(reimburse){
-            console.log("add reimburse");
-            console.log(reimburse);
-            axios.put('http://localhost:8080/api/reimbursement/update/' + this.$route.params.id, 
-            reimburse, 
+            axios.put('http://localhost:8080/api/reimbursement/update/' + this.$route.params.id,
+            reimburse,
                 { headers: {
                     'Content-Type': 'application/json',
                 }
@@ -308,7 +309,7 @@ export default {
             const files = this.$refs.files.files;
             this.isAnyImage = true;
             for (let i = 0; i < files.length; i++) {
-              this.uploadFile(files[i]);    
+              this.uploadFile(files[i]);
             }
         },
 
@@ -355,10 +356,13 @@ export default {
 }
 
 .judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
+  text-align: center;
+  color: black;
+  margin: 5px 0 24px 0;
+}
+.title-form {
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 .isi-form{
     margin-left: auto;
@@ -375,10 +379,10 @@ export default {
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  font-size: 10px;
-  margin-left: 10px;
+  font-size: 12px;
+  margin-right: 10px;
   line-height: 15px;
-  width: 110px;
+  width: 120px;
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
   text-align: center;
 }
@@ -391,12 +395,36 @@ export default {
   width: 80px;
   line-height: 15px;
   text-align: center;
-  font-size: 10px;
+  font-size: 12px;
+}
+
+.see-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-left: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
+}
+
+.back-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 100px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
 }
 
 .button-group{
-  margin-top: 30px;
+  margin-top: 20px;
   text-align: center;
+  margin-bottom: 10px;
 }
 .label{
   font-weight: 600;
@@ -408,20 +436,27 @@ export default {
   color: #109CF1;
   font-weight: 1000;
 }
-
+#ok-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+}
 .button-confirm-group{
   text-align: right;
 }
 h5{
   margin-bottom: -4px;
 }
-
+.required label:after {
+  content:" *";
+  color: red;
+}
 .dropzone {
     min-height: 200px;
     padding: 10px 10px;
     position: relative;
     cursor: pointer;
-    outline: 2px dashed black; 
+    outline: 2px dashed black;
     outline-offset: -10px;
     border: white;
 }
@@ -489,29 +524,6 @@ img {
 
 #kotakAttachment {
     padding: 10px 10px;
-}
-
-.back-button{
-  color:#109CF1;
-  border-color:#109CF1;
-  background-color: white;
-  border-width: 1px;
-  width: 100px;
-  line-height: 15px;
-  text-align: center;
-  font-size: 12px;
-}
-
-#see-button{
-  background-color: #109CF1;
-  color:white;
-  border-color: transparent;
-  font-size: 12px;
-  margin-left: 10px;
-  line-height: 15px;
-  width: 120px;
-  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
-  text-align: center;
 }
 
 </style>

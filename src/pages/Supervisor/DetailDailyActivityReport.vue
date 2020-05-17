@@ -422,6 +422,7 @@ h5{
 #modal-title-delete{
   color:#FF3E1D;
   font-weight: 1000;
+  margin-bottom: -4px;
 }
 #modal-title-success{
   color: #109CF1;
