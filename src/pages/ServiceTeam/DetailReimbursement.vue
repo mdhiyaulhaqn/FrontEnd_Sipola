@@ -36,7 +36,7 @@
                     </div>
                 </b-row>
                 <b-row>
-                    <div class = "col-lg-2 col-sm-2 col-6">Created by</div>
+                    <div class = "col-lg-2 col-sm-2 col-6">Created By</div>
                     <div class = "col-lg-5 col-sm-5 col-6">: {{reimbursement.createdBy}}</div>
                 </b-row>
                 <b-row>
@@ -57,7 +57,7 @@
                 </b-row>
                 <b-row>
                     <div class = "col-lg-5 col-sm-5 col-6"><br>Expense</div>
-                    <div class="col-lg-7 col-sm-7 col-6" v-if="reimbursement.statusReimburse != 'Sent'">
+                    <div class="col-lg-7 col-sm-7 col-6" v-if="reimbursement.statusReimburse == 1 ">
                         <button v-b-modal.modal-send id="send_button" class="btn btn-primary">
                             Send to Finance
                             <i class="fas fa-location-arrow"></i>
@@ -122,7 +122,7 @@
                 <b-row>
                     <div class="col button-group">
                         <br>
-                        <button v-b-modal.modal-delete id ="delete-button" class="btn btn-primary"  v-if="reimbursement.statusReimburse === 1 || reimbursement.statusReimburse === 4">
+                        <button v-b-modal.modal-delete id ="delete-button" class="btn btn-primary"  v-if="reimbursement.statusReimburse != 2">
                             Delete
                         </button>
                          <router-link :to="{name: 'update-reimbursement'}">

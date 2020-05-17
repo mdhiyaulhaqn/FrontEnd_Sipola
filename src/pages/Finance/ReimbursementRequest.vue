@@ -194,9 +194,9 @@ export default {
         currentPage: 1,
         perPage: 5,
         pageOptions: [5, 10, 25, 50, 100],
-        sortBy: 'id',
+        sortBy: 'statusReimburse',
         sortDesc: true,
-        sortDirection: 'desc',
+        sortDirection: 'asc',
         filter: null,
         filterOn: [],
     }

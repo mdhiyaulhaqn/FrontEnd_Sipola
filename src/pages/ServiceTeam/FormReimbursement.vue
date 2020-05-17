@@ -135,8 +135,8 @@
       </template>
     </b-modal>
 
-    <b-modal title="Reimbursement Gagal Tersimpan" v-model="failedModal" centered ok-only>
-        Reimbursement gagal dibuat.
+    <b-modal title="Failed" v-model="failedModal" centered ok-only>
+        Failed to add reimbursement.
     </b-modal>
   </div>
 </template>

@@ -33,7 +33,7 @@
                     </div>
                 </b-row>
                 <b-row>
-                    <div class = "col-lg-2 col-sm-2 col-6">Created by</div>
+                    <div class = "col-lg-2 col-sm-2 col-6">Created By</div>
                     <div class = "col-lg-5 col-sm-5 col-6">: {{reimbursement.createdBy}}</div>
                 </b-row>
                 <b-row>
@@ -89,11 +89,9 @@
                 <div v-if="reimbursement.listAttachment != undefined && reimbursement.listAttachment.length > 0">
                   <b-card class="card-attachment">
                   <b-card-title class="title-attachment" v-b-toggle.collapse-2 style="max-height:50px">
-                    <h6>Attachments ( {{reimbursement.listAttachment.length}} )</h6>
-                    <!-- <a @click="downloadAll()"><i class="fas fa-download"></i></a> -->
+                    <h6>Attachments ( {{reimbursement.listAttachment.length}} ) <a @click="downloadAll()"><i class="fas fa-download"></i></a></h6>
                   </b-card-title>
 
-                  <!-- Element to collapse -->
                   <b-collapse id="collapse-2" v-if="reimbursement.listAttachment != undefined && reimbursement.listAttachment.length > 0">
                     <b-card-body>
                       <b-row>
@@ -153,7 +151,7 @@
                   <p id="modal-message">You can still change your decision later.</p>
               </b-col>
               <div class="col-xs-10 col-md-12 col-sm-8">
-                <b-form @submit.stop.prevent="submitReject">
+                <b-form @submit.stop.prevent="handleSubmit">
                     <b-form-group size="sm" style="margin-top: 15px;">
                         <label for="keterangan" class="label">Reason</label>
                         <b-form-input
@@ -182,7 +180,7 @@
       </template>
       <template v-slot:modal-footer="{ cancel }">
         <b-col class="button-reject-group">
-          <b-button @click="submitReject" id ="confirm_reject_button" variant="outline-danger">
+          <b-button @click="submitReject" id ="confirm_reject_button" variant="outline-danger" type="submit">
             Reject
           </b-button>
           <b-button @click="cancel()" id ="cancel_reject_button" class="btn btn-danger">
@@ -361,6 +359,7 @@ export default {
 
         handleSubmit(evt) {
           evt.preventDefault();
+          console.log('masuk sini kah')
           this.submitReject();
         },
 
@@ -396,30 +395,41 @@ export default {
         },
 
         downloadAll() {
-          var zip = new JSZip();
-          var count = 0;
-          var zipFilename = "zipFilename.zip";
-          let urls = [];
+          let files = this.reimbursement.listAttachment
           for (let i = 0; i < files.length; i++) {
-            urls.append('data:' + this.reimbursement.listAttachment[i].type + ';base64,' + this.reimbursement.listAttachment[i].image)
-          }
+            const linkSource = 'data:' + files[i].type + ';base64,' + files[i].image;
+            const downloadLink = document.createElement("a");
+            const fileName = files[i].fileName;
 
-          urls.forEach(function(url){
-            var filename = "filename";
-            // loading a file and add it in a zip file
-            JSZipUtils.getBinaryContent(url, function (err, data) {
-              if(err) {
-                  throw err; // or handle the error
-              }
-              zip.file(filename, data, {binary:true});
-              count++;
-              if (count == urls.length) {
-                zip.generateAsync({type:'blob'}).then(function(content) {
-                    saveAs(content, zipFilename);
-                });
-              }
-            });
-          });
+            downloadLink.href = linkSource;
+            downloadLink.download = fileName;
+            downloadLink.click();
+          }
+          
+          // var zip = new JSZip();
+          // var count = 0;
+          // var zipFilename = "zipFilename.zip";
+          // let urls = [];
+          // for (let i = 0; i < files.length; i++) {
+          //   urls.append('data:' + this.reimbursement.listAttachment[i].type + ';base64,' + this.reimbursement.listAttachment[i].image)
+          // }
+
+          // urls.forEach(function(url){
+          //   var filename = "filename";
+          //   // loading a file and add it in a zip file
+          //   JSZipUtils.getBinaryContent(url, function (err, data) {
+          //     if(err) {
+          //         throw err; // or handle the error
+          //     }
+          //     zip.file(filename, data, {binary:true});
+          //     count++;
+          //     if (count == urls.length) {
+          //       zip.generateAsync({type:'blob'}).then(function(content) {
+          //           saveAs(content, zipFilename);
+          //       });
+          //     }
+          //   });
+          // });
         }
 
 
