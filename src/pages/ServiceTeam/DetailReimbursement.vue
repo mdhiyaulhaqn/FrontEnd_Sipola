@@ -172,8 +172,9 @@
     <b-modal
       id="modal-success"
       centered
+      ref="success-send"
       v-model="successModalSend"
-      @ok="redirect()"
+      @ok="redirectSend()"
       >
       <template v-slot:modal-title>
         <div class="container">
@@ -265,6 +266,10 @@
         </b-col>
       </template>
     </b-modal>
+
+    <b-modal title="Failed" v-model="failedModal" centered ok-only>
+        Reimbursement was failed to be changed.
+    </b-modal>
     </div>
 </template>
 
@@ -280,6 +285,7 @@ export default {
             untukPreview: 'data:image/jpeg;base64, ',
             successModal : false,
             successModalSend : false,
+            failedModal : false,
             fields: [
                 {key: 'id', label: 'No', sortable: true},
                 {key: 'nama', label: 'Expense Item', sortable: true},
@@ -298,18 +304,23 @@ export default {
         },
 
         showMessage(status){
-            this.successModal = true;
+            if(status == 200){
+                this.successModal = true;
+            }
+            else if(status == 500){
+                this.failedModal = true;
+            }
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/reimbursement/detail/' +this.$route.params.id)
+            axios.get('http://localhost:8080/api/reimbursement/' +this.$route.params.id + '/detail')
             .then(res => {this.reimbursement = res.data, console.log(this.reimbursement)})
             .catch(err => this.reimbursement = err.data);
             // this.previewImage();
         },
 
         deleteReimbursement(reimburse){
-            axios.delete('http://localhost:8080/api/reimbursement/delete/' + this.$route.params.id,
+            axios.delete('http://localhost:8080/api/reimbursement/' + this.$route.params.id + '/delete',
             reimburse,
                 { headers: {
                     'Content-Type': 'application/json',
@@ -336,12 +347,17 @@ export default {
         },
 
         sendReimbursement(reimburse){
-            axios.put('http://localhost:8080/api/reimbursement/send/' + this.$route.params.id)
-            .then(res => {this.showMessageSendModal(res.data.status)});
+            axios.put('http://localhost:8080/api/reimbursement/' + this.$route.params.id + '/send')
+            .then(res => {this.reimbursement = res.data.result, this.showMessageSendModal(res.data.status)});
         },
 
         showMessageSendModal(status){
-            this.successModalSend = true;
+            if(status == 200){
+                this.successModalSend = true;
+            }
+            else if(status == 500){
+                this.failedModal = true;
+            }
         },
 
          downloadFile(file) {
@@ -367,11 +383,12 @@ export default {
           .then(function (content) {
               location.href="data:application/zip;base64,"+content;
           });
-        }
-        // redirectSend(){
-        //     this.hideModalSend();
-        //     this.$router.push({ name: 'detail-reimbursement',  params: {id:this.reimbursement.id}});
-        // },
+        },
+
+        redirectSend(){
+            this.hideModalSend();
+            this.$refs['success-send'].hide();
+        },
   }
 };
 </script>

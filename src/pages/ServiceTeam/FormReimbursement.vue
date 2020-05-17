@@ -76,14 +76,14 @@
                           <div class="row" id="kotakAttachment">
                               <b-col class="col-xs-6 col-sm-6 col-md-3 grup-attachment" v-bind:key="file" v-for="file in attachments" >
                                   <div class="foto" v-if="file.type === 'image/png' || file.type==='image/jpeg' || file.type==='image.jpg'">
-                                  <img :src="untukPreview+file.image" alt="Image" class="image">
-                                  <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:36px"></i></a>
+                                  <img :src="untukPreview+file.image" alt="Image" class="img-fluid img-thumbnail">
+                                  <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:24px"></i></a>
                                   </div>
                                   <div class="foto" v-else>
-                                  <img src="@/assets/img/document.png">
-                                  <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:36px"></i></a>
+                                  <img src="@/assets/img/document.png" class="img-fluid img-thumbnail">
+                                  <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:24px"></i></a>
                                   </div>
-                                  <p>{{file.fileName}} </p>
+                                  <h6>{{file.fileName}} </h6>
 
                               </b-col>
                           </div>
@@ -459,28 +459,9 @@ img {
   backface-visibility: hidden;
 }
 
-.removeIcon {
-  transition: .5s ease;
-  opacity: 0;
-  position: absolute;
-  top: 50%;
-  left: 30%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  text-align: center;
-}
-
 .foto {
   position: relative;
   width: 100%;
-}
-
-.foto:hover .image {
-  opacity: 0.3;
-}
-
-.foto:hover .removeIcon {
-  opacity: 1;
 }
 
 .buttonFile {
