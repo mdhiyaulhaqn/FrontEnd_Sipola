@@ -308,10 +308,9 @@ export default {
 }
 
 .judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
 }
 .isi-form{
     margin-left: auto;

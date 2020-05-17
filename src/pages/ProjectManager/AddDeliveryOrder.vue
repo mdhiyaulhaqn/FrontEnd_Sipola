@@ -290,9 +290,9 @@ export default {
     margin-bottom: 10px;
 }
 .judul{
-    text-align: center;
-    color: black;
-    margin: 5px 0 24px 0;
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
 }
 .title-form {
     font-weight: 600;

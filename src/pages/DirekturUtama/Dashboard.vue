@@ -121,7 +121,7 @@ export default {
   name: 'app',
   components: {
     StatsCard,
-    ChartCard, 
+    ChartCard,
     PieChart,
     BarChart,
     LineChart,
@@ -362,8 +362,8 @@ export default {
       };
     },
 
-    createProjectData(){ 
-      
+    createProjectData(){
+
       var belom_selesai = 0;
       var sudah_selesai = 0;
 
@@ -408,10 +408,11 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .judul-card{
   font-size: 20px;
 }
+<<<<<<< HEAD
 .amount{
   font-size: 22px;
   font-weight: bold;
@@ -428,3 +429,6 @@ export default {
   font-weight: bold;
 }
 </style>
+=======
+</style>
+>>>>>>> development

@@ -487,16 +487,11 @@ export default {
 </script>
 
 <style scoped>
-body {
-    font-family: 'Muli', sans-serif;
-    background: #fafafa;
-}
 
 .judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
 }
 .company-name{
     color: black;

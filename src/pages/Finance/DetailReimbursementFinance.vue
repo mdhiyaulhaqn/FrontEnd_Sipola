@@ -115,7 +115,7 @@
                 </b-row>
 
                 <b-row>
-                    <div class="col button-group" v-if="reimbursement.keterangan != undefined && reimbursement.statusReimburse != 3">
+                    <div class="col button-group" v-if="reimbursement.statusReimburse === 2 || reimbursement.statusReimburse === 4">
                         <br>
                         <button v-on:click="onConfirmationReject" id ="delete-button" class="btn btn-primary">
                             Reject
@@ -154,8 +154,8 @@
               <div class="col-xs-10 col-md-12 col-sm-8">
                 <!-- <b-form @submit.stop.prevent="handleSubmit"> -->
                   <b-form @submit="handleSubmit">
-                    <b-form-group size="sm" style="margin-top: 15px;">
-                        <label for="keterangan" class="required">Reason</label>
+                    <b-form-group size="sm" style="margin-top: 15px;" class="required">
+                        <label for="keterangan" class="label">Reason</label>
                         <b-form-input
                             id="keteranganInput"
                             v-model="keterangan"
@@ -208,8 +208,6 @@
 >>>>>>> 8590fa3f6f3ab24b525c6e0306ffc2b41f1a2fa1
 
     </b-modal>
-
-
 
       <b-modal
       id="modal-approve"
@@ -282,7 +280,7 @@
     </b-modal>
 
     <b-modal title="Failed" v-model="failedModal" centered ok-only>
-        Invoice was failed to be changed.
+        Reimbursement was failed to be changed.
     </b-modal>
 
     </div>
@@ -351,14 +349,13 @@ export default {
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/reimbursement/detail/' +this.$route.params.id)
+            axios.get('http://localhost:8080/api/reimbursement/' +this.$route.params.id + '/detail')
             .then(res => {this.reimbursement = res.data })
             .catch(err => this.reimbursement = err.data);
-            // this.previewImage();
         },
 
         approveReimbursement(reimburse) {
-          axios.put('http://localhost:8080/api/reimbursement/changeStatus/' + this.$route.params.id,
+          axios.put('http://localhost:8080/api/reimbursement/' + this.$route.params.id + '/changeStatus',
             reimburse,
                 { headers: {
                     'Content-Type': 'application/json',
@@ -370,6 +367,7 @@ export default {
         redirect(){
           this.hideModalReject()
           this.$refs['modal-success'].hide();
+          this.hideModal();
             // this.$router.push({ name: 'reimbursement-request'});
         },
 
@@ -399,7 +397,7 @@ export default {
         },
 
         rejectReimbursement(reimburse){
-          axios.put('http://localhost:8080/api/reimbursement/changeStatus/' + this.$route.params.id,
+          axios.put('http://localhost:8080/api/reimbursement/' + this.$route.params.id + '/changeStatus',
             reimburse,
                 { headers: {
                     'Content-Type': 'application/json',
@@ -449,7 +447,7 @@ export default {
   color: #FF3E1D;
   background: none;
 }
-.required{
+.label{
   font-weight: 600;
 }
 .required label::after {
@@ -459,7 +457,7 @@ export default {
 .judul{
   text-align: center;
   color: black;
-  margin: 5px 0 24px 0;
+  margin: 11px 0 24px 0;
 }
 .sub-judul {
   font-size: 16px;

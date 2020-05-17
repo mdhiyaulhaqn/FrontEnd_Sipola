@@ -21,7 +21,7 @@
                             </b-form-input>
                         </b-form-group>
                     </div>
-             
+
                     <div class = "col-md-3 col-12">
                         <div style="color:black">
                         <b-form-group class="required">
@@ -36,7 +36,7 @@
                         </b-form-group>
                         </div>
                     </div>
-                    
+
                     <div class = "col-md-3 col-12">
                         <div style="color:black">
                         <b-form-group class="required">
@@ -65,7 +65,7 @@
                             </b-form-input>
                         </b-form-group>
                     </div>
-             
+
                     <div class = "col-md-5 col-12">
                         <div style="color:black">
                         <b-form-group class="required">
@@ -112,13 +112,13 @@
                             <label>Service Order</label>
                         </div>
                         <div class="col-md-2 col-12 required">
-                            <label>UOM</label> 
+                            <label>UOM</label>
                         </div>
                         <div class="col-md-2 col-12 required">
-                            <label>Qty</label> 
+                            <label>Qty</label>
                         </div>
                         <div class="col-md-3 col-12 required">
-                            <label>UnitPrice</label> 
+                            <label>UnitPrice</label>
                         </div>
                     </div>
                 </div>
@@ -127,7 +127,7 @@
                     <b-col disabled>
                     <ServiceOrder v-bind:service_order="item"/>
                     </b-col>
-                </b-row> 
+                </b-row>
 
                 <div class="row">
                     <div class="col-6">
@@ -248,7 +248,7 @@ export default {
     components : {
       ServiceOrder
     },
-    data() { 
+    data() {
       return {
             service_orders: [],
             id_service_orders : {id:0},
@@ -269,7 +269,7 @@ export default {
     beforeMount() {
       this.getDetail();
 	},
-    
+
     methods: {
         fetchData: function() {
             this.invoice.salesOrder.poDate = this.invoice.salesOrder.poDate.substring(0, 10);
@@ -299,13 +299,13 @@ export default {
             }
             else if(status == 500){
                 this.failedModal = true;
-            } 
+            }
         },
-        
+
         updateInvoice(invoice) {
             console.log("masuk pa aji")
             axios.put('http://localhost:8080/api/invoice/' + this.$route.params.id + '/update',
-            invoice, 
+            invoice,
                 { headers: {
                     'Content-Type': 'application/json',
                 }
@@ -337,10 +337,9 @@ export default {
 }
 
 .judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
 }
 .isi-form{
     margin-left: auto;

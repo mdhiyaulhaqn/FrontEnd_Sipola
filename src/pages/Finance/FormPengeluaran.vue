@@ -197,7 +197,7 @@ import axios from 'axios';
 .judul{
   text-align: center;
   color: black;
-  margin: 5px 0 24px 0;
+  margin: 11px 0 24px 0;
 }
 
 .title-form{

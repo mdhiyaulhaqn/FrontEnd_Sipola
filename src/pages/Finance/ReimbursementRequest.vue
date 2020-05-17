@@ -123,49 +123,48 @@
             </b-col>
 
             <b-col cols="8">
-                <div>
-                  <b-form-group
-                    label="Rows per page:"
-                    label-cols="8"
-                    label-cols-sm="8"
-                    label-cols-md="8"
-                    label-cols-xl="10"
-                    label-cols-lg="8"
-                    label-align="right"
-                    label-align-md="right"
-                    label-align-sm="right"
-                    label-align-lg="right"
-                    label-align-xl="right"
-                    label-size="sm"
-                    label-for="perPageSelect"
-                    class="mb-0"
-                  >
-                    <b-form-select
-                      v-model="perPage"
-                      id="perPageSelect"
-                      size="sm"
-                      :options="pageOptions"
-                    ></b-form-select>
-                  </b-form-group>
-                </div>
-              </b-col>
-
-              </b-row>
-            <b-row>
-              <b-col>
-                <div style="margin: 10px 0 0 0;">
-                  <b-pagination
-                    v-model="currentPage"
-                    :total-rows="totalRows"
-                    :per-page="perPage"
-                    align="center"
-                    size="md"
-                    class="my-1"
-                    style="margin-left: 0;"
-                  ></b-pagination>
-                </div>
-              </b-col>
-            </b-row>
+              <div>
+                <b-form-group
+                  label="Rows per page:"
+                  label-cols="8"
+                  label-cols-sm="8"
+                  label-cols-md="8"
+                  label-cols-xl="10"
+                  label-cols-lg="8"
+                  label-align="right"
+                  label-align-md="right"
+                  label-align-sm="right"
+                  label-align-lg="right"
+                  label-align-xl="right"
+                  label-size="sm"
+                  label-for="perPageSelect"
+                  class="mb-0"
+                >
+                  <b-form-select
+                    v-model="perPage"
+                    id="perPageSelect"
+                    size="sm"
+                    :options="pageOptions"
+                  ></b-form-select>
+                </b-form-group>
+              </div>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <div style="margin: 10px 0 0 0;">
+                <b-pagination
+                  v-model="currentPage"
+                  :total-rows="totalRows"
+                  :per-page="perPage"
+                  align="center"
+                  size="md"
+                  class="my-1"
+                  style="margin-left: 0;"
+                ></b-pagination>
+              </div>
+            </b-col>
+          </b-row>
         </b-container>
         </card>
       </div>
@@ -235,7 +234,7 @@ export default {
     }
 };
 </script>
-<style>
+<style scoped>
 .table{
   font-size: 12px;
 }
@@ -249,9 +248,9 @@ export default {
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
 }
 .judul{
-    text-align: center;
-    color: black;
-    margin: 5px 0 24px 0;
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
 }
 .pagination{
   margin-left:20px;
