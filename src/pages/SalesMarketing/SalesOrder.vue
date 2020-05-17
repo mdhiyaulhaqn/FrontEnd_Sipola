@@ -240,6 +240,9 @@ export default {
 };
 </script>
 <style scoped>
+.table{
+  font-size: 12px;
+}
 #add_quotation_button{
   background-color: #109CF1;
   color:white;
