@@ -1,14 +1,22 @@
 <template>
-  <div class="col-md-12">
+<div class = "row">
+<div class = "col-md-6">
+  <div class = "logo-luar">
+        <img class="logo-sipola" src="@/assets/img/sipola-icon.png" alt="">
+        <div class = "logo-text">
+          PT SIXAB TEHNIK INDUSTRI
+        </div>
+    </div>
+</div>
+  <div class="col-md-6">
     <div class="card card-container">
-      <img
-        id="profile-img"
-        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-        class="profile-img-card"
-      />
+       <img class = "profile-img-card" src="@/assets/img/user-icon.png" alt="" width="30px" style="margin-top:5px">
       <form name="form" @submit.prevent="handleLogin">
         <div class="form-group">
-          <label for="username">Username</label>
+          <label for="username">
+            <div class = "text-form">Username</div>
+
+            </label>
           <input
             v-model="user.username"
             v-validate="'required'"
@@ -23,7 +31,10 @@
           >Username is required!</div>
         </div>
         <div class="form-group">
-          <label for="password">Password</label>
+          <label for="password">
+            <div class = "text-form">Password</div>
+
+            </label>
           <input
             v-model="user.password"
             v-validate="'required'"
@@ -49,6 +60,7 @@
       </form>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -103,9 +115,31 @@ export default {
 </script>
 
 <style scoped>
+
+
+.logo-luar{
+  padding-top: 10%;
+  padding-left:15%;
+}
+.logo-sipola{
+  width:60%;
+  height:60%;
+}
+.logo-text{
+  font-size: 30px;
+  font-weight:bold;
+  padding-left:9%;
+  color:#BD2640;
+}
+
 label {
   display: block;
   margin-top: 10px;
+  color:white;
+}
+
+.text-form{
+  color: white;
 }
 
 .card-container.card {
@@ -114,15 +148,10 @@ label {
 }
 
 .card {
-  background-color: #f7f7f7;
+  background-color: #bd2640;
   padding: 20px 25px 30px;
   margin: 0 auto 25px;
   margin-top: 50px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
 }
 
