@@ -14,7 +14,7 @@
             <div class="col-md-10 col-sm-10 col-xs-10 col-12 d-block d-xs-block d-sm-block center">
             <card class="col">
                 <b-row>
-                    <h5 class = "col-lg-7 col-sm-7 col-6"><strong>Reimbursement Report</strong></h5>
+                    <h5 class = "col-lg-7 col-sm-7 col-6 sub-judul"><strong>Reimbursement Report</strong></h5>
                     <div class="col-lg-3 col-sm-3 col-6 grup-status" style="float:right;">
                       <div class="col-lg-5 col-sm-5 col-12 status" >Status</div>
                       <div class="col-lg-7 col-sm-7 col-8">
@@ -89,7 +89,7 @@
                 <div v-if="reimbursement.listAttachment != undefined && reimbursement.listAttachment.length > 0">
                   <b-card class="card-attachment">
                   <b-card-title class="title-attachment" v-b-toggle.collapse-2 style="max-height:50px">
-                    <h6>Attachments ( {{reimbursement.listAttachment.length}} ) <a @click="downloadAll()"><i class="fas fa-download"></i></a></h6>
+                    <h6>Attachments ( {{reimbursement.listAttachment.length}} )<a @click="downloadAll()" class="download-all"> Download All <i class="fas fa-download"></i></a></h6>
                   </b-card-title>
 
                   <b-collapse id="collapse-2" v-if="reimbursement.listAttachment != undefined && reimbursement.listAttachment.length > 0">
@@ -110,7 +110,7 @@
 
                 <b-row v-if="reimbursement.keterangan != undefined && reimbursement.keterangan.length > 0">
                     <div class = "col-lg-2 col-sm-2 col-4"><i class='fas fa-exclamation-triangle' style='color:red'></i>
-                    Notes</div>
+                    Notes from finance</div>
                     <div class = "col-lg-5 col-sm-5 col-8">: {{reimbursement.keterangan}}</div>
                 </b-row>
 
@@ -135,6 +135,7 @@
       ref="modal-reject"
       v-model="rejectModal"
       centered
+      hide-footer
       >
       <template v-slot:modal-title>
         <div class="container">
@@ -151,9 +152,10 @@
                   <p id="modal-message">You can still change your decision later.</p>
               </b-col>
               <div class="col-xs-10 col-md-12 col-sm-8">
-                <b-form @submit.stop.prevent="handleSubmit">
+                <!-- <b-form @submit.stop.prevent="handleSubmit"> -->
+                  <b-form @submit="handleSubmit">
                     <b-form-group size="sm" style="margin-top: 15px;">
-                        <label for="keterangan" class="label">Reason</label>
+                        <label for="keterangan" class="required">Reason</label>
                         <b-form-input
                             id="keteranganInput"
                             v-model="keterangan"
@@ -173,12 +175,20 @@
                               name="revise"
                             >Ask for revision</b-form-checkbox>
                           </b-form-group>
+                          <b-col class="button-reject-group">
+                            <b-button id ="confirm_reject_button" variant="outline-danger" type="submit">
+                              Reject
+                            </b-button>
+                            <b-button @click="hideModalReject()" id ="cancel_reject_button" class="btn btn-danger">
+                              Cancel
+                            </b-button>
+                          </b-col>
                   </b-form>
               </div>
           </b-row>
         </div>
       </template>
-      <template v-slot:modal-footer="{ cancel }">
+      <!-- <template v-slot:modal-footer="{ cancel }">
         <b-col class="button-reject-group">
           <b-button @click="submitReject" id ="confirm_reject_button" variant="outline-danger" type="submit">
             Reject
@@ -187,7 +197,7 @@
             Cancel
           </b-button>
         </b-col>
-      </template>
+      </template> -->
 
     </b-modal>
 
@@ -273,6 +283,7 @@
 <script>
 
 import axios from 'axios';
+import JSZip from 'jszip';
 
 export default {
     data() {
@@ -287,6 +298,7 @@ export default {
             approveModal : false,
             failedModal : false,
             revision : false,
+            notValid : false,
             fields: [
                 {key: 'id', label: 'No', sortable: true},
                 {key: 'nama', label: 'Expense Item', sortable: true},
@@ -346,7 +358,9 @@ export default {
         },
 
         redirect(){
-            this.$router.push({ name: 'reimbursement-request'});
+          this.hideModalReject()
+          this.$refs['modal-success'].hide();
+            // this.$router.push({ name: 'reimbursement-request'});
         },
 
         hideModal(){
@@ -396,40 +410,16 @@ export default {
 
         downloadAll() {
           let files = this.reimbursement.listAttachment
+          var zip = new JSZip();
+          var downloadFile = zip.folder("attachments")
           for (let i = 0; i < files.length; i++) {
             const linkSource = 'data:' + files[i].type + ';base64,' + files[i].image;
-            const downloadLink = document.createElement("a");
-            const fileName = files[i].fileName;
-
-            downloadLink.href = linkSource;
-            downloadLink.download = fileName;
-            downloadLink.click();
+            downloadFile.file(files[i].fileName, files[i].image, {base64: true})
           }
-          
-          // var zip = new JSZip();
-          // var count = 0;
-          // var zipFilename = "zipFilename.zip";
-          // let urls = [];
-          // for (let i = 0; i < files.length; i++) {
-          //   urls.append('data:' + this.reimbursement.listAttachment[i].type + ';base64,' + this.reimbursement.listAttachment[i].image)
-          // }
-
-          // urls.forEach(function(url){
-          //   var filename = "filename";
-          //   // loading a file and add it in a zip file
-          //   JSZipUtils.getBinaryContent(url, function (err, data) {
-          //     if(err) {
-          //         throw err; // or handle the error
-          //     }
-          //     zip.file(filename, data, {binary:true});
-          //     count++;
-          //     if (count == urls.length) {
-          //       zip.generateAsync({type:'blob'}).then(function(content) {
-          //           saveAs(content, zipFilename);
-          //       });
-          //     }
-          //   });
-          // });
+          zip.generateAsync({type:"base64"})
+          .then(function (content) {
+              location.href="data:application/zip;base64,"+content;
+          });
         }
 
 
@@ -449,13 +439,20 @@ export default {
   color: #FF3E1D;
   background: none;
 }
-.label{
+.required{
   font-weight: 600;
+}
+.required label::after {
+  content: " *";
+  color: red;
 }
 .judul{
   text-align: center;
   color: black;
   margin: 5px 0 24px 0;
+}
+.sub-judul {
+  font-size: 16px;
 }
 #send_button{
     font-size: 12px;
@@ -602,6 +599,11 @@ img {
 .grup-status{
   position: absolute;
   right: 16px;
+}
+
+.download-all {
+  float: right;
+  cursor: pointer;
 }
 
 </style>
