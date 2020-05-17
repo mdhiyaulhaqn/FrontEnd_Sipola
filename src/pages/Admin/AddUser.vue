@@ -85,7 +85,7 @@
                         <b-form-group>
                             <label for="Role">Role</label>
                             <b-form-select v-model="selectedRole" :options="roles" required>
-                                <input :required="!selected">
+                                <!-- <input :required="!selected"> -->
                             </b-form-select>
                             <div
                                 v-if="submitted && errors.has('role')"
@@ -226,7 +226,7 @@ export default {
       successful: false,
       message: '',
       selectedRole: null,
-    //   passwordConfirmation: '',
+      PasswordConfirmation: '',
       roles: [
         { value: null, text: '-- Choose Role --'},
         { value: 'admin', text: 'Admin'},

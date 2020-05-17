@@ -233,7 +233,6 @@ export default {
                 // console.log("APAAN SIH WOY " + role.name);
                 if(role != "ROLE_USER"){
                     this.selectedRole = role.name.substring(5).toLowerCase();
-                    console.log("APAAN SIH WOY " + this.selectedRole);
                 }
             });
             })
@@ -247,10 +246,11 @@ export default {
     },
     updateUser(){
         let roleId = this.getRoleId(this.selectedRole);
+        this.selectedRole = "ROLE_" + this.selectedRole.toUpperCase();
+        
         this.role = new Role(roleId, this.selectedRole)
-        this.user.roles.push(role);
-        // this.user.roles.push(this.selectedRole.toUpperCase());
-        // console.log("APAAN SIH WOY 2" + this.selectedRole.toUpperCase());
+        this.user.roles.push(this.role);
+
         axios.put('http://localhost:8080/api/user/' + this.$route.params.username + '/update', this.user, { headers: authHeader() })
         .then((response) => {
             this.user.username = response.data.result.username
@@ -301,6 +301,8 @@ export default {
                 return 8;
             case "supervisor":
                 return 9;
+            default:
+                return 1;
         }
 
 

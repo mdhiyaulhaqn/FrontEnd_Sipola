@@ -182,6 +182,45 @@
           </div>
       </template>
     </b-modal>
+
+    <b-modal
+            id="modal-success"
+            ref="modal-success"
+            hide-footer
+            centered
+            v-model="successModal"
+            @ok="reload()"
+            >
+            <template v-slot:modal-title>
+                <div class="container">
+                <h5 id="modal-title-success">Success!</h5>
+                </div>
+            </template>
+            <template v-slot:default>
+                <div class="container">
+                <b-row>
+                    <b-col class="modal-icon col-2">
+                    <img src="@/assets/img/success-icon.png" alt="" width="50px">
+                    </b-col>
+                    <b-col class="col-10">
+                    <p id="modal-message">{{selectedUser.name}} was successfully deleted.</p>
+                    </b-col>
+                </b-row>
+                </div>
+                <b-row class="button-detail-group">
+                    <b-button @click="reload()" id="ok-button" variant="outline-primary">
+                        OK
+                    </b-button>
+                </b-row>
+            </template>
+            <!-- <template v-slot:modal-footer="{ ok }">
+                <b-col class="button-confirm-group">
+                <b-button @click="ok()" id="ok-button" variant="outline-primary">
+                    OK
+                </b-button>
+                </b-col>
+            </template> -->
+        </b-modal>
   </div>
 </template>
 <script>
@@ -212,6 +251,7 @@ export default {
       filter: null,
       filterOn: [],
       selectedUser: null,
+      successModal: false,
     }
   },
   computed: {
@@ -268,13 +308,24 @@ export default {
     hideModal(){
         this.$refs['modal-delete'].hide();
     },
+    showMessage(status){
+        if(status == 200){
+            this.successModal = true;
+        }
+        else{
+            this.failedModal = true;
+        }
+    },
     deleteUser(){
-        axios.put('http://localhost:8080/api/user/' + this.selectedUser.username + '/delete', { headers: authHeader() })
+        axios.delete('http://localhost:8080/api/user/' + this.selectedUser.username + '/delete', { headers: authHeader() })
         .then(res => {
             this.showMessage(res.data.status)
             console.log(res.data.status)
             this.hideModal()
         });
+    },
+    reload(){
+        window.location.reload()
     },
   }
 }
@@ -353,5 +404,31 @@ button{
     background-color: #ff3e1d;
     color:white;
     border-color: white;
+}
+.button-detail-group{
+    float:right;
+    margin-top: 50px;
+    margin-right: 10px;
+}
+
+#modal-title-delete-confirm{
+  color: #FF3E1D;
+  font-weight: 1000;
+  margin-bottom: -4px;
+}
+
+#modal-title-success{
+  color: #109CF1;
+  font-weight: 1000;
+  margin-bottom: -4px;
+}
+#modal-message{
+  font-size: 16px;
+}
+#ok-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  border-width: 1px;
+  background-color: white;
 }
 </style>
