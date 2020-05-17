@@ -2,7 +2,14 @@
   <div>
     <!--Stats cards-->
     <div class="row">
-      <div class="col-md-1">Period</div>
+      <div class="col-md-2">
+        <b-form-select v-model="selected" class="mb-3">
+          <template v-slot:first>
+            <b-form-select-option :value="null" disabled>-- Year --</b-form-select-option>
+          </template>
+          <option v-bind:key="year.index" v-for="year in years" :value="year">{{year}}</option>
+        </b-form-select>
+      </div>
     </div>
     <div class="row">
        <div class="col-md-6 col-xl-3" >
@@ -70,7 +77,7 @@
             <BarChart :height="300" :chartData="cashFlowCollection" :options="options" :axis-min="0"></BarChart>
           </div>
           <div class="card-footer">
-            <i class="ti-reload"></i> <time-ago :refresh='60' class="timeago"></time-ago>
+            <i class="ti-reload"></i> Updated <time-ago :refresh='60' class="timeago"></time-ago> ago
           </div>
         </div>
       </div>
@@ -93,14 +100,15 @@
           </div>
         </div>
       </div>
-
     </div>
 
+    <b-modal title="Failed" v-model="failedModal" centered ok-only>
+      Sorry, data is not available. 
+    </b-modal>
   </div>
 </template>
+
 <script>
-
-
 import { StatsCard, ChartCard } from "@/components/index";
 import PieChart from '@/pages/DirekturUtama/component/PieChart.vue';
 import LineChart from '@/pages/DirekturUtama/component/LineChart.vue';
@@ -142,6 +150,8 @@ export default {
       budget : 560000000,
       targetProject : 12,
       targetOrder : 24,
+      failedModal: false,
+      selected: null,
     };
   },
 
@@ -153,7 +163,7 @@ export default {
     getProject : function(){
       console.log("misiiii?")
       axios.get('http://localhost:8080/api/dashboard/projects/2020')
-          .then(res => {this.list_project = res.data.result, this.getIncome()})
+          .then(res => {this.list_project = res.data.result, this.showMessage(res.data.status), this.getIncome()})
           .catch(err => this.list_project = err.data);
     },
     getIncome: function(){
@@ -167,6 +177,20 @@ export default {
         axios.get('http://localhost:8080/api/dashboard/pengeluaran/2020')
           .then(res => {this.list_expense = res.data.result, this.computeTotal(), this.createProjectData()})
           .catch(err => this.list_expense = err.data);
+    },
+
+    years(){
+      const year = new Date().getFullYear()
+      return Array.from({length: year - 1990}, (value, index) => 1991 + index)
+    },
+
+    showMessage(status){
+      if(status == 200){
+        this.successModal = true;
+      }
+      else if(status == 500){
+        this.failedModal = true;
+      } 
     },
 
     formatPrice(value) {
