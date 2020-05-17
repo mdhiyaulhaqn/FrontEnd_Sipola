@@ -76,7 +76,7 @@
                               <button class="buttonFile">Select <i class='far fa-arrow-alt-circle-up'></i></button></label></p>
                           
                           <label for="file">
-                              <button class="buttonFile">Select <i class='far fa-arrow-alt-circle-up'></i></button></label>
+                              <button class="buttonFile" v-if="attachments.length > 0">Select <i class='far fa-arrow-alt-circle-up'></i></button></label>
                           <div class="row" id="kotakAttachment">
                               <b-col class="col-xs-6 col-sm-6 col-md-3 grup-attachment" v-bind:key="file" v-for="file in attachments" >
                                   <div class="foto" v-if="file.type === 'image/png' || file.type==='image/jpeg' || file.type==='image.jpg'">

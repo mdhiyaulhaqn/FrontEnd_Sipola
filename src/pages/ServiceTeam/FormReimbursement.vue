@@ -277,7 +277,7 @@ export default {
         uploadFile(attach) {
             let formData = new FormData();
             formData.append('file', attach);
-            axios.post('http://localhost:8080/api/attachment/uploadFile',
+            axios.post('http://sipola.herokuapp.com/api/attachment/uploadFile',
             formData,
             {
                 headers: {
