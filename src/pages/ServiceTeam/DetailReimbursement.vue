@@ -14,7 +14,7 @@
             <div class="col-md-10 col-sm-10 col-xs-10 col-12 d-block d-xs-block d-sm-block center">
               <card class="col">
                 <b-row>
-                    <h5 class = "col-lg-7 col-sm-7 col-6"><strong>Reimbursement Report</strong></h5>
+                    <h5 class = "col-lg-7 col-sm-7 col-6 sub-judul"><strong>Reimbursement Report</strong></h5>
                     <div class="col-lg-3 col-sm-3 col-6 grup-status" style="float:right">
                       <div class="col-lg-5 col-sm-5 col-12 status" >Status</div>
                       <div class="col-lg-7 col-sm-7 col-8">
@@ -36,7 +36,7 @@
                     </div>
                 </b-row>
                 <b-row>
-                    <div class = "col-lg-2 col-sm-2 col-6">Created by</div>
+                    <div class = "col-lg-2 col-sm-2 col-6">Created By</div>
                     <div class = "col-lg-5 col-sm-5 col-6">: {{reimbursement.createdBy}}</div>
                 </b-row>
                 <b-row>
@@ -57,7 +57,7 @@
                 </b-row>
                 <b-row>
                     <div class = "col-lg-5 col-sm-5 col-6"><br>Expense</div>
-                    <div class="col-lg-7 col-sm-7 col-6" v-if="reimbursement.statusReimburse != 'Sent'">
+                    <div class="col-lg-7 col-sm-7 col-6" v-if="reimbursement.statusReimburse == 1 ">
                         <button v-b-modal.modal-send id="send_button" class="btn btn-primary">
                             Send to Finance
                             <i class="fas fa-location-arrow"></i>
@@ -92,8 +92,7 @@
                 <div v-if="reimbursement.listAttachment != undefined && reimbursement.listAttachment.length > 0">
                   <b-card class="card-attachment">
                   <b-card-title class="title-attachment" v-b-toggle.collapse-2 style="max-height:50px">
-                    <h6>Attachments ( {{reimbursement.listAttachment.length}} )</h6>
-                    <!-- <a @click="downloadAll()"><i class="fas fa-download"></i></a> -->
+                    <h6>Attachments ( {{reimbursement.listAttachment.length}} )<a @click="downloadAll()" class="download-all"> Download All <i class="fas fa-download"></i></a></h6>
                   </b-card-title>
 
                   <!-- Element to collapse -->
@@ -115,14 +114,14 @@
 
                 <b-row v-if="reimbursement.keterangan != undefined && reimbursement.keterangan.length > 0">
                     <div class = "col-lg-2 col-sm-2 col-4"><i class='fas fa-exclamation-triangle' style='color:red'></i>
-                    Notes</div>
+                    Notes from finance</div>
                     <div class = "col-lg-5 col-sm-5 col-8">: {{reimbursement.keterangan}}</div>
                 </b-row>
 
                 <b-row>
                     <div class="col button-group">
                         <br>
-                        <button v-b-modal.modal-delete id ="delete-button" class="btn btn-primary"  v-if="reimbursement.statusReimburse === 1 || reimbursement.statusReimburse === 4">
+                        <button v-b-modal.modal-delete id ="delete-button" class="btn btn-primary"  v-if="reimbursement.statusReimburse != 2">
                             Delete
                         </button>
                          <router-link :to="{name: 'update-reimbursement'}">
@@ -358,6 +357,19 @@ export default {
           downloadLink.click();
         },
 
+        downloadAll() {
+          let files = this.reimbursement.listAttachment
+          var zip = new JSZip();
+          var downloadFile = zip.folder("attachments")
+          for (let i = 0; i < files.length; i++) {
+            const linkSource = 'data:' + files[i].type + ';base64,' + files[i].image;
+            downloadFile.file(files[i].fileName, files[i].image, {base64: true})
+          }
+          zip.generateAsync({type:"base64"})
+          .then(function (content) {
+              location.href="data:application/zip;base64,"+content;
+          });
+        }
         // redirectSend(){
         //     this.hideModalSend();
         //     this.$router.push({ name: 'detail-reimbursement',  params: {id:this.reimbursement.id}});
@@ -385,6 +397,9 @@ export default {
   text-align: center;
   color: black;
   margin: 5px 0 24px 0;
+}
+.sub-judul {
+  font-size: 16px;
 }
 .nama-perusahaan{
     color: black;
@@ -538,5 +553,9 @@ img {
 .grup-status{
   position: absolute;
   right: 16px;
+}
+.download-all {
+  float: right;
+  cursor: pointer;
 }
 </style>

@@ -135,8 +135,8 @@
       </template>
     </b-modal>
 
-    <b-modal title="Reimbursement Gagal Tersimpan" v-model="failedModal" centered ok-only>
-        Reimbursement gagal dibuat.
+    <b-modal title="Failed" v-model="failedModal" centered ok-only>
+        Failed to add reimbursement.
     </b-modal>
   </div>
 </template>
@@ -274,7 +274,7 @@ export default {
         uploadFile(attach) {
             let formData = new FormData();
             formData.append('file', attach);
-            axios.post('http://localhost:8080/api/attachment/uploadFile',
+            axios.post('http://sipola.herokuapp.com/api/attachment/uploadFile',
             formData,
             {
                 headers: {
