@@ -80,12 +80,18 @@
               {{ row.item.date | moment("ll") }}
             </template>
 
-            <template v-slot:cell(action)="row">
-              <router-link :to="{name: 'detail-daily-activity-report', params: {id:row.item.id}}">
+            <template v-slot:cell(update)="row">
+              <router-link :to="{name: 'user-update', params: {username:row.item.username}}">
                 <b-button id="view_button" class="btn btn-primary">
-                  View
+                  Update
                 </b-button>
               </router-link>
+            </template>
+
+            <template v-slot:cell(delete)="row">
+              <button v-b-modal.modal-delete id ="delete_button" class="btn btn-primary" @click="selectUser(row.item)">
+                  Delete
+              </button>  
             </template>
           </b-table>
           <b-row align-h="between">
@@ -145,6 +151,37 @@
           </b-row>
       </card>
     </div>
+    <b-modal id="modal-delete" ref="modal-delete" hide-footer centered>
+        <template v-slot:modal-title>
+            <div class="container">
+                <h5 id="modal-title-delete-confirm">Delete User</h5>
+            </div>
+        </template>
+        <template v-slot:default>
+          <div class = "container">
+              <div class = "info">
+              <b-row>
+                  <b-col cols="3" class="modal-icon">
+                      <img src="@/assets/img/delete-confirm-icon.png" alt="" width="60px">
+                  </b-col>
+                  <b-col cols="9">
+                      {{selectedUser.name}} will be deleted.
+                  </b-col>
+              </b-row>
+              </div>
+              <b-row>
+                  <b-col class="button-confirm-group">
+                        <b-button @click="deleteUser()" id ="confirm_delete_button" variant="outline-danger">
+                          Yes, Delete it
+                      </b-button>
+                      <b-button @click="hideModal" id ="cancel_delete_button" class="btn btn-danger">
+                          Cancel
+                      </b-button>
+                  </b-col>
+              </b-row>
+          </div>
+      </template>
+    </b-modal>
   </div>
 </template>
 <script>
@@ -174,6 +211,7 @@ export default {
       sortDirection: 'asc',
       filter: null,
       filterOn: [],
+      selectedUser: null,
     }
   },
   computed: {
@@ -205,7 +243,6 @@ export default {
       .then(response => this.users = response.data.result);
     },
     generateRole(role){
-      console.log("ROLES HEHE : " +  role.name);
       if(role.name == "ROLE_ADMIN"){
         return "Admin";
       } else if(role.name == "ROLE_DIREKTUR_UTAMA"){
@@ -223,7 +260,22 @@ export default {
       } else if (role.name == "ROLE_SUPERVISOR"){
         return "Supervisor";
       }
-    }
+    },
+    selectUser(item){
+      this.selectedUser = item;
+      console.log("SELECTED : " + this.selectedUser.name);
+    },
+    hideModal(){
+        this.$refs['modal-delete'].hide();
+    },
+    deleteUser(){
+        axios.put('http://localhost:8080/api/user/' + this.selectedUser.username + '/delete', { headers: authHeader() })
+        .then(res => {
+            this.showMessage(res.data.status)
+            console.log(res.data.status)
+            this.hideModal()
+        });
+    },
   }
 }
 </script>
@@ -264,5 +316,42 @@ export default {
 }
 #role{
   font-size: 12px;
+}
+
+.button-group{
+    text-align: center;
+}
+
+button{
+    border-radius: 8px;
+}
+
+#delete_button{
+    font-size: 10px;
+    width: 56;
+    background-color: #ff3e1d;
+    color:white;
+    border-color: white;
+    line-height: 15px;
+}
+
+.button-confirm-group{
+    text-align: right;
+    margin-top: 50px;
+}
+
+#confirm_delete_button{
+    font-size: 10px;
+    width: 130px;
+    border-color: #ff3e1d;
+    border-width: 1px;
+    margin-right: 10px;
+}
+
+#cancel_delete_button{
+    font-size: 10px;
+    background-color: #ff3e1d;
+    color:white;
+    border-color: white;
 }
 </style>
