@@ -1,16 +1,25 @@
 <template>
   <div>
     <!--Stats cards-->
-    <div class="row">
-      <div class="col-md-2">
-        <b-form-select v-model="selected" class="mb-3">
-          <template v-slot:first>
-            <b-form-select-option :value="null" disabled>-- Year --</b-form-select-option>
-          </template>
-          <option v-bind:key="year.index" v-for="year in years" :value="year">{{year}}</option>
-        </b-form-select>
-      </div>
-    </div>
+    <b-form>
+          <div class="row">
+          <div class="col-md-3">
+          <b-form-select v-model="selected" class="mb-3">
+            <template v-slot:first>
+              <b-form-select-option :value="null" disabled>-- Year --</b-form-select-option>
+            </template>
+            <option v-bind:key="year.index" v-for="year in 2020" v-if="year >= 1990" :value="year">{{ year }}</option>
+          </b-form-select>
+          </div>
+          <div>
+            <b-button class ="find-button" @click="redirect" style="font-size:10px">
+              Find
+              <i class="fa fa-search" style="color: white; margin-left: 5px;"></i>
+            </b-button>
+               </div>
+            </div>
+      </b-form>
+    
     <div class="row">
        <div class="col-md-6 col-xl-3" >
         <div class = "card">
@@ -152,6 +161,7 @@ export default {
       targetOrder : 24,
       failedModal: false,
       selected: null,
+      years:null,
     };
   },
 
@@ -160,28 +170,31 @@ export default {
   },
 
   methods: {
+
+    redirect(){
+      this.$router.push({ name: 'dashboard',  params: {year:this.selected}});
+      this.$router.go(0)
+    },
+
     getProject : function(){
-      console.log("misiiii?")
-      axios.get('http://localhost:8080/api/dashboard/projects/2020')
+      axios.get('http://localhost:8080/api/dashboard/projects/' + this.$route.params.year)
           .then(res => {this.list_project = res.data.result, this.showMessage(res.data.status), this.getIncome()})
           .catch(err => this.list_project = err.data);
     },
     getIncome: function(){
-        console.log("knock knock")
-        axios.get('http://localhost:8080/api/dashboard/income/2020')
+        axios.get('http://localhost:8080/api/dashboard/income/' + this.$route.params.year)
           .then(res => {this.list_income = res.data.result, this.getPengeluaran()})
           .catch(err => this.list_income = err.data);
     },
     getPengeluaran: function(){
-        console.log("masuk halooo?")
-        axios.get('http://localhost:8080/api/dashboard/pengeluaran/2020')
+        axios.get('http://localhost:8080/api/dashboard/pengeluaran/' + this.$route.params.year)
           .then(res => {this.list_expense = res.data.result, this.computeTotal(), this.createProjectData()})
           .catch(err => this.list_expense = err.data);
     },
 
-    years(){
+    years () {
       const year = new Date().getFullYear()
-      return Array.from({length: year - 1990}, (value, index) => 1991 + index)
+      this.years = Array.from({length: year - 1900}, (value, index) => 1901 + index)
     },
 
     showMessage(status){
@@ -409,8 +422,19 @@ export default {
 };
 </script>
 <style scoped>
+
+.button_group{
+   margin-bottom: 1rem;
+   margin-left: 14px;
+}
 .judul-card{
   font-size: 20px;
+}
+.find-button{
+    border-color: #109CF1;
+    border-width: 1px;
+    background-color: #109CF1;
+    color:white;
 }
 .amount{
   font-size: 22px;
@@ -428,4 +452,3 @@ export default {
   font-weight: bold;
 }
 </style>
->>>>>>> development
