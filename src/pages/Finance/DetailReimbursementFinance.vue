@@ -483,7 +483,15 @@ export default {
 .modal-header{
     background-color: #FF3E1D;
 }
-
+#view_button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  line-height: 8px;
+  width: 80px;
+  box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
+}
 #edit-button{
   background-color: #28A745;
   color:white;
