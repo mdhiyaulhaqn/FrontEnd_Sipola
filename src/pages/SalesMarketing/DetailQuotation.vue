@@ -436,10 +436,6 @@ export default {
 </script>
 
 <style scoped>
-body {
-    font-family: 'Muli', sans-serif;
-    background: #fafafa;
-}
 .nama-perusahaan{
     color: black;
     font-size:20px;
@@ -462,10 +458,9 @@ body {
 }
 
 .judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
 }
 #edit-button{
   background-color: #109CF1;

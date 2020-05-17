@@ -239,7 +239,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #invoice_bttn{
   background-color: #109CF1;
   color:white;
@@ -260,10 +260,9 @@ export default {
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
 }
 .judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
 }
 .pagination{
     margin-left: 20px;

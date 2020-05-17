@@ -30,7 +30,7 @@
           </div>
       </div>
       <!-- <div class="col-md-6 col-xl-3" v-for="stats in statsCards" :key="stats.title">
-        
+
         <stats-card>
           <div class="icon-big text-center" :class="`icon-${stats.type}`" slot="header">
             <i :class="stats.icon"></i>
@@ -85,7 +85,7 @@
         <div class = "card-header"><div class = "judul-card">Project Statistics</div> for year 2020</div>
         <div class = "card-body">
           <PieChart :width="300" :height="300" :chartData="datacollection" :options="options"></PieChart>
-           
+
         </div>
         <div class = "card-footer">
           <div slot="legend">
@@ -128,7 +128,7 @@ import axios from 'axios';
 export default {
   components: {
     StatsCard,
-    ChartCard, 
+    ChartCard,
     PieChart,
     BarChart,
     LineChart,
@@ -304,8 +304,8 @@ export default {
       this.expense = total_expense;
     },
 
-    createProjectData(){ 
-      
+    createProjectData(){
+
       var belom_selesai = 0;
       var sudah_selesai = 0;
 
@@ -350,7 +350,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .judul-card{
   font-size: 20px;
 }
