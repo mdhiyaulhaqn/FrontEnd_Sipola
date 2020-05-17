@@ -95,9 +95,7 @@
                     </template>
 
                     <template v-slot:cell(total_price) = "row">
-                        <div class="text-center">
-                            {{formatPrice(row.item.total_price)}}
-                        </div>
+                        {{formatPrice(row.item.total_price)}}
                     </template>
 
                     <template v-slot:cell(action)="row">
@@ -258,7 +256,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #view_bttn{
   background-color: #109CF1;
   color:white;
@@ -281,7 +279,7 @@ export default {
 .judul{
   text-align: center;
   color: black;
-  margin: 5px 0 24px 0;
+  margin: 11px 0 24px 0;
 }
 .pagination{
     margin-left: 20px;

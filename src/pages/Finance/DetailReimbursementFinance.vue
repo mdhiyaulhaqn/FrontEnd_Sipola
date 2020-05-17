@@ -37,8 +37,8 @@
                     <div class = "col-lg-5 col-sm-5 col-6">: {{reimbursement.createdBy}}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-lg-2 col-sm-2 col-6">Created At</div>
-                    <div class = "col-lg-5 col-sm-5 col-6">:  {{ reimbursement.createdAt | moment("ll")}}</div>
+                    <div class = "col-lg-2 col-sm-2 col-6">Created at</div>
+                    <div class = "col-lg-5 col-sm-5 col-6">: {{ reimbursement.createdAt.slice(0, 19) | moment('lll')}}</div>
                 </b-row>
                 <b-row>
                     <div class = "col-lg-2 col-sm-2 col-6">ID Report</div>
@@ -190,14 +190,22 @@
       </template>
       <!-- <template v-slot:modal-footer="{ cancel }">
         <b-col class="button-reject-group">
+<<<<<<< HEAD
+          <b-button @click="submitReject" id ="confirm_reject_button" variant="outline-danger">
+=======
           <b-button @click="submitReject" id ="confirm_reject_button" variant="outline-danger" type="submit">
+>>>>>>> 8590fa3f6f3ab24b525c6e0306ffc2b41f1a2fa1
             Reject
           </b-button>
           <b-button @click="cancel()" id ="cancel_reject_button" class="btn btn-danger">
             Cancel
           </b-button>
         </b-col>
+<<<<<<< HEAD
+      </template>
+=======
       </template> -->
+>>>>>>> 8590fa3f6f3ab24b525c6e0306ffc2b41f1a2fa1
 
     </b-modal>
 
@@ -288,7 +296,9 @@ export default {
         return {
             previewFile:[],
             foto: '@/assets/img/document.png',
-            reimbursement : '',
+            reimbursement : {
+              createdAt: []
+            },
             untukPreview: 'data:image/jpeg;base64, ',
             keterangan: '',
             successModal : false,
@@ -447,7 +457,7 @@ export default {
 .judul{
   text-align: center;
   color: black;
-  margin: 5px 0 24px 0;
+  margin: 11px 0 24px 0;
 }
 .sub-judul {
   font-size: 16px;

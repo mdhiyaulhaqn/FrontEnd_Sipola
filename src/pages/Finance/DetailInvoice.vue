@@ -14,8 +14,8 @@
                 <strong>
                     Detail Invoice
                 </strong>
-            </div> 
-            
+            </div>
+
             <card>
             <div class="container-fluid">
                 <b-row>
@@ -29,21 +29,21 @@
                 </b-row>
                 <b-row>
                     <div class = "col-md-2 col-6">Invoice Date</div>
-                    <div class = "col-md-5 col-6">: {{ invoice.dateInvoice.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-md-5 col-6">: {{ invoice.dateInvoice | moment('ll') }}</div>
                     <div class = "col-md-2 col-6">Due Date</div>
-                    <div class = "col-md-3 col-6">: {{ invoice.dueDatePayment.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-md-3 col-6">: {{ invoice.dueDatePayment | moment('ll') }}</div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-2 col-6">Purchase Order No</div>
                     <div class = "col-md-5 col-6">: {{ invoice.salesOrder.poNumber }}</div>
-                    <div class = "col-md-2 col-6">Created By</div>
+                    <div class = "col-md-2 col-6">Created by</div>
                     <div class = "col-md-3 col-6">: {{ invoice.createdBy }}</div>
                 </b-row>
                   <b-row>
                     <div class = "col-md-2 col-6">Purchase Order Date</div>
-                    <div class = "col-md-5 col-6">: {{ invoice.salesOrder.poDate.split("T")[0].split("-").reverse().join('-') }}</div>
-                    <div class = "col-md-2 col-6">Created At</div>
-                    <div class = "col-md-3 col-6">: {{ invoice.createdAt.split("T")[0].split("-").reverse().join('-') }}</div>
+                    <div class = "col-md-5 col-6">: {{ invoice.salesOrder.poDate | moment('ll') }}</div>
+                    <div class = "col-md-2 col-6">Created at</div>
+                    <div class = "col-md-3 col-6">: {{ invoice.createdAt.slice(0, 19) | moment('lll') }}</div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-2 col-6">Address</div>
@@ -72,8 +72,8 @@
                     <b-col >
                         <div class="tabel-service">
                             <div slot="raw-content" class="table-responsive" style="font-size:12px">
-                                <b-table 
-                                :items="invoice.salesOrder.serviceOrder" 
+                                <b-table
+                                :items="invoice.salesOrder.serviceOrder"
                                 :fields="fields"
                                 >
                                     <template v-slot:cell(No)="row">
@@ -227,7 +227,7 @@
                     <b-button @click="ok()" id="ok-button" variant="outline-primary">
                         OK
                     </b-button>
-                </b-col>                
+                </b-col>
             </template>
         </b-modal>
     </div>
@@ -270,7 +270,7 @@ export default {
             this.deleteInvoice(JSON.stringify(this.invoice));
             this.hideModal();
         },
-        
+
         showMessage(status){
             this.successModal = true;
 
@@ -288,15 +288,15 @@ export default {
             this.invoice.grand_total_price = this.invoice.sub_total_price + this.invoice.price_vat
         },
 
-        getDetail: function(){    
+        getDetail: function(){
             axios.get('http://localhost:8080/api/invoice/' +this.$route.params.id)
             .then(res => {this.invoice = res.data, this.computePrice()})
             .catch(err => this.invoice = err.data);
         },
 
         deleteInvoice(invoice){
-            axios.put('http://localhost:8080/api/invoice/' + this.$route.params.id + '/delete', 
-            invoice, 
+            axios.put('http://localhost:8080/api/invoice/' + this.$route.params.id + '/delete',
+            invoice,
                 { headers: {
                     'Content-Type': 'application/json',
                 }
@@ -323,7 +323,7 @@ export default {
             let val = (value/1).toFixed(2).replace('.', ',')
             return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
         },
-        
+
         downloadReport:function(){
             var doc = new jsPDF()
             let noInvoice = this.invoice.noInvoice
@@ -487,16 +487,11 @@ export default {
 </script>
 
 <style scoped>
-body {
-    font-family: 'Muli', sans-serif;
-    background: #fafafa;
-}
 
 .judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
 }
 .company-name{
     color: black;

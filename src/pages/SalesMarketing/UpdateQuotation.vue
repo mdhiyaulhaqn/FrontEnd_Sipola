@@ -51,7 +51,7 @@
                     <label class="label" for="companyName">Company Name</label>
                     <b-form-input
                         id="companyName"
-                        v-model="quotation.company.nama"
+                        v-model="company.nama"
                         type="text"
                         required
                         placeholder="Company Name"
@@ -64,7 +64,7 @@
                     <label class="label" for="companyAddress">Company Address</label>
                     <b-form-input
                         id="companyAddress"
-                        v-model="quotation.company.alamat"
+                        v-model="company.alamat"
                         type="text"
                         required
                         placeholder="Company Address"
@@ -246,6 +246,11 @@ export default {
                 alamat : '',
                 quotation : '',
             },
+            company: {
+              id: '',
+              nama: '',
+              alamat: '',
+            },
             show: true,
             successModal : false,
             failedModal : false,
@@ -313,7 +318,7 @@ export default {
 
         getDetail: function(){
             axios.get('http://localhost:8080/api/quotation/' +this.$route.params.id)
-            .then(res => {this.quotation = res.data, this.fetchData()})
+            .then(res => {this.quotation = res.data, this.fetchData(), this.company = res.data.company})
             .catch(err => this.quotation = err.data);
         },
 
@@ -358,7 +363,7 @@ export default {
 .judul{
   text-align: center;
   color: black;
-  margin: 5px 0 24px 0;
+  margin: 11px 0 24px 0;
 }
 .title-form {
   font-weight: 600;

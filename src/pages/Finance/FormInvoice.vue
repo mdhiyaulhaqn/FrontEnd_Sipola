@@ -18,7 +18,7 @@
         <h3 class="judul">
             <strong>Add Invoice</strong>
         </h3>
-    
+
         <div class = "row">
             <div class = "col-10 isi-form">
                 <card>
@@ -37,7 +37,7 @@
                                     </b-form-input>
                                 </b-form-group>
                             </div>
-                    
+
                             <div class = "col-md-3 col-12">
                                 <div style="color:black">
                                 <b-form-group class="required">
@@ -51,7 +51,7 @@
                                 </b-form-group>
                                 </div>
                             </div>
-                            
+
                             <div class = "col-md-3 col-12">
                                 <div style="color:black">
                                 <b-form-group class="required">
@@ -80,7 +80,7 @@
                                     </b-form-input>
                                 </b-form-group>
                             </div>
-                
+
                             <div class = "col-md-5 col-12">
                                 <div style="color:black">
                                 <b-form-group class="required">
@@ -127,13 +127,13 @@
                                     <label>Service Order</label>
                                 </div>
                                 <div class="col-md-2 required">
-                                    <label>UOM</label> 
+                                    <label>UOM</label>
                                 </div>
                                 <div class="col-md-2 required">
-                                    <label>Qty</label> 
+                                    <label>Qty</label>
                                 </div>
                                 <div class="col-md-3 required">
-                                    <label>UnitPrice</label> 
+                                    <label>UnitPrice</label>
                                 </div>
                             </div>
                         </div>
@@ -142,7 +142,7 @@
                             <b-col disabled>
                             <ServiceOrder v-bind:service_order="item"/>
                             </b-col>
-                        </b-row> 
+                        </b-row>
 
                         <div class="row">
                             <div class="col-md-6 col-12">
@@ -222,7 +222,7 @@
         </b-modal>
 
         <b-modal title="Failed" v-model="failedModal" centered ok-only>
-            Sorry, invoice couldn't be added. 
+            Sorry, invoice couldn't be added.
         </b-modal>
     </div>
 </template>
@@ -236,7 +236,7 @@ export default {
     components : {
       ServiceOrder
     },
-    data() { 
+    data() {
       return {
             sales_order: "",
             service_orders: [],
@@ -264,13 +264,13 @@ export default {
     beforeMount() {
       this.getDetailSalesOrder();
 	},
-    
+
     methods: {
         fetchData: function(){
             this.sales_order.poDate = this.sales_order.poDate.substring(0, 10);
         },
 
-        getDetailSalesOrder: function(){    
+        getDetailSalesOrder: function(){
             axios.get('http://localhost:8080/api/sales-order/' +this.$route.params.id)
             .then(res => {this.sales_order = res.data, this.fetchData()})
             .catch(err => this.sales_order = err.data);
@@ -288,13 +288,13 @@ export default {
             }
             else if(status == 500){
                 this.failedModal = true;
-            } 
+            }
         },
-        
+
         addinvoice(invoice){
             console.log("masuk pa aji")
             axios.post('http://localhost:8080/api/invoice/add',
-            invoice, 
+            invoice,
                 { headers: {
                     'Content-Type': 'application/json',
                 }
@@ -316,10 +316,9 @@ export default {
 <style scoped>
 
 .judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
 }
 .isi-form{
     margin-left: auto;

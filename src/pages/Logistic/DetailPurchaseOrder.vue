@@ -17,7 +17,7 @@
                 <div class="container-fluid">
                     <b-row>
                         <div class="company-name col-lg-7 col-sm-7 col-xs-6">
-                            <strong>{{ purchaseOrder.company.nama }}</strong>
+                            <strong>{{ company.nama }}</strong>
                         </div>
                     </b-row>
 
@@ -38,15 +38,15 @@
                     <b-row>
                         <div class = "col-md-2 col-6">Attn.</div>
                         <div class = "col-md-5 col-6">: {{ purchaseOrder.attnName }}</div>
-                        <div class = "col-md-2 col-6">Created By</div>
+                        <div class = "col-md-2 col-6">Created by</div>
                         <div class = "col-md-3 col-6">: {{ purchaseOrder.createdBy }}</div>
                     </b-row>
 
                     <b-row>
                         <div class = "col-md-2 col-6">Address</div>
-                        <div class = "col-md-5 col-6">: {{ purchaseOrder.company.alamat }}</div>
-                        <div class = "col-md-2 col-6">Created At</div>
-                        <div class = "col-md-3 col-6">: {{ purchaseOrder.createdAt  | moment('ll') }}</div>
+                        <div class = "col-md-5 col-6">: {{ company.alamat }}</div>
+                        <div class = "col-md-2 col-6">Created at</div>
+                        <div class = "col-md-3 col-6">: {{ purchaseOrder.createdAt.slice(0, 19) | moment('lll') }}</div>
                     </b-row>
 
                     <b-row>
@@ -235,7 +235,9 @@ import html2canvas from "html2canvas";
 export default {
     data() {
         return {
-            purchaseOrder : '',
+            purchaseOrder : {
+              createdAt: [],
+            },
             successModal : false,
             fields: [
                 {key: 'id', label: 'No', sortable: true},
@@ -248,7 +250,12 @@ export default {
                 {key: 'total_price', label: 'Total Price (IDR)', sortable: true, formatter: value =>{
                     return value.toLocaleString('id-ID', {maximumFractionDigits:2})
                 }},
-            ]
+            ],
+            company: {
+              id: '',
+              nama: '',
+              alamat: ''
+            }
         };
     },
 
@@ -281,7 +288,7 @@ export default {
 
         getDetail: function(){
             axios.get('http://localhost:8080/api/purchase-order/' +this.$route.params.id)
-            .then(res => {this.purchaseOrder = res.data, this.computePrice()})
+            .then(res => {this.purchaseOrder = res.data, this.computePrice(), this.company = res.data.company})
             .catch(err => this.purchaseOrder = err.data);
         },
 
@@ -467,10 +474,9 @@ export default {
 <style scoped>
 
 .judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
 }
 .company-name{
     color: black;

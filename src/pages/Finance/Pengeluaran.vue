@@ -75,6 +75,9 @@
             <template v-slot:head(tanggal)="data">
               <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
             </template>
+            <template v-slot:head(createdAt)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
             <template v-slot:head(nominal)="data">
               <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
             </template>
@@ -92,6 +95,10 @@
 
             <template v-slot:cell(tanggal)="row">
               {{row.item.tanggal | moment("ll")}}
+            </template>
+
+            <template v-slot:cell(createdAt)="row">
+              {{row.item.createdAt.slice(0, 19) | moment('ll')}}
             </template>
 
             <template v-slot:cell(action)="row">
@@ -174,7 +181,8 @@ export default {
       fields: [
         { key: 'index', label: 'No' },
         { key: 'nama', label: 'Description', sortable: true, },
-        { key: 'tanggal', label: 'Date', sortable: true, },
+        { key: 'tanggal', label: 'Expense Date', sortable: true, },
+        { key: 'createdAt', label: 'Date Created', sortable: true, },
         { key: 'nominal', label: 'Nominal', sortable: true, },
         { key: 'action', label: 'Action'}
       ],
@@ -245,9 +253,9 @@ export default {
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
 }
 .judul{
-    text-align: center;
-    color: black;
-    margin: 5px 0 24px 0;
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
 }
 
 #view_button{

@@ -243,6 +243,7 @@ export default {
             failedModal : false,
             warningModal : false,
             send : {objects : null},
+            companies: []
         }
     },
 
@@ -358,7 +359,7 @@ export default {
 .judul{
   text-align: center;
   color: black;
-  margin: 5px 0 24px 0;
+  margin: 11px 0 24px 0;
 }
 .title-form {
   font-weight: 600;

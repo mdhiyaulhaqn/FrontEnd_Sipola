@@ -96,7 +96,7 @@
                 </template>
 
                 <template v-slot:cell(createdAt)="row">
-                    {{row.item.createdAt | moment("ll") }}
+                    {{row.item.createdAt.slice(0, 19) | moment('ll') }}
                 </template>
 
                 <template v-slot:cell(totalReimburse)="row">
@@ -216,7 +216,7 @@ export default {
           {key: 'index', label: 'No'},
           {key: 'projectName', label: 'Description', sortable: true},
           {key: 'totalReimburse', label: 'Total (IDR)', sortable:true},
-          {key: 'createdAt', label: 'Date', sortable:true},
+          {key: 'createdAt', label: 'Date Created', sortable:true},
           {key: 'statusReimburse', label: 'Status', sortable:true},
           {key: 'action', label: 'Action'},
       ],
@@ -255,7 +255,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 
 .pagination{
   margin-left:20px;
@@ -283,9 +283,9 @@ export default {
 }
 
 .judul{
-    text-align: center;
-    color: black;
-    margin: 5px 0 24px 0;
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
 }
 
 #breadcrumb{

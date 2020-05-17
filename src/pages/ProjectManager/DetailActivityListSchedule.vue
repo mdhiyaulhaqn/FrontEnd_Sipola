@@ -132,30 +132,12 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      // datasource: [{
-      //     id: 0,
-      //     orderId: 0,
-      //     parentId: null,
-      //     title: "Main Project",
-      //     summary: true,
-      //     expanded: true,
-      //     start: new Date("2014/6/17 9:00"),
-      //     end: new Date("2014/7/01 11:00")
-      // },
-      // {
-      //     id: 1,
-      //     orderId: 1,
-      //     // parentId: 0,
-      //     title: "Task1",
-      //     start: new Date("2014/6/17 11:00"),
-      //     end: new Date("2014/6/20 14:00")
-      // }],
-      // dependencydatasource: [{
-      //     predecessorId: 1,
-      //     successorId: 2,
-      //     type: 1
-      // }],
-      activityListSchedule: '',
+      activityListSchedule: {
+        namaProyek: '',
+        namaPerusahaan: '',
+        catatan: '',
+      },
+      dataSource: [],
       successModal: false,
       headerBorderVariant: 'white',
       footerBorderVariant: 'warning',
@@ -179,7 +161,16 @@ export default {
     showMessage(status){
       this.successModal = true;
     },
-
+    // addData(){
+    //   var datasource= new kendo.data.DataSource({
+    //     data: [
+    //       this.activityListSchedule.listTugas
+    //     ]
+    //   });
+    //   datasource.add(this.activityListSchedule.listTugas);
+    //   this.dataSource = datasource.data();
+    //   this.dataSource.push(datasource.data());
+    // },
     getDetail: function(){
       axios.get('http://localhost:8080/api/activity-list-schedule/' + this.$route.params.id)
       .then(response => {this.activityListSchedule = response.data.result, this.getActivity()})
@@ -207,6 +198,7 @@ export default {
       parentActivity.end = new Date(this.activityListSchedule.listTugas.slice(-1)[0].tanggalSelesaiTugas);
 
       this.activityListSchedule.listTugas.push(parentActivity);
+      console.log(this.activityListSchedule.listTugas);
     },
     deleteActivityListSchedule(activityListSchedule){
       axios.put('http://localhost:8080/api/activity-list-schedule/' + this.$route.params.id + '/delete',
@@ -240,7 +232,7 @@ export default {
 .judul{
   text-align: center;
   color: black;
-  margin: 5px 0 24px 0;
+  margin: 11px 0 24px 0;
 }
 #edit-button{
   background-color: #109CF1;
