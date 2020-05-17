@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <side-bar>
+    <side-bar v-if="currentUser">
       <template slot="links">
         <div v-if="showAdminBoard">
           <sidebar-link to="/user" name="Manage User"/>
@@ -49,14 +49,23 @@
         <li class="divider"></li>
       </mobile-menu>
     </side-bar>
-    <div class="main-panel">
-      <top-navbar></top-navbar>
+    <div v-if="currentUser">
+      <div class="main-panel">
+        <top-navbar></top-navbar>
 
-      <dashboard-content @click.native="toggleSidebar">
+        <dashboard-content @click.native="toggleSidebar">
 
-      </dashboard-content>
+        </dashboard-content>
 
-      <!-- <content-footer></content-footer> -->
+        <!-- <content-footer></content-footer> -->
+      </div>
+    </div>
+    <div v-else>
+      <div class = "panel-belom-login">
+        <dashboard-content @click.native="toggleSidebar">
+
+          </dashboard-content>
+      </div>  
     </div>
   </div>
 </template>

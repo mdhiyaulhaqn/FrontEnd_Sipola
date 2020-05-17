@@ -172,6 +172,13 @@
     margin-bottom: 0;
   }
 }
+.panel-belom-login{
+  background-color: $bg-nude;
+  width: 100%;
+  > .content {
+    padding: 50px 50px;
+  }
+}
 
 .wrapper .sidebar,
 .main-panel {
