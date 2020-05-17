@@ -12,12 +12,13 @@
     <div class = "row">
         <div class = "col-10 isi-form">
             <card>
-            <form name="form" @submit.prevent="onConfirmation">
+            <form name="form" @submit.prevent="handleRegister">
+                
                 <h5 class = "title-form">Personal Information </h5>
                 <b-row>
                     <div class = "col-md-12 col-12">
                         <b-form-group>
-                            <label for="name">Name</label>
+                            <label for="Name">Name</label>
                             <b-form-input
                                 id="Name"
                                 v-model="user.name"
@@ -83,7 +84,7 @@
                     <div class = "col-md-12 col-12">
                         <b-form-group>
                             <label for="Role">Role</label>
-                            <b-form-select v-model="selectedRole" :options="roles" required></b-form-select>
+                            <b-form-select v-model="selectedRole" :options="roles"></b-form-select>
                             <div
                                 v-if="submitted && errors.has('role')"
                                 class="alert-danger"
@@ -91,9 +92,72 @@
                         </b-form-group>
                     </div>  
                 </b-row>
+                <b-row>
+                    <div class = "col-md-12 col-12">
+                        <b-form-group>
+                            <label for="Username">Username</label>
+                            <b-form-input
+                                id="Username"
+                                v-model="user.username"
+                                type="text"
+                                class="form-control"
+                                name="username"
+                                required
+                                placeholder="Username">
+                            </b-form-input>
+                        </b-form-group>
+                    </div>  
+                </b-row>
+                <b-row>
+                    <div class = "col-md-12 col-12">
+                        <b-form-group>
+                            <label for="Password">Password</label>
+                            <b-form-input
+                                id="Password"
+                                v-model="user.password"
+                                min="6"
+                                type="password"
+                                class="form-control"
+                                name="password"
+                                ref="password"
+                                required
+                                placeholder="Password">
+                            </b-form-input>
+                        </b-form-group>
+                    </div>  
+                </b-row>
+                <b-row>
+                    <div class = "col-md-12 col-12">
+                        <b-form-group>
+                            <label for="password_confirmation">Password Confirmation</label>
+                            <b-form-input
+                                id="password_confirmation"
+                                v-model="PasswordConfirmation"
+                                type="password"
+                                class="form-control"
+                                name="password_confirmation"
+                                v-validate="'required|confirmed:password'"
+                                 data-vv-as="password"
+                                required
+                                placeholder="Password Confirmation">
+                            </b-form-input>
+                        </b-form-group>
+                    </div>  
+                </b-row>
+                <div class="alert alert-danger" v-show="errors.any()">
+                    <div v-if="errors.has('password')">
+                        {{ errors.first('password') }}
+                    </div>
+                    <div v-if="errors.has('password_confirmation')">
+                        {{ errors.first('password_confirmation') }}
+                    </div>
+                    <div v-else>
+
+                    </div>
+                </div>
                 <div class = "button-group">
                     <b-button class = "cancel-button" type="reset" v-on:click="redirect()">Cancel</b-button>
-                    <b-button class = "save-button" type="submit">Save</b-button>
+                    <b-button class = "save-button" type="submit">Add</b-button>
                 </div>
             </form>
            
@@ -113,37 +177,6 @@
             </card>
         </div>
     </div>
-    <b-modal id="modal-confirm" v-model="confirmationModal" hide-footer centered>
-        <template v-slot:modal-title>
-                <div class="container">
-                    <h5 id="modal-title-success">Update User</h5>
-                </div>
-        </template>
-        <template v-slot:default>
-            <div class = "container">
-                <div class = "info">
-                <b-row>
-                    <b-col cols="3" class="modal-icon">
-                        <img src="@/assets/img/update-confirm-icon.png" alt="" width="60px">
-                    </b-col>
-                    <b-col cols="9">
-                        User will be changed soon once you click the save button
-                    </b-col>
-                </b-row>
-                </div>
-                <b-row>
-                    <b-col class="button-confirm-group">
-                        <b-button @click="hideModal" id ="cancel_update_button" class="cancel-button"> 
-                            Cancel
-                        </b-button>
-                        <b-button @click="updateUser()" type="submit" id ="confirm_delete_button" class="update-pengeluaran-button" v-b-modal.modal-success>
-                            Save
-                        </b-button>
-                    </b-col>
-                </b-row>
-            </div>
-        </template>
-    </b-modal>
     <b-modal
         id="modal-success"
         centered
@@ -175,45 +208,34 @@
         </b-col>
         </template>
     </b-modal>
+
   </div>
 </template>
 
 <script>
-import axios from 'axios';
 import User from '../../models/user';
-import Role from '../../models/role';
-import authHeader from '../../services/auth-header';
-
 
 export default {
   name: 'Register',
   data() {
     return {
-      user: {
-            name: null,
-            noHP : null,
-            alamat : null,
-            email : null,
-            username : null,
-            roles: []
-        },
-        role: new Role('', ''),
-        submitted: false,
-        successful: false,
-        message: '',
-        selectedRole: null,
-        confirmationModal: false,
-        roles: [
-            { value: null, text: '-- Choose Role --'},
-            { value: 'admin', text: 'Admin'},
-            { value: 'direktur_utama', text: 'Direktur Utama'},
-            { value: 'project_manager', text: 'Project Manager'},
-            { value: 'sales_marketing', text: 'Sales Marketing'},
-            { value: 'finance', text: 'Finance'},
-            { value: 'service_team', text: 'Service Team'},
-            { value: 'logistik', text: 'Logistik'},
-            { value: 'supervisor', text: 'Supervisor'},
-        ]
+      user: new User('', '', '', [], '', '', ''),
+      submitted: false,
+      successful: false,
+      message: '',
+      selectedRole: null,
+    //   passwordConfirmation: '',
+      roles: [
+        { value: null, text: '-- Choose Role --'},
+        { value: 'admin', text: 'Admin'},
+        { value: 'direktur_utama', text: 'Direktur Utama'},
+        { value: 'project_manager', text: 'Project Manager'},
+        { value: 'sales_marketing', text: 'Sales Marketing'},
+        { value: 'finance', text: 'Finance'},
+        { value: 'service_team', text: 'Service Team'},
+        { value: 'logistik', text: 'Logistik'},
+        { value: 'supervisor', text: 'Supervisor'},
+      ]
     };
   },
   computed: {
@@ -221,42 +243,12 @@ export default {
       return this.$store.state.auth.status.loggedIn;
     }
   },
-  beforeMount(){
-        this.getDetail();
-    },
+  mounted() {
+    // if (this.loggedIn) {
+    //   this.$router.push('/profile');
+    // }
+  },
   methods: {
-    getDetail: function(){    
-        axios.get('http://localhost:8080/api/user/' +this.$route.params.username, { headers: authHeader() })
-        .then(res => {
-            this.user = res.data.result;
-            this.user.roles.forEach((role) => {
-                // console.log("APAAN SIH WOY " + role.name);
-                if(role != "ROLE_USER"){
-                    this.selectedRole = role.name.substring(5).toLowerCase();
-                    console.log("APAAN SIH WOY " + this.selectedRole);
-                }
-            });
-            })
-        .catch(err => this.user = err.data);
-    },
-    onConfirmation(evt) {
-        this.confirmationModal = true;
-    },
-    hideModal(){
-        this.confirmationModal = false;
-    },
-    updateUser(){
-        let roleId = this.getRoleId(this.selectedRole);
-        this.role = new Role(roleId, this.selectedRole)
-        this.user.roles.push(role);
-        // this.user.roles.push(this.selectedRole.toUpperCase());
-        // console.log("APAAN SIH WOY 2" + this.selectedRole.toUpperCase());
-        axios.put('http://localhost:8080/api/user/' + this.$route.params.username + '/update', this.user, { headers: authHeader() })
-        .then((response) => {
-            this.user.username = response.data.result.username
-            this.hideModal()
-        })
-    },
     handleRegister() {
       this.user.role.push(this.selectedRole);
 
@@ -283,52 +275,9 @@ export default {
         }
       });
     },
-    getRoleId(roleStr){
-        switch(roleStr){
-            case "admin":
-                return 2;
-            case "direktur_utama":
-                return 3;
-            case "project_manager":
-                return 4;
-            case "sales_marketing":
-                return 5;
-            case "finance":
-                return 6;
-            case "service_team":
-                return 7;
-            case "role_logistik":
-                return 8;
-            case "supervisor":
-                return 9;
-        }
-
-
-    },
-    setSelectedRole(){
-        this.user.roles.forEach((role) => {
-            if(role.name != "ROLE_USER"){
-                this.selectedRole = role.name;
-            }
-            // if(role.name == "ROLE_ADMIN"){
-            //     this.selectedRole = "admin";
-            // } else if(role.name == "ROLE_DIREKTUR_UTAMA"){
-            //     return "Direktur Utama";
-            // } else if (role.name == "ROLE_PROJECT_MANAGER"){
-            //     return "Project Manager";
-            // } else if (role.name == "ROLE_SALES_MARKETING"){
-            //     return "Sales Marketing";
-            // } else if (role.name == "ROLE_FINANCE"){
-            //     return "Finance";
-            // } else if (role.name == "ROLE_SERVICE_TEAM"){
-            //     return "Service Team";
-            // } else if (role.name == "ROLE_LOGISTIK"){
-            //     return "Logistik";
-            // } else if (role.name == "ROLE_SUPERVISOR"){
-            //     return "Supervisor";
-            // }
-        });
-    },
+    // checkPasswordConfirmation(){
+    //     return this.user.password == this.passwordConfirmation;
+    // },
     redirect(){
         this.$router.push({ name: 'user' });
     },
