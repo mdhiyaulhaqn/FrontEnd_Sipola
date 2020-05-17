@@ -412,7 +412,6 @@ export default {
 .judul-card{
   font-size: 20px;
 }
-<<<<<<< HEAD
 .amount{
   font-size: 22px;
   font-weight: bold;
@@ -429,6 +428,3 @@ export default {
   font-weight: bold;
 }
 </style>
-=======
-</style>
->>>>>>> development
