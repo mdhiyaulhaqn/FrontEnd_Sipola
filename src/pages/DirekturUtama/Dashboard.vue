@@ -11,7 +11,7 @@
             <option v-bind:key="year.index" v-for="year in 2020" v-if="year >= 1990" :value="year">{{ year }}</option>
           </b-form-select>
           </div>
-          <div>
+          <div class="col">
             <b-button class ="find-button" @click="redirect" style="font-size:10px">
               Find
               <i class="fa fa-search" style="color: white; margin-left: 5px;"></i>
@@ -81,7 +81,7 @@
     <div class="row">
       <div class="col-12">
         <div class="card">
-          <div class = "card-header"><div class = "judul-card">Cash Flow</div> for year 2020</div>
+          <div class = "card-header"><div class = "judul-card">Cash Flow</div> for year {{selected}}</div>
           <div class="card-body">
             <BarChart :height="300" :chartData="cashFlowCollection" :options="options" :axis-min="0"></BarChart>
           </div>
@@ -93,7 +93,7 @@
 
       <div class="col-md-6 col-12">
         <div class = "card">
-          <div class = "card-header"><div class = "judul-card">Project Statistics</div> for year 2020</div>
+          <div class = "card-header"><div class = "judul-card">Project Statistics</div> for year {{selected}}</div>
           <div class = "card-body">
             <PieChart :width="300" :height="300" :chartData="datacollection" :options="options"></PieChart>
           </div>
@@ -103,7 +103,7 @@
 
       <div class="col-md-6 col-12">
         <div class="card">
-          <div class = "card-header"><div class = "judul-card">Profit/Loss</div> for year 2020</div>
+          <div class = "card-header"><div class = "judul-card">Profit/Loss</div> for year {{selected}}</div>
           <div class = "card-body">
             <LineChart :width="300" :height="300" :chartData="dataprofit" :options="options"></LineChart>
           </div>
@@ -178,7 +178,7 @@ export default {
 
     getProject : function(){
       axios.get('http://localhost:8080/api/dashboard/projects/' + this.$route.params.year)
-          .then(res => {this.list_project = res.data.result, this.showMessage(res.data.status), this.getIncome()})
+          .then(res => {this.list_project = res.data.result, this.showMessage(res.data.status), this.getIncome(), this.selected = this.$route.params.year})
           .catch(err => this.list_project = err.data);
     },
     getIncome: function(){
@@ -435,6 +435,7 @@ export default {
     border-width: 1px;
     background-color: #109CF1;
     color:white;
+    margin-bottom: 10px;
 }
 .amount{
   font-size: 22px;
