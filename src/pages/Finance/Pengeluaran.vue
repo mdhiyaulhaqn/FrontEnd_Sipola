@@ -234,6 +234,10 @@ export default {
 
 </script>
 <style scoped>
+
+.table{
+  font-size: 12px;
+}
 #breadcrumb{
   font-size: 12px;
   /* text-decoration: underline; */
