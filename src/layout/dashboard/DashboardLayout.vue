@@ -2,7 +2,7 @@
   <div class="wrapper">
     <side-bar>
       <template slot="links">
-        <sidebar-link to="/dashboard" name="Dashboard"/>
+        <sidebar-link to="/dashboard/2020" name="Dashboard"/>
         <sidebar-link to="/quotation" name="Quotation"/>
         <sidebar-link to="/sales-order" name="Sales Order"/>
         <sidebar-link to="/delivery-order" name="Delivery Order"/>

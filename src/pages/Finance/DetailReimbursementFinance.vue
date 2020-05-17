@@ -190,22 +190,14 @@
       </template>
       <!-- <template v-slot:modal-footer="{ cancel }">
         <b-col class="button-reject-group">
-<<<<<<< HEAD
-          <b-button @click="submitReject" id ="confirm_reject_button" variant="outline-danger">
-=======
           <b-button @click="submitReject" id ="confirm_reject_button" variant="outline-danger" type="submit">
->>>>>>> 8590fa3f6f3ab24b525c6e0306ffc2b41f1a2fa1
             Reject
           </b-button>
           <b-button @click="cancel()" id ="cancel_reject_button" class="btn btn-danger">
             Cancel
           </b-button>
         </b-col>
-<<<<<<< HEAD
-      </template>
-=======
       </template> -->
->>>>>>> 8590fa3f6f3ab24b525c6e0306ffc2b41f1a2fa1
 
     </b-modal>
 

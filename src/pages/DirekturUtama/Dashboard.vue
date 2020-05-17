@@ -19,7 +19,7 @@
                </div>
             </div>
       </b-form>
-    
+
     <div class="row">
        <div class="col-md-6 col-xl-3" >
         <div class = "card">
@@ -112,7 +112,7 @@
     </div>
 
     <b-modal title="Failed" v-model="failedModal" centered ok-only>
-      Sorry, data is not available. 
+      Sorry, data is not available.
     </b-modal>
   </div>
 </template>
@@ -192,7 +192,7 @@ export default {
           .catch(err => this.list_expense = err.data);
     },
 
-    years () {
+    chooseYears () {
       const year = new Date().getFullYear()
       this.years = Array.from({length: year - 1900}, (value, index) => 1901 + index)
     },
@@ -203,7 +203,7 @@ export default {
       }
       else if(status == 500){
         this.failedModal = true;
-      } 
+      }
     },
 
     formatPrice(value) {
@@ -291,7 +291,7 @@ export default {
 
       this.project = this.list_project.length;
       this.order = this.list_income.length;
-      
+
       for(let i = 0; i < this.list_expense.length; i++){
         if(this.list_expense[i].tanggal.substring(5,7) == 1){
           jan_ex += this.list_expense[i].nominal
@@ -321,7 +321,7 @@ export default {
       }
 
       total_expense = jan_ex + feb_ex + mar_ex + apr_ex + may_ex + jun_ex + jul_ex + aug_ex + sep_ex + oct_ex + nov_ex + dec_ex;
-      
+
       this.expense = total_expense;
 
       // Data Profit
@@ -422,13 +422,23 @@ export default {
 };
 </script>
 <style scoped>
-
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
+}
 .button_group{
    margin-bottom: 1rem;
    margin-left: 14px;
 }
 .judul-card{
   font-size: 20px;
+}
+.card-header{
+  font-weight: 600;
+  font-size: 18px;
 }
 .find-button{
     border-color: #109CF1;
