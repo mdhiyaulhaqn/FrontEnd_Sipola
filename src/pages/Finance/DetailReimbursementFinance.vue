@@ -117,10 +117,10 @@
                 <b-row>
                     <div class="col button-group" v-if="reimbursement.statusReimburse === 2 || reimbursement.statusReimburse === 4">
                         <br>
-                        <button v-on:click="onConfirmationReject" id ="delete-button" class="btn btn-primary">
+                        <button v-on:click="onConfirmationReject" id ="reject-button" class="btn btn-primary">
                             Reject
                         </button>
-                        <button v-on:click="onConfirmationApprove" id ="edit-button" class="btn btn-success">
+                        <button v-on:click="onConfirmationApprove" id ="approve-button" class="btn btn-success">
                             Approve
                         </button>
                     </div>
@@ -368,7 +368,6 @@ export default {
           this.hideModalReject()
           this.$refs['modal-success'].hide();
           this.hideModal();
-            // this.$router.push({ name: 'reimbursement-request'});
         },
 
         hideModal(){
@@ -462,13 +461,6 @@ export default {
 .sub-judul {
   font-size: 16px;
 }
-#send_button{
-    font-size: 12px;
-    float:right;
-    background-color: green;
-    color:white;
-    border-color: white;
-}
 
 .ti-download{
     margin-left:10px;
@@ -484,7 +476,7 @@ export default {
     background-color: #FF3E1D;
 }
 
-#edit-button{
+#approve-button{
   background-color: #28A745;
   color:white;
   border-color: transparent;
@@ -495,7 +487,7 @@ export default {
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
 }
 
-#delete-button{
+#reject-button{
   background-color: #FF3E1D;
   border-color: #FF3E1D;
   width: 80px;
@@ -514,12 +506,6 @@ export default {
     border: 1px solid gray;
     border-radius: 5px;
     padding: 5px 0 5px 0;
-}
-
-.image-preview{
-    height: 120px;
-    width: 120px;
-    padding: 10px 5px 10px 5px;
 }
 
 .button-confirm-group{
@@ -612,6 +598,16 @@ img {
 .download-all {
   float: right;
   cursor: pointer;
+}
+
+#view_button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  line-height: 8px;
+  width: 80px;
+  box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
 }
 
 </style>

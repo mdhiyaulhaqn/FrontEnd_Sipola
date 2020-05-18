@@ -241,9 +241,18 @@ export default {
 
         onSubmit(evt) {
             evt.preventDefault();
+            this.computeTotal();
             this.reimbursement.listExpense = this.expenses;
             this.reimbursement.listAttachment = this.attachments;
             this.updateReimbursement(JSON.stringify(this.reimbursement));
+        },
+
+        computeTotal() {
+          let total = 0;
+          for (let i = 0; i<this.expenses.length; i++) {
+            total += Number(this.expenses[i].nominal);
+          }
+          this.reimbursement.totalReimburse = total;
         },
 
         showMessage(status){
@@ -358,7 +367,7 @@ export default {
 .judul{
   text-align: center;
   color: black;
-  margin: 11px 0 24px 0;
+  margin: 5px 0 24px 0;
 }
 .title-form {
   font-weight: 600;
@@ -367,12 +376,6 @@ export default {
 .isi-form{
     margin-left: auto;
     margin-right: auto;
-}
-
-.add-reimbursement-button{
-    border-color: white;
-    background-color: #109CF1;
-    color:white;
 }
 
 .save-button{
@@ -487,15 +490,6 @@ img {
 
 .grup-attachment{
     padding: 5px 5px 5px 5px;
-}
-
-.image {
-  opacity: 1;
-  display: block;
-  width: 100%;
-  height: auto;
-  transition: .5s ease;
-  backface-visibility: hidden;
 }
 
 .foto {

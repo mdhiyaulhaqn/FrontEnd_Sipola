@@ -402,7 +402,6 @@ h5{
     color:white;
 }
 
-
 .file-label {
     height: 100px;
     width: 100%;
@@ -448,15 +447,6 @@ img {
 
 .grup-attachment{
     padding: 5px 5px 5px 5px;
-}
-
-.image {
-  opacity: 1;
-  display: block;
-  width: 100%;
-  height: auto;
-  transition: .5s ease;
-  backface-visibility: hidden;
 }
 
 .foto {

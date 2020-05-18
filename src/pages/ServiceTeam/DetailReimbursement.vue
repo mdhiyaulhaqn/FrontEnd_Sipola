@@ -40,7 +40,7 @@
                     <div class = "col-lg-5 col-sm-5 col-6">: {{reimbursement.createdBy}}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-lg-2 col-sm-2 col-6">Created at</div>
+                    <div class = "col-lg-2 col-sm-2 col-6">Created At</div>
                     <div class = "col-lg-5 col-sm-5 col-6">: {{ reimbursement.createdAt.slice(0, 19) | moment('lll')}}</div>
                 </b-row>
                 <b-row>
@@ -195,7 +195,7 @@
       </template>
       <template v-slot:modal-footer="{ ok }">
         <b-col class="button-confirm-group">
-          <b-button @click="ok()" class="ok-button" variant="outline-primary">
+          <b-button @click="ok()" class="oksend-button">
             OK
           </b-button>
         </b-col>
@@ -315,10 +315,10 @@ export default {
         },
 
         getDetail: function(){
+          console.log(history.length)
             axios.get('http://localhost:8080/api/reimbursement/' +this.$route.params.id + '/detail')
-            .then(res => {this.reimbursement = res.data, console.log(this.reimbursement)})
+            .then(res => {this.reimbursement = res.data})
             .catch(err => this.reimbursement = err.data);
-            // this.previewImage();
         },
 
         deleteReimbursement(reimburse){
@@ -363,7 +363,6 @@ export default {
         },
 
          downloadFile(file) {
-          console.log(file.fileName)
           const linkSource = 'data:' + file.type + ';base64,' + file.image;
           const downloadLink = document.createElement("a");
           const fileName = file.fileName;
@@ -417,14 +416,6 @@ export default {
 }
 .sub-judul {
   font-size: 16px;
-}
-.nama-perusahaan{
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
-}
-.tabel-service{
-    font-size:15px;
 }
 #send_button{
     font-size: 12px;
@@ -481,12 +472,6 @@ export default {
     padding: 5px 0 5px 0;
 }
 
-.image-preview{
-    height: 120px;
-    width: 120px;
-    padding: 10px 5px 10px 5px;
-}
-
 .button-confirm-group{
   text-align: right;
 }
@@ -523,6 +508,15 @@ h5{
   margin-bottom: -4px;
 }
 .ok-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  font-size: 12px;
+  line-height: 15px;
+  border-width: 1px;
+}
+
+.oksend-button {
   color:#109CF1;
   border-color:#109CF1;
   background-color: white;
