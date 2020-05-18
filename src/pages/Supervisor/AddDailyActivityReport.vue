@@ -350,7 +350,7 @@ export default {
     },
 
     addDailyActivityReport(dailyActivityReport){
-        axios.post(this.url_deploy, dailyActivityReport, { headers: authHeader() })
+        axios.post(this.url_deploy + 'add', dailyActivityReport, { headers: authHeader() })
         .then(res => {this.newDailyActivityReport = res.data.result, this.showMessage(res.data.status)});
     },
 

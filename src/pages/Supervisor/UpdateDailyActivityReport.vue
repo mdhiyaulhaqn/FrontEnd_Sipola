@@ -404,7 +404,7 @@ export default {
     },
 
     getDetail: function(){
-      axios.get(this.url_deploy + this.$route.params.id)
+      axios.get(this.url_deploy + this.$route.params.id, { headers: authHeader() })
       .then(response => {this.dailyActivityReport = response.data.result, this.convertDate()})
       .catch(err => this.dailyActivityReport = err.data);
     },
