@@ -20,7 +20,7 @@
           </b-form-select>
           </div>
           <div class="col">
-            <b-button class ="find-button" @click="redirect" style="font-size:10px">
+            <b-button class ="find-button" @click="redirect">
               Find
               <i class="fa fa-search" style="color: white; margin-left: 5px;"></i>
             </b-button>
@@ -456,7 +456,9 @@ export default {
     border-width: 1px;
     background-color: #109CF1;
     color:white;
-    margin-bottom: 10px;
+    margin-bottom: 18px;
+    font-size: 12px;
+    line-height: 20px;
 }
 .amount{
   font-size: 22px;
