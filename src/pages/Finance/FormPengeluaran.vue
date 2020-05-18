@@ -132,19 +132,21 @@ import authHeader from '../../services/auth-header';
 
             successModal : false,
             failedModal : false,
-            show: true
+            show: true,
+            url_local: "http://localhost:8080/api/pengeluaran/",
+            url_deploy: "http://sipola-sixab.herokuapp.com/api/pengeluaran/",
         }
     },
 
     methods: {
         onSubmit(evt) {
             evt.preventDefault()
-            axios.post("http://localhost:8080/api/pengeluaran/add", {
+            axios.post(this.url_deploy + "add", {
                 nama: this.newPengeluaran.nama,
                 nominal: this.newPengeluaran.nominal,
                 tanggal: this.newPengeluaran.tanggal,
                 paidBy: this.newPengeluaran.paidBy,
-                createdBy: "Suparjo API",
+                createdBy: this.currentUser().name,
                 status: "Active"
             }, { headers: authHeader() })
             .then((response) => {
@@ -175,7 +177,10 @@ import authHeader from '../../services/auth-header';
         },
         toDetailPage(){
             this.$router.replace("/expense/" + this.newPengeluaran.id)
-        }
+        },
+        currentUser() {
+          return this.$store.state.auth.user;
+        },
     }
 }
 </script>
