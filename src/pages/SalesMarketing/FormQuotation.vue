@@ -159,6 +159,7 @@
 import Service from '@/pages/SalesMarketing/Service.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
     components : {
@@ -219,7 +220,7 @@ export default {
             evt.preventDefault();
             this.new_quotation.company = this.new_company;
             this.new_quotation.service = this.services;
-            this.addQuotation(JSON.stringify(this.new_quotation));
+            this.addQuotation(this.new_quotation);
         },
 
         showMessage(status){
@@ -232,12 +233,7 @@ export default {
         },
 
         addQuotation(quot){
-            axios.post('http://localhost:8080/api/quotation/add',
-            quot,
-                { headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
+            axios.post('http://localhost:8080/api/quotation/add',  quot, { headers: authHeader() })
             .then(res => {this.new_quotation = res.data.result, this.showMessage(res.data.status)});
         },
 
