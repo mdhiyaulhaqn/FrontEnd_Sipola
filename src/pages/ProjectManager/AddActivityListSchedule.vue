@@ -137,6 +137,7 @@
 
 import Activity from '@/pages/ProjectManager/Activity.vue';
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
   components : {
@@ -150,6 +151,7 @@ export default {
         namaPerusahaan : '',
         catatan : '',
         listTugas : '',
+        createdBy: '',
       },
       newActivity : {
         id_activity : 0,
@@ -162,6 +164,8 @@ export default {
       successModal : false,
       failedModal : false,
       send : {objects : null},
+      url_local: 'http://localhost:8080/api/activity-list-schedule/',
+      url_deploy: 'http://sipola-sixab.herokuapp.com/api/activity-list-schedule/'
     }
   },
 
@@ -182,9 +186,10 @@ export default {
 
     onSubmit(evt) {
         evt.preventDefault();
+        this.newActivityListSchedule.createdBy = this.$store.state.auth.user.name;
         // this.new_quotation.company = this.new_company;
         this.newActivityListSchedule.listTugas = this.activities;
-        this.addActivityListSchedule(JSON.stringify(this.newActivityListSchedule));
+        this.addActivityListSchedule(this.newActivityListSchedule);
     },
 
     showMessage(status){
@@ -197,12 +202,7 @@ export default {
     },
 
     addActivityListSchedule(activityListSchedule){
-        axios.post('http://localhost:8080/api/activity-list-schedule/add',
-        activityListSchedule,
-            { headers: {
-                'Content-Type': 'application/json',
-            }
-        })
+        axios.post(this.url_deploy + 'add', activityListSchedule, { headers: authHeader() })
         .then(res => {this.newActivityListSchedule = res.data.result, this.showMessage(res.data.status)});
     },
 

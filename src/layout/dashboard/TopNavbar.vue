@@ -20,7 +20,7 @@
             <span>
             <p class="nav-link">
               {{currentUser.username}}<br>
-              <!-- <a href="#">Change Password</a> |  -->
+              <a href="/profile">Profile</a> |
               <a href @click.prevent="logOut">Sign Out</a>
             </p>
             </span>
