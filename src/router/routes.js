@@ -149,7 +149,7 @@ const routes = [
         component: UpdatePengeluaran
       },
       {
-        path: "expense-add",
+        path: "expense/add",
         name: "expense-add",
         component: FormPengeluaran
       },

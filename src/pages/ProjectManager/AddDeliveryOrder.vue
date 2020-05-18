@@ -175,6 +175,7 @@
 import Product from '@/pages/ProjectManager/Product.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
     components : {
@@ -231,7 +232,7 @@ export default {
         onSubmit(evt) {
             evt.preventDefault();
             this.new_delivery_order.product = this.products;
-            this.addDeliveryOrder(JSON.stringify(this.new_delivery_order));
+            this.addDeliveryOrder(this.new_delivery_order);
         },
 
         showMessage(status){
@@ -246,15 +247,13 @@ export default {
         addDeliveryOrder(quot){
             axios.post('http://localhost:8080/api/delivery-order/add',
             quot,
-                { headers: {
-                    'Content-Type': 'application/json',
-                }
+                { headers: authHeader()
             })
             .then(res => {this.new_delivery_order = res.data.result, this.showMessage(res.data.status)});
         },
 
         getAllCompany: function(){
-            axios.get('http://localhost:8080/api/company/all')
+            axios.get('http://localhost:8080/api/company/all', {headers : authHeader()})
             .then(result => this.companies = result.data.result);
         },
 

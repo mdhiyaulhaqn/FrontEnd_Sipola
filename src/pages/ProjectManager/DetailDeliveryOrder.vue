@@ -208,6 +208,7 @@
 import axios from 'axios';
 import jsPDF from 'jspdf';
 import * as autoTable from 'jspdf-autotable';
+import authHeader from '../../services/auth-header';
 
 export default {
     data() {
@@ -246,7 +247,7 @@ export default {
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/delivery-order/' +this.$route.params.id)
+            axios.get('http://localhost:8080/api/delivery-order/' +this.$route.params.id, { headers: authHeader() })
             .then(res => {this.delivery_order = res.data, this.getNumber(), this.company = res.data.company})
             .catch(err => this.delivery_order = err.data);
         },
@@ -259,11 +260,7 @@ export default {
 
         deleteDeliveryOrder(deliveryOrder){
             axios.put('http://localhost:8080/api/delivery-order/change-status/' + this.$route.params.id,
-            deliveryOrder,
-                { headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
+            { headers: authHeader() })
             .then(res => {this.showMessage(res.data.status)});
         },
 
