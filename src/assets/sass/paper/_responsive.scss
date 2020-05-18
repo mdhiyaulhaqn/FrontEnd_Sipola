@@ -166,6 +166,8 @@
       overflow-y: scroll;
       height: 100%;
       box-shadow: inset 1px 0px 0px 0px $medium-gray;
+      margin-top: 0px;
+    margin-bottom: 0px;
     }
 
     .nav {
@@ -255,8 +257,9 @@
     .logo {
       position: relative;
       z-index: 4;
-      padding-top: 11px;
-      padding-bottom: 11px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      padding-left:2px;
     }
 
     .divider {

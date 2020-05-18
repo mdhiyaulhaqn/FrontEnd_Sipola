@@ -14,30 +14,32 @@
       </b-breadcrumb>
       <h3 class="judul"><strong>Update Activity List Schedule</strong></h3>
     <div class = "row">
-        <div class="col-10 isi-form">
-          <card>
+        <div class="col-md-8 col-sm-8 col-xs-8 col-12 d-block d-xs-block d-sm-block isi-form">
+          <card class="col">
             <h5 class="title-form">Update Activity List Schedule Form</h5>
             <b-form @submit="onConfirmation" v-if="show">
-                <b-form-group id="project-name-input">
+                <b-form-group id="project-name-input" class="required">
                   <label class="label" for="projectName">Project Name</label>
                   <b-form-input
                     id="projectName"
                     v-model="activityListSchedule.namaProyek"
                     type="text"
                     required
+                    :maxlength="255"
                     placeholder="Project Name"
                     pattern=".*[a-zA-Z].*"
                     disabled>
                   </b-form-input>
                 </b-form-group>
 
-                <b-form-group id="company-name-input">
+                <b-form-group id="company-name-input" class="required">
                   <label class="label" for="companyName">Company Name</label>
                   <b-form-input
                     id="companyName"
                     v-model="activityListSchedule.namaPerusahaan"
                     type="text"
                     required
+                    :maxlength="255"
                     placeholder="Company Name"
                     pattern=".*[a-zA-Z].*"
                     disabled>
@@ -85,10 +87,10 @@
                 </b-form-group>
 
                 <div class = "button-group">
-                  <router-link :to="{name: 'detail-activity-list-schedule', params: {id:activityListSchedule.id}}">
+                  <b-button class="save-button" type="submit">Save</b-button>
+                  <router-link :to="{name: 'detail-activity-list-schedule'}">
                     <b-button class="cancel-button" type="reset">Cancel</b-button>
                   </router-link>
-                  <b-button class="save-button" type="submit">Save</b-button>
                 </div>
             </b-form>
           </card>
@@ -118,11 +120,11 @@
       </template>
       <template v-slot:modal-footer="{ cancel }">
         <b-col class="button-confirm-group">
-          <b-button @click="cancel()" class="cancel-button">
-            Cancel
-          </b-button>
           <b-button @click="onSubmit" class="save-button">
             Save
+          </b-button>
+          <b-button @click="cancel()" class="cancel-button">
+            Cancel
           </b-button>
         </b-col>
       </template>
@@ -152,7 +154,10 @@
       </template>
       <template v-slot:modal-footer="{ ok }">
         <b-col class="button-confirm-group">
-          <b-button @click="ok()" id="ok-button" variant="outline-primary">
+          <router-link :to="{name: 'activity-list-schedule'}">
+            <b-button class="back-button">Back to List</b-button>
+          </router-link>
+          <b-button @click="ok()" class="see-button">
             See Details
           </b-button>
         </b-col>
@@ -253,7 +258,7 @@ export default {
     },
     getDetail: function(){
       axios.get('http://localhost:8080/api/activity-list-schedule/' + this.$route.params.id)
-      .then(response => {this.activityListSchedule = response.data, this.fetchActivity()})
+      .then(response => {this.activityListSchedule = response.data.result, this.fetchActivity()})
       .catch(err => this.activityListSchedule = err.data);
     },
 
@@ -264,11 +269,11 @@ export default {
             'Content-Type': 'application/json',
         }
       })
-      .then(res => {this.newActivityListSchedule = res.data.result, this.showMessage(res.data.status)});
+      .then(res => {this.activityListSchedule = res.data.result, this.showMessage(res.data.status)});
     },
 
     redirect(){
-        this.$router.push({ name: 'detail-activity-list-schedule',  params: {id:this.newActivityListSchedule.id}});
+        this.$router.push({ name: 'detail-activity-list-schedule',  params: {id:this.activityListSchedule.id}});
     },
 
     hideModal(){
@@ -295,7 +300,7 @@ export default {
 .judul{
   text-align: center;
   color: black;
-  margin: 5px 0 24px 0;
+  margin: 11px 0 24px 0;
 }
 .title-form {
   font-weight: 600;
@@ -310,10 +315,10 @@ export default {
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  font-size: 10px;
-  margin-left: 10px;
+  font-size: 12px;
+  margin-right: 10px;
   line-height: 15px;
-  width: 110px;
+  width: 120px;
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
   text-align: center;
 }
@@ -326,12 +331,36 @@ export default {
   width: 80px;
   line-height: 15px;
   text-align: center;
-  font-size: 10px;
+  font-size: 12px;
+}
+
+.see-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-left: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
+}
+
+.back-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 100px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
 }
 
 .button-group{
-  margin-top: 30px;
+  margin-top: 20px;
   text-align: center;
+  margin-bottom: 10px;
 }
 .label{
   font-weight: 600;
@@ -360,5 +389,9 @@ h5{
   margin: -35px 0 -5px -15px;
   color: #FF3E1D;
   background: none;
+}
+.required label:after {
+  content:" *";
+  color: red;
 }
 </style>

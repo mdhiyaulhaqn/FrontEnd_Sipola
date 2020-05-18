@@ -17,8 +17,8 @@
                 <strong>
                     Detail Sales Order
                 </strong>
-            </div> 
-            
+            </div>
+
             <card>
                 <b-row>
                     <div class = "col-8 nama-perusahaan">{{sales_order.company.nama}}</div>
@@ -45,24 +45,24 @@
                     <div class = "col-6">: {{sales_order.company.alamat}}</div>
                 </b-row>
                 <br>
-                
+
                 <b-row>
                     <b-col >
                         <div class="tabel-service">
                             Service List
                             <div slot="raw-content" class="table-responsive" style="font-size:12px">
-                                <b-table 
-                                :items="sales_order.serviceOrder" 
+                                <b-table
+                                :items="sales_order.serviceOrder"
                                 :fields="fields">
                                  <template v-slot:cell(no)="row">
                                     {{sales_order.service.indexOf(row.item) + 1}}
                                 </template>
                                 </b-table>
-                                
+
                             </div>
                         </div>
                     </b-col>
-                
+
                 </b-row>
 
                 <b-row>
@@ -72,7 +72,7 @@
                 </b-row>
 
                 <b-row>
-                   
+
                     <div class="col">
                         <br>
                          <router-link :to="{name: 'invoice-add', params: {id: sales_order.id}}">
@@ -113,7 +113,7 @@ export default {
 
     },
     methods:{
-        getDetail: function(){    
+        getDetail: function(){
             axios.get('http://localhost:8080/api/sales-order/' +this.$route.params.id)
             .then(res => {this.sales_order = res.data})
             .catch(err => this.sales_order = err.data);
@@ -123,16 +123,11 @@ export default {
 </script>
 
 <style scoped>
-body {
-    font-family: 'Muli', sans-serif;
-    background: #fafafa;
-}
 
 .judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
 }
 .nama-perusahaan{
     color: black;

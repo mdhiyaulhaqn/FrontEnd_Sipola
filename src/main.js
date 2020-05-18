@@ -33,6 +33,8 @@ import { Gantt, GanttColumn, GanttView, GanttInstaller } from '@progress/kendo-g
 import moment from 'moment';
 import VueMoment from 'vue-moment';
 import CKEditor from '@ckeditor/ckeditor5-vue';
+import VueCurrencyFilter from 'vue-currency-filter'
+import JSZip from "jszip";
 // import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 Vue.use(GanttInstaller, Gantt, GanttColumn, GanttView)
@@ -45,6 +47,16 @@ Vue.use(datePicker);
 Vue.use(VueAxios, axios);
 Vue.use(moment);
 Vue.use(require('vue-moment'));
+Vue.use(JSZip);
+Vue.use(VueCurrencyFilter,
+  {
+    symbol : 'Rp',
+    thousandsSeparator: '.',
+    fractionCount: 2,
+    fractionSeparator: ',',
+    symbolPosition: 'front',
+    symbolSpacing: true
+  })
 
 /* eslint-disable no-new */
 new Vue({

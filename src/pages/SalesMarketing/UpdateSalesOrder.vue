@@ -13,38 +13,39 @@
       </b-breadcrumb>
     <h3 class="judul"><strong>Update Sales Order</strong></h3>
     <div class = "row">
-        <div class = "col-10 isi-form">
-            <card>
+        <div class = "col-md-8 col-sm-8 col-xs-8 col-12 d-block d-xs-block d-sm-block isi-form">
+            <card class="col">
             <h5 class = "title-form">Update Sales Order Form </h5>
             <b-form @submit="onModal" v-if="show">
                  <b-row>
                     <b-col md="6">
-                    <b-form-group>
-                        <label for="noSalesOrder">Sales Order No</label>
+                    <b-form-group class="required">
+                        <label class="label" for="noSalesOrder">Sales Order No</label>
                         <b-form-input
                             id="noSalesOrder"
                             v-model="sales_order.noSalesOrder"
                             type="text"
                             required
+                            disabled
                             placeholder="Sales Order Number">
                         </b-form-input>
                     </b-form-group>
                     </b-col>
-                    <b-col md="6">
+                    <b-col md="6" class="required">
                         <b-form-group>
-                            <label for="date">Sales Order Date</label>
+                            <label class="label" for="date">Sales Order Date</label>
                             <b-form-input
                                 id="date"
                                 v-model="sales_order.date"
                                 type="date"
-                                required>   
+                                required>
                             </b-form-input>
                         </b-form-group>
                     </b-col>
                 </b-row>
 
-                 <b-form-group>
-                    <label for="poNumber">Purchase Order Number</label>
+                 <b-form-group class="required">
+                    <label class="label" for="poNumber">Purchase Order Number</label>
                     <b-form-input
                         id="poNumber"
                         v-model="sales_order.poNumber"
@@ -53,9 +54,9 @@
                         placeholder="Sales Order Number">
                     </b-form-input>
                 </b-form-group>
-                
-                <b-form-group>
-                    <label for="date">Purchase Order Date</label>
+
+                <b-form-group class="required">
+                    <label class="label" for="date">Purchase Order Date</label>
                     <b-form-input
                         id="poDate"
                         v-model="sales_order.poDate"
@@ -67,7 +68,7 @@
                  <b-row>
                     <b-col md="12">
                         <b-form-group>
-                            <label for="companyName" >Company Name</label>
+                            <label class="label" for="companyName" >Company Name</label>
                             <b-form-select v-model="sales_order.company" required>
                                 <template slot="companyName">
                                     <option :value="null" disabled>-- Choose Company --</option>
@@ -82,26 +83,26 @@
 
                 <div class="d-none d-md-block d-lg-block">
                     <b-row>
-                        <b-col md="5">
-                        <label>Description</label>
+                        <b-col md="4 required">
+                        <label class="label" >Description</label>
                         </b-col><br>
 
-                        <b-col md="2">
-                        <label>Qty</label> 
+                        <b-col md="2 required">
+                        <label class="label" >Quantity</label>
                         </b-col><br>
 
-                        <b-col md="2">
-                        <label>UOM</label> 
+                        <b-col md="2 required">
+                        <label class="label" >UOM</label>
                         </b-col>
                         <br>
 
-                        <b-col md="2">
-                        <label>Unit Price</label> 
+                        <b-col md="3 required">
+                        <label class="label" >Unit Price (IDR)</label>
                         </b-col>
                         <br>
 
                         <b-col md="1">
-                        
+
                         </b-col>
                     </b-row>
                 </div>
@@ -110,26 +111,26 @@
                     <b-col>
                     <ServiceOrder v-bind:service_order="item" v-on:del-service-order="deleteRow" />
                     </b-col>
-                </b-row> 
-                    
+                </b-row>
+
                 <b-row>
                     <b-col md="5">
                         <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">+ Add Description</button>
                     </b-col>
-                </b-row> 
+                </b-row>
 
-                
-                <b-form-group>
+
+                <b-form-group class="required">
                     <label for="termsConditions">Terms and Conditions</label>
-                    <ckeditor :editor="editor"  v-model="sales_order.termsCondition" :config="editorConfig"></ckeditor>
+                    <ckeditor :editor="editor"  v-model="sales_order.termsCondition"></ckeditor>
                 </b-form-group>
 
 
                 <div class = "button-group">
-                    <router-link :to="{name: 'detail-sales-order', params: {id:sales_order.id}}">
+                    <b-button class = "save-button" type="submit">Save</b-button>
+                    <router-link :to="{name: 'detail-sales-order'}">
                         <b-button class = "cancel-button">Cancel</b-button>
                     </router-link >
-                    <b-button class = "save-button" type="submit">Update</b-button>
                 </div>
             </b-form>
             </card>
@@ -160,11 +161,11 @@
         </template>
         <template v-slot:modal-footer="{ cancel }">
         <b-col class="button-confirm-group">
-            <b-button @click="cancel()" class="cancel-button">
-            Cancel
-            </b-button>
             <b-button @click="onSubmit" class="save-button">
             Save
+            </b-button>
+            <b-button @click="cancel()" class="cancel-button">
+            Cancel
             </b-button>
         </b-col>
         </template>
@@ -195,9 +196,14 @@
         </template>
         <template v-slot:modal-footer="{ ok }">
             <b-col class="button-confirm-group">
-            <b-button @click="ok()" id="ok-button" variant="outline-primary">
-                See Details
-            </b-button>
+                <b-col class="button-confirm-group">
+                    <b-button @click="cancel()" class="back-button">
+                    Back to List
+                    </b-button>
+                    <b-button @click="ok" class="see-button">
+                    See Details
+                    </b-button>
+                </b-col>
             </b-col>
         </template>
     </b-modal>
@@ -214,8 +220,8 @@ export default {
     components : {
       ServiceOrder
     },
-    
-    data() { 
+
+    data() {
       return {
             editor: ClassicEditor,
             service_orders: [],
@@ -223,7 +229,7 @@ export default {
 
             sales_order : {
             },
-            
+
             new_service_order : {
                 id_service_order : 0,
                 deskripsi : '',
@@ -237,6 +243,7 @@ export default {
             failedModal : false,
             warningModal : false,
             send : {objects : null},
+            companies: []
         }
     },
 
@@ -244,7 +251,7 @@ export default {
         this.getAllCompany();
         this.getDetail();
 	},
-    
+
     methods: {
         addRow(){
             this.new_service_order.id_service_order++;
@@ -263,9 +270,9 @@ export default {
         onSubmit(evt) {
 
             evt.preventDefault();
-            
+
             this.sales_order.serviceOrder = this.service_orders;
-            
+
             this.updateSalesOrder(JSON.stringify(this.sales_order));
         },
 
@@ -275,10 +282,11 @@ export default {
             }
             else if(status == 500){
                 this.failedModal = true;
-            } 
+            }
         },
-        
+
         fetchData : function(){
+            this.sales_order.date = this.sales_order.date.substring(0,10);
             this.sales_order.poDate = this.sales_order.poDate.substring(0,10);
             let service_quot = this.sales_order.serviceOrder;
             for(let i=0; i< service_quot.length ; i++){
@@ -304,11 +312,11 @@ export default {
             .then(res => {this.sales_order = res.data, this.fetchData()})
             .catch(err => this.sales_order = err.data);
         },
-        
+
         updateSalesOrder(quot){
             console.log(this.sales_order.service_order)
-            axios.put('http://localhost:8080/api/sales-order/update/' + this.$route.params.id, 
-            quot, 
+            axios.put('http://localhost:8080/api/sales-order/update/' + this.$route.params.id,
+            quot,
                 { headers: {
                     'Content-Type': 'application/json',
                 }
@@ -321,8 +329,12 @@ export default {
             .then(result => this.companies = result.data.result);
         },
 
-       redirect(){
+        redirect(){
             this.$router.push({ name: 'detail-sales-order',  params: {id:this.sales_order.id}});
+        },
+
+        cancel(){
+            this.$router.push({ name: 'sales-order'});
         },
 
         hideModal(){
@@ -333,6 +345,10 @@ export default {
 </script>
 
 <style scoped>
+.required label:after {
+    content: " *";
+    color: red;
+}
 .add-button{
   width: 100%;
   background-color: white;
@@ -343,7 +359,7 @@ export default {
 .judul{
   text-align: center;
   color: black;
-  margin: 5px 0 24px 0;
+  margin: 11px 0 24px 0;
 }
 .title-form {
   font-weight: 600;
@@ -358,10 +374,10 @@ export default {
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  font-size: 10px;
-  margin-left: 10px;
+  font-size: 12px;
+  margin-right: 10px;
   line-height: 15px;
-  width: 110px;
+  width: 120px;
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
   text-align: center;
 }
@@ -374,12 +390,36 @@ export default {
   width: 80px;
   line-height: 15px;
   text-align: center;
-  font-size: 10px;
+  font-size: 12px;
+}
+
+.see-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-left: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
+}
+
+.back-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 100px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
 }
 
 .button-group{
-  margin-top: 30px;
+  margin-top: 20px;
   text-align: center;
+  margin-bottom: 10px;
 }
 .label{
   font-weight: 600;

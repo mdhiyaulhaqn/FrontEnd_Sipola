@@ -9,45 +9,43 @@
                 Detail Delivery Order
                 </b-breadcrumb-item>
             </b-breadcrumb>
-            <div class="judul">
-                <strong>
-                    Detail Delivery order
-                </strong>
-            </div>
+            <h3 class="judul"><strong>Detail Delivery Order</strong></h3>
             <div ref="content">
-
-            <card>
+            <div class = "row">
+            <div class="col-md-12 col-sm-12 col-xs-12 col-12 d-block d-xs-block d-sm-block center">
+            <card class="col">
+              <h5 class="text-center">Delivery Order</h5>
                 <div class="container-fluid">
                 <b-row>
                     <div class="perusahaan col-sm-12 text-center">
-                        <b class="col-sm-12">{{delivery_order.company.nama}}</b>
-                        <p class="col-sm-12">{{delivery_order.company.alamat}}</p>
+                        <b class="col-sm-12">{{company.nama}}</b>
+                        <p class="col-sm-12">{{company.alamat}}</p>
                     </div>
                 </b-row>
 
                 <b-row>
                     <div class = "col-lg-8 col-sm-7 col-xs-6">
                          <b-row>
-                            <div class = "col-lg-5 col-sm-5 col-6">Delivery Order Number </div>
+                            <div class = "col-lg-5 col-sm-5 col-6">Delivery Order No</div>
                             <div class = "col-lg-7 col-sm-7 col-6">: {{delivery_order.noDeliveryOrder}}</div>
-             
-                            <div class = "col-lg-5 col-sm-5 col-6">Purchase Order Number </div>
+
+                            <div class = "col-lg-5 col-sm-5 col-6">Purchase Order No</div>
                             <div class = "col-lg-7 col-sm-7 col-6">: {{ delivery_order.poNumber}}</div>
                         </b-row>
                     </div>
                     <div class = "col-lg-4 col-sm-5 col-xs-6">
                         <b-row>
-                            <div class = "col-lg-5 col-sm-5 col-6">Created By </div>
+                            <div class = "col-lg-5 col-sm-5 col-6">Created by</div>
                             <div class = "col-lg-7 col-sm-7 col-6">: {{delivery_order.createdBy}} </div>
-                            <div class = "col-lg-5 col-sm-5 col-6">Created At </div>
-                            <div class = "col-lg-7 col-sm-7 col-6">: {{delivery_order.createdAt.split("T")[0].split("-").reverse().join('-') }}</div>
+                            <div class = "col-lg-5 col-sm-5 col-6">Created at</div>
+                            <div class = "col-lg-7 col-sm-7 col-6">: {{delivery_order.createdAt.slice(0, 19) | moment('lll') }}</div>
                         </b-row>
                     </div>
                 </b-row>
                 <b-row>
                     <div class = "col-lg-8 col-sm-7 col-xs-6">
                         <b-row>
-                            <div class = "col-lg-5 col-sm-5 col-6">QC Passed / Delivery </div>
+                            <div class = "col-lg-5 col-sm-5 col-6">QC Passed / Delivery</div>
                             <div class = "col-lg-7 col-sm-7 col-6">: {{ delivery_order.qcPassed}}</div>
                         </b-row>
                      </div>
@@ -55,7 +53,7 @@
                 <b-row>
                     <div class = "col-lg-8 col-sm-7 col-xs-6">
                         <b-row>
-                            <div class = "col-lg-5 col-sm-5 col-6">Ship By </div>
+                            <div class = "col-lg-5 col-sm-5 col-6">Ship By</div>
                             <div class = "col-lg-7 col-sm-7 col-6">: {{ delivery_order.shipBy}}</div>
                         </b-row>
                      </div>
@@ -100,13 +98,42 @@
                         </router-link>
                     </div>
                 </b-row>
-
                 </div>
-
             </card>
             </div>
+            </div>
+            </div>
         </div>
-
+        <b-modal
+            id="modal-download"
+            ref="modal-download"
+            centered
+            >
+            <template v-slot:modal-title>
+                <div class="container">
+                <h5 id="modal-title-download">Downloading Delivery Order ...</h5>
+                </div>
+            </template>
+            <template v-slot:default>
+                <div class="container">
+                <b-row>
+                    <b-col class="modal-icon col-2">
+                        <img src="@/assets/img/download-icon.png" alt="" width="50px">
+                    </b-col>
+                    <b-col class="col-10">
+                        <p id="modal-message"> The system is downloading delivery order no. {{delivery_order.noDeliveryOrder}}</p>
+                    </b-col>
+                </b-row>
+                </div>
+            </template>
+             <template v-slot:modal-footer="{ ok }">
+                <b-col class="button-confirm-group">
+                <b-button @click="ok()" id="ok-button">
+                    OK
+                </b-button>
+                </b-col>
+            </template>
+        </b-modal>
          <b-modal
             id="modal-delete"
             ref="modal-delete"
@@ -124,7 +151,7 @@
                         <img src="@/assets/img/delete-confirm-icon.png" alt="" width="50px">
                     </b-col>
                     <b-col class="col-10">
-                        <p id="modal-message"> Delivery Order no {{delivery_order.noDeliveryOrder}} will be removed from the list.</p>
+                        <p id="modal-message">Delivery order no {{delivery_order.noDeliveryOrder}} will be removed from the list.</p>
                     </b-col>
                 </b-row>
                 </div>
@@ -160,14 +187,14 @@
                     <img src="@/assets/img/success-icon.png" alt="" width="50px">
                     </b-col>
                     <b-col class="col-10">
-                    <p id="modal-message">Delivery Order no. {{delivery_order.noDeliveryOrder}} was successfully deleted from list.</p>
+                    <p id="modal-message">Delivery order no. {{delivery_order.noDeliveryOrder}} was successfully deleted from list.</p>
                     </b-col>
                 </b-row>
                 </div>
             </template>
             <template v-slot:modal-footer="{ ok }">
                 <b-col class="button-confirm-group">
-                <b-button @click="ok()" id="ok-button" variant="outline-primary">
+                <b-button @click="ok()" id="ok-button">
                     OK
                 </b-button>
                 </b-col>
@@ -185,14 +212,21 @@ import * as autoTable from 'jspdf-autotable';
 export default {
     data() {
         return {
-            delivery_order : '',
+            delivery_order : {
+              createdAt: []
+            },
             successModal : false,
             fields: [
                 {key: 'id', label: 'No', sortable: true},
                 {key: 'nama', label: 'Name', sortable: true},
                 {key: 'quantity', label: 'Quantity', sortable: true},
                 {key: 'projectNo', label: 'ProjectNo', sortable: true},
-            ]
+            ],
+            company: {
+              id: '',
+              nama: '',
+              alamat: '',
+            }
         };
     },
     beforeMount(){
@@ -205,15 +239,15 @@ export default {
             this.delivery_order.status = 'Inactive';
             this.deleteDeliveryOrder(JSON.stringify(this.delivery_order));
         },
-        
+
         showMessage(status){
             this.successModal = true;
 
         },
 
-        getDetail: function(){    
+        getDetail: function(){
             axios.get('http://localhost:8080/api/delivery-order/' +this.$route.params.id)
-            .then(res => {this.delivery_order = res.data, this.getNumber()})
+            .then(res => {this.delivery_order = res.data, this.getNumber(), this.company = res.data.company})
             .catch(err => this.delivery_order = err.data);
         },
 
@@ -224,8 +258,8 @@ export default {
         },
 
         deleteDeliveryOrder(deliveryOrder){
-            axios.put('http://localhost:8080/api/delivery-order/change-status/' + this.$route.params.id, 
-            deliveryOrder, 
+            axios.put('http://localhost:8080/api/delivery-order/change-status/' + this.$route.params.id,
+            deliveryOrder,
                 { headers: {
                     'Content-Type': 'application/json',
                 }
@@ -301,15 +335,15 @@ export default {
 
             doc.autoTable(columns, product, {
                 startY:startY+65,
-                margin:25,  
+                margin:25,
                 headStyles: {
-                    fillColor: [218,37,28],  
-                    textColor: [255, 255, 255], //White    
-                    align : "center" 
+                    fillColor: [218,37,28],
+                    textColor: [255, 255, 255], //White
+                    align : "center"
                 },
                 bodyStyles : {
-                     textColor: [0, 0, 0], //White  
-                     fontSize : 10, 
+                     textColor: [0, 0, 0], //White
+                     fontSize : 10,
                 },
                 theme:'striped',
             });
@@ -319,7 +353,7 @@ export default {
 
             //SYARAT DAN PENAWARAN
             doc.setFontStyle("bold");
-            doc.text('REMAKS : ', startX, finalY+10);
+            doc.text('REMARKS : ', startX, finalY+10);
             doc.rect(startX, finalY+15, 160, 20);
             doc.setFontStyle("light");
 
@@ -330,7 +364,7 @@ export default {
                 pagesplit: true,
                 'width':160,
             });
-            
+
             //FOOTER
             var footerY = doc.internal.pageSize.height-5
 
@@ -339,10 +373,10 @@ export default {
             doc.text('(....................................)', startX, footerY-50); doc.text('(....................................)', startX + 120, footerY-50);
             doc.text('Date : ', startX, footerY-45); doc.text('Date : ', startX+ 120, footerY-45);
             doc.setDrawColor(0, 0, 0);
-           
+
 
             doc.line(startX, footerY-35, startX+170, footerY-35);
-            
+
             doc.addImage(img, 'png', startX, footerY-30, 20, 20);
 
             doc.setFont("muli")
@@ -374,38 +408,25 @@ export default {
 </script>
 
 <style scoped>
-body {
-    font-family: 'Muli', sans-serif;
-    background: #fafafa;
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
 }
-
 .judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
 }
 #ok-button{
-    color:#109CF1;
-    border-color:#109CF1;
-    background-color: white;
-}
-
-#edit-button{
-    background-color: #109CF1;
-    color:white;
-    border-color: transparent;
-    width: 110px;
-    margin-left: 10px;
-    font-size: 10px;
-    box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
-}
-
-#delete-button{
-    background-color: #FF3E1D;
-    border-color: #FF3E1D;
-    width: 80px;
-    font-size: 10px;
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  font-size: 12px;
+  line-height: 15px;
+  border-width: 1px;
 }
 
 .nama-perusahaan{
@@ -442,64 +463,30 @@ body {
     background-color: #FF3E1D;
 }
 
-.button_back{
-    background-color: #FF3E1D;
-    color:white;
-    border-color: white;
-    float:right;
-    margin-top: 40px;
+#edit-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  width: 110px;
+  margin-left: 10px;
+  line-height: 15px;
+  font-size: 12px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
 }
 
-.button_oke{
-    background-color:white;
-    color:#FF3E1D;
-    border-color: #FF3E1D;
-    float:right;
-    margin-top: 40px;
+#delete-button{
+  background-color: #FF3E1D;
+  border-color: #FF3E1D;
+  width: 80px;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
 }
 
-.tombol_okay{
-    float:right;
-}
-
-#manage-button{
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#delete_button{
-    font-size: 10px;
-    background-color: #ff3e1d;
-    color:white;
-    border-color: white;
-}
-#edit_button{
-    font-size: 10px;
-    background-color: #109CF1;
-    color:white;
-    border-color: white;
-}
 .button-group{
-    text-align: center;
-}
-
-button{
-    border-radius: 8px;
-}
-
-#delete_button{
-    font-size: 10px;
-    width: 56;
-    background-color: #ff3e1d;
-    color:white;
-    border-color: white;
-}
-#edit_button{
-    font-size: 10px;
-    width: 130px;
-    background-color: #109CF1;
-    color:white;
-    border-color: white;
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .ti-trash{
@@ -513,19 +500,23 @@ button{
 }
 
 #confirm_delete_button{
-    font-size: 10px;
-    width: 130px;
-    border-color: #ff3e1d;
-    border-width: 1px;
-    margin-right: 10px;
+  font-size: 12px;
+  width: 110px;
+  border-color: #ff3e1d;
+  border-width: 1px;
+  margin-right: 10px;
+  line-height: 15px;
 }
-
 #cancel_delete_button{
-    font-size: 10px;
-    background-color: #ff3e1d;
-    color:white;
-    border-color: white;
-    border-width: 1px;
+  font-size: 12px;
+  background-color: #ff3e1d;
+  color:white;
+  border-color: white;
+  border-width: 1px;
+  line-height: 15px;
+}
+h5{
+  font-weight: bold;
 }
 #download_button{
     font-size: 10px;
@@ -536,5 +527,23 @@ button{
 }
 .perusahaan{
     margin-bottom: 20px;
+}
+#modal-message{
+  font-size: 16px;
+}
+#modal-title-delete{
+  color:#FF3E1D;
+  font-weight: 1000;
+  margin-bottom: -4px;
+}
+#modal-title-download{
+    color: #109CF1;
+    font-weight: 1000;
+    margin-bottom: -4px;
+}
+#modal-title-success{
+  color: #109CF1;
+  font-weight: 1000;
+  margin-bottom: -4px;
 }
 </style>
