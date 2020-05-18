@@ -127,7 +127,8 @@ import authHeader from '../../services/auth-header';
                 nama : null,
                 nominal : null,
                 tanggal : null,
-                paidBy : null
+                paidBy : null,
+                anyReimbursement : false,
             },
 
             successModal : false,
@@ -141,13 +142,14 @@ import authHeader from '../../services/auth-header';
     methods: {
         onSubmit(evt) {
             evt.preventDefault()
-            axios.post(this.url_deploy + "add", {
+            axios.post(this.url_local + "add", {
                 nama: this.newPengeluaran.nama,
                 nominal: this.newPengeluaran.nominal,
                 tanggal: this.newPengeluaran.tanggal,
                 paidBy: this.newPengeluaran.paidBy,
                 createdBy: this.currentUser().name,
-                status: "Active"
+                status: "Active",
+                anyReimbursement: this.newPengeluaran.anyReimbursement,
             }, { headers: authHeader() })
             .then((response) => {
                 this.newPengeluaran.id = response.data.result.id

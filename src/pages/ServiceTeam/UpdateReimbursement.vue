@@ -187,6 +187,7 @@
 
 import Expense from '@/pages/ServiceTeam/ExpenseReimbursement.vue';
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
     components : {
@@ -205,9 +206,10 @@ export default {
                 nama : '',
                 nominal : '',
                 tanggal : '',
-                createdBy : 'Adi',
-                paidBy : 'Adi',
+                createdBy : '',
+                paidBy : '',
                 reimbursement : '',
+                anyReimbursement : true,
                 status : ''
             },
             new_attachment : {
@@ -221,6 +223,10 @@ export default {
             failedModal : false,
             confirmationModal : false,
             send : {objects : null},
+            url_local: "http://localhost:8080/api/reimbursement/",
+            url_deploy: "http://sipola-sixab.herokuapp.com/api/reimbursement/",
+            url_attachment_local: "http://localhost:8080/api/attachment",
+            url_attachment_deploy: "http://sipola-sixab.herokuapp.com/api/attachment"
         }
     },
 
@@ -229,6 +235,10 @@ export default {
 	},
 
     methods: {
+        currentUser() {
+          return this.$store.state.auth.user;
+        },
+
         addRow(){
             this.new_expense.id_expense++;
             let expense = Object.assign({}, this.new_expense);
@@ -241,9 +251,23 @@ export default {
 
         onSubmit(evt) {
             evt.preventDefault();
+            this.computeTotal();
+            this.reimbursement.createdBy = this.currentUser().name;
+            for (let i = 0; i < this.expenses.length; i++){
+              this.expenses[i].paidBy = this.currentUser().name;
+              this.expenses[i].createdBy = this.currentUser().name;
+            }
             this.reimbursement.listExpense = this.expenses;
             this.reimbursement.listAttachment = this.attachments;
-            this.updateReimbursement(JSON.stringify(this.reimbursement));
+            this.updateReimbursement(this.reimbursement);
+        },
+
+        computeTotal() {
+          let total = 0;
+          for (let i = 0; i<this.expenses.length; i++) {
+            total += Number(this.expenses[i].nominal);
+          }
+          this.reimbursement.totalReimburse = total;
         },
 
         showMessage(status){
@@ -286,17 +310,15 @@ export default {
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/reimbursement/' +this.$route.params.id + '/detail')
+            axios.get(this.url_local + this.$route.params.id + '/detail', { headers: authHeader() })
             .then(res => {this.reimbursement = res.data, this.fetchData()})
             .catch(err => this.reimbursement = err.data);
         },
 
         updateReimbursement(reimburse){
-            axios.put('http://localhost:8080/api/reimbursement/' + this.$route.params.id + '/update',
+            axios.put(this.url_local + this.$route.params.id + '/update',
             reimburse,
-                { headers: {
-                    'Content-Type': 'application/json',
-                }
+                { headers: authHeader()
             })
             .then(res => {this.reimbursement = res.data.result, this.showMessage(res.data.status)});
         },
@@ -316,12 +338,10 @@ export default {
         uploadFile(attach) {
             let formData = new FormData();
             formData.append('file', attach);
-            axios.post('http://localhost:8080/api/attachment/uploadFile',
+            axios.post(this.url_attachment_local + 'uploadFile',
             formData,
             {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
+                headers: authHeader()
             })
             .then(res => {this.attachments.push(res.data.result)});
         },
@@ -358,7 +378,7 @@ export default {
 .judul{
   text-align: center;
   color: black;
-  margin: 11px 0 24px 0;
+  margin: 5px 0 24px 0;
 }
 .title-form {
   font-weight: 600;
@@ -367,12 +387,6 @@ export default {
 .isi-form{
     margin-left: auto;
     margin-right: auto;
-}
-
-.add-reimbursement-button{
-    border-color: white;
-    background-color: #109CF1;
-    color:white;
 }
 
 .save-button{
@@ -487,15 +501,6 @@ img {
 
 .grup-attachment{
     padding: 5px 5px 5px 5px;
-}
-
-.image {
-  opacity: 1;
-  display: block;
-  width: 100%;
-  height: auto;
-  transition: .5s ease;
-  backface-visibility: hidden;
 }
 
 .foto {
