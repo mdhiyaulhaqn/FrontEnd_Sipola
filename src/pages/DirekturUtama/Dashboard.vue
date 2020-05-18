@@ -8,7 +8,7 @@
             <template v-slot:first>
               <b-form-select-option :value="null" disabled>-- Year --</b-form-select-option>
             </template>
-            <option v-bind:key="year.index" v-for="year in 2020" v-if="year >= 1990" :value="year">{{ year }}</option>
+            <option v-bind:key="year.index" v-for="year in currentYear" :value="year">{{ year }}</option>
           </b-form-select>
           </div>
           <div class="col">
@@ -162,14 +162,28 @@ export default {
       failedModal: false,
       selected: null,
       years:null,
+      currentYear:[],
     };
   },
 
   beforeMount() {
+      this.checkUrl()
       this.getProject();
   },
 
   methods: {
+
+    checkUrl(){
+      let tahun = new Date().getFullYear();
+      for(let i = 2000; i <= tahun; i++){
+        console.log('hehe')
+        this.currentYear.push(i);
+      }
+      console.log(this.currentYear)
+      if (this.$route.params.year == null){
+        this.$router.push({ name: 'dashboard',  params: {year:tahun}});
+      }
+    },
 
     redirect(){
       this.$router.push({ name: 'dashboard',  params: {year:this.selected}});
