@@ -14,7 +14,7 @@
             <div class="col-md-3">
             <b-form-select v-model="selected" class="mb-3">
               <template v-slot:first>
-                <b-form-select-option :value="null" disabled>-- Year --</b-form-select-option>
+                <b-form-select-option :value="null" disabled>Choose year ...</b-form-select-option>
               </template>
               <option v-bind:key="year.index" v-for="year in currentYear" v-if="year >= 1990" :value="year">{{ year }}</option>
             </b-form-select>

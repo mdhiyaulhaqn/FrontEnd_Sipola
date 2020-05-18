@@ -2,6 +2,7 @@
   <div class="sidebar"
        :data-background-color="backgroundColor"
        :data-active-color="activeColor">
+       v0
     <!--
             Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black | darkblue"
             Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
@@ -13,7 +14,7 @@
           <div class = "row">
 
             <div class = "col-3">
-          
+
             <div class="logo-img">
                 <img src="@/assets/img/company-logo.png" alt="">
             </div>
@@ -24,7 +25,7 @@
             </div>
 
           </div>
-          
+
         </a>
       </div>
       <div class="logo">
