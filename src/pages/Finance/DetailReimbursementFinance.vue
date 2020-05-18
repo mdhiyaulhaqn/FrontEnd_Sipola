@@ -282,6 +282,7 @@
 
 import axios from 'axios';
 import JSZip from 'jszip';
+import authHeader from '../../services/auth-header';
 
 export default {
     data() {
@@ -320,7 +321,7 @@ export default {
         onSubmit(evt) {
             evt.preventDefault();
             this.reimbursement.statusReimburse = 3;
-            this.approveReimbursement(JSON.stringify(this.reimbursement));
+            this.approveReimbursement(this.reimbursement);
         },
 
         onConfirmationApprove(evt) {
@@ -341,7 +342,7 @@ export default {
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/reimbursement/' +this.$route.params.id + '/detail')
+            axios.get('http://localhost:8080/api/reimbursement/' +this.$route.params.id + '/detail', { headers: authHeader() })
             .then(res => {this.reimbursement = res.data })
             .catch(err => this.reimbursement = err.data);
         },
@@ -349,9 +350,11 @@ export default {
         approveReimbursement(reimburse) {
           axios.put('http://localhost:8080/api/reimbursement/' + this.$route.params.id + '/changeStatus',
             reimburse,
-                { headers: {
-                    'Content-Type': 'application/json',
-                }
+                { headers: 
+                    authHeader()
+                //     {
+                //     'Content-Type': 'application/json',
+                // }
             })
             .then(res => {this.reimbursement = res.data.result, this.showMessage(res.data.status)});
         },
@@ -384,15 +387,16 @@ export default {
           } else {
             this.reimbursement.statusReimburse = 5;
           }
-          this.rejectReimbursement(JSON.stringify(this.reimbursement));
+          this.rejectReimbursement(this.reimbursement);
         },
 
         rejectReimbursement(reimburse){
           axios.put('http://localhost:8080/api/reimbursement/' + this.$route.params.id + '/changeStatus',
             reimburse,
-                { headers: {
-                    'Content-Type': 'application/json',
-                }
+                { headers: authHeader()
+                // {
+                //     'Content-Type': 'application/json',
+                // }
             })
             .then(res => {this.reimbursement = res.data.result, this.showMessage(res.data.status)});
         },

@@ -174,6 +174,7 @@
 </template>
 <script>
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
 
@@ -221,7 +222,7 @@ export default {
 
   methods:{
         getAllReimbursement: function(){
-            axios.get('http://localhost:8080/api/reimbursement/all/request')
+            axios.get('http://localhost:8080/api/reimbursement/all/request', { headers: authHeader() })
             .then(result => this.reimbursement = result.data.result);
         },
 

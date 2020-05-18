@@ -276,6 +276,7 @@
 <script>
 
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
     data() {
@@ -302,7 +303,7 @@ export default {
     methods:{
         onSubmit(evt) {
             evt.preventDefault();
-            this.deleteReimbursement(JSON.stringify(this.reimbursement));
+            this.deleteReimbursement(this.reimbursement);
         },
 
         showMessage(status){
@@ -315,19 +316,14 @@ export default {
         },
 
         getDetail: function(){
-          console.log(history.length)
-            axios.get('http://localhost:8080/api/reimbursement/' +this.$route.params.id + '/detail')
+            axios.get('http://localhost:8080/api/reimbursement/' +this.$route.params.id + '/detail', { headers: authHeader() })
             .then(res => {this.reimbursement = res.data})
             .catch(err => this.reimbursement = err.data);
         },
 
         deleteReimbursement(reimburse){
-            axios.delete('http://localhost:8080/api/reimbursement/' + this.$route.params.id + '/delete',
-            reimburse,
-                { headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
+            axios.delete('http://localhost:8080/api/reimbursement/' + this.$route.params.id + '/delete', { headers: authHeader() },
+            reimburse)
             .then(res => {this.showMessage(res.data.status)});
         },
 
@@ -341,7 +337,7 @@ export default {
 
         sentFinance(evt) {
             evt.preventDefault();
-            this.sendReimbursement();
+            this.sendReimbursement(this.reimbursement);
         },
 
         hideModalSend(){
@@ -349,7 +345,7 @@ export default {
         },
 
         sendReimbursement(reimburse){
-            axios.put('http://localhost:8080/api/reimbursement/' + this.$route.params.id + '/send')
+            axios.put('http://localhost:8080/api/reimbursement/' + this.$route.params.id + '/send', reimburse, {headers: authHeader()})
             .then(res => {this.reimbursement = res.data.result, this.showMessageSendModal(res.data.status)});
         },
 

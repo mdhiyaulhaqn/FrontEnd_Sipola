@@ -187,6 +187,7 @@
 
 import Expense from '@/pages/ServiceTeam/ExpenseReimbursement.vue';
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
     components : {
@@ -205,9 +206,10 @@ export default {
                 nama : '',
                 nominal : '',
                 tanggal : '',
-                createdBy : 'Adi',
-                paidBy : 'Adi',
+                createdBy : '',
+                paidBy : '',
                 reimbursement : '',
+                isReimbursement : true,
                 status : ''
             },
             new_attachment : {
@@ -229,6 +231,10 @@ export default {
 	},
 
     methods: {
+        currentUser() {
+          return this.$store.state.auth.user;
+        },
+
         addRow(){
             this.new_expense.id_expense++;
             let expense = Object.assign({}, this.new_expense);
@@ -242,9 +248,14 @@ export default {
         onSubmit(evt) {
             evt.preventDefault();
             this.computeTotal();
+            this.reimbursement.createdBy = this.currentUser().name;
+            for (let i = 0; i < this.expenses.length; i++){
+              this.expenses[i].paidBy = this.currentUser().name;
+              this.expenses[i].createdBy = this.currentUser().name;
+            }
             this.reimbursement.listExpense = this.expenses;
             this.reimbursement.listAttachment = this.attachments;
-            this.updateReimbursement(JSON.stringify(this.reimbursement));
+            this.updateReimbursement(this.reimbursement);
         },
 
         computeTotal() {
@@ -295,7 +306,7 @@ export default {
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/reimbursement/' +this.$route.params.id + '/detail')
+            axios.get('http://localhost:8080/api/reimbursement/' +this.$route.params.id + '/detail', { headers: authHeader() })
             .then(res => {this.reimbursement = res.data, this.fetchData()})
             .catch(err => this.reimbursement = err.data);
         },
@@ -303,9 +314,7 @@ export default {
         updateReimbursement(reimburse){
             axios.put('http://localhost:8080/api/reimbursement/' + this.$route.params.id + '/update',
             reimburse,
-                { headers: {
-                    'Content-Type': 'application/json',
-                }
+                { headers: authHeader()
             })
             .then(res => {this.reimbursement = res.data.result, this.showMessage(res.data.status)});
         },
@@ -328,9 +337,7 @@ export default {
             axios.post('http://localhost:8080/api/attachment/uploadFile',
             formData,
             {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
+                headers: authHeader()
             })
             .then(res => {this.attachments.push(res.data.result)});
         },
