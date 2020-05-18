@@ -160,7 +160,9 @@ import authHeader from '../../services/auth-header';
             },
             successModal: false,
             confirmationModal: false,
-            show: true
+            show: true,
+            url_local: "http://localhost:8080/api/pengeluaran/",
+            url_deploy: "http://sipola-sixab.herokuapp.com/api/pengeluaran/",
         }
     },
 
@@ -176,7 +178,7 @@ import authHeader from '../../services/auth-header';
             this.confirmationModal = false;
         },
         getDetail: function(){    	
-            axios.get('http://localhost:8080/api/pengeluaran/' +this.$route.params.id, { headers: authHeader() })	
+            axios.get(this.url_deploy + this.$route.params.id, { headers: authHeader() })	
             .then(res => {	
                 this.pengeluaran = res.data.result	
                 this.pengeluaran.tanggal = res.data.result.tanggal.substring(0,10)                	
@@ -184,7 +186,7 @@ import authHeader from '../../services/auth-header';
             .catch(err => this.pengeluaran = err.data);	
         },	
         updatePengeluaran(){	
-            axios.put('http://localhost:8080/api/pengeluaran/' + this.$route.params.id + '/update', this.pengeluaran, { headers: authHeader() })
+            axios.put(this.url_deploy + this.$route.params.id + '/update', this.pengeluaran, { headers: authHeader() })
             // .then(res => {this.showMessage(res.data.status), this.hideModal();});
             // axios.put("http://localhost:8080/api/pengeluaran/add", {
             //     nama: this.newPengeluaran.nama,
