@@ -1,16 +1,25 @@
 <template>
   <div>
     <!--Stats cards-->
-    <div class="row">
-      <div class="col-md-2">
-        <b-form-select v-model="selected" class="mb-3">
-          <template v-slot:first>
-            <b-form-select-option :value="null" disabled>-- Year --</b-form-select-option>
-          </template>
-          <option v-bind:key="year.index" v-for="year in years" :value="year">{{year}}</option>
-        </b-form-select>
-      </div>
-    </div>
+    <b-form>
+          <div class="row">
+          <div class="col-md-3">
+          <b-form-select v-model="selected" class="mb-3">
+            <template v-slot:first>
+              <b-form-select-option :value="null" disabled>-- Year --</b-form-select-option>
+            </template>
+            <option v-bind:key="year.index" v-for="year in currentYear" :value="year">{{ year }}</option>
+          </b-form-select>
+          </div>
+          <div class="col">
+            <b-button class ="find-button" @click="redirect" style="font-size:10px">
+              Find
+              <i class="fa fa-search" style="color: white; margin-left: 5px;"></i>
+            </b-button>
+               </div>
+            </div>
+      </b-form>
+    
     <div class="row">
        <div class="col-md-6 col-xl-3" >
         <div class = "card">
@@ -72,7 +81,7 @@
     <div class="row">
       <div class="col-12">
         <div class="card">
-          <div class = "card-header"><div class = "judul-card">Cash Flow</div> for year 2020</div>
+          <div class = "card-header"><div class = "judul-card">Cash Flow</div> for year {{selected}}</div>
           <div class="card-body">
             <BarChart :height="300" :chartData="cashFlowCollection" :options="options" :axis-min="0"></BarChart>
           </div>
@@ -84,7 +93,7 @@
 
       <div class="col-md-6 col-12">
         <div class = "card">
-          <div class = "card-header"><div class = "judul-card">Project Statistics</div> for year 2020</div>
+          <div class = "card-header"><div class = "judul-card">Project Statistics</div> for year {{selected}}</div>
           <div class = "card-body">
             <PieChart :width="300" :height="300" :chartData="datacollection" :options="options"></PieChart>
           </div>
@@ -94,7 +103,7 @@
 
       <div class="col-md-6 col-12">
         <div class="card">
-          <div class = "card-header"><div class = "judul-card">Profit/Loss</div> for year 2020</div>
+          <div class = "card-header"><div class = "judul-card">Profit/Loss</div> for year {{selected}}</div>
           <div class = "card-body">
             <LineChart :width="300" :height="300" :chartData="dataprofit" :options="options"></LineChart>
           </div>
@@ -152,36 +161,54 @@ export default {
       targetOrder : 24,
       failedModal: false,
       selected: null,
+      years:null,
+      currentYear:[],
     };
   },
 
   beforeMount() {
+      this.checkUrl()
       this.getProject();
   },
 
   methods: {
+
+    checkUrl(){
+      let tahun = new Date().getFullYear();
+      for(let i = 2000; i <= tahun; i++){
+        console.log('hehe')
+        this.currentYear.push(i);
+      }
+      console.log(this.currentYear)
+      if (this.$route.params.year == null){
+        this.$router.push({ name: 'dashboard',  params: {year:tahun}});
+      }
+    },
+
+    redirect(){
+      this.$router.push({ name: 'dashboard',  params: {year:this.selected}});
+      this.$router.go(0)
+    },
+
     getProject : function(){
-      console.log("misiiii?")
-      axios.get('http://localhost:8080/api/dashboard/projects/2020')
-          .then(res => {this.list_project = res.data.result, this.showMessage(res.data.status), this.getIncome()})
+      axios.get('http://localhost:8080/api/dashboard/projects/' + this.$route.params.year)
+          .then(res => {this.list_project = res.data.result, this.showMessage(res.data.status), this.getIncome(), this.selected = this.$route.params.year})
           .catch(err => this.list_project = err.data);
     },
     getIncome: function(){
-        console.log("knock knock")
-        axios.get('http://localhost:8080/api/dashboard/income/2020')
+        axios.get('http://localhost:8080/api/dashboard/income/' + this.$route.params.year)
           .then(res => {this.list_income = res.data.result, this.getPengeluaran()})
           .catch(err => this.list_income = err.data);
     },
     getPengeluaran: function(){
-        console.log("masuk halooo?")
-        axios.get('http://localhost:8080/api/dashboard/pengeluaran/2020')
+        axios.get('http://localhost:8080/api/dashboard/pengeluaran/' + this.$route.params.year)
           .then(res => {this.list_expense = res.data.result, this.computeTotal(), this.createProjectData()})
           .catch(err => this.list_expense = err.data);
     },
 
-    years(){
+    years () {
       const year = new Date().getFullYear()
-      return Array.from({length: year - 1990}, (value, index) => 1991 + index)
+      this.years = Array.from({length: year - 1900}, (value, index) => 1901 + index)
     },
 
     showMessage(status){
@@ -409,8 +436,20 @@ export default {
 };
 </script>
 <style scoped>
+
+.button_group{
+   margin-bottom: 1rem;
+   margin-left: 14px;
+}
 .judul-card{
   font-size: 20px;
+}
+.find-button{
+    border-color: #109CF1;
+    border-width: 1px;
+    background-color: #109CF1;
+    color:white;
+    margin-bottom: 10px;
 }
 .amount{
   font-size: 22px;
@@ -428,4 +467,7 @@ export default {
   font-weight: bold;
 }
 </style>
+<<<<<<< HEAD
+>>>>>>> development
+=======
 >>>>>>> development

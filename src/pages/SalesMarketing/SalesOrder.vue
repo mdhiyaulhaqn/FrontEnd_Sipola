@@ -240,6 +240,9 @@ export default {
 };
 </script>
 <style scoped>
+.table{
+  font-size: 12px;
+}
 #add_quotation_button{
   background-color: #109CF1;
   color:white;
@@ -263,5 +266,12 @@ export default {
   line-height: 8px;
   width: 80px;
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
+}
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
 }
 </style>

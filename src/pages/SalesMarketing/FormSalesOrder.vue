@@ -110,7 +110,7 @@
                 </b-row>
 
               <b-row>
-                    <b-col md="5">
+                    <b-col md="4">
                         <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">+ Add Description</button>
                     </b-col>
                 </b-row>
@@ -373,5 +373,11 @@ export default {
   text-align: center;
   margin-bottom: 10px;
 }
-
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
+}
 </style>
