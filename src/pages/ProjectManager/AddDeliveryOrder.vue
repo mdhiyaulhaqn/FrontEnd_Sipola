@@ -190,7 +190,7 @@ export default {
             timestamp:"",
 
             new_delivery_order : {
-                createdBy : "adi",
+                createdBy : '',
                 noDeliveryOrder : '',
                 termsCondition : '',
                 poNumber : '',
@@ -219,6 +219,9 @@ export default {
 	},
 
     methods: {
+        currentUser() {
+            return this.$store.state.auth.user;
+        },
         addRow(){
             this.new_product.id_product++;
             let product = Object.assign({}, this.new_product);
@@ -232,6 +235,7 @@ export default {
         onSubmit(evt) {
             evt.preventDefault();
             this.new_delivery_order.product = this.products;
+            this.new_delivery_order.createdBy = this.$store.state.auth.user.name;
             this.addDeliveryOrder(this.new_delivery_order);
         },
 

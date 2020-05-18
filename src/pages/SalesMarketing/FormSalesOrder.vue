@@ -187,7 +187,7 @@ export default {
             service_orders: [],
             companies : [],
             new_sales_order : {
-                createdBy : "Adi",
+                createdBy : "",
                 poDate : '',
                 poNumber : '',
                 date : '',
@@ -218,6 +218,10 @@ export default {
 	},
 
     methods: {
+        currentUser() {
+            return this.$store.state.auth.user;
+        },
+        
         addRow(){
             this.new_service_order.id_service_order++;
             let service = Object.assign({}, this.new_service_order);
@@ -231,6 +235,7 @@ export default {
         onSubmit(evt) {
             evt.preventDefault();
             this.new_sales_order.serviceOrder = this.service_orders;
+             this.new_quotation.createdBy = this.$store.state.auth.user.name;
             this.addSalesOrder(this.new_sales_order);
         },
 
