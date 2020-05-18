@@ -196,7 +196,8 @@
 </template>
 <script>
 import axios from 'axios';
-import DataTable from 'v-data-table'
+import DataTable from 'v-data-table';
+import authHeader from '../../services/auth-header';
 
 export default {
   data() {
@@ -249,7 +250,7 @@ export default {
       },
 
       getAllReimbursement: function(){
-          axios.get('http://localhost:8080/api/reimbursement/all')
+          axios.get('http://localhost:8080/api/reimbursement/all', { headers: authHeader() })
           .then(result => this.reimbursement = result.data.result);
       },
   }

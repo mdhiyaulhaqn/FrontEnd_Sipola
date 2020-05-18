@@ -127,7 +127,8 @@ import authHeader from '../../services/auth-header';
                 nama : null,
                 nominal : null,
                 tanggal : null,
-                paidBy : null
+                paidBy : null,
+                anyReimbursement : false,
             },
 
             successModal : false,
@@ -145,7 +146,8 @@ import authHeader from '../../services/auth-header';
                 tanggal: this.newPengeluaran.tanggal,
                 paidBy: this.newPengeluaran.paidBy,
                 createdBy: "Suparjo API",
-                status: "Active"
+                status: "Active",
+                anyReimbursement: this.newPengeluaran.anyReimbursement,
             }, { headers: authHeader() })
             .then((response) => {
                 this.newPengeluaran.id = response.data.result.id
