@@ -215,6 +215,7 @@
 import Product from '@/pages/ProjectManager/Product.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
     components : {
@@ -270,10 +271,8 @@ export default {
 
         onSubmit(evt) {
             evt.preventDefault();
-
             this.delivery_order.product = this.products;
-
-            this.updateDeliveryOrder(JSON.stringify(this.delivery_order));
+            this.updateDeliveryOrder(this.delivery_order);
         },
 
         showMessage(status){
@@ -304,22 +303,22 @@ export default {
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/delivery-order/' +this.$route.params.id)
+            axios.get('http://localhost:8080/api/delivery-order/' +this.$route.params.id, { headers: authHeader() })
             .then(res => {this.delivery_order = res.data, this.fetchData()})
             .catch(err => this.delivery_order = err.data);
         },
 
         getAllCompany: function(){
-            axios.get('http://localhost:8080/api/company/all')
+            axios.get('http://localhost:8080/api/company/all', { headers: authHeader() })
             .then(result => this.companies = result.data.result);
         },
 
         updateDeliveryOrder(quot){
             axios.put('http://localhost:8080/api/delivery-order/update/' + this.$route.params.id,
             quot,
-                { headers: {
-                    'Content-Type': 'application/json',
-                }
+                { headers: 
+                   authHeader()
+                
             })
             .then(res => {this.quotation = res.data.result, this.showMessage(res.data.status)});
         },

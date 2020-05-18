@@ -163,6 +163,7 @@
 
 
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
     data() {
@@ -224,7 +225,7 @@ export default {
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/sales-order/' +this.$route.params.id)
+            axios.get('http://localhost:8080/api/sales-order/' +this.$route.params.id, { headers: authHeader() })
             .then(res => {this.sales_order = res.data, this.fetchData(), this.company = res.data.company})
             .catch(err => this.sales_order = err.data);
         },
@@ -232,9 +233,9 @@ export default {
         deleteSalesOrder(salesOrder){
             axios.put('http://localhost:8080/api/sales-order/change-status/' + this.$route.params.id,
             salesOrder,
-                { headers: {
-                    'Content-Type': 'application/json',
-                }
+                { headers: 
+                   authHeader()
+                
             })
             .then(res => {this.showMessage(res.data.status)});
         },

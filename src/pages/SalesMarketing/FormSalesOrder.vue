@@ -174,7 +174,7 @@
 <script>
 import ServiceOrder from '@/pages/SalesMarketing/ServiceOrder.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
+import authHeader from '../../services/auth-header';
 import axios from 'axios';
 
 export default {
@@ -231,8 +231,7 @@ export default {
         onSubmit(evt) {
             evt.preventDefault();
             this.new_sales_order.serviceOrder = this.service_orders;
-            console.log(this.service_orders[0]);
-            this.addSalesOrder(JSON.stringify(this.new_sales_order));
+            this.addSalesOrder(this.new_sales_order);
         },
 
         showMessage(status){
@@ -248,14 +247,14 @@ export default {
             axios.post('http://localhost:8080/api/sales-order/add',
             quot,
                 { headers: {
-                    'Content-Type': 'application/json',
+                    headers : authHeader()
                 }
             })
             .then(res => {this.new_sales_order = res.data.result, this.showMessage(res.data.status)});
         },
 
         getAllCompany: function(){
-            axios.get('http://localhost:8080/api/company/all')
+            axios.get('http://localhost:8080/api/company/all', {headers : authHeader()})
             .then(result => this.companies = result.data.result);
         },
 

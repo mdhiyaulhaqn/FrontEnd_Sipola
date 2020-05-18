@@ -169,6 +169,7 @@
 </template>
 <script>
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
 
@@ -216,7 +217,7 @@ export default {
   },
   methods:{
       getAllSalesOrder: function(){
-          axios.get('http://localhost:8080/api/sales-order/all')
+          axios.get('http://localhost:8080/api/sales-order/all', { headers: authHeader() })
           .then(result => {this.sales_orders = result.data.result, this.getPriceData()});
       },
       onFiltered(filteredItems) {

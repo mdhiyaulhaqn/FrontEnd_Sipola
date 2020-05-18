@@ -189,14 +189,17 @@ export default {
                 createdBy : '',
                 paidBy : '',
                 reimbursement : '',
-                isReimbursement : true,
+                anyReimbursement : true,
                 status : 'Not Approved'
             },
             show: true,
             successModal : false,
             failedModal : false,
             send : {objects : null},
-
+            url_local: "http://localhost:8080/api/reimbursement/",
+            url_deploy: "http://sipola-sixab.herokuapp.com/api/reimbursement/",
+            url_attachment_local: "http://localhost:8080/api/attachment/",
+            url_attachment_deploy: "http://sipola-sixab.herokuapp.com/api/attachment/",
       }
     },
 
@@ -242,7 +245,7 @@ export default {
         },
 
         addReimbursement(reimburse){
-            axios.post('http://localhost:8080/api/reimbursement/add',
+            axios.post(this.url_local + 'add',
             reimburse,
                 { headers: authHeader()
             })
@@ -283,7 +286,7 @@ export default {
         uploadFile(attach) {
             let formData = new FormData();
             formData.append('file', attach);
-            axios.post('http://localhost:8080/api/attachment/uploadFile',
+            axios.post(this.url_attachment_local + 'uploadFile',
             formData,
             {
                 headers: authHeader()

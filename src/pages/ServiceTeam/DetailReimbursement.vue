@@ -294,7 +294,9 @@ export default {
                 {key: 'nama', label: 'Expense Item', sortable: true},
                 {key: 'tanggal', label: 'Date', sortable: true},
                 {key: 'nominal', label: 'Price(IDR)', sortable: true},
-            ]
+            ],
+            url_local: "http://localhost:8080/api/reimbursement/",
+            url_deploy: "http://sipola-sixab.herokuapp.com/api/reimbursement/",
         };
     },
     beforeMount(){
@@ -316,13 +318,13 @@ export default {
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/reimbursement/' +this.$route.params.id + '/detail', { headers: authHeader() })
+            axios.get(this.url_local +this.$route.params.id + '/detail', { headers: authHeader() })
             .then(res => {this.reimbursement = res.data})
             .catch(err => this.reimbursement = err.data);
         },
 
         deleteReimbursement(reimburse){
-            axios.delete('http://localhost:8080/api/reimbursement/' + this.$route.params.id + '/delete', { headers: authHeader() },
+            axios.delete(this.url_local + this.$route.params.id + '/delete', { headers: authHeader() },
             reimburse)
             .then(res => {this.showMessage(res.data.status)});
         },
@@ -345,7 +347,7 @@ export default {
         },
 
         sendReimbursement(reimburse){
-            axios.put('http://localhost:8080/api/reimbursement/' + this.$route.params.id + '/send', reimburse, {headers: authHeader()})
+            axios.put(this.url_local + this.$route.params.id + '/send', reimburse, {headers: authHeader()})
             .then(res => {this.reimbursement = res.data.result, this.showMessageSendModal(res.data.status)});
         },
 

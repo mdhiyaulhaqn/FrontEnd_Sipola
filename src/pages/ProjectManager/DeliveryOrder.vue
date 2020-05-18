@@ -172,6 +172,7 @@
 </template>
 <script>
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
 
@@ -219,7 +220,7 @@ export default {
   },
   methods:{
       getAllDeliveryOrder: function(){
-          axios.get('http://localhost:8080/api/delivery-order/all')
+          axios.get('http://localhost:8080/api/delivery-order/all', { headers: authHeader() })
           .then(result => {this.delivery_orders = result.data.result, this.getAllOrder()});
       },
       getAllOrder(){

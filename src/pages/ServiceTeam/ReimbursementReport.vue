@@ -221,7 +221,8 @@ export default {
           {key: 'statusReimburse', label: 'Status', sortable:true},
           {key: 'action', label: 'Action'},
       ],
-
+      url_local: "http://localhost:8080/api/reimbursement/",
+      url_deploy: "http://sipola-sixab.herokuapp.com/api/reimbursement/",
     }
   },
    computed: {
@@ -250,7 +251,7 @@ export default {
       },
 
       getAllReimbursement: function(){
-          axios.get('http://localhost:8080/api/reimbursement/all', { headers: authHeader() })
+          axios.get(this.url_local+ 'all', { headers: authHeader() })
           .then(result => this.reimbursement = result.data.result);
       },
   }

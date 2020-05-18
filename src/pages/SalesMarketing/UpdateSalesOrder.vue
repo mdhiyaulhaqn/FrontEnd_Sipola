@@ -215,6 +215,7 @@
 import ServiceOrder from '@/pages/SalesMarketing/ServiceOrder.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
     components : {
@@ -273,7 +274,7 @@ export default {
 
             this.sales_order.serviceOrder = this.service_orders;
 
-            this.updateSalesOrder(JSON.stringify(this.sales_order));
+            this.updateSalesOrder(this.sales_order);
         },
 
         showMessage(status){
@@ -308,7 +309,7 @@ export default {
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/sales-order/' +this.$route.params.id)
+            axios.get('http://localhost:8080/api/sales-order/' +this.$route.params.id, { headers: authHeader() })
             .then(res => {this.sales_order = res.data, this.fetchData()})
             .catch(err => this.sales_order = err.data);
         },
@@ -317,15 +318,15 @@ export default {
             console.log(this.sales_order.service_order)
             axios.put('http://localhost:8080/api/sales-order/update/' + this.$route.params.id,
             quot,
-                { headers: {
-                    'Content-Type': 'application/json',
-                }
+                { headers: 
+                    authHeader()
+                
             })
             .then(res => {this.sales_order = res.data.result, this.showMessage(res.data.status)});
         },
 
         getAllCompany: function(){
-            axios.get('http://localhost:8080/api/company/all')
+            axios.get('http://localhost:8080/api/company/all', { headers: authHeader() })
             .then(result => this.companies = result.data.result);
         },
 
