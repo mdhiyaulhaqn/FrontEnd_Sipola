@@ -323,6 +323,7 @@
 
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
   data() {
@@ -370,6 +371,8 @@ export default {
       failedModal : false,
       confirmationModal : false,
       send : {objects : null},
+      url_local: 'http://localhost:8080/api/daily-activity-report/',
+      url_deploy: 'http://sipola-sixab.herokuapp.com/api/daily-activity-report/'
     }
   },
 
@@ -380,7 +383,7 @@ export default {
   methods: {
     onSubmit(evt) {
         evt.preventDefault();
-        this.updateDailyActivityReport(JSON.stringify(this.dailyActivityReport));
+        this.updateDailyActivityReport(this.dailyActivityReport);
     },
 
     onConfirmation(evt) {
@@ -401,18 +404,13 @@ export default {
     },
 
     getDetail: function(){
-      axios.get('http://localhost:8080/api/daily-activity-report/' + this.$route.params.id)
+      axios.get(this.url_deploy + this.$route.params.id)
       .then(response => {this.dailyActivityReport = response.data.result, this.convertDate()})
       .catch(err => this.dailyActivityReport = err.data);
     },
 
     updateDailyActivityReport(dailyActivityReport){
-      axios.put('http://localhost:8080/api/daily-activity-report/' + this.$route.params.id + '/update',
-      dailyActivityReport,
-          { headers: {
-              'Content-Type': 'application/json',
-          }
-      })
+      axios.put(this.url_deploy + this.$route.params.id + '/update', dailyActivityReport, { headers: authHeader() })
       .then(res => {this.dailyActivityReport = res.data.result, this.showMessage(res.data.status)});
     },
 

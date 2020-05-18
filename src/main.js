@@ -50,7 +50,7 @@ import {
   faSignOutAlt
 } from '@fortawesome/free-solid-svg-icons';
 
-Vue.use(GanttInstaller, Gantt, GanttColumn, GanttView)
+Vue.use(GanttInstaller, Gantt, GanttColumn, GanttView);
 Vue.use(DataSourceInstaller);
 Vue.use(ClientTable);
 Vue.use( CKEditor );

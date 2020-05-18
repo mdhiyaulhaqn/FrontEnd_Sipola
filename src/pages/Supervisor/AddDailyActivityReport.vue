@@ -282,6 +282,7 @@
 
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
   data() {
@@ -327,6 +328,8 @@ export default {
       successModal : false,
       failedModal : false,
       send : {objects : null},
+      url_local: 'http://localhost:8080/api/daily-activity-report/',
+      url_deploy: 'http://sipola-sixab.herokuapp.com/api/daily-activity-report/'
     }
   },
 
@@ -334,7 +337,7 @@ export default {
     onSubmit(evt) {
         evt.preventDefault();
         this.getManpower();
-        this.addDailyActivityReport(JSON.stringify(this.newDailyActivityReport));
+        this.addDailyActivityReport(this.newDailyActivityReport);
     },
 
     showMessage(status){
@@ -347,12 +350,7 @@ export default {
     },
 
     addDailyActivityReport(dailyActivityReport){
-        axios.post('http://localhost:8080/api/daily-activity-report/add',
-        dailyActivityReport,
-            { headers: {
-                'Content-Type': 'application/json',
-            }
-        })
+        axios.post(this.url_deploy, dailyActivityReport, { headers: authHeader() })
         .then(res => {this.newDailyActivityReport = res.data.result, this.showMessage(res.data.status)});
     },
 

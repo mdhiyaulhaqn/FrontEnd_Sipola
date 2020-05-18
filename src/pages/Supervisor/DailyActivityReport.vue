@@ -185,6 +185,7 @@
 </template>
 <script>
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
   data() {
@@ -211,6 +212,8 @@ export default {
       sortDirection: 'desc',
       filter: null,
       filterOn: [],
+      url_local: 'http://localhost:8080/api/daily-activity-report/',
+      url_deploy: 'http://sipola-sixab.herokuapp.com/api/daily-activity-report/'
     }
   },
   computed: {
@@ -238,7 +241,7 @@ export default {
       this.currentPage = 1
     },
     getAllDailyActivityReport: function(){
-      axios.get('http://localhost:8080/api/daily-activity-report/all')
+      axios.get(this.url_deploy + 'all', { headers: authHeader() })
       .then(response => {this.dailyActivityReport = response.data.result});
     },
   }
