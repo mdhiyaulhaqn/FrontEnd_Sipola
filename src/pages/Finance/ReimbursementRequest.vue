@@ -174,6 +174,7 @@
 </template>
 <script>
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
 
@@ -183,7 +184,7 @@ export default {
           {key: 'index', label: 'No'},
           {key: 'projectName', label: 'Project Description', sortable: true},
           {key: 'totalReimburse', label: 'Total (IDR)', sortable:true},
-          {key: 'createdBy', label: 'Created by', sortable:true},
+          {key: 'createdBy', label: 'Requester', sortable:true},
           {key: 'statusReimburse', label: 'Status', sortable:true},
           {key: 'action', label: 'Action'},
         ],
@@ -198,6 +199,8 @@ export default {
         sortDirection: 'asc',
         filter: null,
         filterOn: [],
+        url_local: "http://localhost:8080/api/reimbursement/",
+        url_deploy: "http://sipola-sixab.herokuapp.com/api/reimbursement/",
     }
   },
   computed: {
@@ -221,7 +224,7 @@ export default {
 
   methods:{
         getAllReimbursement: function(){
-            axios.get('http://localhost:8080/api/reimbursement/all/request')
+            axios.get(this.url_local + 'all/request', { headers: authHeader() })
             .then(result => this.reimbursement = result.data.result);
         },
 

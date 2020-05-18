@@ -145,6 +145,7 @@
 
 import Expense from '@/pages/ServiceTeam/ExpenseReimbursement.vue';
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
     components : {
@@ -171,7 +172,7 @@ export default {
             id_expense : {id:0},
             timestamp:"",
             newReimbursement : {
-                createdBy : "Ringgi Cahyo",
+                createdBy : '',
                 projectName : '',
                 totalReimburse : 0,
                 statusReimburse : 1,
@@ -185,16 +186,20 @@ export default {
                 nama : '',
                 nominal : '',
                 tanggal : '',
-                createdBy : 'Ringgi Cahyo',
-                paidBy : 'Ringgi Cahyo',
+                createdBy : '',
+                paidBy : '',
                 reimbursement : '',
+                anyReimbursement : true,
                 status : 'Not Approved'
             },
             show: true,
             successModal : false,
             failedModal : false,
             send : {objects : null},
-
+            url_local: "http://localhost:8080/api/reimbursement/",
+            url_deploy: "http://sipola-sixab.herokuapp.com/api/reimbursement/",
+            url_attachment_local: "http://localhost:8080/api/attachment/",
+            url_attachment_deploy: "http://sipola-sixab.herokuapp.com/api/attachment/",
       }
     },
 
@@ -203,6 +208,10 @@ export default {
     },
 
     methods: {
+        currentUser() {
+          return this.$store.state.auth.user;
+        },
+
         addRow(){
             this.new_expense.id_expense++;
             let expense = Object.assign({}, this.new_expense);
@@ -225,17 +234,20 @@ export default {
 
         onSubmit(evt) {
             evt.preventDefault();
+            this.newReimbursement.createdBy = this.currentUser().name;
             this.newReimbursement.listAttachment = this.attachments;
+            for (let i = 0; i < this.expenses.length; i++){
+              this.expenses[i].paidBy = this.currentUser().name;
+              this.expenses[i].createdBy = this.currentUser().name;
+            }
             this.newReimbursement.listExpense = this.expenses;
-            this.addReimbursement(JSON.stringify(this.newReimbursement));
+            this.addReimbursement(this.newReimbursement);
         },
 
         addReimbursement(reimburse){
-            axios.post('http://localhost:8080/api/reimbursement/add',
+            axios.post(this.url_local + 'add',
             reimburse,
-                { headers: {
-                    'Content-Type': 'application/json',
-                }
+                { headers: authHeader()
             })
             .then(res => {this.newReimbursement = res.data.result, this.showMessage(res.data.status)});
         },
@@ -274,12 +286,10 @@ export default {
         uploadFile(attach) {
             let formData = new FormData();
             formData.append('file', attach);
-            axios.post('http://sipola.herokuapp.com/api/attachment/uploadFile',
+            axios.post(this.url_attachment_local + 'uploadFile',
             formData,
             {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
+                headers: authHeader()
             })
             .then(res => {this.attachments.push(res.data.result)});
         },
@@ -402,7 +412,6 @@ h5{
     color:white;
 }
 
-
 .file-label {
     height: 100px;
     width: 100%;
@@ -448,15 +457,6 @@ img {
 
 .grup-attachment{
     padding: 5px 5px 5px 5px;
-}
-
-.image {
-  opacity: 1;
-  display: block;
-  width: 100%;
-  height: auto;
-  transition: .5s ease;
-  backface-visibility: hidden;
 }
 
 .foto {

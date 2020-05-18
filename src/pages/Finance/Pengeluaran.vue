@@ -224,7 +224,7 @@ export default {
       this.currentPage = 1
     },
     getAllPengeluaran: function(){
-      axios.get(this.url_deploy + 'all', { headers: authHeader() })
+      axios.get(this.url_local + 'all', { headers: authHeader() })
       .then(response => this.pengeluaranList = response.data.result);
     },
     formatPrice(value) {
