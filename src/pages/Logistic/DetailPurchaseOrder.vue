@@ -231,6 +231,7 @@ import axios from 'axios';
 import jsPDF from 'jspdf';
 import * as autoTable from 'jspdf-autotable';
 import html2canvas from "html2canvas";
+import authHeader from '../../services/auth-header';
 
 export default {
     data() {
@@ -255,7 +256,9 @@ export default {
               id: '',
               nama: '',
               alamat: ''
-            }
+            },
+            url_local: 'http://localhost:8080/api/purchase-order/',
+            url_deploy: 'http://sipola-sixab.herokuapp.com/api/purchase-order/'
         };
     },
 
@@ -266,7 +269,7 @@ export default {
     methods:{
         onSubmit(evt) {
             evt.preventDefault();
-            this.deletePurchaseOrder(JSON.stringify(this.purchaseOrder));
+            this.deletePurchaseOrder(this.purchaseOrder);
         },
 
         showMessage(status){
@@ -287,18 +290,13 @@ export default {
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/purchase-order/' +this.$route.params.id)
+            axios.get(this.url_local +this.$route.params.id, { headers: authHeader() })
             .then(res => {this.purchaseOrder = res.data, this.computePrice(), this.company = res.data.company})
             .catch(err => this.purchaseOrder = err.data);
         },
 
         deletePurchaseOrder(purchaseOrder){
-            axios.put('http://localhost:8080/api/purchase-order/' + this.$route.params.id + '/delete',
-            purchaseOrder,
-                { headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
+            axios.put(this.url_local + this.$route.params.id + '/delete', purchaseOrder, { headers: authHeader() })
             .then(res => {this.showMessage(res.data.status)});
         },
 

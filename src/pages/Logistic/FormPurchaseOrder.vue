@@ -201,6 +201,7 @@
 import PurchasedItem from '@/pages/Logistic/PurchasedItem.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
     components : {
@@ -223,7 +224,7 @@ export default {
                 attnName : '',
                 purchasedItems : '',
                 paymentNote : '',
-                createdBy : 'Amalia',
+                createdBy : '',
                 status : 'Active',
             },
 
@@ -245,7 +246,9 @@ export default {
             show: true,
             successModal: false,
             failedModal: false,
-            send : {objects : null}
+            send : {objects : null},
+            url_local: 'http://localhost:8080/api/purchase-order/',
+            url_deploy: 'http://sipola-sixab.herokuapp.com/api/purchase-order/'
         }
     },
 
@@ -268,7 +271,8 @@ export default {
             evt.preventDefault();
             this.purchaseOrder.company = this.company;
             this.purchaseOrder.purchasedItems = this.purchasedItems;
-            this.addPurchaseOrder(JSON.stringify(this.purchaseOrder));
+            this.purchaseOrder.createdBy = this.currentUser().name;
+            this.addPurchaseOrder(this.purchaseOrder);
         },
 
         showMessage(status){
@@ -280,15 +284,12 @@ export default {
             }
         },
 
+        currentUser() {
+            return this.$store.state.auth.user;
+        },
+
         addPurchaseOrder(purchaseOrder){
-            axios.post('http://localhost:8080/api/purchase-order/add',
-            purchaseOrder,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                }
-            )
+            axios.post(this.url_local + 'add', purchaseOrder, { headers: authHeader() })
             .then(res => {this.purchaseOrder = res.data.result, this.showMessage(res.data.status)});
         },
 

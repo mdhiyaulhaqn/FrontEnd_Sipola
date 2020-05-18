@@ -1,28 +1,37 @@
 <template>
     <div class="row">
       <div class="col-12">
-         <b-breadcrumb id="breadcrumb">
+        <b-breadcrumb id="breadcrumb" v-if="currentUser().roles.includes('ROLE_SALES_MARKETING')">
           <b-breadcrumb-item active>
             Sales Order
           </b-breadcrumb-item>
         </b-breadcrumb>
+        <b-breadcrumb id="breadcrumb" v-if="currentUser().roles.includes('ROLE_FINANCE')">
+          <b-breadcrumb-item :to="{name: 'invoice'}">
+            Invoice
+          </b-breadcrumb-item>
+          <b-breadcrumb-item active>
+            Sales Order
+          </b-breadcrumb-item>
+        </b-breadcrumb>
+
         <h3 class="judul"><strong>Sales Order</strong></h3>
         <card>
           <b-container fluid>
             <b-row align-h="between" style="margin-top: 12px;">
-              <b-col md="2">
+              <b-col md="2" v-if="currentUser().roles.includes('ROLE_SALES_MARKETING')">
                 <router-link :to="{name: 'add-sales-order'}">
-              <b-button id ="add_quotation_button" class="btn btn-primary" style="margin-left: 0;">
-                <b-row align-h="center">
-                    <p style="font-size: 12px">
-                      Add Sales Order
-                    </p>
-                    <div style="margin-left: 10px; margin-top: -4px">
-                      <img src="@/assets/img/add-circle-icon.png" alt="" width="25px">
-                    </div>
-                </b-row>
-              </b-button>
-            </router-link>
+                  <b-button id ="add_quotation_button" class="btn btn-primary" style="margin-left: 0;">
+                    <b-row align-h="center">
+                        <p style="font-size: 12px">
+                          Add Sales Order
+                        </p>
+                        <div style="margin-left: 10px; margin-top: -4px">
+                          <img src="@/assets/img/add-circle-icon.png" alt="" width="25px">
+                        </div>
+                    </b-row>
+                  </b-button>
+                </router-link>
               </b-col>
               <b-col md="10" class="my-1">
                 <b-form-group
@@ -195,6 +204,8 @@ export default {
       sortDirection: 'desc',
       filter: null,
       filterOn: [],
+      url_local: 'http://localhost:8080/api/sales-order/',
+      url_deploy: 'http://sipola-sixab.herokuapp.com/api/sales-order/'
     }
   },
    computed: {
@@ -217,7 +228,8 @@ export default {
   },
   methods:{
       getAllSalesOrder: function(){
-          axios.get('http://localhost:8080/api/sales-order/all', { headers: authHeader() })
+          console.log(this.currentUser.role)
+          axios.get(this.url_local + 'all', { headers: authHeader() })
           .then(result => {this.sales_orders = result.data.result, this.getPriceData()});
       },
       onFiltered(filteredItems) {
@@ -225,7 +237,9 @@ export default {
         this.totalRows = filteredItems.length
         this.currentPage = 1
       },
-
+      currentUser() {
+        return this.$store.state.auth.user;
+      },
       getPriceData(){
 
           for(let i = 0 ; i < this.sales_orders.length ; i++){

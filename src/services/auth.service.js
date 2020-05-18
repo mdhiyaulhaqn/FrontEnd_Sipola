@@ -1,11 +1,12 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api/auth/';
+const API_URL = 'http://sipola-sixab.herokuapp.com/api/auth/';
+const API_URL_LOCAL = 'http://localhost:8080/api/auth/';
 
 class AuthService {
   login(user) {
     return axios
-      .post(API_URL + 'signin', {
+      .post(API_URL_LOCAL + 'signin', {
         username: user.username,
         password: user.password
       })
@@ -23,7 +24,7 @@ class AuthService {
   }
 
   register(user) {
-    return axios.post(API_URL + 'signup', {
+    return axios.post(API_URL_LOCAL + 'signup', {
       username: user.username,
       email: user.email,
       password: user.password,

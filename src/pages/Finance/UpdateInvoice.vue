@@ -243,6 +243,7 @@
 
 import ServiceOrder from '@/pages/Finance/ServiceOrderInvoice.vue';
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
     components : {
@@ -253,6 +254,8 @@ export default {
             service_orders: [],
             id_service_orders : {id:0},
             createdAt: "",
+            url_local: 'http://localhost:8080/api/invoice/',
+            url_deploy : 'http://sipola-sixab.herokuapp.com/api/invoice/',
 
             invoice : {
 
@@ -282,7 +285,7 @@ export default {
         },
 
         getDetail: function() {
-            axios.get('http://localhost:8080/api/invoice/' +this.$route.params.id)
+            axios.get(this.url_local + this.$route.params.id , { headers: authHeader() })
             .then(res => {this.invoice = res.data, this.fetchData()})
             .catch(err => this.invoice = err.data);
         },
@@ -290,7 +293,7 @@ export default {
         onSubmit(evt) {
             // this.$refs['modal-confirmation'].hide();
             evt.preventDefault();
-            this.updateInvoice(JSON.stringify(this.invoice));
+            this.updateInvoice(this.invoice);
         },
 
         showMessage(status){
@@ -304,12 +307,7 @@ export default {
 
         updateInvoice(invoice) {
             console.log("masuk pa aji")
-            axios.put('http://localhost:8080/api/invoice/' + this.$route.params.id + '/update',
-            invoice,
-                { headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
+            axios.put(this.url_local + this.$route.params.id + '/update', invoice, { headers: authHeader() })
             .then(res => {this.invoice = res.data.result, this.showMessage(res.data.status)});
         },
 
