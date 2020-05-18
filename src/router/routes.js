@@ -53,10 +53,15 @@ const routes = [
   {
     path: "/",
     component: DashboardLayout,
-    redirect: "/dashboard/2020",
+    redirect: "/dashboard",
     children: [
       {
         path: "dashboard/:year",
+        name: "dashboard",
+        component: Dashboard
+      },
+      {
+        path: "dashboard/",
         name: "dashboard",
         component: Dashboard
       },
