@@ -7,122 +7,122 @@
       </b-breadcrumb-item>
     </b-breadcrumb>
     <h3 class="judul"><strong>Dashboard</strong></h3>
-    <div>
-      <!--Stats cards-->
-      <b-form>
-            <div class="row">
-            <div class="col-md-3">
-            <b-form-select v-model="selected" class="mb-3">
-              <template v-slot:first>
-                <b-form-select-option :value="null" disabled>Choose year ...</b-form-select-option>
-              </template>
-              <option v-bind:key="year.index" v-for="year in currentYear" v-if="year >= 1990" :value="year">{{ year }}</option>
-            </b-form-select>
+  <div>
+    <!--Stats cards-->
+    <b-form>
+          <div class="row">
+          <div class="col-md-3">
+          <b-form-select v-model="selected" class="mb-3">
+            <template v-slot:first>
+              <b-form-select-option :value="null" disabled>-- Year --</b-form-select-option>
+            </template>
+            <option v-bind:key="year.index" v-for="year in currentYear" :value="year">{{ year }}</option>
+          </b-form-select>
+          </div>
+          <div class="col">
+            <b-button class ="find-button" @click="redirect" style="font-size:10px">
+              Find
+              <i class="fa fa-search" style="color: white; margin-left: 5px;"></i>
+            </b-button>
+               </div>
             </div>
-            <div class="col">
-              <b-button class ="find-button" @click="redirect">
-                Find
-                <i class="fa fa-search" style="color: white; margin-left: 5px;"></i>
-              </b-button>
-                </div>
-              </div>
-        </b-form>
+      </b-form>
 
-      <div class="row">
-        <div class="col-md-6 col-xl-3" >
-          <div class = "card">
-              <div class = "card-header text-right"><strong> Income </strong></div>
-              <div v-if="this.income - this.target > 0">
-                <div class = "card-body text-center amount profit">Rp{{formatPrice(income)}}</div>
-              </div>
-              <div v-else>
-                <div class = "card-body text-center amount loss">Rp{{formatPrice(income)}}</div>
-              </div>
-              <div class = "card-footer">
-                <strong> Target : </strong>
-                Rp{{formatPrice(target)}}
-              </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-3" >
-          <div class = "card">
-              <div class = "card-header text-right"><strong> Expense </strong></div>
-              <div v-if="this.budget - this.expense > 0">
-                <div class = "card-body text-center amount profit">Rp{{formatPrice(expense)}}</div>
-              </div>
-              <div v-else>
-                <div class = "card-body text-center amount loss">Rp{{formatPrice(expense)}}</div>
-              </div>
-              <div class = "card-footer">
-                <strong> Budget : </strong>
-                Rp{{formatPrice(budget)}}
-              </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-3" >
-          <div class = "card">
-              <div class = "card-header text-right"><strong> Project </strong></div>
-              <div v-if="this.project - this.targetProject > 0">
-                <div class = "card-body text-center amount profit">{{project}}</div>
-              </div>
-              <div v-else>
-                <div class = "card-body text-center amount loss">{{project}}</div>
-              </div>
-              <div class = "card-footer"> <strong> Target : </strong> {{targetProject}} </div>
+    <div class="row">
+       <div class="col-md-6 col-xl-3" >
+        <div class = "card">
+            <div class = "card-header text-right"><strong> Income </strong></div>
+            <div v-if="this.income - this.target > 0">
+              <div class = "card-body text-center amount profit">Rp{{formatPrice(income)}}</div>
             </div>
-        </div>
-        <div class="col-md-6 col-xl-3" >
-          <div class = "card">
-              <div class = "card-header text-right"><strong> Order </strong></div>
-              <div v-if="this.project - this.targetOrder > 0">
-                <div class = "card-body text-center amount profit">{{order}}</div>
-              </div>
-              <div v-else>
-                <div class = "card-body text-center amount loss">{{order}}</div>
-              </div>
-              <div class = "card-footer"> <strong> Target : </strong> {{targetOrder}} </div>
+            <div v-else>
+              <div class = "card-body text-center amount loss">Rp{{formatPrice(income)}}</div>
+            </div>
+            <div class = "card-footer">
+              <strong> Target : </strong>
+              Rp{{formatPrice(target)}}
             </div>
         </div>
       </div>
-
-      <!--Charts-->
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class = "card-header"><div class = "judul-card">Cash Flow</div> for year {{selected}}</div>
-            <div class="card-body">
-              <BarChart :height="300" :chartData="cashFlowCollection" :options="options" :axis-min="0"></BarChart>
+      <div class="col-md-6 col-xl-3" >
+        <div class = "card">
+            <div class = "card-header text-right"><strong> Expense </strong></div>
+            <div v-if="this.budget - this.expense > 0">
+              <div class = "card-body text-center amount profit">Rp{{formatPrice(expense)}}</div>
             </div>
-            <div class="card-footer">
-              <i class="ti-reload"></i> Updated <time-ago :refresh='60' class="timeago"></time-ago> ago
+            <div v-else>
+              <div class = "card-body text-center amount loss">Rp{{formatPrice(expense)}}</div>
             </div>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-12">
-          <div class = "card">
-            <div class = "card-header"><div class = "judul-card">Project Statistics</div> for year {{selected}}</div>
-            <div class = "card-body">
-              <PieChart :width="300" :height="300" :chartData="datacollection" :options="options"></PieChart>
+            <div class = "card-footer">
+              <strong> Budget : </strong>
+              Rp{{formatPrice(budget)}}
             </div>
-
-          </div>
-        </div>
-
-        <div class="col-md-6 col-12">
-          <div class="card">
-            <div class = "card-header"><div class = "judul-card">Profit/Loss</div> for year {{selected}}</div>
-            <div class = "card-body">
-              <LineChart :width="300" :height="300" :chartData="dataprofit" :options="options"></LineChart>
-            </div>
-          </div>
         </div>
       </div>
-
-      <b-modal title="Failed" v-model="failedModal" centered ok-only>
-        Sorry, data is not available.
-      </b-modal>
+      <div class="col-md-6 col-xl-3" >
+        <div class = "card">
+            <div class = "card-header text-right"><strong> Project </strong></div>
+            <div v-if="this.project - this.targetProject > 0">
+              <div class = "card-body text-center amount profit">{{project}}</div>
+            </div>
+            <div v-else>
+              <div class = "card-body text-center amount loss">{{project}}</div>
+            </div>
+            <div class = "card-footer"> <strong> Target : </strong> {{targetProject}} </div>
+          </div>
+      </div>
+      <div class="col-md-6 col-xl-3" >
+        <div class = "card">
+            <div class = "card-header text-right"><strong> Order </strong></div>
+            <div v-if="this.project - this.targetOrder > 0">
+              <div class = "card-body text-center amount profit">{{order}}</div>
+            </div>
+            <div v-else>
+              <div class = "card-body text-center amount loss">{{order}}</div>
+            </div>
+            <div class = "card-footer"> <strong> Target : </strong> {{targetOrder}} </div>
+          </div>
+      </div>
     </div>
+
+    <!--Charts-->
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class = "card-header"><div class = "judul-card">Cash Flow</div> for year {{selected}}</div>
+          <div class="card-body">
+            <BarChart :height="300" :chartData="cashFlowCollection" :options="options" :axis-min="0"></BarChart>
+          </div>
+          <div class="card-footer">
+            <i class="ti-reload"></i> Updated <time-ago :refresh='60' class="timeago"></time-ago> ago
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-12">
+        <div class = "card">
+          <div class = "card-header"><div class = "judul-card">Project Statistics</div> for year {{selected}}</div>
+          <div class = "card-body">
+            <PieChart :width="300" :height="300" :chartData="datacollection" :options="options"></PieChart>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-md-6 col-12">
+        <div class="card">
+          <div class = "card-header"><div class = "judul-card">Profit/Loss</div> for year {{selected}}</div>
+          <div class = "card-body">
+            <LineChart :width="300" :height="300" :chartData="dataprofit" :options="options"></LineChart>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <b-modal title="Failed" v-model="failedModal" centered ok-only>
+      Sorry, data is not available.
+    </b-modal>
+  </div>
   </div>
 </div>
 </template>
@@ -135,7 +135,6 @@ import BarChart from '@/pages/DirekturUtama/component/BarChart.vue';
 import Chartist from 'chartist';
 import axios from 'axios';
 import TimeAgo from 'vue2-timeago';
-import moment from 'moment';
 
 export default {
   name: 'app',
@@ -173,25 +172,32 @@ export default {
       failedModal: false,
       selected: null,
       years:null,
-      currentYear: '',
+      currentYear:[],
     };
   },
 
   beforeMount() {
+      this.checkUrl()
       this.getProject();
-      this.getCurrentYear();
   },
 
   methods: {
+
+    checkUrl(){
+      let tahun = new Date().getFullYear();
+      for(let i = 2000; i <= tahun; i++){
+        this.currentYear.push(i);
+      }
+      if (this.$route.params.year == null){
+        this.$router.push({ name: 'dashboard',  params: {year:tahun}});
+      }
+    },
 
     redirect(){
       this.$router.push({ name: 'dashboard',  params: {year:this.selected}});
       this.$router.go(0)
     },
 
-    getCurrentYear(){
-      this.currentYear = new Date().getFullYear();
-    },
     getProject : function(){
       axios.get('http://localhost:8080/api/dashboard/projects/' + this.$route.params.year)
           .then(res => {this.list_project = res.data.result, this.showMessage(res.data.status), this.getIncome(), this.selected = this.$route.params.year})
@@ -438,37 +444,19 @@ export default {
 };
 </script>
 <style scoped>
-#breadcrumb{
-  font-size: 12px;
-  /* text-decoration: underline; */
-  margin: -35px 0 -5px -15px;
-  color: #FF3E1D;
-  background: none;
-}
 .button_group{
    margin-bottom: 1rem;
    margin-left: 14px;
 }
 .judul-card{
   font-size: 20px;
-  font-weight: 600;
-}
-.card-header{
-  font-size: 18px;
-}
-.judul{
-  text-align: center;
-  color: black;
-  margin: 11px 0 24px 0;
 }
 .find-button{
     border-color: #109CF1;
     border-width: 1px;
     background-color: #109CF1;
     color:white;
-    margin-bottom: 20px;
-    line-height: 20px;
-    font-size: 12px;
+    margin-bottom: 10px;
 }
 .amount{
   font-size: 22px;
@@ -484,5 +472,24 @@ export default {
   margin-left: 2px;
   font-size: 12px;
   font-weight: bold;
+}
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
+}
+.judul{
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
+}
+.judul-card{
+  font-size: 20px;
+  font-weight: 600;
+}
+.card-header{
+  font-size: 18px;
 }
 </style>
