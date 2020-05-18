@@ -189,7 +189,7 @@ export default {
       filter: null,
       filterOn: [],
       url_local: 'http://localhost:8080/api/activity-list-schedule/',
-      url_deploy: 'http://sipola-sixab.herokuapp.com/api/activity-list-schedule/'
+      url_deploy: 'https://sipola-sixab.herokuapp.com/api/activity-list-schedule/'
     }
   },
   computed: {

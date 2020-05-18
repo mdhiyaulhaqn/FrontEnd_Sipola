@@ -13,7 +13,7 @@
         <div class = "col-10 isi-form">
             <card>
             <form name="form" @submit.prevent="handleRegister">
-                
+
                 <h5 class = "title-form">Personal Information </h5>
                 <b-row>
                     <div class = "col-md-12 col-12">
@@ -29,7 +29,7 @@
                                 placeholder="Name">
                             </b-form-input>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-12 col-12">
@@ -45,7 +45,7 @@
                                 placeholder="Address">
                             </b-form-input>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-12 col-12">
@@ -61,7 +61,7 @@
                                 placeholder="Phone Number">
                             </b-form-input>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-12 col-12">
@@ -77,7 +77,7 @@
                                 placeholder="Email">
                             </b-form-input>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <h5 class = "title-form">Account Information </h5>
                 <b-row>
@@ -90,7 +90,7 @@
                                 class="alert-danger"
                                 >{{errors.first('role')}}</div>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-12 col-12">
@@ -106,7 +106,7 @@
                                 placeholder="Username">
                             </b-form-input>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-12 col-12">
@@ -124,7 +124,7 @@
                                 placeholder="Password">
                             </b-form-input>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-12 col-12">
@@ -142,7 +142,7 @@
                                 placeholder="Password Confirmation">
                             </b-form-input>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <div class="alert alert-danger" v-show="errors.any()">
                     <div v-if="errors.has('password')">
@@ -160,7 +160,7 @@
                     <b-button class = "save-button" type="submit">Add</b-button>
                 </div>
             </form>
-           
+
             <!-- <div
                 v-if="message && !successful"
                 class="alert"
@@ -235,7 +235,9 @@ export default {
         { value: 'service_team', text: 'Service Team'},
         { value: 'logistik', text: 'Logistik'},
         { value: 'supervisor', text: 'Supervisor'},
-      ]
+      ],
+      url_local: 'http://localhost:8080/api/user/',
+      url_deploy: 'https://sipola-sixab.herokuapp.com/api/user/'
     };
   },
   computed: {
@@ -249,8 +251,8 @@ export default {
     // }
   },
   methods: {
-    getDetail: function(){    
-        axios.get('http://localhost:8080/api/user/' +this.$route.params.username, { headers: authHeader() })
+    getDetail: function(){
+        axios.get(this.url_deploy + this.$route.params.username, { headers: authHeader() })
         .then(res => {
             this.user = res.data.result;
             this.user.roles.forEach((role) => {
@@ -271,11 +273,11 @@ export default {
     updateUser(){
         let roleId = this.getRoleId(this.selectedRole);
         this.selectedRole = "ROLE_" + this.selectedRole.toUpperCase();
-        
+
         this.role = new Role(roleId, this.selectedRole)
         this.user.roles.push(this.role);
 
-        axios.put('http://localhost:8080/api/user/' + this.$route.params.username + '/update', this.user, { headers: authHeader() })
+        axios.put(this.url_deploy + this.$route.params.username + '/update', this.user, { headers: authHeader() })
         .then((response) => {
             this.user.username = response.data.result.username
             this.hideModal()

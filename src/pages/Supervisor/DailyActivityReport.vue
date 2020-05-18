@@ -213,7 +213,7 @@ export default {
       filter: null,
       filterOn: [],
       url_local: 'http://localhost:8080/api/daily-activity-report/',
-      url_deploy: 'http://sipola-sixab.herokuapp.com/api/daily-activity-report/'
+      url_deploy: 'https://sipola-sixab.herokuapp.com/api/daily-activity-report/'
     }
   },
   computed: {

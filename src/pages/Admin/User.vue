@@ -91,7 +91,7 @@
             <template v-slot:cell(delete)="row">
               <button v-b-modal.modal-delete id ="delete_button" class="btn btn-primary" @click="selectUser(row.item)">
                   Delete
-              </button>  
+              </button>
             </template>
           </b-table>
           <b-row align-h="between">
@@ -252,6 +252,8 @@ export default {
       filterOn: [],
       selectedUser: null,
       successModal: false,
+      url_local: 'http://localhost:8080/api/user/',
+      url_deploy: 'https://sipola-sixab.herokuapp.com/api/user/'
     }
   },
   computed: {
@@ -279,7 +281,7 @@ export default {
       this.currentPage = 1
     },
     getAllUser: function(){
-      axios.get('http://localhost:8080/api/user/all', { headers: authHeader() })
+      axios.get(this.url_deploy + 'all', { headers: authHeader() })
       .then(response => this.users = response.data.result);
     },
     generateRole(role){
@@ -317,7 +319,7 @@ export default {
         }
     },
     deleteUser(){
-        axios.delete('http://localhost:8080/api/user/' + this.selectedUser.username + '/delete', { headers: authHeader() })
+        axios.delete(this.url_deploy + this.selectedUser.username + '/delete', { headers: authHeader() })
         .then(res => {
             this.showMessage(res.data.status)
             console.log(res.data.status)
