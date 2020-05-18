@@ -151,6 +151,7 @@ export default {
         namaPerusahaan : '',
         catatan : '',
         listTugas : '',
+        createdBy: '',
       },
       newActivity : {
         id_activity : 0,
@@ -185,6 +186,7 @@ export default {
 
     onSubmit(evt) {
         evt.preventDefault();
+        this.newActivityListSchedule.createdBy = this.$store.state.auth.user.name;
         // this.new_quotation.company = this.new_company;
         this.newActivityListSchedule.listTugas = this.activities;
         this.addActivityListSchedule(this.newActivityListSchedule);

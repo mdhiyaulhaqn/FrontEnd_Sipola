@@ -65,7 +65,7 @@ const routes = [
     children: [
       {
         path: "dashboard/:year",
-        name: "dashboard",
+        name: "dashboard-year",
         component: Dashboard
       },
       {

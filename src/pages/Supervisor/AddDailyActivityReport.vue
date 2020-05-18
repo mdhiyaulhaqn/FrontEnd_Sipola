@@ -323,6 +323,7 @@ export default {
         encounterProblem : '',
         responsible : '',
         approvedBy : '',
+        createdBy: '',
       },
       show: true,
       successModal : false,
@@ -336,6 +337,7 @@ export default {
   methods: {
     onSubmit(evt) {
         evt.preventDefault();
+        this.newDailyActivityReport.createdBy = this.$store.state.auth.user.name;
         this.getManpower();
         this.addDailyActivityReport(this.newDailyActivityReport);
     },
