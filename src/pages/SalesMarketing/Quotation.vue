@@ -170,6 +170,7 @@
 </template>
 <script>
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
 
@@ -219,7 +220,7 @@ export default {
 
   methods:{
       getAllQuotation: function(){
-          axios.get('http://localhost:8080/api/quotation/all')
+          axios.get('http://localhost:8080/api/quotation/all', { headers: authHeader() })
           .then(result => {this.quotations = result.data.result, this.getPriceData()});
       },
       onFiltered(filteredItems) {
@@ -280,5 +281,4 @@ export default {
     color: #FF3E1D;
     background: none;
 }
-
 </style>

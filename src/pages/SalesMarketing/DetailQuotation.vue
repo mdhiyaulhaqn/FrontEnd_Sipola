@@ -194,7 +194,8 @@
 import axios from 'axios';
 import jsPDF from 'jspdf';
 import * as autoTable from 'jspdf-autotable';
-import html2canvas from "html2canvas"
+import html2canvas from "html2canvas";
+import authHeader from '../../services/auth-header';
 
 export default {
     data() {
@@ -254,7 +255,7 @@ export default {
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/quotation/' +this.$route.params.id)
+            axios.get('http://localhost:8080/api/quotation/' +this.$route.params.id, { headers: authHeader() })
             .then(res => {this.quotation = res.data, this.computeTotal(), this.company = res.data.company})
             .catch(err => this.quotation = err.data);
         },
@@ -262,9 +263,9 @@ export default {
         deleteQuotation(quot){
             axios.put('http://localhost:8080/api/quotation/change-status/' + this.$route.params.id,
             quot,
-                { headers: {
-                    'Content-Type': 'application/json',
-                }
+                { headers: 
+                   authHeader()
+                
             })
             .then(res => {this.showMessage(res.data.status)});
         },

@@ -218,6 +218,7 @@
 import Service from '@/pages/SalesMarketing/Service.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
     components : {
@@ -285,7 +286,7 @@ export default {
 
             this.quotation.service = this.services;
 
-            this.updateQuotation(JSON.stringify(this.quotation));
+            this.updateQuotation(this.quotation);
         },
 
         showMessage(status){
@@ -317,7 +318,7 @@ export default {
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/quotation/' +this.$route.params.id)
+            axios.get('http://localhost:8080/api/quotation/' +this.$route.params.id, { headers: authHeader() })
             .then(res => {this.quotation = res.data, this.fetchData(), this.company = res.data.company})
             .catch(err => this.quotation = err.data);
         },
@@ -325,9 +326,7 @@ export default {
         updateQuotation(quot){
             axios.put('http://localhost:8080/api/quotation/update/' + this.$route.params.id,
             quot,
-                { headers: {
-                    'Content-Type': 'application/json',
-                }
+                { headers: authHeader()
             })
             .then(res => {this.quotation = res.data.result, this.showMessage(res.data.status)});
         },

@@ -1,4 +1,12 @@
 <template>
+<div class="row">
+  <div class="col-12">
+    <b-breadcrumb id="breadcrumb">
+      <b-breadcrumb-item active>
+        Dashboard
+      </b-breadcrumb-item>
+    </b-breadcrumb>
+    <h3 class="judul"><strong>Dashboard</strong></h3>
   <div>
     <!--Stats cards-->
     <b-form>
@@ -12,14 +20,14 @@
           </b-form-select>
           </div>
           <div class="col">
-            <b-button class ="find-button" @click="redirect" style="font-size:10px">
+            <b-button class ="find-button" @click="redirect">
               Find
               <i class="fa fa-search" style="color: white; margin-left: 5px;"></i>
             </b-button>
                </div>
             </div>
       </b-form>
-    
+
     <div class="row">
        <div class="col-md-6 col-xl-3" >
         <div class = "card">
@@ -112,9 +120,11 @@
     </div>
 
     <b-modal title="Failed" v-model="failedModal" centered ok-only>
-      Sorry, data is not available. 
+      Sorry, data is not available.
     </b-modal>
   </div>
+  </div>
+</div>
 </template>
 
 <script>
@@ -176,10 +186,8 @@ export default {
     checkUrl(){
       let tahun = new Date().getFullYear();
       for(let i = 2000; i <= tahun; i++){
-        console.log('hehe')
         this.currentYear.push(i);
       }
-      console.log(this.currentYear)
       if (this.$route.params.year == null){
         this.$router.push({ name: 'dashboard',  params: {year:tahun}});
       }
@@ -212,7 +220,7 @@ export default {
       }
       else if(status == 500){
         this.failedModal = true;
-      } 
+      }
     },
 
     formatPrice(value) {
@@ -300,7 +308,7 @@ export default {
 
       this.project = this.list_project.length;
       this.order = this.list_income.length;
-      
+
       for(let i = 0; i < this.list_expense.length; i++){
         if(this.list_expense[i].tanggal.substring(5,7) == 1){
           jan_ex += this.list_expense[i].nominal
@@ -330,7 +338,7 @@ export default {
       }
 
       total_expense = jan_ex + feb_ex + mar_ex + apr_ex + may_ex + jun_ex + jul_ex + aug_ex + sep_ex + oct_ex + nov_ex + dec_ex;
-      
+
       this.expense = total_expense;
 
       // Data Profit
@@ -431,7 +439,6 @@ export default {
 };
 </script>
 <style scoped>
-
 .button_group{
    margin-bottom: 1rem;
    margin-left: 14px;
@@ -444,7 +451,9 @@ export default {
     border-width: 1px;
     background-color: #109CF1;
     color:white;
-    margin-bottom: 10px;
+    margin-bottom: 18px;
+    font-size: 12px;
+    line-height: 20px;
 }
 .amount{
   font-size: 22px;
@@ -460,6 +469,25 @@ export default {
   margin-left: 2px;
   font-size: 12px;
   font-weight: bold;
+}
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
+}
+.judul{
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
+}
+.judul-card{
+  font-size: 20px;
+  font-weight: 600;
+}
+.card-header{
+  font-size: 18px;
 }
 </style>
 <<<<<<< HEAD

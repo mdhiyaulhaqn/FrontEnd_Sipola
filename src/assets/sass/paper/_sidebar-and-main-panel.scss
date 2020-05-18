@@ -10,7 +10,6 @@
     position: relative;
     height: 100%;
     width: 260px;
-    overflow-y: scroll;
     z-index: 4;
     box-shadow: inset 0px 0px 0px 0px $medium-gray;
   }
@@ -195,6 +194,13 @@
 
   .navbar {
     margin-bottom: 0;
+  }
+}
+.panel-belom-login{
+  background-color: $bg-nude;
+  width: 100%;
+  > .content {
+    padding: 50px 50px;
   }
 }
 

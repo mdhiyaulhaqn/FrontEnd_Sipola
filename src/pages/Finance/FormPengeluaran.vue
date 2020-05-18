@@ -111,6 +111,8 @@
 
 <script>
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
+
   export default {
     components : {
 
@@ -144,7 +146,7 @@ import axios from 'axios';
                 paidBy: this.newPengeluaran.paidBy,
                 createdBy: "Suparjo API",
                 status: "Active"
-            })
+            }, { headers: authHeader() })
             .then((response) => {
                 this.newPengeluaran.id = response.data.result.id
                 this.showMessage(response.data.status)

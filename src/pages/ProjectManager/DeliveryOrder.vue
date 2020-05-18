@@ -172,6 +172,7 @@
 </template>
 <script>
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
 
@@ -219,7 +220,7 @@ export default {
   },
   methods:{
       getAllDeliveryOrder: function(){
-          axios.get('http://localhost:8080/api/delivery-order/all')
+          axios.get('http://localhost:8080/api/delivery-order/all', { headers: authHeader() })
           .then(result => {this.delivery_orders = result.data.result, this.getAllOrder()});
       },
       getAllOrder(){
@@ -272,5 +273,12 @@ export default {
   line-height: 8px;
   width: 80px;
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
+}
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
 }
 </style>
