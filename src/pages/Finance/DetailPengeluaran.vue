@@ -136,6 +136,8 @@ export default {
           createdAt: []
       },
       successModal: false,
+      url_local: "http://localhost:8080/api/pengeluaran/",
+      url_deploy: "http://sipola-sixab.herokuapp.com/api/pengeluaran/",
     };
   },
   beforeMount(){
@@ -147,7 +149,7 @@ export default {
         this.$refs['modal-delete'].hide();
     },
     getDetail: function(){    
-            axios.get('http://localhost:8080/api/pengeluaran/' +this.$route.params.id, { headers: authHeader() })
+            axios.get(this.url_local + this.$route.params.id, { headers: authHeader() })
             .then(res => {this.pengeluaran = res.data.result})
             .catch(err => this.pengeluaran = err.data);
     },
@@ -170,7 +172,7 @@ export default {
             }
         },
     deletePengeluaran(){
-        axios.put('http://localhost:8080/api/pengeluaran/' + this.$route.params.id + '/delete', this.pengeluaran, { headers: authHeader() })
+        axios.put(this.url_deploy + this.$route.params.id + '/delete', this.pengeluaran, { headers: authHeader() })
         .then(res => {
             this.showMessage(res.data.status)
             console.log(res.data.status)

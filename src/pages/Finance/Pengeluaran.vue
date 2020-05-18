@@ -196,6 +196,8 @@ export default {
       sortDirection: 'desc',
       filter: null,
       filterOn: [],
+      url_local: "http://localhost:8080/api/pengeluaran/",
+      url_deploy: "http://sipola-sixab.herokuapp.com/api/pengeluaran/"
     }
   },
   computed: {
@@ -222,7 +224,7 @@ export default {
       this.currentPage = 1
     },
     getAllPengeluaran: function(){
-      axios.get('http://localhost:8080/api/pengeluaran/all', { headers: authHeader() })
+      axios.get(this.url_deploy + 'all', { headers: authHeader() })
       .then(response => this.pengeluaranList = response.data.result);
     },
     formatPrice(value) {
