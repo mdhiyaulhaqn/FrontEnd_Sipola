@@ -28,6 +28,10 @@ import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vu
 import AddActivityListSchedule from "@/pages/ProjectManager/AddActivityListSchedule.vue";
 import DetailActivityListSchedule from "@/pages/ProjectManager/DetailActivityListSchedule.vue";
 import UpdateActivityListSchedule from "@/pages/ProjectManager/UpdateActivityListSchedule.vue";
+import DailyActivityReport from "@/pages/Supervisor/DailyActivityReport.vue";
+import AddDailyActivityReport from "@/pages/Supervisor/AddDailyActivityReport.vue";
+import DetailDailyActivityReport from "@/pages/Supervisor/DetailDailyActivityReport.vue";
+import UpdateDailyActivityReport from "@/pages/Supervisor/UpdateDailyActivityReport.vue";
 import DeliveryOrder from "@/pages/ProjectManager/DeliveryOrder.vue";
 import AddDeliveryOrder from "@/pages/ProjectManager/AddDeliveryOrder.vue";
 import DetailDeliveryOrder from "@/pages/ProjectManager/DetailDeliveryOrder.vue";
@@ -38,6 +42,8 @@ import FormReimbursement from "@/pages/ServiceTeam/FormReimbursement.vue";
 import UpdateReimbursement from "@/pages/ServiceTeam/UpdateReimbursement.vue";
 import Login from "@/pages/Login.vue";
 import Homepage from "@/pages/Homepage.vue";
+import DetailReimbursementRequest from "@/pages/Finance/DetailReimbursementFinance.vue";
+import ReimbursementRequest from "@/pages/Finance/ReimbursementRequest.vue";
 import PurchaseOrder from "@/pages/Logistic/PurchaseOrder.vue";
 import DetailPurchaseOrder from "@/pages/Logistic/DetailPurchaseOrder.vue";
 import FormPurchaseOrder from "@/pages/Logistic/FormPurchaseOrder.vue";
@@ -55,10 +61,10 @@ const routes = [
   {
     path: "/",
     component: DashboardLayout,
-    redirect: "/dashboard",
+    redirect: "/dashboard/2020",
     children: [
       {
-        path: "dashboard",
+        path: "dashboard/:year",
         name: "dashboard",
         component: Dashboard
       },
@@ -148,12 +154,12 @@ const routes = [
         component: Invoice
       },
       {
-        path: "detail-invoice/:id",
+        path: "invoice/:id",
         name: "detail-invoice",
         component: DetailInvoice
       },
       {
-        path: "invoice-add",
+        path: "invoice/add",
         name: "invoice-add",
         component: FormInvoice
       },
@@ -168,7 +174,7 @@ const routes = [
         component: SalesOrderForInvoice
       },
       {
-        path: "detail-sales-order-for-invoice",
+        path: "sales-order-for-invoice/:id",
         name: "detail-sales-order-for-invoice",
         component: DetailSalesOrderForInvoice
       },
@@ -183,17 +189,17 @@ const routes = [
         component: ReimbursementReport
       },
       {
-        path: "reimbursement/detail/:id",
+        path: "reimbursement-report/:id/detail",
         name: "detail-reimbursement",
         component: DetailReimbursement
       },
       {
-        path: "reimbursement/add",
+        path: "reimbursement-report/add",
         name: "add-reimbursement",
         component: FormReimbursement
       },
       {
-        path: "reimbursement/:id/update",
+        path: "reimbursement-report/:id/update",
         name: "update-reimbursement",
         component: UpdateReimbursement
 
@@ -214,6 +220,26 @@ const routes = [
         component: UpdateActivityListSchedule
       },
       {
+        path: "daily-activity-report",
+        name: "daily-activity-report",
+        component: DailyActivityReport
+      },
+      {
+        path: "daily-activity-report/add",
+        name: "add-daily-activity-report",
+        component: AddDailyActivityReport
+      },
+      {
+        path: "daily-activity-report/:id",
+        name: "detail-daily-activity-report",
+        component: DetailDailyActivityReport
+      },
+      {
+        path: "daily-activity-report/:id/update",
+        name: "update-daily-activity-report",
+        component: UpdateDailyActivityReport
+      },
+      {
         path: "income-expense-summary",
         name: "income-expense-summary",
         component: RingkasanPendapatanPengeluaran
@@ -229,12 +255,12 @@ const routes = [
         component: PurchaseOrder
       },
       {
-        path: "detail-purchase-order/:id",
+        path: "purchase-order/:id",
         name: "detail-purchase-order",
         component: DetailPurchaseOrder
       },
       {
-        path: "purchase-order-add",
+        path: "purchase-order/add",
         name: "purchase-order-add",
         component: FormPurchaseOrder
       },
@@ -272,6 +298,16 @@ const routes = [
         path: '/user/:id/update',
         name: 'user-update',
         component: UpdateUser
+      },
+      {
+        path: "reimbursement-request/:id/detail",
+        name: "detail-request",
+        component: DetailReimbursementRequest
+      },
+      {
+        path: "reimbursement-request",
+        name: "reimbursement-request",
+        component: ReimbursementRequest
       },
     ]
   },

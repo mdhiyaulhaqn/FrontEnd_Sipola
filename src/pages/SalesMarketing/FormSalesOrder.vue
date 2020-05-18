@@ -10,15 +10,14 @@
     </b-breadcrumb>
     <h3 class="judul"><strong>Add Sales Order</strong></h3>
     <div class = "row">
-        <div class = "col-10 isi-form">
-            <card>
-            <h5 class = "title-form">Add Sales Order Form </h5>
+        <div class = "col-md-8 col-sm-8 col-xs-8 col-12 d-block d-xs-block d-sm-block isi-form">
+            <card class="col">
+            <h5 class = "title-form">Add Sales Order Form</h5>
             <b-form @submit="onSubmit" v-if="show">
-
                 <b-row>
                     <b-col md="6">
-                    <b-form-group>
-                        <label for="noSalesOrder">Sales Order No</label>
+                    <b-form-group class="required">
+                        <label class="label"  for="noSalesOrder">Sales Order No</label>
                         <b-form-input
                             id="noSalesOrder"
                             v-model="new_sales_order.noSalesOrder"
@@ -29,20 +28,20 @@
                     </b-form-group>
                     </b-col>
                     <b-col md="6">
-                        <b-form-group>
-                            <label for="date">Sales Order Date</label>
+                        <b-form-group class="required">
+                            <label class="label" for="date">Sales Order Date</label>
                             <b-form-input
                                 id="date"
                                 v-model="new_sales_order.date"
                                 type="date"
-                                required>   
+                                required>
                             </b-form-input>
                         </b-form-group>
                     </b-col>
                 </b-row>
 
-                 <b-form-group>
-                    <label for="poNumber">Purchase Order Number</label>
+                 <b-form-group class="required">
+                    <label class="label" for="poNumber">Purchase Order Number</label>
                     <b-form-input
                         id="poNumber"
                         v-model="new_sales_order.poNumber"
@@ -51,9 +50,9 @@
                         placeholder="Sales Order Number">
                     </b-form-input>
                 </b-form-group>
-                
-                <b-form-group>
-                    <label for="date">Purchase Order Date</label>
+
+                <b-form-group class="required">
+                    <label class="label" for="date">Purchase Order Date</label>
                     <b-form-input
                         id="poDate"
                         v-model="new_sales_order.poDate"
@@ -64,8 +63,8 @@
 
                 <b-row>
                     <b-col md="12">
-                        <b-form-group>
-                            <label for="companyName" >Company Name</label>
+                        <b-form-group class="required">
+                            <label class="label" for="companyName" >Company Name</label>
                             <b-form-select v-model="new_sales_order.company" required>
                                 <template slot="companyName">
                                     <option :value="null" disabled>-- Choose Company --</option>
@@ -77,61 +76,93 @@
                         </b-form-group>
                     </b-col>
                 </b-row>
-             
+
                 <div class="d-none d-md-block d-lg-block">
-                <b-row>
-                    <b-col md="5">
-                      <label>Description</label>
-                    </b-col><br>
+                    <b-row>
+                        <b-col md="4 required">
+                        <label class="label" >Description</label>
+                        </b-col><br>
 
-                    <b-col md="2">
-                       <label>Qty</label> 
-                    </b-col><br>
+                        <b-col md="2 required">
+                        <label class="label" >Quantity</label>
+                        </b-col><br>
 
-                    <b-col md="2">
-                    <label>UOM</label> 
-                    </b-col>
-                    <br>
+                        <b-col md="2 required">
+                        <label class="label" >UOM</label>
+                        </b-col>
+                        <br>
 
-                    <b-col md="2">
-                    <label>Unit Price</label> 
-                    </b-col>
-                    <br>
+                        <b-col md="3 required">
+                        <label class="label" >Unit Price (IDR)</label>
+                        </b-col>
+                        <br>
 
-                    <b-col md="1">
-                    
-                    </b-col>
-                </b-row>
+                        <b-col md="1">
+
+                        </b-col>
+                    </b-row>
                 </div>
 
                 <b-row class="service_orders" v-bind:key="item.id_service_order" v-for="item in service_orders">
                     <b-col>
                     <ServiceOrder v-bind:service_order="item" v-on:del-service-order="deleteRow" />
                     </b-col>
-                </b-row> 
-                    
+                </b-row>
+
               <b-row>
-                    <b-col md="5">
+                    <b-col md="4">
                         <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">+ Add Description</button>
                     </b-col>
-                </b-row> 
+                </b-row>
 
-                
-                <b-form-group>
-                    <label for="termsConditions">Terms and Conditions</label>
-                    <ckeditor :editor="editor"  v-model="new_sales_order.termsCondition" :config="editorConfig"></ckeditor>
+
+                <b-form-group class="required">
+                    <label class="label" for="termsConditions">Terms and Conditions</label>
+                    <ckeditor :editor="editor"  v-model="new_sales_order.termsCondition"></ckeditor>
                 </b-form-group>
 
                 <div class = "button-group">
+                    <b-button class = "save-button" type="submit">Save</b-button>
                     <b-button class = "cancel-button" type="reset">Cancel</b-button>
-                    <b-button class = "add-quotation-button" type="submit">Add</b-button>
                 </div>
             </b-form>
             </card>
         </div>
     </div>
-    <b-modal title="Sales Order Berhasil Tersimpan" v-model="successModal" @ok="redirect()"  centered ok-only>
-        Sales Order telah berhasil dibuat.
+
+    <b-modal
+        id="modal-success"
+        centered
+        v-model="successModal"
+        @ok="redirect()"
+        >
+        <template v-slot:modal-title>
+            <div class="container">
+            <h5 id="modal-title-success">Success!</h5>
+            </div>
+        </template>
+        <template v-slot:default>
+            <div class="container">
+            <b-row>
+                <b-col class="modal-icon col-2">
+                <img src="@/assets/img/success-icon.png" alt="" width="50px">
+                </b-col>
+                <b-col class="col-10">
+                <p id="modal-message">Sales order was successfully added.</p>
+                </b-col>
+            </b-row>
+            </div>
+        </template>
+        <template v-slot:modal-footer="{ ok }">
+            <b-col class="button-confirm-group">
+                <b-button @click="cancel()" class="back-button">
+                  Back to List
+                </b-button>
+                <b-button @click="ok()" class="see-button">
+                  See Details
+                </b-button>
+            </b-col>
+        </template>
     </b-modal>
 
     <b-modal title="Sales Order  Gagal Tersimpan" v-model="failedModal" centered ok-only>
@@ -150,7 +181,7 @@ export default {
     components : {
         ServiceOrder
     },
-    data() { 
+    data() {
       return {
             editor: ClassicEditor,
             service_orders: [],
@@ -185,7 +216,7 @@ export default {
         this.getAllCompany();
         this.addRow();
 	},
-    
+
     methods: {
         addRow(){
             this.new_service_order.id_service_order++;
@@ -210,12 +241,12 @@ export default {
             }
             else if(status == 500){
                 this.failedModal = true;
-            } 
+            }
         },
-        
+
         addSalesOrder(quot){
-            axios.post('http://localhost:8080/api/sales-order/add', 
-            quot, 
+            axios.post('http://localhost:8080/api/sales-order/add',
+            quot,
                 { headers: {
                     'Content-Type': 'application/json',
                 }
@@ -232,6 +263,10 @@ export default {
             this.$router.push({ name: 'detail-sales-order',  params: {id:this.new_sales_order.id}});
         },
 
+        cancel(){
+            this.$router.push({ name: 'sales-order'});
+        },
+
         hideModal(){
 		    this.$refs['modal-hide'].hide();
 		},
@@ -240,7 +275,30 @@ export default {
 </script>
 
 <style scoped>
+.required label:after {
+    content: " *";
+    color: red;
+}
 
+.label{
+  font-weight: 600;
+}
+
+#modal-message{
+  font-size: 16px;
+}
+#modal-title-success{
+  color: #109CF1;
+  font-weight: 1000;
+}
+#ok-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+}
+.button-confirm-group{
+  text-align: right;
+}
 .add-button{
   width: 100%;
   background-color: white;
@@ -250,30 +308,76 @@ export default {
 }
 
 .judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
 }
 .isi-form{
     margin-left: auto;
     margin-right: auto;
 }
+.title-form {
+  font-weight: 600;
+  margin-bottom: 20px;
+}
 
-.add-quotation-button{
-    border-color: white;
-    background-color: #109CF1;
-    color:white;
+
+.save-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-right: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
 }
 
 .cancel-button{
-    color:#109CF1;
-    border-color:#109CF1;
-    background-color: white;
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 80px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.see-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-left: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
+}
+
+.back-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 100px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
 }
 
 .button-group{
-    float:right;
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 10px;
 }
-
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
+}
 </style>

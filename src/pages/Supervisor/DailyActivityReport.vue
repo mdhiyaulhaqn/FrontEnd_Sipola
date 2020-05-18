@@ -1,20 +1,28 @@
 <template>
-    <div class="row">
-      <div class="col-12">
-        <b-breadcrumb id="breadcrumb">
-          <b-breadcrumb-item :to="{name: 'invoice'}">
-            Invoice
-          </b-breadcrumb-item>
-          <b-breadcrumb-item active>
-            Sales Order
-          </b-breadcrumb-item>
-        </b-breadcrumb>
-        <h3 class="judul"><strong>Sales Order</strong></h3>
-        <card>
-          <b-container fluid>
-            <b-row align-h="between" style="margin-top: 12px;">
+  <div class="row">
+    <div class="col-12">
+      <b-breadcrumb id="breadcrumb">
+        <b-breadcrumb-item active>
+          Daily Activity Report
+        </b-breadcrumb-item>
+      </b-breadcrumb>
+      <h3 class="judul"><strong>Daily Activity Report</strong></h3>
+      <card>
+        <b-container fluid>
+          <b-row align-h="between" style="margin-top: 12px;">
             <b-col md="2">
-
+              <router-link :to="{name: 'add-daily-activity-report'}">
+                <b-button id ="add_report_button" class="btn btn-primary">
+                  <b-row align-h="center">
+                    <p style="font-size: 12px">
+                      Add Report
+                    </p>
+                    <div style="margin-left: 10px; margin-top: -4px">
+                      <img src="@/assets/img/add-circle-icon.png" alt="" width="25px">
+                    </div>
+                  </b-row>
+                </b-button>
+              </router-link>
             </b-col>
             <b-col md="10" class="my-1">
               <b-form-group
@@ -29,7 +37,7 @@
                     v-model="filter"
                     type="search"
                     id="filterInput"
-                    placeholder="Purchase Order No, Sales Order No, Company Name ..."
+                    placeholder="PLTU ... "
                   ></b-form-input>
                   <b-input-group-append>
                     <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
@@ -37,7 +45,9 @@
                 </b-input-group>
               </b-form-group>
             </b-col>
+
           </b-row>
+
           <b-table
             show-empty
             :small="true"
@@ -56,19 +66,32 @@
             sort-icon-right
             :sticky-header="true"
             >
+
             <template v-slot:head(index)="data">
               <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
             </template>
-            <template v-slot:head(noSalesOrder)="data">
+            <template v-slot:head(site)="data">
               <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
             </template>
             <template v-slot:head(poNumber)="data">
               <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
             </template>
-            <template v-slot:head(company.nama)="data">
+            <template v-slot:head(date)="data">
               <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
             </template>
-            <template v-slot:head(date)="data">
+            <template v-slot:head(typeOfWorks)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(start)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(end)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(responsible)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(approvedBy)="data">
               <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
             </template>
             <template v-slot:head(action)="data">
@@ -76,35 +99,42 @@
             </template>
 
             <template v-slot:cell(index)="row">
-                {{row.index + 1}}
+              {{ row.index + 1 }}
             </template>
 
             <template v-slot:cell(date)="row">
-                {{row.item.date | moment('ll') }}
+              {{ row.value | moment("ll") }}
+            </template>
+
+            <template v-slot:cell(approvedBy)="row">
+              <div v-if="row.value != ''">
+                {{ row.value }}
+              </div>
+              <div v-else>
+                Not approven yet
+              </div>
             </template>
 
             <template v-slot:cell(action)="row">
-              <router-link :to="{name: 'detail-sales-order-for-invoice', params: {id:row.item.id}}">
-                <b-button id ="view_button" class="btn btn-primary">
+              <router-link :to="{name: 'detail-daily-activity-report', params: {id:row.item.id}}">
+                <b-button id="view_button" class="btn btn-primary">
                   View
                 </b-button>
               </router-link>
             </template>
           </b-table>
-
           <b-row align-h="between">
             <b-col cols="4">
-              <div v-if="perPage > sales_orders.length" class="my-2">
-                <b-card-sub-title>Showing {{ sales_orders.length }} of {{ sales_orders.length }}</b-card-sub-title>
+              <div v-if="perPage > dailyActivityReport.length" class="my-2">
+                <b-card-sub-title>Showing {{ dailyActivityReport.length }} of {{ dailyActivityReport.length }}</b-card-sub-title>
               </div>
               <div v-else-if="currentPage != 1" class="my-2">
-                <b-card-sub-title>Showing {{ sales_orders.length % perPage }} of {{ sales_orders.length }}</b-card-sub-title>
+                <b-card-sub-title>Showing {{ dailyActivityReport.length % perPage }} of {{ dailyActivityReport.length }}</b-card-sub-title>
               </div>
               <div v-else class="my-2">
-                <b-card-sub-title>Showing {{ perPage }} of {{ sales_orders.length }}</b-card-sub-title>
+                <b-card-sub-title>Showing {{ perPage }} of {{ dailyActivityReport.length }}</b-card-sub-title>
               </div>
             </b-col>
-
             <b-col cols="8">
               <div>
                 <b-form-group
@@ -148,28 +178,30 @@
               </div>
             </b-col>
           </b-row>
-          </b-container>
-        </card>
-      </div>
+        </b-container>
+      </card>
+    </div>
   </div>
 </template>
 <script>
 import axios from 'axios';
 
 export default {
-
   data() {
     return {
+      dailyActivityReport: [],
       fields: [
-          {key: 'index', label: 'No'},
-          {key: 'noSalesOrder', label: 'Sales Order No', sortable: true},
-          {key: 'poNumber', label: 'Purchase Order No', sortable: true},
-          {key: 'company.nama', label: 'Company Name', sortable:true},
-          {key: 'date', label: 'Date', sortable:true},
-          {key: 'action', label: 'Action'},
+        { key: 'index', label: 'No' },
+        { key: 'site', label: 'Site', sortable: true, },
+        { key: 'poNumber', label: 'PO Number', sortable: true, },
+        { key: 'date', label: 'Date Created', sortable: true, },
+        { key: 'typeOfWorks', label: 'Type of Works', sortable: true, },
+        { key: 'start', label: 'Start Hour', sortable: true, },
+        { key: 'end', label: 'Stop Hour', sortable: true, },
+        { key: 'responsible', label: 'Responsible', sortable: true, },
+        { key: 'approvedBy', label: 'Approved by', sortable: true, },
+        { key: 'action', label: 'Action' }
       ],
-      sales_orders :[],
-      keyword :'',
       totalRows: 1,
       currentPage: 1,
       perPage: 5,
@@ -181,31 +213,48 @@ export default {
       filterOn: [],
     }
   },
-   computed: {
-      items() {
-          return this.sales_orders;
-      },
+  computed: {
+    sortOptions() {
+      // Create an options list from our fields
+      return this.fields
+        .filter(f => f.sortable)
+        .map(f => {
+          return { text: f.label, value: f.key }
+        })
+    },
+    items() {
+      this.totalRows = this.dailyActivityReport.length;
+      return this.dailyActivityReport;
+    }
   },
-  beforeMount(){
-      this.getAllSalesOrder();
+  beforeMount() {
+    this.getAllDailyActivityReport();
   },
-  methods:{
-      getAllSalesOrder: function(){
-          axios.get('http://localhost:8080/api/sales-order/all')
-          .then(result => this.sales_orders = result.data.result);
-      },
-      onFiltered(filteredItems) {
-        // Trigger pagination to update the number of buttons/pages due to filtering
-        this.totalRows = filteredItems.length
-        this.currentPage = 1
-      },
-      clear(){
-          this.keyword = '';
-      },
+
+  methods: {
+    onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.totalRows = filteredItems.length
+      this.currentPage = 1
+    },
+    getAllDailyActivityReport: function(){
+      axios.get('http://localhost:8080/api/daily-activity-report/all')
+      .then(response => {this.dailyActivityReport = response.data.result});
+    },
   }
-};
+}
 </script>
 <style scoped>
+#add_report_button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 10px;
+  width: 136px;
+  height: 36px;
+  margin-bottom: 4px;
+  box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
+}
 #view_button{
   background-color: #109CF1;
   color:white;
@@ -219,9 +268,6 @@ export default {
   text-align: center;
   color: black;
   margin: 11px 0 24px 0;
-}
-.pagination{
-  margin-left:20px;
 }
 #breadcrumb{
   font-size: 12px;

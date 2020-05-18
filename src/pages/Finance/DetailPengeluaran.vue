@@ -5,16 +5,13 @@
                 Expense
             </b-breadcrumb-item>
             <b-breadcrumb-item active>
-                Expense Detail
+                Detail Expense
             </b-breadcrumb-item>
         </b-breadcrumb>
-        <div class = "container">
-            <div class="judul">
-                <strong class="judul">
-                    Expense Detail
-                </strong>
-            </div>   
-            <card>
+        <h3 class="judul"><strong>Detail Expense</strong></h3>
+        <div class="row">
+          <div class="col-md-10 col-sm-10 col-xs-10 col-12 d-block d-xs-block d-sm-block center">
+            <card class="col">
                 <!-- <div class = "nama-pengeluaran">Tiket Pesawat CGK - Sawangan</div> -->
                 <div class = "nama-pengeluaran">{{pengeluaran.nama}}</div>
                 <b-row align-h="end">
@@ -22,7 +19,7 @@
                     <b-col cols="6" class="detail-text">: Rp{{formatPrice(pengeluaran.nominal)}}</b-col>
                 </b-row>
                 <b-row align-h="end">
-                    <b-col class="detail-label col-5 col-md-2">Date</b-col>
+                    <b-col class="detail-label col-5 col-md-2">Expense Date</b-col>
                     <b-col cols="6" class="detail-text">: {{pengeluaran.tanggal | moment("ll")}}</b-col>
                 </b-row>
                 <b-row align-h="end">
@@ -30,31 +27,31 @@
                     <b-col cols="6" class="detail-text">: {{pengeluaran.paidBy}}</b-col>
                 </b-row>
                 <b-row align-h="end">
-                    <b-col class="detail-label col-5 col-md-2">Created date</b-col>
-                    <b-col cols="6" class="detail-text">: {{pengeluaran.createdAt | moment("ll")}}</b-col>
+                    <b-col class="detail-label col-5 col-md-2">Created at</b-col>
+                    <b-col cols="6" class="detail-text">: {{pengeluaran.createdAt.slice(0, 19) | moment('lll')}}</b-col>
                 </b-row>
                 <b-row align-h="end">
                     <b-col class="detail-label col-5 col-md-2">Created by</b-col>
                     <b-col cols="6" class="detail-text">: {{pengeluaran.createdBy}}</b-col>
                 </b-row>
-                <b-row class="button-group">
-                    <b-col>
-                        <br>
-                        <button v-b-modal.modal-delete id ="delete_button" class="btn btn-primary">
-                            Delete
-                        </button>
-                        <button id ="edit_button" class="btn btn-primary" @click="editPage">
-                            Edit
-                        </button>
-                    </b-col>
+                <b-row>
+                  <div class = "button-group col-sm-12">
+                    <b-button v-b-modal.modal-delete id ="delete-button" class="btn btn-primary">
+                        Delete
+                    </b-button>
+                    <b-button id ="edit-button" class="btn btn-primary" @click="editPage">
+                        Edit
+                    </b-button>
+                  </div>
                 </b-row>
             </card>
+          </div>
         </div>
 
          <b-modal id="modal-delete" ref="modal-delete" hide-footer centered>
             <template v-slot:modal-title>
                 <div class="container">
-                    <h5 id="modal-title-delete-confirm">Delete Expense</h5>
+                    <h5 id="modal-title-delete-confirm">Delete Expense?</h5>
                 </div>
             </template>
             <template v-slot:default>
@@ -65,19 +62,17 @@
                         <img src="@/assets/img/delete-confirm-icon.png" alt="" width="60px">
                     </b-col>
                     <b-col cols="9">
-                        Tiket Pesawat CGK - Sawangan will be removed from expense list.
+                        <p id="modal-message">It will be removed from the list.</p>
                     </b-col>
                 </b-row>
                 </div>
-                <b-row>
-                    <b-col class="button-confirm-group">
-                         <b-button @click="deletePengeluaran()" id ="confirm_delete_button" variant="outline-danger">
-                            Yes, Delete it
-                        </b-button>
-                        <b-button @click="hideModal" id ="cancel_delete_button" class="btn btn-danger">
-                            Cancel
-                        </b-button>
-                    </b-col>
+                <b-row class="button-confirm-group">
+                  <b-button @click="deletePengeluaran()" id ="confirm_delete_button" variant="outline-danger">
+                      Yes, delete it
+                  </b-button>
+                  <b-button @click="hideModal" id ="cancel_delete_button" class="btn btn-danger">
+                      Cancel
+                  </b-button>
                 </b-row>
             </div>
         </template>
@@ -102,15 +97,16 @@
                     <img src="@/assets/img/success-icon.png" alt="" width="50px">
                     </b-col>
                     <b-col class="col-10">
-                    <p id="modal-message">{{pengeluaran.nama}} was successfully deleted from expense list.</p>
+                    <p id="modal-message">{{pengeluaran.nama}} expense was successfully deleted from list.</p>
                     </b-col>
                 </b-row>
-                </div>
+
                 <b-row class="button-detail-group">
-                    <b-button @click="redirect()" id="ok-button" variant="outline-primary">
+                    <b-button @click="redirect()" id="ok-button">
                         OK
                     </b-button>
                 </b-row>
+                </div>
             </template>
             <!-- <template v-slot:modal-footer="{ ok }">
                 <b-col class="button-confirm-group">
@@ -122,8 +118,8 @@
         </b-modal>
 
     </div>
-    
-    
+
+
 </template>
 
 <script>
@@ -136,7 +132,8 @@ export default {
     return {
       pengeluaran : {
           nama: '',
-          tanggal : ''
+          tanggal : '',
+          createdAt: []
       },
       successModal: false,
     };
@@ -179,7 +176,7 @@ export default {
             console.log(res.data.status)
             this.hideModal()
         });
-        
+
     },
     editPage(){
         this.$router.replace(name= this.pengeluaran.id + '/update')
@@ -190,15 +187,15 @@ export default {
     formatPrice(value) {
         let val = (value/1).toFixed(2).replace('.', ',')
         return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-    }     
+    }
   }
 };
 </script>
 
 <style scoped>
-body {
-    font-family: 'Muli', sans-serif;
-    background: #fafafa;
+.center{
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .container{
@@ -214,11 +211,9 @@ body {
 }
 
 .judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
-    font-weight: 10000;
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
 }
 
 .nama-pengeluaran{
@@ -239,29 +234,30 @@ body {
     font-weight: bold;
 }
 
+#edit-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  width: 110px;
+  margin-left: 10px;
+  line-height: 15px;
+  font-size: 12px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+}
+
+#delete-button{
+  background-color: #FF3E1D;
+  border-color: #FF3E1D;
+  width: 80px;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+}
+
 .button-group{
-    text-align: center;
-}
-
-button{
-    border-radius: 8px;
-}
-
-#delete_button{
-    font-size: 10px;
-    width: 56;
-    background-color: #ff3e1d;
-    color:white;
-    border-color: white;
-    line-height: 15px;
-}
-#edit_button{
-    font-size: 10px;
-    width: 130px;
-    background-color: #109CF1;
-    color:white;
-    border-color: white;
-    line-height: 15px;
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .ti-trash{
@@ -275,38 +271,32 @@ button{
 }
 
 .button-confirm-group{
-    text-align: right;
-    margin-top: 50px;
+    float: right;
+    margin-top: 20px;
+    margin-bottom: -2px;
 }
 
 #confirm_delete_button{
-    font-size: 10px;
-    width: 130px;
-    border-color: #ff3e1d;
-    border-width: 1px;
-    margin-right: 10px;
+  font-size: 12px;
+  width: 110px;
+  border-color: #ff3e1d;
+  border-width: 1px;
+  margin-right: 10px;
+  line-height: 15px;
 }
-
 #cancel_delete_button{
-    font-size: 10px;
-    background-color: #ff3e1d;
-    color:white;
-    border-color: white;
-    border-width: 1px;
-}
-
-.button_back{
-    background-color: #109CF1;
-    color:white;
-    border-color: white;
-    /* float:right; */
-    /* margin-top: 40px; */
+  font-size: 12px;
+  background-color: #ff3e1d;
+  color:white;
+  border-color: white;
+  border-width: 1px;
+  line-height: 15px;
 }
 
 .button-detail-group{
     float:right;
-    margin-top: 50px;
-    margin-right: 10px;
+    margin-top: 20px;
+    margin-bottom: -2px;
 }
 
 #modal-title-delete-confirm{
@@ -327,8 +317,10 @@ button{
 #ok-button{
   color:#109CF1;
   border-color:#109CF1;
-  border-width: 1px;
   background-color: white;
+  font-size: 12px;
+  line-height: 15px;
+  border-width: 1px;
 }
 
 </style>

@@ -1,8 +1,8 @@
 <template>
 
 <b-row class="product_row">
-    <span class = "col-md-6 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none">
-        <label>Description</label>
+    <span class = "col-md-6 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
+        <label class="label">Description</label>
     </span>
 
     <div class = "col-md-6 col-sm-8 col-xs-8 col-7">
@@ -12,13 +12,13 @@
             type="text"
             required
             placeholder="Description"
-            pattern="[a-zA-Z0-9-]++"
+            pattern=".*[a-zA-Z0-9-].*"
             >
         </b-form-input>
     </div>
 
-    <span class = "col-md-2 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none">
-        <label>Quantity</label>
+    <span class = "col-md-2 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
+        <label class="label">Quantity</label>
     </span>
     <div class= "col-md-2 col-sm-8 col-xs-8 col-7">
             <b-form-input
@@ -31,8 +31,8 @@
         </b-form-input>
     </div>
 
-     <span class = "col-md-6 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none">
-        <label>Project/Service No</label>
+     <span class = "col-md-6 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
+        <label class="label">Project/Service No</label>
     </span>
 
     <div class = "col-md-3 col-sm-8 col-xs-8 col-7">
@@ -40,9 +40,8 @@
             id="projectNo"
             v-model="product.projectNo"
             type="text"
-            required
             placeholder="Project / Service No"
-            pattern="[a-zA-Z0-9-]++"
+            pattern=".*[a-zA-Z0-9-].*"
             >
         </b-form-input>
     </div>
@@ -73,9 +72,12 @@ export default {
 .product_row{
     margin:auto;
 }
-#delete-button{
-    width: 100%;
+.label{
+  font-weight: 600;
 }
-
+.required label:after {
+  content:" *";
+  color: red;
+}
 </style>
 

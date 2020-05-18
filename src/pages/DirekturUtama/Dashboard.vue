@@ -1,135 +1,140 @@
 <template>
   <div>
     <!--Stats cards-->
+    <b-form>
+          <div class="row">
+          <div class="col-md-3">
+          <b-form-select v-model="selected" class="mb-3">
+            <template v-slot:first>
+              <b-form-select-option :value="null" disabled>-- Year --</b-form-select-option>
+            </template>
+            <option v-bind:key="year.index" v-for="year in 2020" v-if="year >= 1990" :value="year">{{ year }}</option>
+          </b-form-select>
+          </div>
+          <div class="col">
+            <b-button class ="find-button" @click="redirect" style="font-size:10px">
+              Find
+              <i class="fa fa-search" style="color: white; margin-left: 5px;"></i>
+            </b-button>
+               </div>
+            </div>
+      </b-form>
+    
     <div class="row">
        <div class="col-md-6 col-xl-3" >
         <div class = "card">
-            <div class = "card-header">INCOME</div>
-            <div class = "card-body">{{income}}</div>
-             <div class = "card-footer">Target :</div>
+            <div class = "card-header text-right"><strong> Income </strong></div>
+            <div v-if="this.income - this.target > 0">
+              <div class = "card-body text-center amount profit">Rp{{formatPrice(income)}}</div>
+            </div>
+            <div v-else>
+              <div class = "card-body text-center amount loss">Rp{{formatPrice(income)}}</div>
+            </div>
+            <div class = "card-footer">
+              <strong> Target : </strong>
+              Rp{{formatPrice(target)}}
+            </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3" >
+        <div class = "card">
+            <div class = "card-header text-right"><strong> Expense </strong></div>
+            <div v-if="this.budget - this.expense > 0">
+              <div class = "card-body text-center amount profit">Rp{{formatPrice(expense)}}</div>
+            </div>
+            <div v-else>
+              <div class = "card-body text-center amount loss">Rp{{formatPrice(expense)}}</div>
+            </div>
+            <div class = "card-footer">
+              <strong> Budget : </strong>
+              Rp{{formatPrice(budget)}}
+            </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3" >
+        <div class = "card">
+            <div class = "card-header text-right"><strong> Project </strong></div>
+            <div v-if="this.project - this.targetProject > 0">
+              <div class = "card-body text-center amount profit">{{project}}</div>
+            </div>
+            <div v-else>
+              <div class = "card-body text-center amount loss">{{project}}</div>
+            </div>
+            <div class = "card-footer"> <strong> Target : </strong> {{targetProject}} </div>
           </div>
       </div>
       <div class="col-md-6 col-xl-3" >
         <div class = "card">
-            <div class = "card-header">Expense</div>
-            <div class = "card-body">{{expense}}</div>
-             <div class = "card-footer">Target :</div>
+            <div class = "card-header text-right"><strong> Order </strong></div>
+            <div v-if="this.project - this.targetOrder > 0">
+              <div class = "card-body text-center amount profit">{{order}}</div>
+            </div>
+            <div v-else>
+              <div class = "card-body text-center amount loss">{{order}}</div>
+            </div>
+            <div class = "card-footer"> <strong> Target : </strong> {{targetOrder}} </div>
           </div>
       </div>
-      <div class="col-md-6 col-xl-3" >
-        <div class = "card">
-            <div class = "card-header">Project</div>
-            <div class = "card-body">{{project}}</div>
-             <div class = "card-footer">Target :</div>
-          </div>
-      </div>
-      <div class="col-md-6 col-xl-3" >
-        <div class = "card">
-            <div class = "card-header">Order</div>
-            <div class = "card-body">{{order}}</div>
-             <div class = "card-footer">Target :</div>
-          </div>
-      </div>
-      <!-- <div class="col-md-6 col-xl-3" v-for="stats in statsCards" :key="stats.title">
-        
-        <stats-card>
-          <div class="icon-big text-center" :class="`icon-${stats.type}`" slot="header">
-            <i :class="stats.icon"></i>
-          </div>
-          <div class="numbers" slot="content">
-            <p>{{stats.title}}</p>
-            {{stats.value}}
-          </div>
-          <div class="stats" slot="footer">
-            <i :class="stats.footerIcon"></i> {{stats.footerText}}
-          </div>
-        </stats-card>
-      </div> -->
     </div>
 
     <!--Charts-->
     <div class="row">
-
       <div class="col-12">
-        <chart-card title="Users behavior"
-                    sub-title="24 Hours performance"
-                    :chart-data="usersChart.data"
-                    :chart-options="usersChart.options">
-          <span slot="footer">
-            <i class="ti-reload"></i> Updated 3 minutes ago
-          </span>
-          <div slot="legend">
-            <i class="fa fa-circle text-info"></i> Open
-            <i class="fa fa-circle text-danger"></i> Click
-            <i class="fa fa-circle text-warning"></i> Click Second Time
+        <div class="card">
+          <div class = "card-header"><div class = "judul-card">Cash Flow</div> for year {{selected}}</div>
+          <div class="card-body">
+            <BarChart :height="300" :chartData="cashFlowCollection" :options="options" :axis-min="0"></BarChart>
           </div>
-        </chart-card>
-      </div>
-
-      <!-- <div class="col-md-6 col-12">
-        <chart-card title="Email Statistics"
-                    sub-title="Last campaign performance"
-                    :chart-data="projectData"
-                    :chart-options="pieOptions"
-                    chart-type="Pie">
-          <span slot="footer">
-            <i class="ti-timer"></i> Campaign set 2 days ago</span>
-          <div slot="legend">
-            <i class="fa fa-circle text-info"></i> Open
-            <i class="fa fa-circle text-danger"></i> Bounce
-            <i class="fa fa-circle text-warning"></i> Unsubscribe
-          </div>
-        </chart-card>
-      </div> -->
-      <div class="col-md-6 col-12">
-      <div class = "card">
-        <div class = "card-header"><div class = "judul-card">Project Statistics</div> for year 2020</div>
-        <div class = "card-body">
-          <PieChart :width="300" :height="300" :chartData="datacollection" :options="options"></PieChart>
-           
-        </div>
-        <div class = "card-footer">
-          <div slot="legend">
-            <i class="fa fa-circle text-info"></i> Open
-            <i class="fa fa-circle text-danger"></i> Bounce
+          <div class="card-footer">
+            <i class="ti-reload"></i> Updated <time-ago :refresh='60' class="timeago"></time-ago> ago
           </div>
         </div>
       </div>
+
+      <div class="col-md-6 col-12">
+        <div class = "card">
+          <div class = "card-header"><div class = "judul-card">Project Statistics</div> for year {{selected}}</div>
+          <div class = "card-body">
+            <PieChart :width="300" :height="300" :chartData="datacollection" :options="options"></PieChart>
+          </div>
+
+        </div>
       </div>
 
       <div class="col-md-6 col-12">
-        <chart-card title="2015 Sales"
-                    sub-title="All products including Taxes"
-                    :chart-data="activityChart.data"
-                    :chart-options="activityChart.options">
-          <span slot="footer">
-            <i class="ti-check"></i> Data information certified
-          </span>
-          <div slot="legend">
-            <i class="fa fa-circle text-info"></i> Tesla Model S
-            <i class="fa fa-circle text-warning"></i> BMW 5 Series
+        <div class="card">
+          <div class = "card-header"><div class = "judul-card">Profit/Loss</div> for year {{selected}}</div>
+          <div class = "card-body">
+            <LineChart :width="300" :height="300" :chartData="dataprofit" :options="options"></LineChart>
           </div>
-        </chart-card>
+        </div>
       </div>
-
     </div>
 
+    <b-modal title="Failed" v-model="failedModal" centered ok-only>
+      Sorry, data is not available. 
+    </b-modal>
   </div>
 </template>
+
 <script>
-
-
 import { StatsCard, ChartCard } from "@/components/index";
 import PieChart from '@/pages/DirekturUtama/component/PieChart.vue';
+import LineChart from '@/pages/DirekturUtama/component/LineChart.vue';
+import BarChart from '@/pages/DirekturUtama/component/BarChart.vue';
 import Chartist from 'chartist';
 import axios from 'axios';
-
+import TimeAgo from 'vue2-timeago';
 
 export default {
+  name: 'app',
   components: {
     StatsCard,
-    ChartCard, 
-    PieChart
+    ChartCard,
+    PieChart,
+    BarChart,
+    LineChart,
+    TimeAgo,
   },
   /**
    * Chart data used to render stats, charts. Should be replaced with server data
@@ -137,9 +142,11 @@ export default {
   data() {
     return {
       datacollection: {},
+      cashFlowCollection: {},
+      dataprofit: {},
       options: null,
       borderColour : ['#315C9C',"#FF6F61", '#6B5B95', '#9B1B30', '#F5D6C6', '#5A3E36', '#E08119'],
-      // projectData : null,
+      projectData : null,
       list_income : {},
       list_project : {},
       list_expense : {},
@@ -148,109 +155,13 @@ export default {
       income : '',
       order : '',
       project : '',
-      statsCards: [
-        {
-          type: "warning",
-          icon: "ti-server",
-          title: "Capacity",
-          value: "105GB",
-          footerText: "Updated now",
-          footerIcon: "ti-reload"
-        },
-        {
-          type: "success",
-          icon: "ti-wallet",
-          title: "Revenue",
-          value: "$1,345",
-          footerText: "Last day",
-          footerIcon: "ti-calendar"
-        },
-        {
-          type: "danger",
-          icon: "ti-pulse",
-          title: "Errors",
-          value: "23",
-          footerText: "In the last hour",
-          footerIcon: "ti-timer"
-        },
-        {
-          type: "info",
-          icon: "ti-twitter-alt",
-          title: "Followers",
-          value: "+45",
-          footerText: "Updated now",
-          footerIcon: "ti-reload"
-        }
-      ],
-      usersChart: {
-        data: {
-          labels: [
-            "9:00AM",
-            "12:00AM",
-            "3:00PM",
-            "6:00PM",
-            "9:00PM",
-            "12:00PM",
-            "3:00AM",
-            "6:00AM"
-          ],
-          series: [
-            [287, 385, 490, 562, 594, 626, 698, 895, 952],
-            [67, 152, 193, 240, 387, 435, 535, 642, 744],
-            [23, 113, 67, 108, 190, 239, 307, 410, 410]
-          ]
-        },
-        options: {
-          low: 0,
-          high: 1000,
-          showArea: true,
-          height: "245px",
-          axisX: {
-            showGrid: false
-          },
-          lineSmooth: Chartist.Interpolation.simple({
-            divisor: 3
-          }),
-          showLine: true,
-          showPoint: false
-        }
-      },
-      activityChart: {
-        data: {
-          labels: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "Mai",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec"
-          ],
-          series: [
-            [542, 543, 520, 680, 653, 753, 326, 434, 568, 610, 756, 895],
-            [230, 293, 380, 480, 503, 553, 600, 664, 698, 710, 736, 795]
-          ]
-        },
-        options: {
-          seriesBarDistance: 10,
-          axisX: {
-            showGrid: false
-          },
-          height: "245px"
-        }
-      },
-      preferencesChart: {
-        data: {
-          labels: ["50%", "20%", "20%","10%"],
-          series: [50,20,20,10]
-        },
-        options: {}
-      }
+      target : 800000000,
+      budget : 560000000,
+      targetProject : 12,
+      targetOrder : 24,
+      failedModal: false,
+      selected: null,
+      years:null,
     };
   },
 
@@ -259,51 +170,213 @@ export default {
   },
 
   methods: {
+
+    redirect(){
+      this.$router.push({ name: 'dashboard',  params: {year:this.selected}});
+      this.$router.go(0)
+    },
+
     getProject : function(){
-      axios.get('http://localhost:8080/api/dashboard/projects/2020')
-          .then(res => {this.list_project = res.data.result, this.getIncome()})
+      axios.get('http://localhost:8080/api/dashboard/projects/' + this.$route.params.year)
+          .then(res => {this.list_project = res.data.result, this.showMessage(res.data.status), this.getIncome(), this.selected = this.$route.params.year})
           .catch(err => this.list_project = err.data);
     },
     getIncome: function(){
-        axios.get('http://localhost:8080/api/dashboard/income/2020')
+        axios.get('http://localhost:8080/api/dashboard/income/' + this.$route.params.year)
           .then(res => {this.list_income = res.data.result, this.getPengeluaran()})
           .catch(err => this.list_income = err.data);
     },
     getPengeluaran: function(){
-        axios.get('http://localhost:8080/api/dashboard/pengeluaran/2020')
-          .then(res => {this.list_expense = res.data.result, this.getReimbursement()})
+        axios.get('http://localhost:8080/api/dashboard/pengeluaran/' + this.$route.params.year)
+          .then(res => {this.list_expense = res.data.result, this.computeTotal(), this.createProjectData()})
           .catch(err => this.list_expense = err.data);
     },
-    getReimbursement: function(){
-        axios.get('http://localhost:8080/api/dashboard/reimbursement/2020')
-          .then(res => {this.list_reimbursement = res.data.result,this.computeTotal(), this.createProjectData()})
-          .catch(err => this.list_reimbursement = err.data);
+
+    years () {
+      const year = new Date().getFullYear()
+      this.years = Array.from({length: year - 1900}, (value, index) => 1901 + index)
+    },
+
+    showMessage(status){
+      if(status == 200){
+        this.successModal = true;
+      }
+      else if(status == 500){
+        this.failedModal = true;
+      } 
+    },
+
+    formatPrice(value) {
+      if(value < 0){
+        value *= -1
+      }
+        let val = (value/1).toFixed(2).replace('.', ',')
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     },
 
     computeTotal(){
-      var total = 0;
+      var jan = 0; var jan_ex = 0;
+      var feb = 0; var feb_ex = 0;
+      var mar = 0; var mar_ex = 0;
+      var apr = 0; var apr_ex = 0;
+      var may = 0; var may_ex = 0;
+      var jun = 0; var jun_ex = 0;
+      var jul = 0; var jul_ex = 0;
+      var aug = 0; var aug_ex = 0;
+      var sep = 0; var sep_ex = 0;
+      var oct = 0; var oct_ex = 0;
+      var nov = 0; var nov_ex = 0;
+      var dec = 0; var dec_ex = 0;
+      var total = 0; var total_expense = 0;
+
+      var profit_jan = 0; var profit_feb = 0;
+      var profit_mar = 0; var profit_apr = 0;
+      var profit_may = 0; var profit_jun = 0;
+      var profit_jul = 0; var profit_aug = 0;
+      var profit_sep = 0; var profit_oct = 0;
+      var profit_nov = 0; var profit_dec = 0;
       for(let i = 0; i < this.list_income.length; i++){
-        for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
-          total += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+        if(this.list_income[i].date.substring(5,7) == 1){
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            jan += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }else if(this.list_income[i].date.substring(5,7) == 2){
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            feb += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }else if(this.list_income[i].date.substring(5,7) == 3){
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            mar += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }else if(this.list_income[i].date.substring(5,7) == 4){
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            apr += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }else if(this.list_income[i].date.substring(5,7) == 5){
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            may += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }else if(this.list_income[i].date.substring(5,7) == 6){
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            jun += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }else if(this.list_income[i].date.substring(5,7) == 7){
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            jul += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }else if(this.list_income[i].date.substring(5,7) == 8){
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            aug += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }else if(this.list_income[i].date.substring(5,7) == 9){
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            sep += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }else if(this.list_income[i].date.substring(5,7) == 10){
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            oct += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }else if(this.list_income[i].date.substring(5,7) == 11){
+          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+            nov += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
+        }else{
+          for(let j = 0 ; j < this.date[i].serviceOrder.length; j++){
+            dec += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
+          }
         }
       }
+      total = jan + feb + mar + apr + may + jun + jul + aug + sep + oct + nov + dec;
       this.income = total;
 
       this.project = this.list_project.length;
       this.order = this.list_income.length;
-
-      var total_expense = 0;
+      
       for(let i = 0; i < this.list_expense.length; i++){
-        total_expense += this.list_expense[i].nominal;
+        if(this.list_expense[i].tanggal.substring(5,7) == 1){
+          jan_ex += this.list_expense[i].nominal
+        }else if(this.list_expense[i].tanggal.substring(5,7) == 2){
+          feb_ex += this.list_expense[i].nominal
+        }else if(this.list_expense[i].tanggal.substring(5,7) == 3){
+          mar_ex += this.list_expense[i].nominal
+        }else if(this.list_expense[i].tanggal.substring(5,7) == 4){
+          apr_ex += this.list_expense[i].nominal
+        }else if(this.list_expense[i].tanggal.substring(5,7) == 5){
+          may_ex += this.list_expense[i].nominal
+        }else if(this.list_expense[i].tanggal.substring(5,7) == 6){
+          jun_ex += this.list_expense[i].nominal
+        }else if(this.list_expense[i].tanggal.substring(5,7) == 7){
+          jul_ex += this.list_expense[i].nominal
+        }else if(this.list_expense[i].tanggal.substring(5,7) == 8){
+          aug_ex += this.list_expense[i].nominal
+        }else if(this.list_expense[i].tanggal.substring(5,7) == 9){
+          sep_ex += this.list_expense[i].nominal
+        }else if(this.list_expense[i].tanggal.substring(5,7) == 10){
+          oct_ex += this.list_expense[i].nominal
+        }else if(this.list_expense[i].tanggal.substring(5,7) == 11){
+          nov_ex += this.list_expense[i].nominal
+        }else{
+          dec_ex += this.list_expense[i].nominal
+        }
       }
-      for(let i = 0; i < this.list_reimbursement.length; i++){
-        total_expense += this.list_reimbursement[i].totalReimburse;
-      }
+
+      total_expense = jan_ex + feb_ex + mar_ex + apr_ex + may_ex + jun_ex + jul_ex + aug_ex + sep_ex + oct_ex + nov_ex + dec_ex;
+      
       this.expense = total_expense;
+
+      // Data Profit
+      if(jan - jan_ex > 0){ profit_jan += (jan - jan_ex) }
+      if(feb - feb_ex > 0){ profit_feb += (feb - feb_ex) }
+      if(mar - mar_ex > 0){ profit_mar += (mar - mar_ex) }
+      if(apr - apr_ex > 0){ profit_apr += (apr - apr_ex) }
+      if(may - may_ex > 0){ profit_may += (may - may_ex) }
+      if(jun - jun_ex > 0){ profit_jun += (jun - jun_ex) }
+      if(jul - jul_ex > 0){ profit_jul += (jul - jul_ex) }
+      if(aug - aug_ex > 0){ profit_aug += (aug - aug_ex) }
+      if(sep - sep_ex > 0){ profit_sep += (sep - sep_ex) }
+      if(oct - oct_ex > 0){ profit_oct += (oct - oct_ex) }
+      if(nov - nov_ex > 0){ profit_nov += (nov - nov_ex) }
+      if(dec - dec_ex > 0){ profit_dec += (dec - dec_ex) }
+
+      var label_data = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+      var series_data = [profit_jan, profit_feb, profit_mar, profit_apr, profit_may, profit_jun,
+                          profit_jul, profit_aug, profit_sep, profit_oct, profit_nov, profit_dec]
+      this.dataprofit = {
+        labels: label_data,
+        datasets: [
+          {
+            label: "Profit",
+            backgroundColor: "#BD2640",
+            borderColor: "#BD2640",
+            pointBackgroundColor: "#FFFFFF",
+            pointBorderColor: "#F3BB45",
+            data: series_data
+          }
+        ]
+      };
+
+      // Cashflow
+      var data_in = [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]
+      var data_out = [jan_ex, feb_ex, mar_ex, apr_ex, may_ex, jun_ex, jul_ex, aug_ex, sep_ex, oct_ex, nov_ex, dec_ex]
+      this.cashFlowCollection = {
+        labels: label_data,
+        datasets: [
+          {
+            backgroundColor: "#BD2640",
+            data: data_in,
+            label: "Cash In"
+          },
+          {
+            backgroundColor: "#F3BB45",
+            data: data_out,
+            label: "Cash Out"
+          }
+        ]
+      };
     },
 
-    createProjectData(){ 
-      
+    createProjectData(){
+
       var belom_selesai = 0;
       var sudah_selesai = 0;
 
@@ -348,8 +421,35 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
+
+.button_group{
+   margin-bottom: 1rem;
+   margin-left: 14px;
+}
 .judul-card{
   font-size: 20px;
+}
+.find-button{
+    border-color: #109CF1;
+    border-width: 1px;
+    background-color: #109CF1;
+    color:white;
+    margin-bottom: 10px;
+}
+.amount{
+  font-size: 22px;
+  font-weight: bold;
+}
+.profit{
+  color: #1AD616;
+}
+.loss{
+  color: #FF3E1D;
+}
+.timeago{
+  margin-left: 2px;
+  font-size: 12px;
+  font-weight: bold;
 }
 </style>

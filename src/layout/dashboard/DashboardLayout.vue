@@ -17,7 +17,7 @@
           <sidebar-link to="/sales-order" name="Sales Order"/>
         </div>
         <div v-if="showFinanceBoard">
-          <sidebar-link to="/reimbursement-report" name="Reimbursement Report"/>
+          <sidebar-link to="/reimbursement-request" name="Reimbursement Request"/>
           <sidebar-link to="/expense" name="Expense"/>
           <sidebar-link to="/invoice" name="Invoice"/>
           <sidebar-link to="/income-expense-summary" name="Expense & Income Summary"/>

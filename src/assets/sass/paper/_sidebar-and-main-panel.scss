@@ -3,17 +3,16 @@
   top: 0;
   bottom: 0;
   left: 0;
-  z-index: 1;
+  z-index: 0;
   background-size: cover;
   background-position: center center;
   .sidebar-wrapper {
     position: relative;
     height: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
     width: 260px;
+    overflow-y: scroll;
     z-index: 4;
-    box-shadow: inset -1px 0px 0px 0px $medium-gray;
+    box-shadow: inset 0px 0px 0px 0px $medium-gray;
   }
   .sidebar-background {
     position: absolute;
@@ -35,8 +34,20 @@
   font-weight: 200;
 
   .logo {
-    padding: 13px 0;
-    margin: 0 20px;
+    padding: 0px 0px 0px 0px;
+    margin: 0px 10px 0px 10px;
+
+    .user-profile{
+      padding: 15px 0px;
+      margin: 0px 10px;
+    }
+
+    .row{
+      background-color: #303030;
+      .col-9{
+        margin: 0px 0px 0px 0px;
+      }
+    }
 
     p {
       float: left;
@@ -47,25 +58,39 @@
 
     .simple-text {
       padding: $padding-small-vertical $padding-zero;
-      display: block;
-      font-size: 36px;
+      font-size: 20px;
       // text-align: center;
-      font-weight: $font-weight-bold;
       line-height: 40px;
       text-align: left;
 
+      .title{
+        font-weight: $font-weight-bold;
+        font-size:28px;
+        margin-top:15px;
+        margin-left: 10;
+        margin-bottom: 0;
+        color: #F9E9D0;
+      }
+
+      .subtitle{
+        font-size:14px;
+        margin-left: 10px;
+        margin-right: 0px;
+        margin-top: 5px;
+        color: #F9E9D0;
+      }
+
       .logo-img{
-          width: 50px;
-          display: inline-block;
-          height: 50px;
+          width: 70px;
+          height: 70px;
           margin-left: 0px;
-          margin-right: 10px;
+          margin-top: 10px;
           background: white;
           border-radius: 40px;
           text-align: center;
 
         img{
-            max-width: 50px;
+            max-width: 70px;
         }
       }
     }
@@ -76,12 +101,12 @@
 
     .nav-item {
       width: 100%;
-      
+
       .nav-link {
         margin: 0px 0px;
         padding-left: 25px;
         padding-right: 25px;
-        
+
         opacity: .7;
       }
 

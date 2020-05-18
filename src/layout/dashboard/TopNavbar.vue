@@ -1,6 +1,6 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light">
-    <div class="container-fluid">
+  <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+    <div class="container-fluid" style="margin-bottom: 4px;">
       <a class="navbar-brand" href="javascript:history.go(-1)">
         <img src="@/assets/img/back-icon.png" alt="" width="30px">
       </a>
@@ -35,7 +35,8 @@
           </li>
         </ul>
       </div>
-    </div></nav>
+    </div>
+  </nav>
 </template>
 <script>
 export default {
@@ -90,5 +91,13 @@ i{
 #user-info{
   margin-right: -20px;
   margin-bottom: -3px;
+}
+/* The navigation bar */
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%; /* Full width */
 }
 </style>

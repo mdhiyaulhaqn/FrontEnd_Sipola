@@ -10,11 +10,11 @@
     </b-breadcrumb>
     <h3 class="judul"><strong>Add Expense</strong></h3>
     <div class = "row">
-        <div class = "col-10 isi-form">
-            <card>
-            <h5 class = "title-form">Add Expense Form </h5>
+        <div class = "col-md-8 col-sm-8 col-xs-8 col-12 d-block d-xs-block d-sm-block isi-form">
+          <card class="col">
+            <h5 class = "title-form">Add Expense Form</h5>
             <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-                <b-form-group>
+                <b-form-group class="required">
                     <label class="label" for="nama">Expense Name</label>
                     <b-form-input
                         id="companyName"
@@ -26,20 +26,20 @@
                     </b-form-input>
                 </b-form-group>
 
-                <b-form-group>
+                <b-form-group class="required">
                     <label class="label" for="nominal">Nominal</label>
                     <b-form-input
                         id="companyAddress"
                         v-model="newPengeluaran.nominal"
                         type="number"
                         required
-                        placeholder="Nominal"
+                        placeholder="0"
                         min=0
                         >
                     </b-form-input>
                 </b-form-group>
 
-                <b-form-group>
+                <b-form-group class="required">
                     <label class="label" for="tanggal">Date</label>
                     <b-form-input
                         id="companyName"
@@ -51,7 +51,7 @@
                     </b-form-input>
                 </b-form-group>
 
-                <b-form-group>
+                <b-form-group class="required">
                     <label class="label" for="paidBy">Paid by</label>
                     <b-form-input
                         id="companyName"
@@ -65,15 +65,10 @@
                 </b-form-group>
 
                 <div class = "button-group">
-
-                <router-link to="/expense">
-                    <b-button class = "cancel-button" type="reset">Cancel</b-button>
-                </router-link>
-                <b-button class = "add-pengeluaran-button" type="submit">Save</b-button>
-
+                  <b-button class = "save-button" type="submit">Save</b-button>
+                  <b-button class = "cancel-button" type="reset">Cancel</b-button>
                 </div>
-                
-            </b-form>
+              </b-form>
             </card>
         </div>
     </div>
@@ -97,7 +92,10 @@
                 </b-row>
                 </div>
                 <b-row class="button-detail-group">
-                    <b-button @click="toDetailPage" id ="button-see-detail" variant="outline-primary">
+                    <router-link :to="{name: 'expense'}">
+                      <b-button class="back-button">Back to List</b-button>
+                    </router-link>
+                    <b-button @click="toDetailPage" class="see-button">
                         See Details
                     </b-button>
                 </b-row>
@@ -117,7 +115,7 @@ import authHeader from '../../services/auth-header';
 
   export default {
     components : {
-        
+
     },
     data() {
       return {
@@ -137,7 +135,7 @@ import authHeader from '../../services/auth-header';
             show: true
         }
     },
-    
+
     methods: {
         onSubmit(evt) {
             evt.preventDefault()
@@ -151,7 +149,6 @@ import authHeader from '../../services/auth-header';
             }, { headers: authHeader() })
             .then((response) => {
                 this.newPengeluaran.id = response.data.result.id
-                console.log(response.data.status)
                 this.showMessage(response.data.status)
             })
         },
@@ -177,7 +174,6 @@ import authHeader from '../../services/auth-header';
             })
         },
         toDetailPage(){
-            console.log(" ID 2 : " + this.newPengeluaran.id)
             this.$router.replace("/expense/" + this.newPengeluaran.id)
         }
     }
@@ -201,14 +197,14 @@ import authHeader from '../../services/auth-header';
 }
 
 .judul{
-    text-align: center;
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
 }
 
 .title-form{
-    font-weight: 900;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 
 .isi-form{
@@ -217,31 +213,59 @@ import authHeader from '../../services/auth-header';
 }
 
 .label{
-    font-weight: 700;
+    font-weight: 600;
 }
 
-.button-group{
-    text-align: center;
-    padding-top: 30px;
-    padding-bottom: 20px;
-}
-
-.add-pengeluaran-button{
-    margin-left: 10px;
-    width: 130px;
-    border-color: #109CF1;
-    border-width: 1px;
-    background-color: #109CF1;
-    color:white;
-    line-height: 15px;
+.save-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-right: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
 }
 
 .cancel-button{
-    color:#109CF1;
-    border-color:#109CF1;
-    border-width: 1px;
-    background-color: white;
-    line-height: 15px;
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 80px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.see-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-left: 10px;
+  line-height: 13px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
+}
+
+.back-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 100px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.button-group{
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .modal-icon{
@@ -253,12 +277,6 @@ import authHeader from '../../services/auth-header';
     margin-top: 50px;
 }
 
-#button-see-detail{
-    color: #109CF1;
-    border-color: #109CF1;
-    border-width: 1px;
-}
-
 #modal-title-success{
   color: #109CF1;
   font-weight: 1000;
@@ -267,5 +285,9 @@ import authHeader from '../../services/auth-header';
 
 #modal-message{
   font-size: 16px;
+}
+.required label:after {
+  content:" *";
+  color: red;
 }
 </style>

@@ -8,9 +8,8 @@
       </b-breadcrumb>
       <h3 class="judul"><strong>Activity List Schedule</strong></h3>
       <card>
-        <!-- <b-container fluid> -->
-          <!-- User Interface controls -->
-          <b-row align-h="between">
+        <b-container fluid>
+          <b-row align-h="between" style="margin-top: 12px;">
             <b-col md="2">
               <router-link :to="{name: 'add-activity-list-schedule'}">
                 <b-button id ="add_activity_button" class="btn btn-primary">
@@ -46,10 +45,8 @@
                 </b-input-group>
               </b-form-group>
             </b-col>
-
           </b-row>
 
-          <!-- Main table element -->
           <b-table
             show-empty
             :small="true"
@@ -65,19 +62,37 @@
             :sort-direction="sortDirection"
             @filtered="onFiltered"
             :borderless="true"
-            sort-icon-left
+            sort-icon-right
             :sticky-header="true"
             >
-
-            <template v-slot:cell(id)="row">
-              {{items.indexOf(row.item) + 1}}
+            <template v-slot:head(index)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(namaProyek)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(namaPerusahaan)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(startDate)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(endDate)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(action)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
             </template>
 
-            <template v-slot:cell(listTugas[0].tanggalMulaiTugas)="row">
-              {{ row.item.listTugas[0].tanggalMulaiTugas | moment("ll") }}
+            <template v-slot:cell(index)="row">
+              {{ row.index + 1 }}
             </template>
-            <template v-slot:cell(listTugas[0].tanggalSelesaiTugas)="row">
-              {{ row.item.listTugas.slice(-1)[0].tanggalSelesaiTugas | moment("ll") }}
+
+            <template v-slot:cell(startDate)="row">
+              {{ row.item.startDate | moment("ll") }}
+            </template>
+            <template v-slot:cell(endDate)="row">
+              {{ row.item.endDate | moment("ll") }}
             </template>
 
             <template v-slot:cell(action)="row">
@@ -87,39 +102,63 @@
                 </b-button>
               </router-link>
             </template>
-
           </b-table>
-
-          <b-row align-h="end">
-            <b-col md="3" class="my-1">
-              <b-form-group
-                label="Rows per page:"
-                label-cols-sm="7"
-                label-align-sm="right"
-                label-size="sm"
-                label-for="perPageSelect"
-                class="mb-0"
-              >
-                <b-form-select
-                  v-model="perPage"
-                  id="perPageSelect"
-                  size="sm"
-                  :options="pageOptions"
-                ></b-form-select>
-              </b-form-group>
+          <b-row align-h="between">
+            <b-col cols="4">
+              <div v-if="perPage > activityListSchedule.length" class="my-2">
+                <b-card-sub-title>Showing {{ activityListSchedule.length }} of {{ activityListSchedule.length }}</b-card-sub-title>
+              </div>
+              <div v-else-if="currentPage != 1" class="my-2">
+                <b-card-sub-title>Showing {{ activityListSchedule.length % perPage }} of {{ activityListSchedule.length }}</b-card-sub-title>
+              </div>
+              <div v-else class="my-2">
+                <b-card-sub-title>Showing {{ perPage }} of {{ activityListSchedule.length }}</b-card-sub-title>
+              </div>
             </b-col>
-            <b-col md="3" class="my-1">
-              <b-pagination
-                v-model="currentPage"
-                :total-rows="totalRows"
-                :per-page="perPage"
-                align="fill"
-                size="sm"
-                class="my-0"
-              ></b-pagination>
+            <b-col cols="8">
+              <div>
+                <b-form-group
+                  label="Rows per page:"
+                  label-cols="8"
+                  label-cols-sm="8"
+                  label-cols-md="8"
+                  label-cols-xl="10"
+                  label-cols-lg="8"
+                  label-align="right"
+                  label-align-md="right"
+                  label-align-sm="right"
+                  label-align-lg="right"
+                  label-align-xl="right"
+                  label-size="sm"
+                  label-for="perPageSelect"
+                  class="mb-0"
+                >
+                  <b-form-select
+                    v-model="perPage"
+                    id="perPageSelect"
+                    size="sm"
+                    :options="pageOptions"
+                  ></b-form-select>
+                </b-form-group>
+              </div>
             </b-col>
           </b-row>
-        <!-- </b-container> -->
+          <b-row>
+            <b-col>
+              <div style="margin: 10px 0 0 0;">
+                <b-pagination
+                  v-model="currentPage"
+                  :total-rows="totalRows"
+                  :per-page="perPage"
+                  align="center"
+                  size="md"
+                  class="my-1"
+                  style="margin-left: 0;"
+                ></b-pagination>
+              </div>
+            </b-col>
+          </b-row>
+        </b-container>
       </card>
     </div>
   </div>
@@ -132,20 +171,20 @@ export default {
     return {
       activityListSchedule: [],
       fields: [
-        { key: 'id', label: 'No', sortable: false, },
+        { key: 'index', label: 'No' },
         { key: 'namaProyek', label: 'Project Name', sortable: true, },
         { key: 'namaPerusahaan', label: 'Company Name', sortable: true, },
-        { key: 'listTugas[0].tanggalMulaiTugas', label: 'Start Date', sortable: true, },
-        { key: 'listTugas[0].tanggalSelesaiTugas', label: 'End Date', sortable: true, },
+        { key: 'startDate', label: 'Start Date', sortable: true, },
+        { key: 'endDate', label: 'End Date', sortable: true, },
         { key: 'action', label: 'Action', }
       ],
       totalRows: 1,
       currentPage: 1,
       perPage: 5,
       pageOptions: [5, 10, 25, 50, 100],
-      sortBy: '',
-      sortDesc: false,
-      sortDirection: 'asc',
+      sortBy: 'id',
+      sortDesc: true,
+      sortDirection: 'desc',
       filter: null,
       filterOn: [],
     }
@@ -204,7 +243,7 @@ export default {
 .judul{
   text-align: center;
   color: black;
-  margin: 5px 0 24px 0;
+  margin: 11px 0 24px 0;
 }
 #breadcrumb{
   font-size: 12px;
