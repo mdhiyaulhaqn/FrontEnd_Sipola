@@ -13,7 +13,7 @@
           <div class = "row">
 
             <div class = "col-3">
-          
+
             <div class="logo-img">
                 <img src="@/assets/img/company-logo.png" alt="">
             </div>
@@ -24,7 +24,7 @@
             </div>
 
           </div>
-          
+
         </a>
       </div>
       <div class="logo">

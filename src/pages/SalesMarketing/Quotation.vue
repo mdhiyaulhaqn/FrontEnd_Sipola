@@ -280,5 +280,4 @@ export default {
     color: #FF3E1D;
     background: none;
 }
-
 </style>
