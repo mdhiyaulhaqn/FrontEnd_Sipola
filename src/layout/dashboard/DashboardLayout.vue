@@ -149,5 +149,7 @@ export default {
 </script>
 
 <style scoped>
-
+.wrapper{
+  background-color: #F7F8FC;
+}
 </style>
