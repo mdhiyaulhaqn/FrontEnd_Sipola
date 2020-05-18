@@ -19,8 +19,9 @@
           <li class="nav-item" id="user-info">
             <span>
             <p class="nav-link">
-              ringgi.cahyo<br>
-              <a href="#">Change Password</a> | <a href="#">Sign Out</a>
+              {{currentUser.username}}<br>
+              <!-- <a href="#">Change Password</a> |  -->
+              <a href @click.prevent="logOut">Sign Out</a>
             </p>
             </span>
           </li>
@@ -43,6 +44,9 @@ export default {
     routeName() {
       const { name } = this.$route;
       return this.capitalizeFirstLetter(name);
+    },
+    currentUser() {
+      return this.$store.state.auth.user;
     }
   },
   data() {
@@ -65,6 +69,10 @@ export default {
     },
     hideSidebar() {
       this.$sidebar.displaySidebar(false);
+    },
+    logOut() {
+      this.$store.dispatch('auth/logout');
+      this.$router.push('/login');
     }
   }
 };
