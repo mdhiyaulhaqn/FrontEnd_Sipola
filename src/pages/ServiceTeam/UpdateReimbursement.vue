@@ -310,13 +310,13 @@ export default {
         },
 
         getDetail: function(){
-            axios.get(this.url_local + this.$route.params.id + '/detail', { headers: authHeader() })
+            axios.get(this.url_deploy + this.$route.params.id + '/detail', { headers: authHeader() })
             .then(res => {this.reimbursement = res.data, this.fetchData()})
             .catch(err => this.reimbursement = err.data);
         },
 
         updateReimbursement(reimburse){
-            axios.put(this.url_local + this.$route.params.id + '/update',
+            axios.put(this.url_deploy + this.$route.params.id + '/update',
             reimburse,
                 { headers: authHeader()
             })
@@ -338,7 +338,7 @@ export default {
         uploadFile(attach) {
             let formData = new FormData();
             formData.append('file', attach);
-            axios.post(this.url_attachment_local + 'uploadFile',
+            axios.post(this.url_attachment_deploy + 'uploadFile',
             formData,
             {
                 headers: authHeader()

@@ -251,7 +251,7 @@ export default {
       },
 
       getAllReimbursement: function(){
-          axios.get(this.url_local+ 'all', { headers: authHeader() })
+          axios.get(this.url_deploy+ 'all', { headers: authHeader() })
           .then(result => this.reimbursement = result.data.result);
       },
   }

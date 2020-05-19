@@ -200,7 +200,7 @@ export default {
         filter: null,
         filterOn: [],
         url_local: "http://localhost:8080/api/reimbursement/",
-        url_deploy: "http://sipola-sixab.herokuapp.com/api/reimbursement/",
+        url_deploy: "https://sipola-sixab.herokuapp.com/api/reimbursement/",
     }
   },
   computed: {
@@ -224,7 +224,7 @@ export default {
 
   methods:{
         getAllReimbursement: function(){
-            axios.get(this.url_local + 'all/request', { headers: authHeader() })
+            axios.get(this.url_deploy + 'all/request', { headers: authHeader() })
             .then(result => this.reimbursement = result.data.result);
         },
 

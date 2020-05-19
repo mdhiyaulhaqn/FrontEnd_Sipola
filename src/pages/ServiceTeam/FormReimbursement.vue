@@ -249,7 +249,7 @@ export default {
         },
 
         addReimbursement(reimburse){
-            axios.post(this.url_local + 'add',
+            axios.post(this.url_deploy + 'add',
             reimburse,
                 { headers: authHeader()
             })
@@ -291,7 +291,7 @@ export default {
             let formData = new FormData();
             formData.append('file', attach);
             this.loading = true;
-            axios.post(this.url_attachment_local + 'uploadFile',
+            axios.post(this.url_attachment_deploy + 'uploadFile',
             formData, {headers: authHeader()}
             )
             .then(res => {this.attachments.push(res.data.result)});
