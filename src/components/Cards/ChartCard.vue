@@ -33,7 +33,6 @@
 import Card from "./Card.vue";
 import { mixins } from 'vue-chartjs'
 const { reactiveProp } = mixins
-
 export default {
   name: "chart-card",
   components: {

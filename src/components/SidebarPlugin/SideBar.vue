@@ -181,7 +181,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .user-profile{
   color:white;
   text-align: center;

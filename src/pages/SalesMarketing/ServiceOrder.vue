@@ -18,8 +18,7 @@
          <span class = "col-md-2 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
             <label class="label" style="margin-left: -8px;">Quantity</label>
         </span>
-
-         <div class= "col-md-2 col-sm-8 col-xs-8 col-7">
+        <div class= "col-md-2 col-sm-8 col-xs-8 col-7">
             <b-form-input
                 id="quantity"
                 v-model="service_order.quantity"
@@ -33,7 +32,6 @@
          <span class = "col-md-2 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
             <label class="label" style="margin-left: -8px;">UOM</label>
         </span>
-
          <div class= "col-md-2 col-sm-8 col-xs-8 col-7">
             <b-form-input
                 id="uom"
@@ -158,7 +156,7 @@ export default {
 <style scoped>
 .service_order_row{
     margin-bottom: 10px;
-    margin-right: 0px;
+    margin-left: 0;
 }
 .label{
   font-weight: 600;

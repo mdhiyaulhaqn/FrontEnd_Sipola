@@ -7,7 +7,7 @@
             <b-breadcrumb-item :to="{name: 'sales-order-for-invoice'}">
                 Sales Order
             </b-breadcrumb-item>
-            <b-breadcrumb-item :to="{name: 'detail-sales-order-for-invoice'}">
+            <b-breadcrumb-item :to="{name: 'detail-sales-order'}">
                 Detail Sales Order
             </b-breadcrumb-item>
             <b-breadcrumb-item active>
@@ -140,7 +140,7 @@
 
                         <b-row class="service_orders" v-bind:key="item.id_service_orders" v-for="item in sales_order.serviceOrder" style="margin-bottom: 10px;">
                             <b-col disabled>
-                            <ServiceOrder v-bind:service_order="item"/>
+                                <ServiceOrder v-bind:service_order="item"/>
                             </b-col>
                         </b-row>
 

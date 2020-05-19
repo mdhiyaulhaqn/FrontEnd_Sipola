@@ -1,6 +1,7 @@
 import DashboardLayout from "@/layout/dashboard/DashboardLayout.vue";
 // GeneralViews
 import NotFound from "@/pages/NotFoundPage.vue";
+import Forbidden from "@/pages/ForbiddenPage.vue";
 
 // Admin pagesc
 import Dashboard from "@/pages/DirekturUtama/Dashboard.vue";
@@ -47,8 +48,6 @@ import DetailPurchaseOrder from "@/pages/Logistic/DetailPurchaseOrder.vue";
 import FormPurchaseOrder from "@/pages/Logistic/FormPurchaseOrder.vue";
 import UpdatePurchaseOrder from "@/pages/Logistic/UpdatePurchaseOrder.vue";
 import Profile from "@/pages/Profile.vue";
-// import Login from "@/pages/Login.vue";
-import Register from "@/pages/Register.vue";
 import User from "@/pages/Admin/User.vue";
 import AddUser from "@/pages/Admin/AddUser.vue";
 import UpdateUser from "@/pages/Admin/UpdateUser.vue";
@@ -64,107 +63,170 @@ const routes = [
       {
         path: "dashboard/:year",
         name: "dashboard-year",
-        component: Dashboard
+        component: Dashboard,
+        meta : {
+          is_dirut : true
+        }
       },
       {
         path: "dashboard/",
         name: "dashboard",
-        component: Dashboard
+        component: Dashboard,
+        meta : {
+          is_dirut : true
+        }
       },
       {
         path: "quotation/add",
         name: "add-quotation",
-        component: FormQuotation
+        component: FormQuotation,
+        meta : {
+          is_sales : true
+        }
       },
       {
         path: "sales-order/add",
         name: "add-sales-order",
-        component: FormSalesOrder
+        component: FormSalesOrder,
+        meta : {
+          is_sales : true
+        }
       },
       {
         path: "quotation/:id/update",
         name: "update-quotation",
-        component: UpdateQuotation
+        component: UpdateQuotation,
+        meta : {
+          is_sales : true
+        }
       },
       {
         path: "quotation/:id",
         name: "detail-quotation",
-        component: DetailQuotation
+        component: DetailQuotation,
+        meta : {
+          is_sales : true
+        }
       },
       {
         path: "quotation",
         name: "quotation",
-        component: Quotation
+        component: Quotation,
+        meta : {
+          is_sales : true
+        }
       },
       {
         path: "sales-order",
         name: "sales-order",
-        component: SalesOrder
+        component: SalesOrder,
+        meta : {
+          is_sales : true
+        }
       },
       {
         path: "sales-order/:id",
         name: "detail-sales-order",
-        component: DetailSalesOrder
+        component: DetailSalesOrder,
+        meta : {
+          is_sales : true
+        }
       },
       {
         path: "sales-order/:id/update",
         name: "update-sales-order",
-        component: UpdateSalesOrder
+        component: UpdateSalesOrder,
+        meta : {
+          is_sales : true
+        }
       },
       {
         path: "delivery-order/add",
         name: "add-delivery-order",
-        component: AddDeliveryOrder
+        component: AddDeliveryOrder,
+        meta : {
+          is_pm : true
+        }
       },
       {
         path: "delivery-order",
         name: "delivery-order",
-        component: DeliveryOrder
+        component: DeliveryOrder,
+        meta : {
+          is_pm : true
+        }
       },
       {
         path: "delivery-order/:id",
         name: "detail-delivery-order",
-        component: DetailDeliveryOrder
+        component: DetailDeliveryOrder,
+        meta : {
+          is_pm : true
+        }
       },
       {
         path: "delivery-order/:id/update",
         name: "update-delivery-order",
-        component: UpdateDeliveryOrder
+        component: UpdateDeliveryOrder,
+        meta : {
+          is_pm : true
+        }
       },
       {
         path: "expense",
         name: "expense",
-        component: Pengeluaran
+        component: Pengeluaran,
+        meta : {
+          is_finance : true
+        }
       },
       {
         path: "expense/:id",
         name: "expense-detail",
-        component: DetailPengeluaran
+        component: DetailPengeluaran,
+        meta : {
+          is_finance : true
+        }
       },
       {
         path: "expense/:id/update",
         name: "expense-update",
-        component: UpdatePengeluaran
+        component: UpdatePengeluaran,
+        meta : {
+          is_finance : true
+        }
       },
       {
         path: "expense/add",
         name: "expense-add",
-        component: FormPengeluaran
+        component: FormPengeluaran,
+        meta : {
+          is_finance : true
+        }
       },
       {
         path: "invoice",
         name: "invoice",
-        component: Invoice
+        component: Invoice,
+        meta : {
+          is_finance : true
+        }
       },
       {
         path: "invoice/:id",
         name: "detail-invoice",
-        component: DetailInvoice
+        component: DetailInvoice,
+        meta : {
+          is_finance : true
+        }
       },
       {
         path: "invoice/sales-order/:id/add",
         name: "invoice-add",
-        component: FormInvoice
+        component: FormInvoice,
+        meta : {
+          is_finance : true
+        }
       },
       {
         path: "invoice/sales-order",
@@ -179,73 +241,119 @@ const routes = [
       {
         path: "invoice/:id/update",
         name: "update-invoice",
-        component: UpdateInvoice
+        component: UpdateInvoice,
+        meta : {
+          is_finance : true
+        }
       },
       {
         path: "activity-list-schedule",
         name: "activity-list-schedule",
-        component: ActivityListSchedule
+        component: ActivityListSchedule,
+        meta : {
+          is_pm : true
+        }
       },
       {
         path: "reimbursement-report",
         name: "reimbursement-report",
-        component: ReimbursementReport
+        component: ReimbursementReport,
+        meta : {
+          is_service_team : true,
+          is_finance : true
+        }
       },
       {
         path: "reimbursement-report/:id/detail",
         name: "detail-reimbursement",
-        component: DetailReimbursement
+        component: DetailReimbursement,
+        meta : {
+          is_service_team : true,
+          is_finance : true
+        }
       },
       {
         path: "reimbursement-report/add",
         name: "add-reimbursement",
-        component: FormReimbursement
+        component: FormReimbursement,
+        meta : {
+          is_service_team : true,
+          is_finance : true
+        }
       },
       {
         path: "reimbursement-report/:id/update",
         name: "update-reimbursement",
-        component: UpdateReimbursement
+        component: UpdateReimbursement,
+        meta : {
+          is_service_team : true,
+          is_finance : true
+        }
 
       },
       {
         path: "activity-list-schedule/add",
         name: "add-activity-list-schedule",
-        component: AddActivityListSchedule
+        component: AddActivityListSchedule,
+        meta : {
+          is_pm : true
+        }
       },
       {
         path: "activity-list-schedule/:id",
         name: "detail-activity-list-schedule",
-        component: DetailActivityListSchedule
+        component: DetailActivityListSchedule,
+        meta : {
+          is_pm : true
+        }
       },
       {
         path: "activity-list-schedule/:id/update",
         name: "update-activity-list-schedule",
-        component: UpdateActivityListSchedule
+        component: UpdateActivityListSchedule,
+        meta : {
+          is_pm : true
+        }
       },
       {
         path: "daily-activity-report",
         name: "daily-activity-report",
-        component: DailyActivityReport
+        component: DailyActivityReport,
+        meta : {
+          is_supervisor : true
+        }
       },
       {
         path: "daily-activity-report/add",
         name: "add-daily-activity-report",
-        component: AddDailyActivityReport
+        component: AddDailyActivityReport,
+        meta : {
+          is_supervisor : true
+        }
       },
       {
         path: "daily-activity-report/:id",
         name: "detail-daily-activity-report",
-        component: DetailDailyActivityReport
+        component: DetailDailyActivityReport,
+        meta : {
+          is_supervisor : true
+        }
       },
       {
         path: "daily-activity-report/:id/update",
         name: "update-daily-activity-report",
-        component: UpdateDailyActivityReport
+        component: UpdateDailyActivityReport,
+        meta : {
+          is_supervisor : true
+        }
       },
       {
         path: "income-expense-summary",
         name: "income-expense-summary",
-        component: RingkasanPendapatanPengeluaran
+        component: RingkasanPendapatanPengeluaran,
+        meta : {
+          is_finance : true
+        }
       },
       // {
       //   path: "/",
@@ -255,30 +363,38 @@ const routes = [
       {
         path: "purchase-order",
         name: "purchase-order",
-        component: PurchaseOrder
+        component: PurchaseOrder,
+        meta : {
+          is_logistik : true
+        }
       },
       {
         path: "purchase-order/:id",
         name: "detail-purchase-order",
-        component: DetailPurchaseOrder
+        component: DetailPurchaseOrder,
+        meta : {
+          is_logistik : true
+        }
       },
       {
         path: "purchase-order/add",
         name: "purchase-order-add",
-        component: FormPurchaseOrder
+        component: FormPurchaseOrder,
+        meta : {
+          is_logistik : true
+        }
       },
       {
         path: "purchase-order/:id/update",
         name: "update-purchase-order",
-        component: UpdatePurchaseOrder
+        component: UpdatePurchaseOrder,
+        meta : {
+          is_logistik : true
+        }
       },
       {
         path: '/login',
         component: Login
-      },
-      {
-        path: '/register',
-        component: Register
       },
       {
         path: '/profile',
@@ -290,31 +406,53 @@ const routes = [
       {
         path: '/user',
         name: 'user',
-        component: User
+        component: User,
+        meta : {
+          is_admin : true
+        }
       },
       {
         path: '/user/add',
         name: 'user-add',
-        component: AddUser
+        component: AddUser,
+        meta : {
+          is_admin : true
+        }
       },
       {
-        path: '/user/:id/update',
+        path: '/user/:username/update',
         name: 'user-update',
-        component: UpdateUser
+        component: UpdateUser,
+        meta : {
+          is_admin : true
+        }
       },
       {
         path: "reimbursement-request/:id/detail",
         name: "detail-request",
-        component: DetailReimbursementRequest
+        component: DetailReimbursementRequest,
+        meta : {
+          is_finance : true,
+          is_service_team : true,
+        }
       },
       {
         path: "reimbursement-request",
         name: "reimbursement-request",
-        component: ReimbursementRequest
+        component: ReimbursementRequest,
+        meta : {
+          is_finance : true,
+          is_service_team : true,
+        },
       },
+      {
+        path: "forbidden",
+        name: "noaccess",
+        component: Forbidden
+      }
     ]
   },
-  { path: "*", component: NotFound }
+  { path: "*", component: NotFound },
 ];
 
 /**

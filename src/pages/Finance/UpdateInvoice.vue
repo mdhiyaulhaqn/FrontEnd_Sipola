@@ -144,7 +144,7 @@
                 <div class="row">
                     <div class="col-6">
                         <b-form-group class="required">
-                            <label for="paymentTerms">Payment Terms</label>
+                            <label class="label" for="paymentTerms">Payment Terms</label>
                             <b-form-input
                                 id="paymentTerms"
                                 v-model="invoice.paymentTerms"
@@ -159,7 +159,7 @@
 
                     <div class="col-6">
                         <b-form-group class="required">
-                            <label for="termsOfDelivery">Terms of Delivery</label>
+                            <label class="label" for="termsOfDelivery">Terms of Delivery</label>
                             <b-form-input
                                 id="termsOfDelivery"
                                 v-model="invoice.termsOfDelivery"
@@ -444,5 +444,8 @@ h5{
 .required label:after {
   content:" *";
   color: red;
+}
+.label{
+    font-weight: 600;
 }
 </style>

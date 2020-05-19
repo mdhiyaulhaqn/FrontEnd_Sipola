@@ -12,13 +12,12 @@
     <div class = "row">
         <div class = "col-10 isi-form">
             <card>
-            <form name="form" @submit.prevent="handleRegister">
-
+            <form name="form" @submit.prevent="onConfirmation">
                 <h5 class = "title-form">Personal Information </h5>
                 <b-row>
                     <div class = "col-md-12 col-12">
                         <b-form-group>
-                            <label for="Name">Name</label>
+                            <label for="name">Name</label>
                             <b-form-input
                                 id="Name"
                                 v-model="user.name"
@@ -29,7 +28,7 @@
                                 placeholder="Name">
                             </b-form-input>
                         </b-form-group>
-                    </div>
+                    </div>  
                 </b-row>
                 <b-row>
                     <div class = "col-md-12 col-12">
@@ -45,7 +44,7 @@
                                 placeholder="Address">
                             </b-form-input>
                         </b-form-group>
-                    </div>
+                    </div>  
                 </b-row>
                 <b-row>
                     <div class = "col-md-12 col-12">
@@ -61,7 +60,7 @@
                                 placeholder="Phone Number">
                             </b-form-input>
                         </b-form-group>
-                    </div>
+                    </div>  
                 </b-row>
                 <b-row>
                     <div class = "col-md-12 col-12">
@@ -77,90 +76,27 @@
                                 placeholder="Email">
                             </b-form-input>
                         </b-form-group>
-                    </div>
+                    </div>  
                 </b-row>
                 <h5 class = "title-form">Account Information </h5>
                 <b-row>
                     <div class = "col-md-12 col-12">
                         <b-form-group>
-                            <label for="Role">Role</label>
-                            <b-form-select v-model="selectedRole" :options="roles"></b-form-select>
+                            <label for="roles">Role</label>
+                            <b-form-select v-model="selectedRole" :options="roles" required></b-form-select>
                             <div
                                 v-if="submitted && errors.has('role')"
                                 class="alert-danger"
                                 >{{errors.first('role')}}</div>
                         </b-form-group>
-                    </div>
+                    </div>  
                 </b-row>
-                <b-row>
-                    <div class = "col-md-12 col-12">
-                        <b-form-group>
-                            <label for="Username">Username</label>
-                            <b-form-input
-                                id="Username"
-                                v-model="user.username"
-                                type="text"
-                                class="form-control"
-                                name="username"
-                                required
-                                placeholder="Username">
-                            </b-form-input>
-                        </b-form-group>
-                    </div>
-                </b-row>
-                <b-row>
-                    <div class = "col-md-12 col-12">
-                        <b-form-group>
-                            <label for="Password">Password</label>
-                            <b-form-input
-                                id="Password"
-                                v-model="user.password"
-                                min="6"
-                                type="password"
-                                class="form-control"
-                                name="password"
-                                ref="password"
-                                required
-                                placeholder="Password">
-                            </b-form-input>
-                        </b-form-group>
-                    </div>
-                </b-row>
-                <b-row>
-                    <div class = "col-md-12 col-12">
-                        <b-form-group>
-                            <label for="password_confirmation">Password Confirmation</label>
-                            <b-form-input
-                                id="password_confirmation"
-                                v-model="PasswordConfirmation"
-                                type="password"
-                                class="form-control"
-                                name="password_confirmation"
-                                v-validate="'required|confirmed:password'"
-                                 data-vv-as="password"
-                                required
-                                placeholder="Password Confirmation">
-                            </b-form-input>
-                        </b-form-group>
-                    </div>
-                </b-row>
-                <div class="alert alert-danger" v-show="errors.any()">
-                    <div v-if="errors.has('password')">
-                        {{ errors.first('password') }}
-                    </div>
-                    <div v-if="errors.has('password_confirmation')">
-                        {{ errors.first('password_confirmation') }}
-                    </div>
-                    <div v-else>
-
-                    </div>
-                </div>
                 <div class = "button-group">
+                    <b-button class = "save-button" type="submit">Save</b-button>
                     <b-button class = "cancel-button" type="reset" v-on:click="redirect()">Cancel</b-button>
-                    <b-button class = "save-button" type="submit">Add</b-button>
                 </div>
             </form>
-
+           
             <!-- <div
                 v-if="message && !successful"
                 class="alert"
@@ -177,6 +113,95 @@
             </card>
         </div>
     </div>
+    <b-modal id="modal-confirm" v-model="confirmationModal" hide-footer centered>
+        <template v-slot:modal-title>
+                <div class="container">
+                    <h5 id="modal-title-success">Save Changes?</h5>
+                </div>
+        </template>
+        <template v-slot:default>
+            <div class = "container">
+                <div class = "info">
+                <b-row>
+                    <b-col cols="3" class="modal-icon">
+                        <img src="@/assets/img/update-confirm-icon.png" alt="" width="60px">
+                    </b-col>
+                    <b-col cols="9">
+                        <p id="modal-message">User will be changed soon once you click the save button.</p>
+                    </b-col>
+                </b-row>
+                </div>
+                <b-row class="button-confirm-group">
+                  <b-button @click="updateUser()" type="submit" class="save-button" v-b-modal.modal-success>
+                      Save
+                  </b-button>
+                  <b-button @click="hideModal" class="cancel-button">
+                      Cancel
+                  </b-button>
+                </b-row>
+            </div>
+        </template>
+        </b-modal>
+        <b-modal id="modal-success" v-model="successModal" hide-footer centered title="Success!">
+            <template v-slot:modal-title>
+                <div class="container">
+                    <h5 id="modal-title-success">Success!</h5>
+                </div>
+            </template>
+            <template v-slot:default>
+                <div class = "container">
+                    <div class = "info">
+                    <b-row>
+                        <b-col cols="3" class="modal-icon">
+                            <img src="@/assets/img/success-icon.png" alt="" width="60px">
+                        </b-col>
+                        <b-col cols="9">
+                            <p id="modal-message">User was successfully updated.</p>
+                        </b-col>
+                    </b-row>
+                    </div>
+                    <b-row class="button-detail-group">
+                        <router-link :to="{name: 'user'}">
+                          <b-button class="back-button">Ok</b-button>
+                        </router-link>
+                        <!-- <b-button @click="toDetailPage" class="see-button">
+                            See Details
+                        </b-button> -->
+                    </b-row>
+                </div>
+            </template>
+        </b-modal>
+    <!-- <b-modal id="modal-confirm" v-model="confirmationModal" hide-footer centered>
+        <template v-slot:modal-title>
+                <div class="container">
+                    <h5 id="modal-title-success">Update User</h5>
+                </div>
+        </template>
+        <template v-slot:default>
+            <div class = "container">
+                <div class = "info">
+                <b-row>
+                    <b-col cols="3" class="modal-icon">
+                        <img src="@/assets/img/update-confirm-icon.png" alt="" width="60px">
+                    </b-col>
+                    <b-col cols="9">
+                        User will be changed soon once you click the save button
+                    </b-col>
+                </b-row>
+                </div>
+                <b-row>
+                    <b-col class="button-confirm-group">
+                        <b-button @click="hideModal" id ="cancel_update_button" class="cancel-button"> 
+                            Cancel
+                        </b-button>
+                        <b-button @click="updateUser()" type="submit" id ="confirm_delete_button" class="update-pengeluaran-button" v-b-modal.modal-success>
+                            Save
+                        </b-button>
+                    </b-col>
+                </b-row>
+            </div>
+        </template>
+    </b-modal>
     <b-modal
         id="modal-success"
         centered
@@ -207,37 +232,46 @@
             </b-button>
         </b-col>
         </template>
-    </b-modal>
-
+    </b-modal> -->
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 import User from '../../models/user';
-
+import Role from '../../models/role';
+import authHeader from '../../services/auth-header';
 export default {
   name: 'Register',
   data() {
     return {
-      user: new User('', '', '', [], '', '', ''),
-      submitted: false,
-      successful: false,
-      message: '',
-      selectedRole: null,
-    //   passwordConfirmation: '',
-      roles: [
-        { value: null, text: '-- Choose Role --'},
-        { value: 'admin', text: 'Admin'},
-        { value: 'direktur_utama', text: 'Direktur Utama'},
-        { value: 'project_manager', text: 'Project Manager'},
-        { value: 'sales_marketing', text: 'Sales Marketing'},
-        { value: 'finance', text: 'Finance'},
-        { value: 'service_team', text: 'Service Team'},
-        { value: 'logistik', text: 'Logistik'},
-        { value: 'supervisor', text: 'Supervisor'},
-      ],
-      url_local: 'http://localhost:8080/api/user/',
-      url_deploy: 'https://sipola-sixab.herokuapp.com/api/user/'
+      user: {
+            name: null,
+            noHP : null,
+            alamat : null,
+            email : null,
+            username : null,
+            roles: []
+        },
+        role: new Role('',''),
+        submitted: false,
+        successful: false,
+        message: '',
+        selectedRole: null,
+        confirmationModal: false,
+        roles: [
+            { value: null, text: '-- Choose Role --'},
+            { value: 'admin', text: 'Admin'},
+            { value: 'direktur_utama', text: 'Direktur Utama'},
+            { value: 'project_manager', text: 'Project Manager'},
+            { value: 'sales_marketing', text: 'Sales Marketing'},
+            { value: 'finance', text: 'Finance'},
+            { value: 'service_team', text: 'Service Team'},
+            { value: 'logistik', text: 'Logistik'},
+            { value: 'supervisor', text: 'Supervisor'},
+        ],
+        url_local: "http://localhost:8080/api/user/",
+        url_deploy: "https://sipola-sixab.herokuapp.com/api/user/",
     };
   },
   computed: {
@@ -245,18 +279,15 @@ export default {
       return this.$store.state.auth.status.loggedIn;
     }
   },
-  mounted() {
-    // if (this.loggedIn) {
-    //   this.$router.push('/profile');
-    // }
-  },
+  beforeMount(){
+        this.getDetail();
+    },
   methods: {
-    getDetail: function(){
-        axios.get(this.url_deploy + this.$route.params.username, { headers: authHeader() })
+    getDetail: function(){    
+        axios.get(this.url_deploy +this.$route.params.username, { headers: authHeader() })
         .then(res => {
             this.user = res.data.result;
             this.user.roles.forEach((role) => {
-                // console.log("APAAN SIH WOY " + role.name);
                 if(role != "ROLE_USER"){
                     this.selectedRole = role.name.substring(5).toLowerCase();
                 }
@@ -273,10 +304,9 @@ export default {
     updateUser(){
         let roleId = this.getRoleId(this.selectedRole);
         this.selectedRole = "ROLE_" + this.selectedRole.toUpperCase();
-
+        
         this.role = new Role(roleId, this.selectedRole)
         this.user.roles.push(this.role);
-
         axios.put(this.url_deploy + this.$route.params.username + '/update', this.user, { headers: authHeader() })
         .then((response) => {
             this.user.username = response.data.result.username
@@ -285,10 +315,8 @@ export default {
     },
     handleRegister() {
       this.user.role.push(this.selectedRole);
-
       this.message = '';
       this.submitted = true;
-
       this.$validator.validate().then(isValid => {
         // isValid = isValid && checkPasswordConfirmation();
         if (isValid) {
@@ -330,36 +358,7 @@ export default {
             default:
                 return 1;
         }
-
-
     },
-    setSelectedRole(){
-        this.user.roles.forEach((role) => {
-            if(role.name != "ROLE_USER"){
-                this.selectedRole = role.name;
-            }
-            // if(role.name == "ROLE_ADMIN"){
-            //     this.selectedRole = "admin";
-            // } else if(role.name == "ROLE_DIREKTUR_UTAMA"){
-            //     return "Direktur Utama";
-            // } else if (role.name == "ROLE_PROJECT_MANAGER"){
-            //     return "Project Manager";
-            // } else if (role.name == "ROLE_SALES_MARKETING"){
-            //     return "Sales Marketing";
-            // } else if (role.name == "ROLE_FINANCE"){
-            //     return "Finance";
-            // } else if (role.name == "ROLE_SERVICE_TEAM"){
-            //     return "Service Team";
-            // } else if (role.name == "ROLE_LOGISTIK"){
-            //     return "Logistik";
-            // } else if (role.name == "ROLE_SUPERVISOR"){
-            //     return "Supervisor";
-            // }
-        });
-    },
-    // checkPasswordConfirmation(){
-    //     return this.user.password == this.passwordConfirmation;
-    // },
     redirect(){
         this.$router.push({ name: 'user' });
     },
@@ -368,7 +367,6 @@ export default {
 </script>
 
 <style scoped>
-
 .add-button{
     width: 100%;
     background-color: white;
@@ -392,29 +390,6 @@ export default {
     margin-right: auto;
 }
 
-.save-button{
-    background-color: #109CF1;
-    color:white;
-    border-color: transparent;
-    font-size: 10px;
-    margin-left: 10px;
-    line-height: 15px;
-    width: 120px;
-    box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
-    text-align: center;
-}
-
-.cancel-button{
-    color:#109CF1;
-    border-color:#109CF1;
-    background-color: white;
-    border-width: 1px;
-    width: 80px;
-    line-height: 15px;
-    text-align: center;
-    font-size: 10px;
-}
-
 .button-group{
     margin-top: 30px;
     text-align: center;
@@ -435,14 +410,16 @@ export default {
     background-color: white;
 }
 .button-confirm-group{
-    text-align: right;
+    float: right;
+    margin-top: 20px;
+    margin-bottom: -2px;
 }
 h5{
     margin-bottom: -4px;
 }
 #breadcrumb{
     font-size: 12px;
-    /* text-decoration: underline; */
+    text-decoration: underline;
     margin: -35px 0 -5px -15px;
     color: #FF3E1D;
     background: none;
@@ -450,4 +427,88 @@ h5{
 #termsConditions{
     height: 200px;
 }
+
+.save-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-right: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
+}
+
+.cancel-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 80px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.see-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-left: 10px;
+  line-height: 13px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
+}
+
+.back-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 100px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.button-group{
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.button-confirm-group{
+    float: right;
+    margin-top: 20px;
+    margin-bottom: -2px;
+}
+
+.modal-icon{
+    text-align: center;
+}
+
+.button-detail-group{
+    float:right;
+    margin-top: 20px;
+    margin-bottom: -2px;
+}
+
+#modal-title-success{
+  color: #109CF1;
+  font-weight: 1000;
+  margin-bottom: -4px;
+}
+
+#modal-message{
+  font-size: 16px;
+}
+.required label:after {
+  content:" *";
+  color: red;
+}
+
+
 </style>
