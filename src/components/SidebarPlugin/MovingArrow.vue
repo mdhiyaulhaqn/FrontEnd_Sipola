@@ -25,7 +25,6 @@ export default {
 </script>
 <style lang="scss">
 $bg-nude: #F7F8FC !default;
-
 .moving-arrow {
   border-right: 17px solid $bg-nude;
   border-top: 17px solid transparent;

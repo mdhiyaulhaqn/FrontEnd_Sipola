@@ -4,14 +4,14 @@
         <strong>Update Invoice</strong>
     </h3>
     <div class = "row">
-        <div class = "col-10 isi-form">
+        <div class = "col-md-8 col-sm-8 col-xs-8 col-12 d-block d-xs-block d-sm-block isi-form">
             <card>
             <h5 class = "title-form">Update Invoice Form</h5>
             <b-form @submit="onModal" v-if="show">
                 <div class = "row">
                     <div class = "col-md-6 col-12">
                         <b-form-group class="required">
-                            <label for="noInvoice">Invoice No</label>
+                            <label class="label" for="noInvoice">Invoice No</label>
                             <b-form-input
                                 id="noInvoice"
                                 v-model="invoice.noInvoice"
@@ -25,7 +25,7 @@
                     <div class = "col-md-3 col-12">
                         <div style="color:black">
                         <b-form-group class="required">
-                            <label for="dateInvoice">Invoice Date</label>
+                            <label class="label" for="dateInvoice">Invoice Date</label>
                             <b-form-input
                                 id="dateInvoice"
                                 v-model="invoice.dateInvoice"
@@ -40,7 +40,7 @@
                     <div class = "col-md-3 col-12">
                         <div style="color:black">
                         <b-form-group class="required">
-                            <label for="dueDatePayment">Due Date</label>
+                            <label class="label" for="dueDatePayment">Due Date</label>
                             <b-form-input
                                 id="dueDatePayment"
                                 v-model="invoice.dueDatePayment"
@@ -55,7 +55,7 @@
                 <div class = "row">
                     <div class = "col-md-7 col-12">
                         <b-form-group class="required">
-                            <label for="noPurchaseOrder">Purchase Order No</label>
+                            <label class="label" for="noPurchaseOrder">Purchase Order No</label>
                             <b-form-input
                                 id="noPurchaseOrder"
                                 v-model="invoice.salesOrder.poNumber"
@@ -69,7 +69,7 @@
                     <div class = "col-md-5 col-12">
                         <div style="color:black">
                         <b-form-group class="required">
-                            <label for="purchaseOrderDate">PurchaseOrder Date</label>
+                            <label class="label" for="purchaseOrderDate">PurchaseOrder Date</label>
                             <b-form-input
                                 id="date"
                                 v-model="invoice.salesOrder.poDate"
@@ -83,7 +83,7 @@
                 </div>
 
                 <b-form-group class="required">
-                    <label for="companyName">Company Name</label>
+                    <label class="label" for="companyName">Company Name</label>
                     <b-form-input
                         id="companyName"
                         v-model="invoice.salesOrder.company.nama"
@@ -95,7 +95,7 @@
                 </b-form-group>
 
                 <b-form-group class="required">
-                    <label for="companyAddress">Company Address</label>
+                    <label class="label" for="companyAddress">Company Address</label>
                     <b-form-input
                         id="companyAddress"
                         v-model="invoice.salesOrder.company.alamat"
@@ -109,16 +109,16 @@
                 <div class="d-none d-md-block d-lg-block">
                     <div class="row">
                         <div class="col-md-5 col-12 required">
-                            <label>Service Order</label>
+                            <label class="label">Service Order</label>
                         </div>
                         <div class="col-md-2 col-12 required">
-                            <label>UOM</label>
+                            <label class="label">UOM</label>
                         </div>
                         <div class="col-md-2 col-12 required">
-                            <label>Qty</label>
+                            <label class="label">Qty</label>
                         </div>
                         <div class="col-md-3 col-12 required">
-                            <label>UnitPrice</label>
+                            <label class="label"> UnitPrice</label>
                         </div>
                     </div>
                 </div>
@@ -132,7 +132,7 @@
                 <div class="row">
                     <div class="col-6">
                         <b-form-group class="required">
-                            <label for="paymentTerms">Payment Terms</label>
+                            <label class="label" for="paymentTerms">Payment Terms</label>
                             <b-form-input
                                 id="paymentTerms"
                                 v-model="invoice.paymentTerms"
@@ -147,7 +147,7 @@
 
                     <div class="col-6">
                         <b-form-group class="required">
-                            <label for="termsOfDelivery">Terms of Delivery</label>
+                            <label class="label" for="termsOfDelivery">Terms of Delivery</label>
                             <b-form-input
                                 id="termsOfDelivery"
                                 v-model="invoice.termsOfDelivery"
@@ -226,7 +226,7 @@
                 <router-link :to="{name: 'invoice'}">
                     <b-button class="back-button">Back to List</b-button>
                 </router-link>
-                <b-button @click="ok()" id="ok-button" variant="outline-primary">
+                <b-button @click="ok()" class="ok-button">
                     See Details
                 </b-button>
             </b-col>
@@ -348,10 +348,10 @@ export default {
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  font-size: 10px;
-  margin-left: 10px;
+  font-size: 12px;
+  margin-right: 10px;
   line-height: 15px;
-  width: 110px;
+  width: 120px;
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
   text-align: center;
 }
@@ -364,14 +364,16 @@ export default {
   width: 80px;
   line-height: 15px;
   text-align: center;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .button-group{
-    float:right;
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
-#ok-button{
+.ok-button{
   background-color: #109CF1;
   color:white;
   border-color: transparent;
@@ -410,5 +412,8 @@ export default {
 .required label:after {
     content: " *";
     color: red;
+}
+.label{
+    font-weight: 600;
 }
 </style>
