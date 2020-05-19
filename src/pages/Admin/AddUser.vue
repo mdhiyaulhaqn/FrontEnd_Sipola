@@ -158,8 +158,8 @@
                     </div>
                 </div>
                 <div class = "button-group">
+                    <b-button class = "save-button" type="submit">Save</b-button>
                     <b-button class = "cancel-button" type="reset" v-on:click="redirect()">Cancel</b-button>
-                    <b-button class = "save-button" type="submit">Add</b-button>
                 </div>
             </form>
            
@@ -179,37 +179,35 @@
             </card>
         </div>
     </div>
-    <b-modal
-        id="modal-success"
-        centered
-        v-model="successful"
-        @ok="redirect()"
-        >
-        <template v-slot:modal-title>
-        <div class="container">
-            <h5 id="modal-title-success">Success!</h5>
-        </div>
-        </template>
-        <template v-slot:default>
-        <div class="container">
-            <b-row>
-            <b-col class="modal-icon col-2">
-                <img src="@/assets/img/success-icon.png" alt="" width="50px">
-            </b-col>
-            <b-col class="col-10">
-                <p id="modal-message">User was successfully added.</p>
-            </b-col>
-            </b-row>
-        </div>
-        </template>
-        <template v-slot:modal-footer="{ ok }">
-        <b-col class="button-confirm-group">
-            <b-button @click="ok()" id="ok-button" variant="outline-primary">
-                Ok
-            </b-button>
-        </b-col>
-        </template>
-    </b-modal>
+   <b-modal id="modal-success" v-model="successful" hide-footer centered title="Success!">
+            <template v-slot:modal-title>
+                <div class="container">
+                    <h5 id="modal-title-success">Success!</h5>
+                </div>
+            </template>
+            <template v-slot:default>
+                <div class = "container">
+                    <div class = "info">
+                    <b-row>
+                        <b-col cols="3" class="modal-icon">
+                            <img src="@/assets/img/success-icon.png" alt="" width="60px">
+                        </b-col>
+                        <b-col cols="9">
+                            <p id="modal-message">User was successfully updated.</p>
+                        </b-col>
+                    </b-row>
+                    </div>
+                    <b-row class="button-detail-group">
+                        <router-link :to="{name: 'user'}">
+                          <b-button class="back-button">Ok</b-button>
+                        </router-link>
+                        <!-- <b-button @click="toDetailPage" class="see-button">
+                            See Details
+                        </b-button> -->
+                    </b-row>
+                </div>
+            </template>
+        </b-modal>
 
   </div>
 </template>
@@ -313,26 +311,26 @@ export default {
 }
 
 .save-button{
-    background-color: #109CF1;
-    color:white;
-    border-color: transparent;
-    font-size: 10px;
-    margin-left: 10px;
-    line-height: 15px;
-    width: 120px;
-    box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
-    text-align: center;
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-right: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
 }
 
 .cancel-button{
-    color:#109CF1;
-    border-color:#109CF1;
-    background-color: white;
-    border-width: 1px;
-    width: 80px;
-    line-height: 15px;
-    text-align: center;
-    font-size: 10px;
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 80px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
 }
 
 .button-group{
@@ -371,4 +369,20 @@ h5{
     height: 200px;
 }
 
+.button-detail-group{
+    float:right;
+    margin-top: 20px;
+    margin-bottom: -2px;
+}
+
+.back-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 100px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
+}
 </style>
