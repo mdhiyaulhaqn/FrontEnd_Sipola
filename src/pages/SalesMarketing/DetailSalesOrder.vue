@@ -186,7 +186,9 @@ export default {
               id: '',
               nama: '',
               alamat: ''
-            }
+            },
+            url_local: 'http://localhost:8080/api/sales-order/',
+            url_deploy: 'https://sipola-sixab.herokuapp.com/api/sales-order/'
         };
     },
     beforeMount(){
@@ -225,13 +227,13 @@ export default {
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/sales-order/' +this.$route.params.id, { headers: authHeader() })
+            axios.get(this.url_deploy +this.$route.params.id, { headers: authHeader() })
             .then(res => {this.sales_order = res.data, this.fetchData(), this.company = res.data.company})
             .catch(err => this.sales_order = err.data);
         },
 
         deleteSalesOrder(salesOrder){
-            axios.put('http://localhost:8080/api/sales-order/change-status/' + this.$route.params.id,
+            axios.put(this.url_deploy + 'change-status/' + this.$route.params.id,
             salesOrder,
                 { headers: 
                    authHeader()

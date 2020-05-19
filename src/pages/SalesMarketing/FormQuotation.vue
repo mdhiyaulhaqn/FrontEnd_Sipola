@@ -198,6 +198,8 @@ export default {
             successModal : false,
             failedModal : false,
             send : {objects : null},
+            url_local: 'http://localhost:8080/api/quotation/',
+            url_deploy: 'https://sipola-sixab.herokuapp.com/api/quotation/'
         }
     },
 
@@ -238,7 +240,7 @@ export default {
         },
 
         addQuotation(quot){
-            axios.post('http://localhost:8080/api/quotation/add',  quot, { headers: authHeader() })
+            axios.post(this.url_deploy + 'add',  quot, { headers: authHeader() })
             .then(res => {this.new_quotation = res.data.result, this.showMessage(res.data.status)});
         },
 

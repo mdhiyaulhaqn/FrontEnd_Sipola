@@ -135,14 +135,14 @@ import authHeader from '../../services/auth-header';
             failedModal : false,
             show: true,
             url_local: "http://localhost:8080/api/pengeluaran/",
-            url_deploy: "http://sipola-sixab.herokuapp.com/api/pengeluaran/",
+            url_deploy: "https://sipola-sixab.herokuapp.com/api/pengeluaran/",
         }
     },
 
     methods: {
         onSubmit(evt) {
             evt.preventDefault()
-            axios.post(this.url_local + "add", {
+            axios.post(this.url_deploy + "add", {
                 nama: this.newPengeluaran.nama,
                 nominal: this.newPengeluaran.nominal,
                 tanggal: this.newPengeluaran.tanggal,

@@ -198,6 +198,8 @@ export default {
       sortDirection: 'desc',
       filter: null,
       filterOn: [],
+      url_local: 'http://localhost:8080/api/delivery-order/',
+      url_deploy: 'https://sipola-sixab.herokuapp.com/api/delivery-order/'
     }
   },
    computed: {
@@ -220,7 +222,7 @@ export default {
   },
   methods:{
       getAllDeliveryOrder: function(){
-          axios.get('http://localhost:8080/api/delivery-order/all', { headers: authHeader() })
+          axios.get( this.url_deploy + 'all', { headers: authHeader() })
           .then(result => {this.delivery_orders = result.data.result, this.getAllOrder()});
       },
       getAllOrder(){
