@@ -224,9 +224,9 @@ export default {
             confirmationModal : false,
             send : {objects : null},
             url_local: "http://localhost:8080/api/reimbursement/",
-            url_deploy: "http://sipola-sixab.herokuapp.com/api/reimbursement/",
+            url_deploy: "https://sipola-sixab.herokuapp.com/api/reimbursement/",
             url_attachment_local: "http://localhost:8080/api/attachment",
-            url_attachment_deploy: "http://sipola-sixab.herokuapp.com/api/attachment"
+            url_attachment_deploy: "https://sipola-sixab.herokuapp.com/api/attachment"
         }
     },
 
