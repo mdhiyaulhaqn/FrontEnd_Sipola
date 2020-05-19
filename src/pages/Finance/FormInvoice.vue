@@ -2,7 +2,7 @@
     <div>
         <b-breadcrumb id="breadcrumb">
             <b-breadcrumb-item :to="{name: 'invoice'}">
-                Invoice
+                    Invoice
             </b-breadcrumb-item>
             <b-breadcrumb-item :to="{name: 'sales-order-for-invoice'}">
                 Sales Order

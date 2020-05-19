@@ -33,6 +33,9 @@
                   </b-button>
                 </router-link>
               </b-col>
+              <b-col md=2 v-else>
+
+              </b-col>
               <b-col md="10" class="my-1">
                 <b-form-group
                   label-cols-sm="8"
