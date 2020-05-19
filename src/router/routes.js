@@ -47,8 +47,6 @@ import DetailPurchaseOrder from "@/pages/Logistic/DetailPurchaseOrder.vue";
 import FormPurchaseOrder from "@/pages/Logistic/FormPurchaseOrder.vue";
 import UpdatePurchaseOrder from "@/pages/Logistic/UpdatePurchaseOrder.vue";
 import Profile from "@/pages/Profile.vue";
-// import Login from "@/pages/Login.vue";
-import Register from "@/pages/Register.vue";
 import User from "@/pages/Admin/User.vue";
 import AddUser from "@/pages/Admin/AddUser.vue";
 import UpdateUser from "@/pages/Admin/UpdateUser.vue";
@@ -265,10 +263,6 @@ const routes = [
       {
         path: '/login',
         component: Login
-      },
-      {
-        path: '/register',
-        component: Register
       },
       {
         path: '/profile',
