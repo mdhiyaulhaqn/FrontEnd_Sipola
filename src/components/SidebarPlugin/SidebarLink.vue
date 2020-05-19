@@ -4,7 +4,7 @@
              class="nav-item"
              v-bind="$attrs"
              tag="li">
-    <a class="nav-link" style="padding: 30px 0 0 10px;">
+    <a class="nav-link" style="padding: 30px 0 0 20px;">
       <slot>
         <b-row>
           <div class = "col-2">
