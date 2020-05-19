@@ -261,8 +261,12 @@ export default {
         },
 
         deleteDeliveryOrder(deliveryOrder){
-            axios.put( this.url_deploy + 'change-status/' + this.$route.params.id,
-            { headers: authHeader() })
+            axios.put( this.url_deploy + 'change-status/' + this.$route.params.id, 
+                deliveryOrder,
+                { 
+                    headers: authHeader() 
+                }
+            )
             .then(res => {this.showMessage(res.data.status)});
         },
 
