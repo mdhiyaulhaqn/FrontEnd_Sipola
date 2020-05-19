@@ -140,7 +140,7 @@ export default {
       },
       successModal: false,
       url_local: "http://localhost:8080/api/pengeluaran/",
-      url_deploy: "http://sipola-sixab.herokuapp.com/api/pengeluaran/",
+      url_deploy: "https://sipola-sixab.herokuapp.com/api/pengeluaran/",
     };
   },
   beforeMount(){
