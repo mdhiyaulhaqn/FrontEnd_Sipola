@@ -244,7 +244,11 @@ export default {
             failedModal : false,
             warningModal : false,
             send : {objects : null},
-            companies: []
+            companies: [],
+            url_local: 'http://localhost:8080/api/delivery-order/',
+            url_deploy: 'https://sipola-sixab.herokuapp.com/api/delivery-order/',
+            url_local_company: 'http://localhost:8080/api/company/',
+            url_deploy_company: 'https://sipola-sixab.herokuapp.com/api/company/'
         }
     },
 
@@ -303,18 +307,18 @@ export default {
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/delivery-order/' +this.$route.params.id, { headers: authHeader() })
+            axios.get(this.url_deploy +this.$route.params.id, { headers: authHeader() })
             .then(res => {this.delivery_order = res.data, this.fetchData()})
             .catch(err => this.delivery_order = err.data);
         },
 
         getAllCompany: function(){
-            axios.get('http://localhost:8080/api/company/all', { headers: authHeader() })
+            axios.get(this.url_deploy_company + 'all', { headers: authHeader() })
             .then(result => this.companies = result.data.result);
         },
 
         updateDeliveryOrder(quot){
-            axios.put('http://localhost:8080/api/delivery-order/update/' + this.$route.params.id,
+            axios.put( this.url_deploy + 'update/' + this.$route.params.id,
             quot,
                 { headers: 
                    authHeader()
