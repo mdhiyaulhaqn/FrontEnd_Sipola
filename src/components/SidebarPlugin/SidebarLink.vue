@@ -6,8 +6,14 @@
              tag="li">
     <a class="nav-link">
       <slot>
-        <i v-if="icon" :class="icon"></i>
-        <p>{{name}}</p>
+        <b-row>
+          <div class = "col-3">
+           <i v-if="icon" :class="icon"></i>
+          </div>
+          <div class = "col-9">
+          <p>{{name}}</p>
+          </div>
+        </b-row>
       </slot>
     </a>
   </component>
