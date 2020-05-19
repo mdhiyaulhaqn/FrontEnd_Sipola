@@ -313,7 +313,7 @@ export default {
               'Duplicate report'
             ],
             url_local: "http://localhost:8080/api/reimbursement/",
-            url_deploy: "http://sipola-sixab.herokuapp.com/api/reimbursement/",
+            url_deploy: "https://sipola-sixab.herokuapp.com/api/reimbursement/",
         };
     },
     beforeMount(){
@@ -344,13 +344,13 @@ export default {
         },
 
         getDetail: function(){
-            axios.get(this.url_local +this.$route.params.id + '/detail', { headers: authHeader() })
+            axios.get(this.url_deploy +this.$route.params.id + '/detail', { headers: authHeader() })
             .then(res => {this.reimbursement = res.data })
             .catch(err => this.reimbursement = err.data);
         },
 
         approveReimbursement(reimburse) {
-          axios.put(this.url_local + this.$route.params.id + '/changeStatus',
+          axios.put(this.url_deploy + this.$route.params.id + '/changeStatus',
             reimburse,
                 { headers: 
                     authHeader()
@@ -390,7 +390,7 @@ export default {
         },
 
         rejectReimbursement(reimburse){
-          axios.put(this.url_local + this.$route.params.id + '/changeStatus',
+          axios.put(this.url_deploy + this.$route.params.id + '/changeStatus',
             reimburse,
                 { headers: authHeader()
             })
