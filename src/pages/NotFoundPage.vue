@@ -44,14 +44,11 @@
             <li>
               <router-link :to="{path:'/'}">Home</router-link>
             </li>
-            <li>
-              <router-link :to="{path:'/register'}">Register</router-link>
-            </li>
           </ul>
         </nav>
         <div class="copyright pull-right">
-          &copy; 2017, made with
-          <i class="fa fa-heart heart"></i> by Paper admin
+          &copy; 2020, made with
+          <i class="fa fa-heart heart"></i> by Propensi C06
         </div>
       </div>
     </footer>

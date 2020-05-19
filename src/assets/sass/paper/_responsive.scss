@@ -166,6 +166,8 @@
       overflow-y: scroll;
       height: 100%;
       box-shadow: inset 1px 0px 0px 0px $medium-gray;
+      margin-top: 0px;
+    margin-bottom: 0px;
     }
 
     .nav {
@@ -177,7 +179,7 @@
         > .nav-link {
           margin: 0px 0px;
           color: $default-color;
-          text-transform: uppercase;
+          // text-transform: uppercase;
           font-weight: 600;
           font-size: $font-size-small;
           line-height: $line-height-general;
@@ -255,8 +257,9 @@
     .logo {
       position: relative;
       z-index: 4;
-      padding-top: 11px;
-      padding-bottom: 11px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      padding-left:2px;
     }
 
     .divider {
