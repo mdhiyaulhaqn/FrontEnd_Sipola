@@ -94,7 +94,7 @@
 
                     <b-row v-if="currentUser().roles.includes('ROLE_FINANCE')">
                         <div class = "button-group col-sm-12">
-                            <router-link :to="{name: 'invoice-add'}">
+                            <router-link :to="{name: 'invoice-add', params: {id: sales_order.id}}">
                                 <b-button id="generate-button" class="btn btn-primary">Generate Invoice</b-button>
                             </router-link>
                         </div>

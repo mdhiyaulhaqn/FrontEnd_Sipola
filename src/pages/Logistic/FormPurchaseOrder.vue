@@ -248,7 +248,7 @@ export default {
             failedModal: false,
             send : {objects : null},
             url_local: 'http://localhost:8080/api/purchase-order/',
-            url_deploy: 'http://sipola-sixab.herokuapp.com/api/purchase-order/'
+            url_deploy: 'https://sipola-sixab.herokuapp.com/api/purchase-order/'
         }
     },
 
@@ -289,7 +289,7 @@ export default {
         },
 
         addPurchaseOrder(purchaseOrder){
-            axios.post(this.url_local + 'add', purchaseOrder, { headers: authHeader() })
+            axios.post(this.url_deploy + 'add', purchaseOrder, { headers: authHeader() })
             .then(res => {this.purchaseOrder = res.data.result, this.showMessage(res.data.status)});
         },
 

@@ -248,7 +248,7 @@ export default {
             invoice : '',
             successModal : false,
             url_local: 'http://localhost:8080/api/invoice/',
-            url_deploy : 'http://sipola-sixab.herokuapp.com/api/invoice/',
+            url_deploy : 'https://sipola-sixab.herokuapp.com/api/invoice/',
             fields: [
                 {key: 'id', label: 'No', sortable: true},
                 {key: 'deskripsi', label: 'Description', sortable: true},
@@ -292,13 +292,13 @@ export default {
         },
 
         getDetail: function(){
-            axios.get(this.url_local +this.$route.params.id, { headers: authHeader() })
+            axios.get(this.url_deploy +this.$route.params.id, { headers: authHeader() })
             .then(res => {this.invoice = res.data, this.computePrice()})
             .catch(err => this.invoice = err.data);
         },
 
         deleteInvoice(invoice){
-            axios.put(this.url_local + this.$route.params.id + '/delete', invoice, { headers: authHeader() })
+            axios.put(this.url_deploy + this.$route.params.id + '/delete', invoice, { headers: authHeader() })
             .then(res => {this.showMessage(res.data.status)});
         },
 

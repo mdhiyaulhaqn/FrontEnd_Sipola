@@ -185,7 +185,7 @@ export default {
             filter: null,
             filterOn: [],
             url_local: 'http://localhost:8080/api/invoice/',
-            url_deploy: 'http://sipola-sixab.herokuapp.com/api/invoice/',
+            url_deploy: 'https://sipola-sixab.herokuapp.com/api/invoice/',
 
             fields: [
                 {key: 'index', label: 'No' },
@@ -228,7 +228,7 @@ export default {
         },
 
         getAllInvoice: function(){
-            axios.get(this.url_local + 'all', { headers: authHeader() })
+            axios.get(this.url_deploy + 'all', { headers: authHeader() })
             .then(result => this.invoices = result.data.result)
             .catch(err => this.invoices = err.data.result);
 

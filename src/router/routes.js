@@ -20,8 +20,6 @@ import Invoice from "@/pages/Finance/Invoice.vue";
 import FormInvoice from "@/pages/Finance/FormInvoice.vue";
 import UpdateInvoice from "@/pages/Finance/UpdateInvoice.vue";
 import DetailInvoice from "@/pages/Finance/DetailInvoice.vue";
-import DetailSalesOrderForInvoice from "@/pages/Finance/DetailSalesOrderForInvoice.vue";
-import SalesOrderForInvoice from "@/pages/Finance/SalesOrderForInvoice.vue";
 import UpdatePengeluaran from "@/pages/Finance/UpdatePengeluaran.vue";
 import RingkasanPendapatanPengeluaran from "@/pages/Finance/RingkasanPendapatanPengeluaran.vue";
 import ActivityListSchedule from "@/pages/ProjectManager/ActivityListSchedule.vue";
@@ -172,16 +170,6 @@ const routes = [
         path: "invoice/:id/update",
         name: "update-invoice",
         component: UpdateInvoice
-      },
-      {
-        path: "sales-order-for-invoice",
-        name: "sales-order-for-invoice",
-        component: SalesOrderForInvoice
-      },
-      {
-        path: "sales-order-for-invoice/:id",
-        name: "detail-sales-order-for-invoice",
-        component: DetailSalesOrderForInvoice
       },
       {
         path: "activity-list-schedule",

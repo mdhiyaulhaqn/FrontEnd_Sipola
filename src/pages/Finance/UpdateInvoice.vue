@@ -255,7 +255,7 @@ export default {
             id_service_orders : {id:0},
             createdAt: "",
             url_local: 'http://localhost:8080/api/invoice/',
-            url_deploy : 'http://sipola-sixab.herokuapp.com/api/invoice/',
+            url_deploy : 'https://sipola-sixab.herokuapp.com/api/invoice/',
 
             invoice : {
 
@@ -285,7 +285,7 @@ export default {
         },
 
         getDetail: function() {
-            axios.get(this.url_local + this.$route.params.id , { headers: authHeader() })
+            axios.get(this.url_deploy + this.$route.params.id , { headers: authHeader() })
             .then(res => {this.invoice = res.data, this.fetchData()})
             .catch(err => this.invoice = err.data);
         },
@@ -307,7 +307,7 @@ export default {
 
         updateInvoice(invoice) {
             console.log("masuk pa aji")
-            axios.put(this.url_local + this.$route.params.id + '/update', invoice, { headers: authHeader() })
+            axios.put(this.url_deploy + this.$route.params.id + '/update', invoice, { headers: authHeader() })
             .then(res => {this.invoice = res.data.result, this.showMessage(res.data.status)});
         },
 

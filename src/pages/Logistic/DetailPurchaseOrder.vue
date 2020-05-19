@@ -258,7 +258,7 @@ export default {
               alamat: ''
             },
             url_local: 'http://localhost:8080/api/purchase-order/',
-            url_deploy: 'http://sipola-sixab.herokuapp.com/api/purchase-order/'
+            url_deploy: 'https://sipola-sixab.herokuapp.com/api/purchase-order/'
         };
     },
 
@@ -290,13 +290,13 @@ export default {
         },
 
         getDetail: function(){
-            axios.get(this.url_local +this.$route.params.id, { headers: authHeader() })
+            axios.get(this.url_deploy +this.$route.params.id, { headers: authHeader() })
             .then(res => {this.purchaseOrder = res.data, this.computePrice(), this.company = res.data.company})
             .catch(err => this.purchaseOrder = err.data);
         },
 
         deletePurchaseOrder(purchaseOrder){
-            axios.put(this.url_local + this.$route.params.id + '/delete', purchaseOrder, { headers: authHeader() })
+            axios.put(this.url_deploy + this.$route.params.id + '/delete', purchaseOrder, { headers: authHeader() })
             .then(res => {this.showMessage(res.data.status)});
         },
 

@@ -260,9 +260,9 @@ export default {
             failedModal : false,
             send : {objects : null},
             url_local_so : 'http://localhost:8080/api/sales-order/',
-            url_deploy_so : 'http://sipola-sixab.herokuapp.com/api/sales-order/',
+            url_deploy_so : 'https://sipola-sixab.herokuapp.com/api/sales-order/',
             url_local : 'http://localhost:8080/api/invoice/',
-            url_deploy : 'http://sipola-sixab.herokuapp.com/api/invoice/',
+            url_deploy : 'https://sipola-sixab.herokuapp.com/api/invoice/',
         }
     },
 
@@ -277,7 +277,7 @@ export default {
 
         getDetailSalesOrder: function(){
             console.log("TEST");
-            axios.get(this.url_local_so + this.$route.params.id, { headers: authHeader() })
+            axios.get(this.url_deploy_so + this.$route.params.id, { headers: authHeader() })
             .then(res => {this.sales_order = res.data, this.fetchData()})
             .catch(err => this.sales_order = err.data);
         },
@@ -304,7 +304,7 @@ export default {
 
         addinvoice(invoice){
             console.log("masuk pa aji")
-            axios.post(this.url_local + 'add', invoice, { headers: authHeader() })
+            axios.post(this.url_deploy + 'add', invoice, { headers: authHeader() })
             .then(res => {this.invoice = res.data.result, this.showMessage(res.data.status)});
         },
 
@@ -332,32 +332,34 @@ export default {
 }
 
 .add-invoice-button{
-    background-color: #109CF1;
-    color:white;
-    border-color: transparent;
-    font-size: 10px;
-    margin-left: 10px;
-    line-height: 15px;
-    width: 120px;
-    box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
-    text-align: center;
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-right: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
 }
 
 .cancel-button{
-    color:#109CF1;
-    border-color:#109CF1;
-    background-color: white;
-    border-width: 1px;
-    width: 80px;
-    line-height: 15px;
-    text-align: center;
-    font-size: 10px;
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 1px;
+  width: 80px;
+  line-height: 15px;
+  text-align: center;
+  font-size: 12px;
 }
 
 .button-group{
-    margin-top: 30px;
-    text-align: center;
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 10px;
 }
+
 #breadcrumb{
   font-size: 12px;
   /* text-decoration: underline; */
