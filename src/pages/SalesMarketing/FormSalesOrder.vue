@@ -252,8 +252,8 @@ export default {
             }
         },
 
-        addSalesOrder(quot){
-            axios.post(this.url_deploy + 'add',  quot, { headers: authHeader() })
+        addSalesOrder(sales_order){
+            axios.post(this.url_deploy + 'add',  sales_order, { headers: authHeader() })
             .then(res => {this.new_sales_order = res.data.result, this.showMessage(res.data.status)});
         },
 
