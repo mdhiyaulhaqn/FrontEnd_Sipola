@@ -241,7 +241,7 @@
 
 <script>
 
-import ServiceOrder from '@/pages/Finance/ServiceOrderInvoice.vue';
+import ServiceOrder from '@/pages/SalesMarketing/ServiceOrder.vue';
 import axios from 'axios';
 import authHeader from '../../services/auth-header';
 
