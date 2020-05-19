@@ -4,14 +4,14 @@
              class="nav-item"
              v-bind="$attrs"
              tag="li">
-    <a class="nav-link" style="padding: 15px 0 0 10px;">
+    <a class="nav-link" style="padding: 30px 0 0 10px;">
       <slot>
         <b-row>
-          <div class = "col-lg-2 col-md-2 col-sm-2 col-xs-2 col-2">
-           <i v-if="icon" :class="icon"></i>
+          <div class = "col-2">
+            <i v-if="icon" :class="icon"></i>
           </div>
           <div class = "col-10">
-          <p>{{name}}</p>
+            <p style="margin-right: 50px;">{{name}}</p>
           </div>
         </b-row>
       </slot>
