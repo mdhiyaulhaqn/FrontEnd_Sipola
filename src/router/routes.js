@@ -5,7 +5,6 @@ import Forbidden from "@/pages/ForbiddenPage.vue";
 
 // Admin pagesc
 import Dashboard from "@/pages/DirekturUtama/Dashboard.vue";
-import UserProfile from "@/pages/UserProfile.vue";
 import Quotation from "@/pages/SalesMarketing/Quotation.vue";
 import SalesOrder from "@/pages/SalesMarketing/SalesOrder.vue";
 import FormSalesOrder from "@/pages/SalesMarketing/FormSalesOrder.vue";
@@ -399,9 +398,7 @@ const routes = [
       {
         path: '/profile',
         name: 'profile',
-        // lazy-loaded
-        component: () => import('@/pages/Profile.vue')
-        // Profile
+        component: Profile,
       },
       {
         path: '/user',
