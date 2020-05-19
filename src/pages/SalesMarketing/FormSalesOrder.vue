@@ -239,7 +239,7 @@ export default {
         onSubmit(evt) {
             evt.preventDefault();
             this.new_sales_order.serviceOrder = this.service_orders;
-             this.new_quotation.createdBy = this.$store.state.auth.user.name;
+            this.new_sales_order.createdBy = this.$store.state.auth.user.name;
             this.addSalesOrder(this.new_sales_order);
         },
 
