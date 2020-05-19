@@ -32,7 +32,7 @@ class AuthService {
       noHP: user.noHP,
       alamat: user.alamat,
       name: user.name
-    });
+    }, { headers: authHeader() });
   }
 }
 
