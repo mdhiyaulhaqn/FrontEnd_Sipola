@@ -118,7 +118,7 @@
                 </b-row>
 
 
-                <b-form-group class="required">
+                <b-form-group>
                     <label class="label" for="termsConditions">Terms and Conditions</label>
                     <ckeditor :editor="editor"  v-model="new_delivery_order.termsCondition"></ckeditor>
 
@@ -252,9 +252,9 @@ export default {
             }
         },
 
-        addDeliveryOrder(quot){
+        addDeliveryOrder(delivery_order){
             axios.post(this.url_deploy + 'add',
-            quot,
+            delivery_order,
                 { headers: authHeader()
             })
             .then(res => {this.new_delivery_order = res.data.result, this.showMessage(res.data.status)});
