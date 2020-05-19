@@ -149,7 +149,7 @@ export default {
         this.$refs['modal-delete'].hide();
     },
     getDetail: function(){    
-            axios.get(this.url_local + this.$route.params.id, { headers: authHeader() })
+            axios.get(this.url_deploy + this.$route.params.id, { headers: authHeader() })
             .then(res => {this.pengeluaran = res.data.result})
             .catch(err => this.pengeluaran = err.data);
     },
