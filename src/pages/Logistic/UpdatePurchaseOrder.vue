@@ -239,6 +239,7 @@
 import PurchasedItem from '@/pages/Logistic/PurchasedItem.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
     components : {
@@ -276,6 +277,8 @@ export default {
             failedModal: false,
             warningModal: false,
             send : {objects : null},
+            url_local: 'http://localhost:8080/api/purchase-order/',
+            url_deploy: 'https://sipola-sixab.herokuapp.com/api/purchase-order/'
         }
     },
 
@@ -301,7 +304,7 @@ export default {
         onSubmit(evt){
             evt.preventDefault();
             this.purchaseOrder.purchasedItems = this.purchasedItems;
-            this.updatePurchaseOrder(JSON.stringify(this.purchaseOrder));
+            this.updatePurchaseOrder(this.purchaseOrder);
         },
 
         showMessage(status){
@@ -335,18 +338,13 @@ export default {
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/purchase-order/' + this.$route.params.id)
+            axios.get(this.url_deploy + this.$route.params.id, { headers: authHeader() })
             .then(res => {this.purchaseOrder = res.data, this.fetchData(), this.company = res.data.company})
             .catch(err => this.purchaseOrder = err.data)
         },
 
         updatePurchaseOrder(purchaseOrder){
-            axios.put('http://localhost:8080/api/purchase-order/' + this.$route.params.id + '/update',
-            purchaseOrder,
-                { headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
+            axios.put(this.url_deploy + this.$route.params.id + '/update', purchaseOrder, { headers: authHeader() })
             .then(res => {this.purchaseOrder = res.data.result, this.showMessage(res.data.status)});
         },
 
