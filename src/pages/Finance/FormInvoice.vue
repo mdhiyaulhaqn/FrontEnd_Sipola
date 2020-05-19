@@ -4,10 +4,10 @@
             <b-breadcrumb-item :to="{name: 'invoice'}">
                 Invoice List
             </b-breadcrumb-item>
-            <b-breadcrumb-item :to="{name: 'sales-order-for-invoice'}">
+            <b-breadcrumb-item :to="{name: 'sales-order'}">
                 Sales Order List
             </b-breadcrumb-item>
-            <b-breadcrumb-item :to="{name: 'detail-sales-order-for-invoice'}">
+            <b-breadcrumb-item :to="{name: 'detail-sales-order'}">
                 Detail Sales Order
             </b-breadcrumb-item>
             <b-breadcrumb-item active>
@@ -20,14 +20,14 @@
         </h3>
 
         <div class = "row">
-            <div class = "col-10 isi-form">
-                <card>
+            <div class = "col-md-8 col-sm-8 col-xs-8 col-12 d-block d-xs-block d-sm-block isi-form">
+                <card class="col">
                     <h5 class = "title-form">Add Invoice Form - Sales Order {{sales_order.noSalesOrder}} </h5>
                     <b-form @submit="onSubmit" v-if="show">
                         <div class = "row">
                             <div class = "col-md-6 col-12">
                                 <b-form-group class="required">
-                                    <label for="noInvoice">Invoice No</label>
+                                    <label class="label" for="noInvoice">Invoice No</label>
                                     <b-form-input
                                         id="noInvoice"
                                         v-model="invoice.noInvoice"
@@ -41,7 +41,7 @@
                             <div class = "col-md-3 col-12">
                                 <div style="color:black">
                                 <b-form-group class="required">
-                                    <label for="dateInvoice">Invoice Date</label>
+                                    <label class="label" for="dateInvoice">Invoice Date</label>
                                     <b-form-input
                                         id="dateInvoice"
                                         v-model="invoice.dateInvoice"
@@ -55,7 +55,7 @@
                             <div class = "col-md-3 col-12">
                                 <div style="color:black">
                                 <b-form-group class="required">
-                                    <label for="dueDatePayment">Due Date</label>
+                                    <label class="label" for="dueDatePayment">Due Date</label>
                                     <b-form-input
                                         id="dueDatePayment"
                                         v-model="invoice.dueDatePayment"
@@ -70,7 +70,7 @@
                         <div class = "row">
                             <div class = "col-md-7 col-12">
                                 <b-form-group class="required">
-                                    <label for="noPurchaseOrder">PO No</label>
+                                    <label class="label" for="noPurchaseOrder">PO No</label>
                                     <b-form-input
                                         id="noPurchaseOrder"
                                         v-model="sales_order.poNumber"
@@ -84,7 +84,7 @@
                             <div class = "col-md-5 col-12">
                                 <div style="color:black">
                                 <b-form-group class="required">
-                                    <label for="purchaseOrderDate">PO Date</label>
+                                    <label class="label" for="purchaseOrderDate">PO Date</label>
                                     <b-form-input
                                         id="date"
                                         v-model="sales_order.poDate"
@@ -98,7 +98,7 @@
                         </div>
 
                         <b-form-group class="required">
-                            <label for="companyName">Company Name</label>
+                            <label class="label" for="companyName">Company Name</label>
                             <b-form-input
                                 id="companyName"
                                 v-model="sales_order.company.nama"
@@ -110,7 +110,7 @@
                         </b-form-group>
 
                         <b-form-group class="required">
-                            <label for="companyAddress">Company Address</label>
+                            <label class="label" for="companyAddress">Company Address</label>
                             <b-form-input
                                 id="companyAddress"
                                 v-model="sales_order.company.alamat"
@@ -122,32 +122,32 @@
                         </b-form-group>
 
                         <div class="d-none d-md-block d-lg-block">
-                            <div class="row">
-                                <div class="col-md-5 required">
+                            <b-row>
+                                <b-col md="5 required">
                                     <label>Service Order</label>
-                                </div>
-                                <div class="col-md-2 required">
+                                </b-col>
+                                <b-col md="2 required">
                                     <label>UOM</label>
-                                </div>
-                                <div class="col-md-2 required">
+                                </b-col>
+                                <b-col md="2 required">
                                     <label>Qty</label>
-                                </div>
-                                <div class="col-md-3 required">
+                                </b-col>
+                                <b-col md="3 required">
                                     <label>UnitPrice</label>
-                                </div>
-                            </div>
+                                </b-col>
+                            </b-row>
                         </div>
 
                         <b-row class="service_orders" v-bind:key="item.id_service_orders" v-for="item in sales_order.serviceOrder">
                             <b-col disabled>
-                            <ServiceOrder v-bind:service_order="item"/>
+                                <ServiceOrder v-bind:service_order="item"/>
                             </b-col>
                         </b-row>
 
                         <div class="row">
                             <div class="col-md-6 col-12">
                                 <b-form-group class="required">
-                                    <label for="paymentTerms">Payment Terms</label>
+                                    <label class="label" for="paymentTerms">Payment Terms</label>
                                     <b-form-input
                                         id="paymentTerms"
                                         v-model="invoice.paymentTerms"
@@ -162,7 +162,7 @@
 
                             <div class="col-md-6 col-12">
                                 <b-form-group class="required">
-                                    <label for="termsOfDelivery">Terms of Delivery</label>
+                                    <label class="label" for="termsOfDelivery">Terms of Delivery</label>
                                     <b-form-input
                                         id="termsOfDelivery"
                                         v-model="invoice.termsOfDelivery"
@@ -214,7 +214,7 @@
                     <router-link :to="{name: 'invoice'}">
                         <b-button class="back-button">Back to List</b-button>
                     </router-link>
-                    <b-button @click="ok()" id="ok-button" variant="outline-primary">
+                    <b-button @click="ok()" class="ok-button">
                         See Details
                     </b-button>
                 </b-col>
@@ -326,6 +326,7 @@ export default {
   color: black;
   margin: 11px 0 24px 0;
 }
+
 .isi-form{
     margin-left: auto;
     margin-right: auto;
@@ -371,7 +372,7 @@ export default {
     content: " *";
     color: red;
 }
-#ok-button{
+.ok-button{
   background-color: #109CF1;
   color:white;
   border-color: transparent;
@@ -391,5 +392,8 @@ export default {
   line-height: 15px;
   text-align: center;
   font-size: 12px;
+}
+.label{
+    font-weight: 600;
 }
 </style>

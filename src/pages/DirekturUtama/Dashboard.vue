@@ -206,6 +206,7 @@ export default {
     },
 
     getProject : function(){
+      console.log(this.selected)
       axios.get(this.url_deploy_project + this.$route.params.year, { headers: authHeader() })
           .then(res => {this.list_project = res.data.result, this.getIncome(), this.selected = this.$route.params.year})
           .catch(err => this.list_project = err.data);
