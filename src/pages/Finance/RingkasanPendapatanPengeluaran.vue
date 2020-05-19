@@ -363,11 +363,11 @@ export default {
         linkTanggal = 'tanggalAkhir=' + this.endDate
       }
 
-      axios.get(this.url_deploy + 'pendapatan?' + linkTanggal, { headers: authHeader() })	
+      axios.get(this.url_deploy + 'invoice?' + linkTanggal, { headers: authHeader() })	
       .then(response => this.pendapatanList = response.data.result);	
       axios.get(this.url_deploy + 'pengeluaran?' + linkTanggal, { headers: authHeader() })	
       .then(response => this.pengeluaranList = response.data.result);	
-      axios.get(this.url_deploy + 'pendapatan/calculate?' + linkTanggal, { headers: authHeader() })	
+      axios.get(this.url_deploy + 'invoice/calculate?' + linkTanggal, { headers: authHeader() })	
       .then(response => {	
         this.totalPendapatan = response.data.result; 	
         });	
