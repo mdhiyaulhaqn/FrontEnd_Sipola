@@ -45,7 +45,7 @@
       <slot>
 
       </slot>
-      <ul class="nav" style="margin-top: 15px;">
+      <ul class="nav">
         <!--By default vue-router adds an active class to each route link. This way the links are colored when clicked-->
         <slot name="links">
           <sidebar-link v-for="(link,index) in sidebarLinks"
@@ -181,7 +181,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .user-profile{
   color:white;
   text-align: center;

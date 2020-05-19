@@ -76,12 +76,12 @@
                           <div class="row" id="kotakAttachment">
                               <b-col class="col-xs-6 col-sm-6 col-md-3 grup-attachment" v-bind:key="file" v-for="file in attachments" >
                                   <div class="foto" v-if="file.type === 'image/png' || file.type==='image/jpeg' || file.type==='image.jpg'">
-                                  <img :src="untukPreview+file.image" alt="Image" class="img-fluid img-thumbnail">
-                                  <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:24px"></i></a>
+                                    <img :src="untukPreview+file.image" alt="Image" class="img-fluid img-thumbnail">
+                                    <a class="removeIcon" v-if="!loading" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:24px"></i></a>
                                   </div>
                                   <div class="foto" v-else>
-                                  <img src="@/assets/img/document.png" class="img-fluid img-thumbnail">
-                                  <a class="removeIcon" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:24px"></i></a>
+                                    <img src="@/assets/img/document.png" class="img-fluid img-thumbnail">
+                                    <a class="removeIcon" v-if="!loading" @click="removeFile(file)"><i class="fas fa-minus-circle" style="font-size:24px"></i></a>
                                   </div>
                                   <h6>{{file.fileName}} </h6>
 
@@ -197,9 +197,9 @@ export default {
             failedModal : false,
             send : {objects : null},
             url_local: "http://localhost:8080/api/reimbursement/",
-            url_deploy: "http://sipola-sixab.herokuapp.com/api/reimbursement/",
+            url_deploy: "https://sipola-sixab.herokuapp.com/api/reimbursement/",
             url_attachment_local: "http://localhost:8080/api/attachment/",
-            url_attachment_deploy: "http://sipola-sixab.herokuapp.com/api/attachment/",
+            url_attachment_deploy: "https://sipola-sixab.herokuapp.com/api/attachment/",
       }
     },
 
@@ -219,7 +219,9 @@ export default {
         },
 
         deleteRow(id_expense){
+          if (this.expenses.length > 1) {
             this.expenses = this.expenses.filter(result => result.id_expense !== id_expense);
+          }
         },
          showMessage(status){
             if(status == 200){
@@ -245,7 +247,7 @@ export default {
         },
 
         addReimbursement(reimburse){
-            axios.post(this.url_local + 'add',
+            axios.post(this.url_deploy + 'add',
             reimburse,
                 { headers: authHeader()
             })
@@ -286,12 +288,12 @@ export default {
         uploadFile(attach) {
             let formData = new FormData();
             formData.append('file', attach);
-            axios.post(this.url_attachment_local + 'uploadFile',
-            formData,
-            {
-                headers: authHeader()
-            })
+            this.loading = true;
+            axios.post(this.url_attachment_deploy + 'uploadFile',
+            formData, {headers: authHeader()}
+            )
             .then(res => {this.attachments.push(res.data.result)});
+            this.loading = false;
         },
 
     }
