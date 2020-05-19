@@ -102,7 +102,7 @@
                 </b-row>
 
                 <!-- - Waktu Kerja : Normal working hour 8 Jam per Hari - Pembayaran : 100% setelah pekerjaan selesai - Validity : 1 bulan - Untuk jam kerja lebih dari normal working hour, maka dikenakan biaya lembur Rp.350.000,00 per jam - Untuk pekerjaan yang dilakukan di hari libur (Sabtu, Minggu dan Hari libur Nasional) dikenakan biaya tambahan Rp.2.500.000,00 Per Hari -->
-                <b-form-group class="required">
+                <b-form-group>
                     <label class="label" for="termsConditions">Terms and Conditions</label>
                     <ckeditor :editor="editor"  v-model="quotation.termsCondition"></ckeditor>
 

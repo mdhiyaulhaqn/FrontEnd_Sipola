@@ -116,7 +116,7 @@
                 </b-row>
 
 
-                <b-form-group class="required">
+                <b-form-group>
                     <label class="label" for="termsConditions">Terms and Conditions</label>
                     <ckeditor :editor="editor"  v-model="new_sales_order.termsCondition"></ckeditor>
                 </b-form-group>

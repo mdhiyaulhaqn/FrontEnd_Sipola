@@ -97,7 +97,7 @@
                     </div>
                 </b-row>
 
-                <b-form-group class="required">
+                <b-form-group>
                     <label class="label" for="termsConditions">Terms and Conditions</label>
                     <ckeditor :editor="editor" v-model="new_quotation.termsCondition"></ckeditor>
                 </b-form-group>
