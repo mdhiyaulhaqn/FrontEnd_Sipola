@@ -30,21 +30,21 @@ router.beforeEach((to, from, next) => {
       if(loggedIn.roles.includes("ROLE_ADMIN")){
           next()
       } else {
-          next('')
+        next('/forbidden')
       }
     } 
     else if(to.matched.some(record => record.meta.is_dirut)) {
       if(loggedIn.roles.includes("ROLE_DIREKTUR_UTAMA")){
           next()
       } else {
-          next('')
+        next('/forbidden')
       }
     } 
     else if(to.matched.some(record => record.meta.is_pm)) {
       if(loggedIn.roles.includes("ROLE_PROJECT_MANAGER")){
           next()
       } else{
-          next('')
+        next('/forbidden')
       }
     }
     else if(to.matched.some(record => record.meta.is_sales)) {
@@ -52,36 +52,38 @@ router.beforeEach((to, from, next) => {
           console.log("hihihi")
           next()
       } else{
-          next('')
+        next('/forbidden')
       }
     }
     else if(to.matched.some(record => record.meta.is_finance)) {
       if(loggedIn.roles[0] == ("ROLE_FINANCE")){
           next()
       } else{
-          next('')
+        next('/forbidden')
       }
     }
     else if(to.matched.some(record => record.meta.is_service_team)) {
       if(loggedIn.roles.includes("ROLE_SERVICE_TEAM")){
           next()
       } else{
-          next('')
+        next('/forbidden')
       }
     }
     else if(to.matched.some(record => record.meta.is_logistik)) {
       if(loggedIn.role.includes("ROLE_LOGISTIK")){
           next()
       } else{
-          next('')
+          next('/forbidden')
       }
     }
     else if(to.matched.some(record => record.meta.is_supervisor)) {
       if(loggedIn.roles.includes("ROLE_SUPERVISOR")){
           next()
       } else{
-          next('')
+        next('/forbidden')
       }
+    }else{
+      next()
     }
   }
 });
