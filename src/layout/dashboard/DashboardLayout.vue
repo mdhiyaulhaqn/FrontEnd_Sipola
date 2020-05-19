@@ -34,14 +34,11 @@
       </template>
       <mobile-menu>
         <li class="nav-item">
-          <a class="nav-link">
-            <p>Change Password</p>
+          <a class="nav-link" href="/profile">
+            <p>Profile</p>
           </a>
         </li>
         <li class="nav-item">
-          <!-- <a class="nav-link">
-            <p>Sign Out</p>
-          </a> -->
           <a class="nav-link" href @click.prevent="logOut">
             <p>Sign Out</p>
           </a>
