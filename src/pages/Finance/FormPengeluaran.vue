@@ -142,7 +142,7 @@ import authHeader from '../../services/auth-header';
     methods: {
         onSubmit(evt) {
             evt.preventDefault()
-            axios.post(this.url_local + "add", {
+            axios.post(this.url_deploy + "add", {
                 nama: this.newPengeluaran.nama,
                 nominal: this.newPengeluaran.nominal,
                 tanggal: this.newPengeluaran.tanggal,
