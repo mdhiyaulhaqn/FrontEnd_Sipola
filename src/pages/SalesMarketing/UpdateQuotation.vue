@@ -257,6 +257,8 @@ export default {
             failedModal : false,
             warningModal : false,
             send : {objects : null},
+            url_local: 'http://localhost:8080/api/quotation/',
+            url_deploy: 'https://sipola-sixab.herokuapp.com/api/quotation/'
         }
     },
 
@@ -318,13 +320,13 @@ export default {
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/quotation/' +this.$route.params.id, { headers: authHeader() })
+            axios.get(this.url_deploy +this.$route.params.id, { headers: authHeader() })
             .then(res => {this.quotation = res.data, this.fetchData(), this.company = res.data.company})
             .catch(err => this.quotation = err.data);
         },
 
         updateQuotation(quot){
-            axios.put('http://localhost:8080/api/quotation/update/' + this.$route.params.id,
+            axios.put( this.url_deploy + 'update/' + this.$route.params.id,
             quot,
                 { headers: authHeader()
             })

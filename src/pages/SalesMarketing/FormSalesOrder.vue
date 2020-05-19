@@ -209,6 +209,8 @@ export default {
             successModal : false,
             failedModal : false,
             send : {objects : null},
+            url_local: 'http://localhost:8080/api/sales-order/',
+            url_deploy: 'https://sipola-sixab.herokuapp.com/api/sales-order/'
         }
     },
 
@@ -249,7 +251,7 @@ export default {
         },
 
         addSalesOrder(quot){
-            axios.post('http://localhost:8080/api/sales-order/add',
+            axios.post(this.url_deploy + 'add',
             quot,
                 { headers: {
                     headers : authHeader()
@@ -259,7 +261,7 @@ export default {
         },
 
         getAllCompany: function(){
-            axios.get('http://localhost:8080/api/company/all', {headers : authHeader()})
+            axios.get( this.url_deploy + 'all', {headers : authHeader()})
             .then(result => this.companies = result.data.result);
         },
 
