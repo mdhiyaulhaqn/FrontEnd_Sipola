@@ -221,12 +221,22 @@ const routes = [
         }
       },
       {
-        path: "invoice/add",
+        path: "invoice/sales-order/:id/add",
         name: "invoice-add",
         component: FormInvoice,
         meta : {
           is_finance : true
         }
+      },
+      {
+        path: "invoice/sales-order",
+        name: "sales-order-for-invoice",
+        component: SalesOrder
+      },
+      {
+        path: "invoice/sales-order/:id",
+        name: "detail-sales-order-for-invoice",
+        component: DetailSalesOrder
       },
       {
         path: "invoice/:id/update",
