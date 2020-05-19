@@ -34,7 +34,7 @@
       </template>
       <mobile-menu>
         <li class="nav-item">
-          <a class="nav-link" href="/profile">
+          <a class="nav-link" href @click.prevent="profile">
             <i class="ti ti-user"></i>
             <p>Profile</p>
           </a>
@@ -89,6 +89,9 @@ export default {
     logOut() {
       this.$store.dispatch('auth/logout');
       this.$router.push('/login');
+    },
+    profile(){
+      this.$router.push('/profile');
     }
   },
   computed: {

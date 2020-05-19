@@ -20,7 +20,9 @@
             <span>
             <p class="nav-link">
               {{currentUser.username}}<br>
-              <a href="/profile">Profile</a> |
+              <!-- <router-link :to="{name: 'profile'}"> -->
+                <a href @click.prevent="profile" >Profile</a> |
+              <!-- </router-link> -->
               <a href @click.prevent="logOut">Sign Out</a>
             </p>
             </span>
@@ -73,6 +75,9 @@ export default {
     logOut() {
       this.$store.dispatch('auth/logout');
       this.$router.push('/login');
+    },
+    profile(){
+      this.$router.push('/profile').catch(err => {});
     }
   }
 };
