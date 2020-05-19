@@ -165,6 +165,7 @@
 </template>
 <script>
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
   data() {
@@ -187,6 +188,8 @@ export default {
       sortDirection: 'desc',
       filter: null,
       filterOn: [],
+      url_local: 'http://localhost:8080/api/activity-list-schedule/',
+      url_deploy: 'https://sipola-sixab.herokuapp.com/api/activity-list-schedule/'
     }
   },
   computed: {
@@ -214,7 +217,7 @@ export default {
       this.currentPage = 1
     },
     getAllActivityListSchedule: function(){
-      axios.get('http://localhost:8080/api/activity-list-schedule/all')
+      axios.get(this.url_deploy + 'all', { headers: authHeader() })
       .then(response => this.activityListSchedule = response.data.result);
     },
   }

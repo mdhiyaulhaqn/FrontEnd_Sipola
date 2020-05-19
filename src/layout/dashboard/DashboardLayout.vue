@@ -43,7 +43,7 @@
             <p>Sign Out</p>
           </a> -->
           <a class="nav-link" href @click.prevent="logOut">
-            LogOut
+            <p>Sign Out</p>
           </a>
         </li>
         <li class="divider"></li>
@@ -65,7 +65,7 @@
         <dashboard-content @click.native="toggleSidebar">
 
           </dashboard-content>
-      </div>  
+      </div>
     </div>
   </div>
 </template>

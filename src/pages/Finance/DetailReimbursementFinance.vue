@@ -117,10 +117,10 @@
                 <b-row>
                     <div class="col button-group" v-if="reimbursement.statusReimburse === 2 || reimbursement.statusReimburse === 4">
                         <br>
-                        <button v-on:click="onConfirmationReject" id ="delete-button" class="btn btn-primary">
+                        <button v-on:click="onConfirmationReject" id ="reject-button" class="btn btn-primary">
                             Reject
                         </button>
-                        <button v-on:click="onConfirmationApprove" id ="edit-button" class="btn btn-success">
+                        <button v-on:click="onConfirmationApprove" id ="approve-button" class="btn btn-success">
                             Approve
                         </button>
                     </div>
@@ -282,6 +282,7 @@
 
 import axios from 'axios';
 import JSZip from 'jszip';
+import authHeader from '../../services/auth-header';
 
 export default {
     data() {
@@ -310,7 +311,9 @@ export default {
               'Cumulative price did not adds up',
               'No document supported',
               'Duplicate report'
-            ]
+            ],
+            url_local: "http://localhost:8080/api/reimbursement/",
+            url_deploy: "http://sipola-sixab.herokuapp.com/api/reimbursement/",
         };
     },
     beforeMount(){
@@ -320,7 +323,7 @@ export default {
         onSubmit(evt) {
             evt.preventDefault();
             this.reimbursement.statusReimburse = 3;
-            this.approveReimbursement(JSON.stringify(this.reimbursement));
+            this.approveReimbursement(this.reimbursement);
         },
 
         onConfirmationApprove(evt) {
@@ -341,17 +344,16 @@ export default {
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/reimbursement/' +this.$route.params.id + '/detail')
+            axios.get(this.url_local +this.$route.params.id + '/detail', { headers: authHeader() })
             .then(res => {this.reimbursement = res.data })
             .catch(err => this.reimbursement = err.data);
         },
 
         approveReimbursement(reimburse) {
-          axios.put('http://localhost:8080/api/reimbursement/' + this.$route.params.id + '/changeStatus',
+          axios.put(this.url_local + this.$route.params.id + '/changeStatus',
             reimburse,
-                { headers: {
-                    'Content-Type': 'application/json',
-                }
+                { headers: 
+                    authHeader()
             })
             .then(res => {this.reimbursement = res.data.result, this.showMessage(res.data.status)});
         },
@@ -360,7 +362,6 @@ export default {
           this.hideModalReject()
           this.$refs['modal-success'].hide();
           this.hideModal();
-            // this.$router.push({ name: 'reimbursement-request'});
         },
 
         hideModal(){
@@ -385,15 +386,13 @@ export default {
           } else {
             this.reimbursement.statusReimburse = 5;
           }
-          this.rejectReimbursement(JSON.stringify(this.reimbursement));
+          this.rejectReimbursement(this.reimbursement);
         },
 
         rejectReimbursement(reimburse){
-          axios.put('http://localhost:8080/api/reimbursement/' + this.$route.params.id + '/changeStatus',
+          axios.put(this.url_local + this.$route.params.id + '/changeStatus',
             reimburse,
-                { headers: {
-                    'Content-Type': 'application/json',
-                }
+                { headers: authHeader()
             })
             .then(res => {this.reimbursement = res.data.result, this.showMessage(res.data.status)});
         },
@@ -454,13 +453,6 @@ export default {
 .sub-judul {
   font-size: 16px;
 }
-#send_button{
-    font-size: 12px;
-    float:right;
-    background-color: green;
-    color:white;
-    border-color: white;
-}
 
 .ti-download{
     margin-left:10px;
@@ -475,6 +467,7 @@ export default {
 .modal-header{
     background-color: #FF3E1D;
 }
+
 #view_button{
   background-color: #109CF1;
   color:white;
@@ -484,7 +477,8 @@ export default {
   width: 80px;
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
 }
-#edit-button{
+
+#approve-button{
   background-color: #28A745;
   color:white;
   border-color: transparent;
@@ -495,7 +489,7 @@ export default {
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
 }
 
-#delete-button{
+#reject-button{
   background-color: #FF3E1D;
   border-color: #FF3E1D;
   width: 80px;
@@ -514,12 +508,6 @@ export default {
     border: 1px solid gray;
     border-radius: 5px;
     padding: 5px 0 5px 0;
-}
-
-.image-preview{
-    height: 120px;
-    width: 120px;
-    padding: 10px 5px 10px 5px;
 }
 
 .button-confirm-group{
@@ -612,6 +600,16 @@ img {
 .download-all {
   float: right;
   cursor: pointer;
+}
+
+#view_button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  line-height: 8px;
+  width: 80px;
+  box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
 }
 
 </style>

@@ -262,6 +262,7 @@
 </template>
 <script>
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
   data() {
@@ -290,6 +291,8 @@ export default {
       dailyActivityReport: '',
       all: [],
       successModal: false,
+      url_local: 'http://localhost:8080/api/daily-activity-report/',
+      url_deploy: 'https://sipola-sixab.herokuapp.com/api/daily-activity-report/'
     }
   },
   beforeMount() {
@@ -309,7 +312,7 @@ export default {
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
-      this.deleteDailyActivityReport(JSON.stringify(this.dailyActivityReport));
+      this.deleteDailyActivityReport(this.dailyActivityReport);
       this.hideModal();
     },
     showMessage(status){
@@ -317,18 +320,13 @@ export default {
     },
 
     getDetail: function(){
-      axios.get('http://localhost:8080/api/daily-activity-report/' + this.$route.params.id)
+      axios.get(this.url_deploy + this.$route.params.id, { headers: authHeader() })
       .then(response => {this.dailyActivityReport = response.data.result, this.all.push(response.data.result)})
       .catch(err => this.dailyActivityReport = err.data);
     },
 
     deleteDailyActivityReport(dailyActivityReport){
-      axios.put('http://localhost:8080/api/daily-activity-report/' + this.$route.params.id + '/delete',
-      dailyActivityReport,
-          { headers: {
-              'Content-Type': 'application/json',
-          }
-      })
+      axios.put(this.url_deploy + this.$route.params.id + '/delete', dailyActivityReport, { headers: authHeader() })
       .then(res => {this.showMessage(res.data.status)});
     },
     redirect(){

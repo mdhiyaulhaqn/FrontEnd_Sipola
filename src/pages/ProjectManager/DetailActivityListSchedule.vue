@@ -128,6 +128,7 @@
 </template>
 <script>
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
   data() {
@@ -136,11 +137,15 @@ export default {
         namaProyek: '',
         namaPerusahaan: '',
         catatan: '',
+        startDate: '',
+        endDate: '',
       },
       dataSource: [],
       successModal: false,
       headerBorderVariant: 'white',
       footerBorderVariant: 'warning',
+      url_local: 'http://localhost:8080/api/activity-list-schedule/',
+      url_deploy: 'https://sipola-sixab.herokuapp.com/api/activity-list-schedule/'
     }
   },
   beforeMount() {
@@ -155,7 +160,7 @@ export default {
     },
     onSubmit(evt) {
       evt.preventDefault();
-      this.deleteActivityListSchedule(JSON.stringify(this.activityListSchedule));
+      this.deleteActivityListSchedule(this.activityListSchedule);
       this.hideModal();
     },
     showMessage(status){
@@ -172,7 +177,7 @@ export default {
     //   this.dataSource.push(datasource.data());
     // },
     getDetail: function(){
-      axios.get('http://localhost:8080/api/activity-list-schedule/' + this.$route.params.id)
+      axios.get(this.url_deploy + this.$route.params.id, { headers: authHeader() })
       .then(response => {this.activityListSchedule = response.data.result, this.getActivity()})
       .catch(err => this.activityListSchedule = err.data);
     },
@@ -201,12 +206,7 @@ export default {
       console.log(this.activityListSchedule.listTugas);
     },
     deleteActivityListSchedule(activityListSchedule){
-      axios.put('http://localhost:8080/api/activity-list-schedule/' + this.$route.params.id + '/delete',
-      activityListSchedule,
-          { headers: {
-              'Content-Type': 'application/json',
-          }
-      })
+      axios.put(this.url_deploy + this.$route.params.id + '/delete', activityListSchedule, { headers: authHeader() })
       .then(res => {this.showMessage(res.data.status)});
     },
     redirect(){

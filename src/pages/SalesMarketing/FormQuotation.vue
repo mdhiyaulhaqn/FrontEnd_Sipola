@@ -174,7 +174,7 @@ export default {
             timestamp:"",
 
             new_quotation : {
-                createdBy : "adi",
+                createdBy : '',
                 date : '',
                 noQuotation : '',
                 termsCondition : '',
@@ -216,10 +216,15 @@ export default {
             this.services = this.services.filter(result => result.id_service !== id_service);
         },
 
+        currentUser() {
+            return this.$store.state.auth.user;
+        },
+
         onSubmit(evt) {
             evt.preventDefault();
             this.new_quotation.company = this.new_company;
             this.new_quotation.service = this.services;
+            this.new_quotation.createdBy = this.$store.state.auth.user.name;
             this.addQuotation(this.new_quotation);
         },
 
