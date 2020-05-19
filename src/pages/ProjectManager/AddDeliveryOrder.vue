@@ -190,7 +190,7 @@ export default {
             timestamp:"",
 
             new_delivery_order : {
-                createdBy : "adi",
+                createdBy : '',
                 noDeliveryOrder : '',
                 termsCondition : '',
                 poNumber : '',
@@ -210,6 +210,10 @@ export default {
             successModal : false,
             failedModal : false,
             send : {objects : null},
+            url_local: 'http://localhost:8080/api/delivery-order/',
+            url_deploy: 'https://sipola-sixab.herokuapp.com/api/delivery-order/',
+            url_local_company: 'http://localhost:8080/api/company/',
+            url_deploy_company: 'https://sipola-sixab.herokuapp.com/api/company/'
         }
     },
 
@@ -219,6 +223,9 @@ export default {
 	},
 
     methods: {
+        currentUser() {
+            return this.$store.state.auth.user;
+        },
         addRow(){
             this.new_product.id_product++;
             let product = Object.assign({}, this.new_product);
@@ -232,6 +239,7 @@ export default {
         onSubmit(evt) {
             evt.preventDefault();
             this.new_delivery_order.product = this.products;
+            this.new_delivery_order.createdBy = this.$store.state.auth.user.name;
             this.addDeliveryOrder(this.new_delivery_order);
         },
 
@@ -245,7 +253,7 @@ export default {
         },
 
         addDeliveryOrder(quot){
-            axios.post('http://localhost:8080/api/delivery-order/add',
+            axios.post(this.url_deploy + 'add',
             quot,
                 { headers: authHeader()
             })
@@ -253,7 +261,7 @@ export default {
         },
 
         getAllCompany: function(){
-            axios.get('http://localhost:8080/api/company/all', {headers : authHeader()})
+            axios.get( this.url_deploy_company + 'all', {headers : authHeader()})
             .then(result => this.companies = result.data.result);
         },
 

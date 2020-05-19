@@ -182,7 +182,7 @@
                   </div>
                 </div>
                 <div>
-                  <b-form-group class="required">
+                  <b-form-group>
                     <label class="label" for="description">Description</label>
                     <ckeditor id="description" :editor="editor" v-model="newDailyActivityReport.description"></ckeditor>
                   </b-form-group>
@@ -282,6 +282,7 @@
 
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
   data() {
@@ -322,19 +323,23 @@ export default {
         encounterProblem : '',
         responsible : '',
         approvedBy : '',
+        createdBy: '',
       },
       show: true,
       successModal : false,
       failedModal : false,
       send : {objects : null},
+      url_local: 'http://localhost:8080/api/daily-activity-report/',
+      url_deploy: 'https://sipola-sixab.herokuapp.com/api/daily-activity-report/'
     }
   },
 
   methods: {
     onSubmit(evt) {
         evt.preventDefault();
+        this.newDailyActivityReport.createdBy = this.$store.state.auth.user.name;
         this.getManpower();
-        this.addDailyActivityReport(JSON.stringify(this.newDailyActivityReport));
+        this.addDailyActivityReport(this.newDailyActivityReport);
     },
 
     showMessage(status){
@@ -347,12 +352,7 @@ export default {
     },
 
     addDailyActivityReport(dailyActivityReport){
-        axios.post('http://localhost:8080/api/daily-activity-report/add',
-        dailyActivityReport,
-            { headers: {
-                'Content-Type': 'application/json',
-            }
-        })
+        axios.post(this.url_deploy + 'add', dailyActivityReport, { headers: authHeader() })
         .then(res => {this.newDailyActivityReport = res.data.result, this.showMessage(res.data.status)});
     },
 

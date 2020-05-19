@@ -175,6 +175,7 @@
 
 import Activity from '@/pages/ProjectManager/Activity.vue';
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
   components : {
@@ -202,6 +203,8 @@ export default {
       failedModal : false,
       confirmationModal : false,
       send : {objects : null},
+      url_local: 'http://localhost:8080/api/activity-list-schedule/',
+      url_deploy: 'https://sipola-sixab.herokuapp.com/api/activity-list-schedule/'
     }
   },
 
@@ -227,7 +230,7 @@ export default {
     onSubmit(evt) {
       evt.preventDefault();
       this.activityListSchedule.listTugas = this.activities;
-      this.updateActivityListSchedule(JSON.stringify(this.activityListSchedule));
+      this.updateActivityListSchedule(this.activityListSchedule);
       // this.hideModal();
     },
 
@@ -257,18 +260,13 @@ export default {
       }
     },
     getDetail: function(){
-      axios.get('http://localhost:8080/api/activity-list-schedule/' + this.$route.params.id)
+      axios.get(this.url_deploy + this.$route.params.id, { headers: authHeader() })
       .then(response => {this.activityListSchedule = response.data.result, this.fetchActivity()})
       .catch(err => this.activityListSchedule = err.data);
     },
 
     updateActivityListSchedule(activityListSchedule){
-      axios.put('http://localhost:8080/api/activity-list-schedule/' + this.$route.params.id + '/update',
-      activityListSchedule,
-        { headers: {
-            'Content-Type': 'application/json',
-        }
-      })
+      axios.put(this.url_deploy + this.$route.params.id + '/update', activityListSchedule, { headers: authHeader() })
       .then(res => {this.activityListSchedule = res.data.result, this.showMessage(res.data.status)});
     },
 

@@ -205,7 +205,7 @@ export default {
       filter: null,
       filterOn: [],
       url_local: 'http://localhost:8080/api/sales-order/',
-      url_deploy: 'http://sipola-sixab.herokuapp.com/api/sales-order/'
+      url_deploy: 'https://sipola-sixab.herokuapp.com/api/sales-order/'
     }
   },
    computed: {
@@ -228,8 +228,7 @@ export default {
   },
   methods:{
       getAllSalesOrder: function(){
-          console.log(this.currentUser.role)
-          axios.get(this.url_local + 'all', { headers: authHeader() })
+          axios.get( this.url_deploy + 'all', { headers: authHeader() })
           .then(result => {this.sales_orders = result.data.result, this.getPriceData()});
       },
       onFiltered(filteredItems) {

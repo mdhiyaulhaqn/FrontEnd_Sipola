@@ -197,6 +197,8 @@ export default {
         sortDirection: 'desc',
         filter: null,
         filterOn: [],
+        url_local: 'http://localhost:8080/api/quotation/',
+        url_deploy: 'https://sipola-sixab.herokuapp.com/api/quotation/'
     }
   },
   computed: {
@@ -220,7 +222,7 @@ export default {
 
   methods:{
       getAllQuotation: function(){
-          axios.get('http://localhost:8080/api/quotation/all', { headers: authHeader() })
+          axios.get(this.url_deploy + 'all', { headers: authHeader() })
           .then(result => {this.quotations = result.data.result, this.getPriceData()});
       },
       onFiltered(filteredItems) {

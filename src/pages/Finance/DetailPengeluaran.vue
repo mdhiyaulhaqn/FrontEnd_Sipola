@@ -35,7 +35,7 @@
                     <b-col cols="6" class="detail-text">: {{pengeluaran.createdBy}}</b-col>
                 </b-row>
                 <b-row>
-                  <div class = "button-group col-sm-12">
+                  <div class = "button-group col-sm-12" v-if="!pengeluaran.anyReimbursement">
                     <b-button v-b-modal.modal-delete id ="delete-button" class="btn btn-primary">
                         Delete
                     </b-button>
@@ -43,6 +43,9 @@
                         Edit
                     </b-button>
                   </div>
+                </b-row>
+                <b-row align-h="end" v-if="pengeluaran.anyReimbursement">
+                    <b-col class="detail-label col-12 col-md-10" style="color:red">*This expense can’t be edited because it’s part of reimbursement</b-col>
                 </b-row>
             </card>
           </div>
@@ -62,7 +65,7 @@
                         <img src="@/assets/img/delete-confirm-icon.png" alt="" width="60px">
                     </b-col>
                     <b-col cols="9">
-                        <p id="modal-message">It will be removed from the list.</p>
+                        <p id="modal-message">{{pengeluaran.nama}} will be removed from the list.</p>
                     </b-col>
                 </b-row>
                 </div>
@@ -133,9 +136,11 @@ export default {
       pengeluaran : {
           nama: '',
           tanggal : '',
-          createdAt: []
+          createdAt: [],
       },
       successModal: false,
+      url_local: "http://localhost:8080/api/pengeluaran/",
+      url_deploy: "https://sipola-sixab.herokuapp.com/api/pengeluaran/",
     };
   },
   beforeMount(){
@@ -147,7 +152,7 @@ export default {
         this.$refs['modal-delete'].hide();
     },
     getDetail: function(){    
-            axios.get('http://localhost:8080/api/pengeluaran/' +this.$route.params.id, { headers: authHeader() })
+            axios.get(this.url_deploy + this.$route.params.id, { headers: authHeader() })
             .then(res => {this.pengeluaran = res.data.result})
             .catch(err => this.pengeluaran = err.data);
     },
@@ -170,7 +175,7 @@ export default {
             }
         },
     deletePengeluaran(){
-        axios.put('http://localhost:8080/api/pengeluaran/' + this.$route.params.id + '/delete', this.pengeluaran, { headers: authHeader() })
+        axios.put(this.url_deploy + this.$route.params.id + '/delete', this.pengeluaran, { headers: authHeader() })
         .then(res => {
             this.showMessage(res.data.status)
             console.log(res.data.status)
@@ -321,6 +326,10 @@ export default {
   font-size: 12px;
   line-height: 15px;
   border-width: 1px;
+}
+
+.reimburse-alert{
+    color: red;
 }
 
 </style>

@@ -219,7 +219,9 @@ export default {
               id: '',
               nama: '',
               alamat: ''
-            }
+            },
+            url_local: 'http://localhost:8080/api/quotation/',
+            url_deploy: 'https://sipola-sixab.herokuapp.com/api/quotation/'
         };
     },
 
@@ -231,7 +233,7 @@ export default {
         onSubmit(evt) {
             evt.preventDefault();
             this.quotation.status = 'Inactive';
-            this.deleteQuotation(JSON.stringify(this.quotation));
+            this.deleteQuotation(this.quotation);
         },
 
         showMessage(status){
@@ -255,13 +257,13 @@ export default {
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/quotation/' +this.$route.params.id, { headers: authHeader() })
+            axios.get(this.url_deploy +this.$route.params.id, { headers: authHeader() })
             .then(res => {this.quotation = res.data, this.computeTotal(), this.company = res.data.company})
             .catch(err => this.quotation = err.data);
         },
 
         deleteQuotation(quot){
-            axios.put('http://localhost:8080/api/quotation/change-status/' + this.$route.params.id,
+            axios.put(this.url_deploy + 'change-status/' + this.$route.params.id,
             quot,
                 { headers: 
                    authHeader()

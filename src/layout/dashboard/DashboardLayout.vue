@@ -3,47 +3,46 @@
     <side-bar v-if="currentUser">
       <template slot="links">
         <div v-if="showAdminBoard">
-          <sidebar-link to="/user" name="Manage User"/>
+          <sidebar-link to="/user" name="Manage User" icon="ti ti-id-badge"/>
         </div>
         <div v-if="showDirekturBoard">
-          <sidebar-link to="/dashboard" name="Dashboard"/>
+          <sidebar-link to="/dashboard" name="Dashboard" icon="ti ti-bar-chart"/>
         </div>
         <div v-if="showProjectManagerBoard">
-          <sidebar-link to="/activity-list-schedule" name="Activity List Schedule"/>
-          <sidebar-link to="/delivery-order" name="Delivery Order"/>
+          <sidebar-link to="/activity-list-schedule" name="Activity List Schedule" icon="ti ti-clipboard"/>
+          <sidebar-link to="/delivery-order" name="Delivery Order" icon="ti ti-package"/>
         </div>
         <div v-if="showSalesMarketingBoard">
-          <sidebar-link to="/quotation" name="Quotation"/>
-          <sidebar-link to="/sales-order" name="Sales Order"/>
+          <sidebar-link to="/quotation" name="Quotation" icon="ti ti-write"/>
+          <sidebar-link to="/sales-order" name="Sales Order" icon="ti ti-notepad"/>
         </div>
         <div v-if="showFinanceBoard">
-          <sidebar-link to="/reimbursement-request" name="Reimbursement Request"/>
-          <sidebar-link to="/expense" name="Expense"/>
-          <sidebar-link to="/invoice" name="Invoice"/>
-          <sidebar-link to="/income-expense-summary" name="Expense & Income Summary"/>
+          <sidebar-link to="/reimbursement-request" name="Reimbursement Request" icon="ti ti-archive"/>
+          <sidebar-link to="/expense" name="Expense" icon="ti ti-agenda"/>
+          <sidebar-link to="/invoice" name="Invoice" icon="ti ti-envelope"/>
+          <sidebar-link to="/income-expense-summary" name="Expense & Income Summary" icon="ti ti-stats-up"/>
         </div>
         <div v-if="showServiceTeamBoard">
-          <sidebar-link to="/reimbursement-report" name="Reimbursement Report"/>
+          <sidebar-link to="/reimbursement-report" name="Reimbursement Report" icon="ti ti-file"/>
         </div>
         <div v-if="showLogistikBoard">
-          <sidebar-link to="/purchase-order" name="Purchase Order"/>
+          <sidebar-link to="/purchase-order" name="Purchase Order" icon="ti ti-check-box"/>
         </div>
         <div v-if="showSupervisorBoard">
-          <sidebar-link to="/daily-activity-report" name="Daily Activity Report"/>
+          <sidebar-link to="/daily-activity-report" name="Daily Activity Report" icon="ti ti-book"/>
         </div>
       </template>
       <mobile-menu>
         <li class="nav-item">
-          <a class="nav-link">
-            <p>Change Password</p>
+          <a class="nav-link" href="/profile">
+            <i class="ti ti-user"></i>
+            <p>Profile</p>
           </a>
         </li>
         <li class="nav-item">
-          <!-- <a class="nav-link">
-            <p>Sign Out</p>
-          </a> -->
           <a class="nav-link" href @click.prevent="logOut">
-            LogOut
+            <i class="ti ti-shift-right"></i>
+            <p>Sign Out</p>
           </a>
         </li>
         <li class="divider"></li>
@@ -65,7 +64,7 @@
         <dashboard-content @click.native="toggleSidebar">
 
           </dashboard-content>
-      </div>  
+      </div>
     </div>
   </div>
 </template>

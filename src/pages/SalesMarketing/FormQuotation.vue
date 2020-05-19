@@ -174,7 +174,7 @@ export default {
             timestamp:"",
 
             new_quotation : {
-                createdBy : "adi",
+                createdBy : '',
                 date : '',
                 noQuotation : '',
                 termsCondition : '',
@@ -198,6 +198,8 @@ export default {
             successModal : false,
             failedModal : false,
             send : {objects : null},
+            url_local: 'http://localhost:8080/api/quotation/',
+            url_deploy: 'https://sipola-sixab.herokuapp.com/api/quotation/'
         }
     },
 
@@ -216,10 +218,15 @@ export default {
             this.services = this.services.filter(result => result.id_service !== id_service);
         },
 
+        currentUser() {
+            return this.$store.state.auth.user;
+        },
+
         onSubmit(evt) {
             evt.preventDefault();
             this.new_quotation.company = this.new_company;
             this.new_quotation.service = this.services;
+            this.new_quotation.createdBy = this.$store.state.auth.user.name;
             this.addQuotation(this.new_quotation);
         },
 
@@ -233,7 +240,7 @@ export default {
         },
 
         addQuotation(quot){
-            axios.post('http://localhost:8080/api/quotation/add',  quot, { headers: authHeader() })
+            axios.post(this.url_deploy + 'add',  quot, { headers: authHeader() })
             .then(res => {this.new_quotation = res.data.result, this.showMessage(res.data.status)});
         },
 

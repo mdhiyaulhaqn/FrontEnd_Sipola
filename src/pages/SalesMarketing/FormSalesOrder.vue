@@ -187,7 +187,7 @@ export default {
             service_orders: [],
             companies : [],
             new_sales_order : {
-                createdBy : "Adi",
+                createdBy : "",
                 poDate : '',
                 poNumber : '',
                 date : '',
@@ -209,6 +209,10 @@ export default {
             successModal : false,
             failedModal : false,
             send : {objects : null},
+            url_local: 'http://localhost:8080/api/sales-order/',
+            url_deploy: 'https://sipola-sixab.herokuapp.com/api/sales-order/',
+            url_local_company: 'http://localhost:8080/api/company/',
+            url_deploy_company: 'https://sipola-sixab.herokuapp.com/api/company/'
         }
     },
 
@@ -218,6 +222,10 @@ export default {
 	},
 
     methods: {
+        currentUser() {
+            return this.$store.state.auth.user;
+        },
+        
         addRow(){
             this.new_service_order.id_service_order++;
             let service = Object.assign({}, this.new_service_order);
@@ -231,6 +239,7 @@ export default {
         onSubmit(evt) {
             evt.preventDefault();
             this.new_sales_order.serviceOrder = this.service_orders;
+            this.new_sales_order.createdBy = this.$store.state.auth.user.name;
             this.addSalesOrder(this.new_sales_order);
         },
 
@@ -243,18 +252,13 @@ export default {
             }
         },
 
-        addSalesOrder(quot){
-            axios.post('http://localhost:8080/api/sales-order/add',
-            quot,
-                { headers: {
-                    headers : authHeader()
-                }
-            })
+        addSalesOrder(sales_order){
+            axios.post(this.url_deploy + 'add',  sales_order, { headers: authHeader() })
             .then(res => {this.new_sales_order = res.data.result, this.showMessage(res.data.status)});
         },
 
         getAllCompany: function(){
-            axios.get('http://localhost:8080/api/company/all', {headers : authHeader()})
+            axios.get( this.url_deploy_company + 'all', {headers : authHeader()})
             .then(result => this.companies = result.data.result);
         },
 

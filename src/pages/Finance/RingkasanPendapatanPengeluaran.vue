@@ -334,6 +334,9 @@ export default {
       endDate : null,
       totalPendapatan: 0,
       totalPengeluaran: 0,
+
+      url_local: "http://localhost:8080/api/",
+      url_deploy: "https://sipola-sixab.herokuapp.com/api/",
     }
   },
   computed: {
@@ -360,15 +363,15 @@ export default {
         linkTanggal = 'tanggalAkhir=' + this.endDate
       }
 
-      axios.get('http://localhost:8080/api/pendapatan?' + linkTanggal, { headers: authHeader() })	
+      axios.get(this.url_deploy + 'pendapatan?' + linkTanggal, { headers: authHeader() })	
       .then(response => this.pendapatanList = response.data.result);	
-      axios.get('http://localhost:8080/api/pengeluaran?' + linkTanggal, { headers: authHeader() })	
+      axios.get(this.url_deploy + 'pengeluaran?' + linkTanggal, { headers: authHeader() })	
       .then(response => this.pengeluaranList = response.data.result);	
-      axios.get('http://localhost:8080/api/pendapatan/calculate?' + linkTanggal, { headers: authHeader() })	
+      axios.get(this.url_deploy + 'pendapatan/calculate?' + linkTanggal, { headers: authHeader() })	
       .then(response => {	
         this.totalPendapatan = response.data.result; 	
         });	
-      axios.get('http://localhost:8080/api/pengeluaran/calculate?' + linkTanggal, { headers: authHeader() })	
+      axios.get(this.url_deploy + 'pengeluaran/calculate?' + linkTanggal, { headers: authHeader() })	
       .then(response => {	
         this.totalPengeluaran = response.data.result; 	
         });

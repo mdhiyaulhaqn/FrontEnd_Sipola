@@ -59,11 +59,11 @@ const routes = [
   {
     path: "/",
     component: DashboardLayout,
-    redirect: "/dashboard",
+    redirect: "/login",
     children: [
       {
         path: "dashboard/:year",
-        name: "dashboard",
+        name: "dashboard-year",
         component: Dashboard
       },
       {
@@ -147,7 +147,7 @@ const routes = [
         component: UpdatePengeluaran
       },
       {
-        path: "expense-add",
+        path: "expense/add",
         name: "expense-add",
         component: FormPengeluaran
       },

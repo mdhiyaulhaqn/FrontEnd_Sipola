@@ -40,7 +40,7 @@
                     <div class = "col-lg-5 col-sm-5 col-6">: {{reimbursement.createdBy}}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-lg-2 col-sm-2 col-6">Created at</div>
+                    <div class = "col-lg-2 col-sm-2 col-6">Created At</div>
                     <div class = "col-lg-5 col-sm-5 col-6">: {{ reimbursement.createdAt.slice(0, 19) | moment('lll')}}</div>
                 </b-row>
                 <b-row>
@@ -195,7 +195,7 @@
       </template>
       <template v-slot:modal-footer="{ ok }">
         <b-col class="button-confirm-group">
-          <b-button @click="ok()" class="ok-button" variant="outline-primary">
+          <b-button @click="ok()" class="oksend-button">
             OK
           </b-button>
         </b-col>
@@ -276,6 +276,7 @@
 <script>
 
 import axios from 'axios';
+import authHeader from '../../services/auth-header';
 
 export default {
     data() {
@@ -293,7 +294,9 @@ export default {
                 {key: 'nama', label: 'Expense Item', sortable: true},
                 {key: 'tanggal', label: 'Date', sortable: true},
                 {key: 'nominal', label: 'Price(IDR)', sortable: true},
-            ]
+            ],
+            url_local: "http://localhost:8080/api/reimbursement/",
+            url_deploy: "http://sipola-sixab.herokuapp.com/api/reimbursement/",
         };
     },
     beforeMount(){
@@ -302,7 +305,7 @@ export default {
     methods:{
         onSubmit(evt) {
             evt.preventDefault();
-            this.deleteReimbursement(JSON.stringify(this.reimbursement));
+            this.deleteReimbursement(this.reimbursement);
         },
 
         showMessage(status){
@@ -315,19 +318,14 @@ export default {
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/reimbursement/' +this.$route.params.id + '/detail')
-            .then(res => {this.reimbursement = res.data, console.log(this.reimbursement)})
+            axios.get(this.url_local +this.$route.params.id + '/detail', { headers: authHeader() })
+            .then(res => {this.reimbursement = res.data})
             .catch(err => this.reimbursement = err.data);
-            // this.previewImage();
         },
 
         deleteReimbursement(reimburse){
-            axios.delete('http://localhost:8080/api/reimbursement/' + this.$route.params.id + '/delete',
-            reimburse,
-                { headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
+            axios.delete(this.url_local + this.$route.params.id + '/delete', { headers: authHeader() },
+            reimburse)
             .then(res => {this.showMessage(res.data.status)});
         },
 
@@ -341,7 +339,7 @@ export default {
 
         sentFinance(evt) {
             evt.preventDefault();
-            this.sendReimbursement();
+            this.sendReimbursement(this.reimbursement);
         },
 
         hideModalSend(){
@@ -349,7 +347,7 @@ export default {
         },
 
         sendReimbursement(reimburse){
-            axios.put('http://localhost:8080/api/reimbursement/' + this.$route.params.id + '/send')
+            axios.put(this.url_local + this.$route.params.id + '/send', reimburse, {headers: authHeader()})
             .then(res => {this.reimbursement = res.data.result, this.showMessageSendModal(res.data.status)});
         },
 
@@ -363,7 +361,6 @@ export default {
         },
 
          downloadFile(file) {
-          console.log(file.fileName)
           const linkSource = 'data:' + file.type + ';base64,' + file.image;
           const downloadLink = document.createElement("a");
           const fileName = file.fileName;
@@ -417,14 +414,6 @@ export default {
 }
 .sub-judul {
   font-size: 16px;
-}
-.nama-perusahaan{
-    color: black;
-    font-size:20px;
-    margin-bottom: 20px;
-}
-.tabel-service{
-    font-size:15px;
 }
 #send_button{
     font-size: 12px;
@@ -481,12 +470,6 @@ export default {
     padding: 5px 0 5px 0;
 }
 
-.image-preview{
-    height: 120px;
-    width: 120px;
-    padding: 10px 5px 10px 5px;
-}
-
 .button-confirm-group{
   text-align: right;
 }
@@ -523,6 +506,15 @@ h5{
   margin-bottom: -4px;
 }
 .ok-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  font-size: 12px;
+  line-height: 15px;
+  border-width: 1px;
+}
+
+.oksend-button {
   color:#109CF1;
   border-color:#109CF1;
   background-color: white;
