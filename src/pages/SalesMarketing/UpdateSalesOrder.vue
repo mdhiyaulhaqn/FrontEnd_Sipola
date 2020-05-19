@@ -120,7 +120,7 @@
                 </b-row>
 
 
-                <b-form-group class="required">
+                <b-form-group>
                     <label for="termsConditions">Terms and Conditions</label>
                     <ckeditor :editor="editor"  v-model="sales_order.termsCondition"></ckeditor>
                 </b-form-group>
@@ -244,7 +244,11 @@ export default {
             failedModal : false,
             warningModal : false,
             send : {objects : null},
-            companies: []
+            companies: [],
+            url_local: 'http://localhost:8080/api/sales-order/',
+            url_deploy: 'https://sipola-sixab.herokuapp.com/api/sales-order/',
+            url_local_company: 'http://localhost:8080/api/company/',
+            url_deploy_company: 'https://sipola-sixab.herokuapp.com/api/company/'
         }
     },
 
@@ -309,14 +313,14 @@ export default {
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/sales-order/' +this.$route.params.id, { headers: authHeader() })
+            axios.get(this.url_deploy + +this.$route.params.id, { headers: authHeader() })
             .then(res => {this.sales_order = res.data, this.fetchData()})
             .catch(err => this.sales_order = err.data);
         },
 
         updateSalesOrder(quot){
             console.log(this.sales_order.service_order)
-            axios.put('http://localhost:8080/api/sales-order/update/' + this.$route.params.id,
+            axios.put( this.url_deploy + 'update/' + this.$route.params.id,
             quot,
                 { headers: 
                     authHeader()
@@ -326,7 +330,7 @@ export default {
         },
 
         getAllCompany: function(){
-            axios.get('http://localhost:8080/api/company/all', { headers: authHeader() })
+            axios.get( this.url_deploy_company + 'all', { headers: authHeader() })
             .then(result => this.companies = result.data.result);
         },
 

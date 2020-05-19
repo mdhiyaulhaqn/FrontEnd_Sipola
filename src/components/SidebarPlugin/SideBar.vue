@@ -31,13 +31,13 @@
         <div class = "user-profile" v-if="currentUser.name.split(' ').length > 2">
           <h3 id="name">{{(currentUser.name.split(' ')[0]) + " " + (currentUser.name.split(' ')[1])}}</h3>
           <div v-for="(role,index) in currentUser.roles" :key="index">
-            <h4 id="role" v-if="role != 'ROLE_USER'">{{generateRole(role).slice(5)}}</h4>
+            <h4 id="role" v-if="role != 'ROLE_USER'">{{generateRole(role)}}</h4>
           </div>
         </div>
         <div class = "user-profile" v-else>
           <h4 id="name">{{currentUser.name}}</h4>
           <div v-for="(role,index) in currentUser.roles" :key="index">
-            <h4 id="role" v-if="role != 'ROLE_USER'">{{generateRole(role).slice(5)}}</h4>
+            <h4 id="role" v-if="role != 'ROLE_USER'">{{generateRole(role)}}</h4>
           </div>
         </div>
       </div>
@@ -45,7 +45,7 @@
       <slot>
 
       </slot>
-      <ul class="nav" style="margin-top: 15px;">
+      <ul class="nav">
         <!--By default vue-router adds an active class to each route link. This way the links are colored when clicked-->
         <slot name="links">
           <sidebar-link v-for="(link,index) in sidebarLinks"
@@ -170,7 +170,7 @@ export default {
       } else if (role == "ROLE_LOGISTIK"){
         return "Logistik";
       } else if (role == "ROLE_SUPERVISOR"){
-        return "Role Supervisor";
+        return "Supervisor";
       }
     }
   },
@@ -181,7 +181,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .user-profile{
   color:white;
   text-align: center;

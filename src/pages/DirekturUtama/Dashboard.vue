@@ -31,7 +31,7 @@
     <div class="row">
        <div class="col-md-6 col-xl-3" >
         <div class = "card">
-            <div class = "card-header text-right"><strong> Income </strong></div>
+            <div class = "card-header text-right"><strong><i class="fa fa-money"></i> Income </strong></div>
             <div v-if="this.income - this.target > 0">
               <div class = "card-body text-center amount profit">Rp{{formatPrice(income)}}</div>
             </div>
@@ -135,6 +135,7 @@ import BarChart from '@/pages/DirekturUtama/component/BarChart.vue';
 import Chartist from 'chartist';
 import axios from 'axios';
 import TimeAgo from 'vue2-timeago';
+import authHeader from '../../services/auth-header';
 
 export default {
   name: 'app',
@@ -173,6 +174,12 @@ export default {
       selected: null,
       years:null,
       currentYear:[],
+      url_local_project: 'http://localhost:8080/api/dashboard/projects/',
+      url_deploy_project: 'https://sipola-sixab.herokuapp.com/api/dashboard/projects/',
+      url_local_income: 'http://localhost:8080/api/dashboard/income/',
+      url_deploy_income: 'https://sipola-sixab.herokuapp.com/api/dashboard/income/',
+      url_local_expense: 'http://localhost:8080/api/dashboard/pengeluaran/',
+      url_deploy_expense: 'https://sipola-sixab.herokuapp.com/api/dashboard/pengeluaran/',
     };
   },
 
@@ -199,24 +206,19 @@ export default {
     },
 
     getProject : function(){
-      axios.get('http://localhost:8080/api/dashboard/projects/' + this.$route.params.year)
-          .then(res => {this.list_project = res.data.result, this.showMessage(res.data.status), this.getIncome(), this.selected = this.$route.params.year})
+      axios.get(this.url_deploy_project + this.$route.params.year, { headers: authHeader() })
+          .then(res => {this.list_project = res.data.result, this.getIncome(), this.selected = this.$route.params.year})
           .catch(err => this.list_project = err.data);
     },
     getIncome: function(){
-        axios.get('http://localhost:8080/api/dashboard/income/' + this.$route.params.year)
+        axios.get(this.url_deploy_income + this.$route.params.year, { headers: authHeader() })
           .then(res => {this.list_income = res.data.result, this.getPengeluaran()})
           .catch(err => this.list_income = err.data);
     },
     getPengeluaran: function(){
-        axios.get('http://localhost:8080/api/dashboard/pengeluaran/' + this.$route.params.year)
-          .then(res => {this.list_expense = res.data.result, this.computeTotal(), this.createProjectData()})
+        axios.get(this.url_deploy_expense + this.$route.params.year, { headers: authHeader() })
+          .then(res => {this.list_expense = res.data.result, this.computeTotal(), this.createProjectData(), this.showMessage(res.data.status)})
           .catch(err => this.list_expense = err.data);
-    },
-
-    chooseYears () {
-      const year = new Date().getFullYear()
-      this.years = Array.from({length: year - 1900}, (value, index) => 1901 + index)
     },
 
     showMessage(status){
@@ -495,3 +497,7 @@ export default {
   font-size: 18px;
 }
 </style>
+<<<<<<< HEAD
+>>>>>>> development
+=======
+>>>>>>> development

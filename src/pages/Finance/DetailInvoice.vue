@@ -240,12 +240,15 @@ import axios from 'axios';
 import jsPDF from 'jspdf';
 import * as autoTable from 'jspdf-autotable';
 import html2canvas from "html2canvas";
+import authHeader from '../../services/auth-header';
 
 export default {
     data() {
         return {
             invoice : '',
             successModal : false,
+            url_local: 'http://localhost:8080/api/invoice/',
+            url_deploy : 'https://sipola-sixab.herokuapp.com/api/invoice/',
             fields: [
                 {key: 'id', label: 'No', sortable: true},
                 {key: 'deskripsi', label: 'Description', sortable: true},
@@ -267,7 +270,7 @@ export default {
     methods:{
         onSubmit(evt) {
             evt.preventDefault();
-            this.deleteInvoice(JSON.stringify(this.invoice));
+            this.deleteInvoice(this.invoice);
             this.hideModal();
         },
 
@@ -289,18 +292,13 @@ export default {
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/invoice/' +this.$route.params.id)
+            axios.get(this.url_deploy +this.$route.params.id, { headers: authHeader() })
             .then(res => {this.invoice = res.data, this.computePrice()})
             .catch(err => this.invoice = err.data);
         },
 
         deleteInvoice(invoice){
-            axios.put('http://localhost:8080/api/invoice/' + this.$route.params.id + '/delete',
-            invoice,
-                { headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
+            axios.put(this.url_deploy + this.$route.params.id + '/delete', invoice, { headers: authHeader() })
             .then(res => {this.showMessage(res.data.status)});
         },
 

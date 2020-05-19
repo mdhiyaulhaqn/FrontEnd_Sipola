@@ -102,7 +102,7 @@
                 </b-row>
 
                 <!-- - Waktu Kerja : Normal working hour 8 Jam per Hari - Pembayaran : 100% setelah pekerjaan selesai - Validity : 1 bulan - Untuk jam kerja lebih dari normal working hour, maka dikenakan biaya lembur Rp.350.000,00 per jam - Untuk pekerjaan yang dilakukan di hari libur (Sabtu, Minggu dan Hari libur Nasional) dikenakan biaya tambahan Rp.2.500.000,00 Per Hari -->
-                <b-form-group class="required">
+                <b-form-group>
                     <label class="label" for="termsConditions">Terms and Conditions</label>
                     <ckeditor :editor="editor"  v-model="quotation.termsCondition"></ckeditor>
 
@@ -257,6 +257,8 @@ export default {
             failedModal : false,
             warningModal : false,
             send : {objects : null},
+            url_local: 'http://localhost:8080/api/quotation/',
+            url_deploy: 'https://sipola-sixab.herokuapp.com/api/quotation/'
         }
     },
 
@@ -318,13 +320,13 @@ export default {
         },
 
         getDetail: function(){
-            axios.get('http://localhost:8080/api/quotation/' +this.$route.params.id, { headers: authHeader() })
+            axios.get(this.url_deploy +this.$route.params.id, { headers: authHeader() })
             .then(res => {this.quotation = res.data, this.fetchData(), this.company = res.data.company})
             .catch(err => this.quotation = err.data);
         },
 
         updateQuotation(quot){
-            axios.put('http://localhost:8080/api/quotation/update/' + this.$route.params.id,
+            axios.put( this.url_deploy + 'update/' + this.$route.params.id,
             quot,
                 { headers: authHeader()
             })

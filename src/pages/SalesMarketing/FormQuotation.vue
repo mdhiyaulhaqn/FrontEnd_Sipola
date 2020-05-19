@@ -97,7 +97,7 @@
                     </div>
                 </b-row>
 
-                <b-form-group class="required">
+                <b-form-group>
                     <label class="label" for="termsConditions">Terms and Conditions</label>
                     <ckeditor :editor="editor" v-model="new_quotation.termsCondition"></ckeditor>
                 </b-form-group>
@@ -155,12 +155,10 @@
 </template>
 
 <script>
-
 import Service from '@/pages/SalesMarketing/Service.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
 import authHeader from '../../services/auth-header';
-
 export default {
     components : {
       Service
@@ -168,11 +166,9 @@ export default {
     data() {
       return {
            editor: ClassicEditor,
-
             services: [],
             id_services : {id:0},
             timestamp:"",
-
             new_quotation : {
                 createdBy : '',
                 date : '',
@@ -198,28 +194,25 @@ export default {
             successModal : false,
             failedModal : false,
             send : {objects : null},
+            url_local: 'http://localhost:8080/api/quotation/',
+            url_deploy: 'https://sipola-sixab.herokuapp.com/api/quotation/'
         }
     },
-
     beforeMount() {
       this.addRow();
 	},
-
     methods: {
         addRow(){
             this.new_service.id_service++;
             let service = Object.assign({}, this.new_service);
             this.services.push(service)
         },
-
         deleteRow(id_service){
             this.services = this.services.filter(result => result.id_service !== id_service);
         },
-
         currentUser() {
             return this.$store.state.auth.user;
         },
-
         onSubmit(evt) {
             evt.preventDefault();
             this.new_quotation.company = this.new_company;
@@ -227,7 +220,6 @@ export default {
             this.new_quotation.createdBy = this.$store.state.auth.user.name;
             this.addQuotation(this.new_quotation);
         },
-
         showMessage(status){
             if(status == 200){
                 this.successModal = true;
@@ -236,20 +228,16 @@ export default {
                 this.failedModal = true;
             }
         },
-
         addQuotation(quot){
-            axios.post('http://localhost:8080/api/quotation/add',  quot, { headers: authHeader() })
+            axios.post(this.url_deploy + 'add',  quot, { headers: authHeader() })
             .then(res => {this.new_quotation = res.data.result, this.showMessage(res.data.status)});
         },
-
         redirect(){
             this.$router.push({ name: 'detail-quotation',  params: {id:this.new_quotation.id}});
         },
-
         cancel(){
             this.$router.push({ name: 'quotation'});
         },
-
         hideModal(){
 		    this.$refs['modal-hide'].hide();
 		},
@@ -258,16 +246,13 @@ export default {
 </script>
 
 <style scoped>
-
 .required label:after {
     content: " *";
     color: red;
 }
-
 .ck-editor__editable {
     min-height: 500px;
 }
-
 .add-button{
     width: 100%;
     background-color: white;
@@ -288,7 +273,6 @@ export default {
     margin-left: auto;
     margin-right: auto;
 }
-
 .save-button{
   background-color: #109CF1;
   color:white;
@@ -300,7 +284,6 @@ export default {
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
   text-align: center;
 }
-
 .cancel-button{
   color:#109CF1;
   border-color:#109CF1;
@@ -311,7 +294,6 @@ export default {
   text-align: center;
   font-size: 12px;
 }
-
 .button-group{
   margin-top: 20px;
   text-align: center;
@@ -348,7 +330,6 @@ export default {
     color: #109CF1;
     font-weight: 1000;
 }
-
 .button-confirm-group{
     text-align: right;
 }
@@ -365,5 +346,4 @@ h5{
 #termsConditions{
     height: 200px;
 }
-
 </style>

@@ -336,7 +336,7 @@ export default {
       totalPengeluaran: 0,
 
       url_local: "http://localhost:8080/api/",
-      url_deploy: "http://sipola-sixab.herokuapp.com/api/",
+      url_deploy: "https://sipola-sixab.herokuapp.com/api/",
     }
   },
   computed: {

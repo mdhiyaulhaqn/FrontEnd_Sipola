@@ -171,9 +171,7 @@
 <script>
 import axios from 'axios';
 import authHeader from '../../services/auth-header';
-
 export default {
-
   data() {
     return {
         fields: [
@@ -187,7 +185,6 @@ export default {
         ],
         quotations :[],
         quotations_total_price : [],
-
         totalRows: 1,
         currentPage: 1,
         perPage: 5,
@@ -197,6 +194,8 @@ export default {
         sortDirection: 'desc',
         filter: null,
         filterOn: [],
+        url_local: 'http://localhost:8080/api/quotation/',
+        url_deploy: 'https://sipola-sixab.herokuapp.com/api/quotation/'
     }
   },
   computed: {
@@ -213,14 +212,12 @@ export default {
       return this.quotations;
     }
   },
-
   beforeMount(){
       this.getAllQuotation();
   },
-
   methods:{
       getAllQuotation: function(){
-          axios.get('http://localhost:8080/api/quotation/all', { headers: authHeader() })
+          axios.get(this.url_deploy + 'all', { headers: authHeader() })
           .then(result => {this.quotations = result.data.result, this.getPriceData()});
       },
       onFiltered(filteredItems) {
@@ -228,9 +225,7 @@ export default {
         this.totalRows = filteredItems.length
         this.currentPage = 1
       },
-
       getPriceData(){
-
           for(let i = 0 ; i < this.quotations.length ; i++){
             var total_harga_semua = 0;
             for (let j = 0; j < this.quotations[i].service.length ; j++) {

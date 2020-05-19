@@ -61,9 +61,9 @@
         </div>
 
 
-        <span class = "col-md-1 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none">
+        <span class = "col-md-1 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none" v-if="currentUser().roles.includes('ROLE_SALES_MARKETING')">
         </span>
-        <div class = "col-md-1   col-sm-8 col-xs-8 col-7">
+        <div class = "col-md-1   col-sm-8 col-xs-8 col-7" v-if="currentUser().roles.includes('ROLE_SALES_MARKETING')">
             <b-button @click="$emit('del-service-order', service_order.id_service_order)" variant="danger"><i class="fas fa-trash-alt"></i></b-button>
         </div>
 
@@ -79,7 +79,10 @@ export default {
     methods: {
         markComplete() {
             this.todo.completed = !this.todo.completed;
-        }
+        },
+        currentUser() {
+            return this.$store.state.auth.user;
+        },
     }
 }
 </script>

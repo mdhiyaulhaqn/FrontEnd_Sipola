@@ -118,7 +118,7 @@
                 </b-row>
 
 
-                <b-form-group class="required">
+                <b-form-group>
                     <label class="label" for="termsConditions">Terms and Conditions</label>
                     <ckeditor :editor="editor"  v-model="new_delivery_order.termsCondition"></ckeditor>
 
@@ -210,6 +210,10 @@ export default {
             successModal : false,
             failedModal : false,
             send : {objects : null},
+            url_local: 'http://localhost:8080/api/delivery-order/',
+            url_deploy: 'https://sipola-sixab.herokuapp.com/api/delivery-order/',
+            url_local_company: 'http://localhost:8080/api/company/',
+            url_deploy_company: 'https://sipola-sixab.herokuapp.com/api/company/'
         }
     },
 
@@ -248,16 +252,16 @@ export default {
             }
         },
 
-        addDeliveryOrder(quot){
-            axios.post('http://localhost:8080/api/delivery-order/add',
-            quot,
+        addDeliveryOrder(delivery_order){
+            axios.post(this.url_deploy + 'add',
+            delivery_order,
                 { headers: authHeader()
             })
             .then(res => {this.new_delivery_order = res.data.result, this.showMessage(res.data.status)});
         },
 
         getAllCompany: function(){
-            axios.get('http://localhost:8080/api/company/all', {headers : authHeader()})
+            axios.get( this.url_deploy_company + 'all', {headers : authHeader()})
             .then(result => this.companies = result.data.result);
         },
 
