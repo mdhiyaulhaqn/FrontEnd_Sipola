@@ -189,7 +189,7 @@
                   </div>
                 </div>
                 <div>
-                  <b-form-group class="required">
+                  <b-form-group>
                     <label class="label" for="description">Description</label>
                     <ckeditor id="description" :editor="editor" v-model="dailyActivityReport.description"></ckeditor>
                   </b-form-group>
