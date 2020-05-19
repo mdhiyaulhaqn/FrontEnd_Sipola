@@ -267,10 +267,6 @@ const routes = [
         component: Login
       },
       {
-        path: '/register',
-        component: Register
-      },
-      {
         path: '/profile',
         name: 'profile',
         // lazy-loaded
