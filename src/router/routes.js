@@ -410,7 +410,7 @@ const routes = [
         }
       },
       {
-        path: '/user/:id/update',
+        path: '/user/:username/update',
         name: 'user-update',
         component: UpdateUser,
         meta : {
