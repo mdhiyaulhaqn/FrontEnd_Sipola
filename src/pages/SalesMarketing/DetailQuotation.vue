@@ -265,9 +265,9 @@ export default {
         deleteQuotation(quot){
             axios.put(this.url_deploy + 'change-status/' + this.$route.params.id,
             quot,
-                { headers: 
+                { headers:
                    authHeader()
-                
+
             })
             .then(res => {this.showMessage(res.data.status)});
         },

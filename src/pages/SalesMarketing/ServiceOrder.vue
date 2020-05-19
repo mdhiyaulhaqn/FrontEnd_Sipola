@@ -1,10 +1,10 @@
 <template>
 
-    <b-row class="service_order_row">
-        <span class = "col-md-6 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
-            <label class="label">Description</label>
+    <b-row class="service_order_row" style="margin: 0 -15px 0 -7px;">
+        <span class = "col-md-5 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
+            <label class="label" style="margin-left: -11px;">Description</label>
         </span>
-        <div class = "col-md-4 col-sm-8 col-xs-8 col-7">
+        <div class = "col-md-5 col-sm-8 col-xs-8 col-7">
             <b-form-input
                 id="deskripsi"
                 v-model="service_order.deskripsi"
@@ -16,7 +16,7 @@
         </div>
 
          <span class = "col-md-2 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
-            <label class="label">Quantity</label>
+            <label class="label" style="margin-left: -11px;">Quantity</label>
         </span>
 
          <div class= "col-md-2 col-sm-8 col-xs-8 col-7">
@@ -31,7 +31,7 @@
         </div>
 
          <span class = "col-md-2 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
-            <label class="label">UOM</label>
+            <label class="label" style="margin-left: -11px;">UOM</label>
         </span>
 
          <div class= "col-md-2 col-sm-8 col-xs-8 col-7">
@@ -45,8 +45,8 @@
             </b-form-input>
         </div>
 
-         <span class = "col-md-2 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
-            <label class="label">Unit Price (IDR)</label>
+         <span class = "col-md-3 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
+            <label class="label" style="margin-left: -11px;">Unit Price (IDR)</label>
         </span>
 
         <div class= "col-md-3 col-sm-8 col-xs-8 col-7">

@@ -109,7 +109,7 @@
                   </template> -->
 
                   <template v-slot:cell(action)="row">
-                      <router-link :to="{name: 'detail-sales-order', params: {id:row.item.id}}">
+                      <router-link :to="{name: 'detail-sales-order-for-invoice', params: {id:row.item.id}}">
                           <b-button id="view_button" class="btn btn-primary">
                             View
                           </b-button>

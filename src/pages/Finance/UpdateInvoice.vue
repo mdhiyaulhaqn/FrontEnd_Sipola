@@ -1,17 +1,29 @@
 <template>
-  <div>
+  <div class="row">
+    <div class="col-12">
+      <b-breadcrumb id="breadcrumb">
+        <b-breadcrumb-item :to="{name: 'invoice'}">
+          Invoice
+        </b-breadcrumb-item>
+        <b-breadcrumb-item :to="{name: 'detail-invoice'}">
+          Detail Invoice
+        </b-breadcrumb-item>
+        <b-breadcrumb-item active>
+          Update Invoice
+        </b-breadcrumb-item>
+      </b-breadcrumb>
     <h3 class="judul">
         <strong>Update Invoice</strong>
     </h3>
     <div class = "row">
-        <div class = "col-10 isi-form">
-            <card>
+        <div class = "col-md-8 col-sm-8 col-xs-8 col-12 d-block d-xs-block d-sm-block isi-form">
+            <card class="col">
             <h5 class = "title-form">Update Invoice Form</h5>
             <b-form @submit="onModal" v-if="show">
                 <div class = "row">
                     <div class = "col-md-6 col-12">
                         <b-form-group class="required">
-                            <label for="noInvoice">Invoice No</label>
+                            <label class="label" for="noInvoice">Invoice No</label>
                             <b-form-input
                                 id="noInvoice"
                                 v-model="invoice.noInvoice"
@@ -25,7 +37,7 @@
                     <div class = "col-md-3 col-12">
                         <div style="color:black">
                         <b-form-group class="required">
-                            <label for="dateInvoice">Invoice Date</label>
+                            <label class="label" for="dateInvoice">Invoice Date</label>
                             <b-form-input
                                 id="dateInvoice"
                                 v-model="invoice.dateInvoice"
@@ -40,7 +52,7 @@
                     <div class = "col-md-3 col-12">
                         <div style="color:black">
                         <b-form-group class="required">
-                            <label for="dueDatePayment">Due Date</label>
+                            <label class="label" for="dueDatePayment">Due Date</label>
                             <b-form-input
                                 id="dueDatePayment"
                                 v-model="invoice.dueDatePayment"
@@ -52,10 +64,10 @@
                     </div>
                 </div>
 
-                <div class = "row">
+                <div class = "row" style="margin-top: -5px;">
                     <div class = "col-md-7 col-12">
                         <b-form-group class="required">
-                            <label for="noPurchaseOrder">Purchase Order No</label>
+                            <label class="label" for="noPurchaseOrder">Purchase Order No</label>
                             <b-form-input
                                 id="noPurchaseOrder"
                                 v-model="invoice.salesOrder.poNumber"
@@ -69,9 +81,9 @@
                     <div class = "col-md-5 col-12">
                         <div style="color:black">
                         <b-form-group class="required">
-                            <label for="purchaseOrderDate">PurchaseOrder Date</label>
+                            <label class="label" for="purchaseOrderDate">Purchase Order Date</label>
                             <b-form-input
-                                id="date"
+                                id="purchaseOrderDate"
                                 v-model="invoice.salesOrder.poDate"
                                 type="date"
                                 required
@@ -83,7 +95,7 @@
                 </div>
 
                 <b-form-group class="required">
-                    <label for="companyName">Company Name</label>
+                    <label class="label" for="companyName">Company Name</label>
                     <b-form-input
                         id="companyName"
                         v-model="invoice.salesOrder.company.nama"
@@ -95,7 +107,7 @@
                 </b-form-group>
 
                 <b-form-group class="required">
-                    <label for="companyAddress">Company Address</label>
+                    <label class="label" for="companyAddress">Company Address</label>
                     <b-form-input
                         id="companyAddress"
                         v-model="invoice.salesOrder.company.alamat"
@@ -107,23 +119,23 @@
                 </b-form-group>
 
                 <div class="d-none d-md-block d-lg-block">
-                    <div class="row">
+                    <div class="row" style="margin: 0 -20px 0 -15px;">
                         <div class="col-md-5 col-12 required">
-                            <label>Service Order</label>
+                            <label class="label">Service Order</label>
                         </div>
                         <div class="col-md-2 col-12 required">
-                            <label>UOM</label>
+                            <label class="label">UOM</label>
                         </div>
                         <div class="col-md-2 col-12 required">
-                            <label>Qty</label>
+                            <label class="label">Quantity</label>
                         </div>
                         <div class="col-md-3 col-12 required">
-                            <label>UnitPrice</label>
+                            <label class="label">Unit Price (IDR)</label>
                         </div>
                     </div>
                 </div>
 
-                <b-row class="service_orders" v-bind:key="item.id_service_orders" v-for="item in invoice.salesOrder.serviceOrder">
+                <b-row class="service_orders" v-bind:key="item.id_service_orders" v-for="item in invoice.salesOrder.serviceOrder" style="margin-bottom: 10px;">
                     <b-col disabled>
                     <ServiceOrder v-bind:service_order="item"/>
                     </b-col>
@@ -163,9 +175,9 @@
 
                 <!-- Update and Cancel Button -->
                 <div class = "button-group">
-                    <b-button class="save-button" type="submit"> Update </b-button>
-                    <router-link :to="{name: 'detail-invoice', params: {id:invoice.id}}">
-                        <b-button class="cancel-button"> Cancel </b-button>
+                    <b-button class="save-button" type="submit">Save</b-button>
+                    <router-link :to="{name: 'detail-invoice'}">
+                        <b-button class="cancel-button">Cancel</b-button>
                     </router-link>
                 </div>
             </b-form>
@@ -176,7 +188,7 @@
     <b-modal id="modal-confirmation" centered v-model="warningModal">
         <template v-slot:modal-title>
             <div class="container">
-                <h5 id="modal-title success">Save Changes?</h5>
+                <h5 id="modal-title-success">Save Changes?</h5>
             </div>
         </template>
         <template v-slot:default>
@@ -186,7 +198,7 @@
                         <img src="@/assets/img/update-confirm-icon.png" alt="" width="50px">
                     </b-col>
                     <b-col class="col-10">
-                        <p id="modal-message">Invoice no {{invoice.noInvoice}} will be changed soon once you click the save button.</p>
+                        <p id="modal-message">Invoice no. {{invoice.noInvoice}} will be changed soon once you click the save button.</p>
                     </b-col>
                 </b-row>
             </div>
@@ -226,7 +238,7 @@
                 <router-link :to="{name: 'invoice'}">
                     <b-button class="back-button">Back to List</b-button>
                 </router-link>
-                <b-button @click="ok()" id="ok-button" variant="outline-primary">
+                <b-button @click="ok()" class="see-button">
                     See Details
                 </b-button>
             </b-col>
@@ -236,6 +248,7 @@
     <b-modal title="Failed" v-model="failedModal" centered ok-only>
         Invoice was failed to be changed.
     </b-modal>
+  </div>
   </div>
 </template>
 
@@ -258,6 +271,16 @@ export default {
             url_deploy : 'https://sipola-sixab.herokuapp.com/api/invoice/',
 
             invoice : {
+              salesOrder: {
+                company: {
+                  nama: '',
+                  alamat: '',
+                },
+                poNumber: '',
+                poDate: '',
+              }
+            },
+            company: {
 
             },
 
@@ -324,34 +347,28 @@ export default {
 
 <style scoped>
 
-.modal-header {
-    border:none;
-    border-bottom: 0 none;
-}
-
-.modal-footer {
-    border:none;
-    border-top: 0 none;
-}
-
 .judul{
   text-align: center;
   color: black;
   margin: 11px 0 24px 0;
 }
+.title-form {
+  font-weight: 600;
+  margin-bottom: 20px;
+}
 .isi-form{
-    margin-left: auto;
-    margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .save-button{
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  font-size: 10px;
-  margin-left: 10px;
+  font-size: 12px;
+  margin-right: 10px;
   line-height: 15px;
-  width: 110px;
+  width: 120px;
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
   text-align: center;
 }
@@ -364,14 +381,10 @@ export default {
   width: 80px;
   line-height: 15px;
   text-align: center;
-  font-size: 10px;
+  font-size: 12px;
 }
 
-.button-group{
-    float:right;
-}
-
-#ok-button{
+.see-button{
   background-color: #109CF1;
   color:white;
   border-color: transparent;
@@ -394,21 +407,42 @@ export default {
   font-size: 12px;
 }
 
+.button-group{
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.label{
+  font-weight: 600;
+}
+#modal-message{
+  font-size: 16px;
+}
 #modal-title-success{
   color: #109CF1;
   font-weight: 1000;
 }
-
-#modal-message{
-  font-size: 16px;
+#ok-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
 }
-
 .button-confirm-group{
   text-align: right;
 }
-
+h5{
+  margin-bottom: -4px;
+}
+#breadcrumb{
+  font-size: 12px;
+  /* text-decoration: underline; */
+  margin: -35px 0 -5px -15px;
+  color: #FF3E1D;
+  background: none;
+}
 .required label:after {
-    content: " *";
-    color: red;
+  content:" *";
+  color: red;
 }
 </style>

@@ -11,7 +11,7 @@
               <b-container fluid>
                 <b-row align-h="between" style="margin-top: 12px;">
                     <b-col md="2">
-                        <router-link :to="{name: 'sales-order'}">
+                        <router-link :to="{name: 'sales-order-for-invoice'}">
                             <button id="invoice_bttn" class="btn btn-primary">
                                 <b-row align-h="center">
                                     <p style="font-size: 12px">Add Invoice</p>
