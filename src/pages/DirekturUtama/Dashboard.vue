@@ -31,7 +31,7 @@
     <div class="row">
        <div class="col-md-6 col-xl-3" >
         <div class = "card">
-            <div class = "card-header text-right"><strong><i class="fa fa-money"></i> Income </strong></div>
+            <div class = "card-header text-right"> <i class="ti ti-envelope"></i> <strong> Income </strong></div>
             <div v-if="this.income - this.target > 0">
               <div class = "card-body text-center amount profit">Rp{{formatPrice(income)}}</div>
             </div>
@@ -46,7 +46,7 @@
       </div>
       <div class="col-md-6 col-xl-3" >
         <div class = "card">
-            <div class = "card-header text-right"><strong> Expense </strong></div>
+            <div class = "card-header text-right"> <i class="ti ti-agenda"></i> <strong> Expense </strong></div>
             <div v-if="this.budget - this.expense > 0">
               <div class = "card-body text-center amount profit">Rp{{formatPrice(expense)}}</div>
             </div>
@@ -61,7 +61,7 @@
       </div>
       <div class="col-md-6 col-xl-3" >
         <div class = "card">
-            <div class = "card-header text-right"><strong> Project </strong></div>
+            <div class = "card-header text-right"> <i class="ti ti-package"></i> <strong> Project </strong></div>
             <div v-if="this.project - this.targetProject > 0">
               <div class = "card-body text-center amount profit">{{project}}</div>
             </div>
@@ -73,7 +73,7 @@
       </div>
       <div class="col-md-6 col-xl-3" >
         <div class = "card">
-            <div class = "card-header text-right"><strong> Order </strong></div>
+            <div class = "card-header text-right"> <i class="ti ti-write"></i> <strong> Order </strong></div>
             <div v-if="this.project - this.targetOrder > 0">
               <div class = "card-body text-center amount profit">{{order}}</div>
             </div>
@@ -89,9 +89,9 @@
     <div class="row">
       <div class="col-12">
         <div class="card">
-          <div class = "card-header"><div class = "judul-card">Cash Flow</div> for year {{selected}}</div>
+          <div class = "card-header"><div class = "judul-card">Cash Flow <i class="ti ti-bar-chart" style="color:black"></i></div> for year {{selected}}</div>
           <div class="card-body">
-            <BarChart :height="300" :chartData="cashFlowCollection" :options="options" :axis-min="0"></BarChart>
+            <BarChart :height="300" :chartData="cashFlowCollection" :options="optionsBar" :axis-min="0"></BarChart>
           </div>
           <div class="card-footer">
             <i class="ti-reload"></i> Updated <time-ago :refresh='60' class="timeago"></time-ago> ago
@@ -101,7 +101,7 @@
 
       <div class="col-md-6 col-12">
         <div class = "card">
-          <div class = "card-header"><div class = "judul-card">Project Statistics</div> for year {{selected}}</div>
+          <div class = "card-header"><div class = "judul-card">Project Statistics <i class="ti ti-pie-chart" style="color:black"></i> </div> for year {{selected}}</div>
           <div class = "card-body">
             <PieChart :width="300" :height="300" :chartData="datacollection" :options="options"></PieChart>
           </div>
@@ -111,9 +111,9 @@
 
       <div class="col-md-6 col-12">
         <div class="card">
-          <div class = "card-header"><div class = "judul-card">Profit/Loss</div> for year {{selected}}</div>
+          <div class = "card-header"><div class = "judul-card">Profit <i class="ti ti-stats-up" style="color:black"></i> </div> for year {{selected}}</div>
           <div class = "card-body">
-            <LineChart :width="300" :height="300" :chartData="dataprofit" :options="options"></LineChart>
+            <LineChart :width="300" :height="300" :chartData="dataprofit" :options="optionsBar"></LineChart>
           </div>
         </div>
       </div>
@@ -156,12 +156,12 @@ export default {
       cashFlowCollection: {},
       dataprofit: {},
       options: null,
+      optionsBar: null,
       borderColour : ['#315C9C',"#FF6F61", '#6B5B95', '#9B1B30', '#F5D6C6', '#5A3E36', '#E08119'],
       projectData : null,
-      list_income : {},
-      list_project : {},
-      list_expense : {},
-      list_reimbursement : {},
+      list_income : null,
+      list_project : null,
+      list_expense : null,
       expense : '',
       income : '',
       order : '',
@@ -188,6 +188,10 @@ export default {
       this.getProject();
   },
 
+  mounted(){
+      setTimeout(this.checkKosong(), 0);
+  },
+
   methods: {
 
     checkUrl(){
@@ -196,37 +200,37 @@ export default {
         this.currentYear.push(i);
       }
       if (this.$route.params.year == null){
-        this.$router.push({ name: 'dashboard',  params: {year:tahun}});
+        this.$router.push({ name: 'dashboard-year',  params: {year:tahun}});
       }
     },
 
     redirect(){
-      this.$router.push({ name: 'dashboard',  params: {year:this.selected}});
+      this.$router.push({ name: 'dashboard-year',  params: {year:this.selected}});
       this.$router.go(0)
     },
 
     getProject : function(){
       console.log(this.selected)
       axios.get(this.url_deploy_project + this.$route.params.year, { headers: authHeader() })
-          .then(res => {this.list_project = res.data.result, this.getIncome(), this.selected = this.$route.params.year})
+          .then(res => {this.list_project = res.data.result, this.getIncome(), this.selected = this.$route.params.year, console.log("list-project: " + this.list_project)})
           .catch(err => this.list_project = err.data);
     },
     getIncome: function(){
         axios.get(this.url_deploy_income + this.$route.params.year, { headers: authHeader() })
-          .then(res => {this.list_income = res.data.result, this.getPengeluaran()})
+          .then(res => {this.list_income = res.data.result, this.getPengeluaran(), console.log("list-income: " +this.list_income)})
           .catch(err => this.list_income = err.data);
     },
     getPengeluaran: function(){
         axios.get(this.url_deploy_expense + this.$route.params.year, { headers: authHeader() })
-          .then(res => {this.list_expense = res.data.result, this.computeTotal(), this.createProjectData(), this.showMessage(res.data.status)})
+          .then(res => {this.list_expense = res.data.result, this.computeTotal(), this.createProjectData(), console.log("list-expense: " +this.list_expense)})
           .catch(err => this.list_expense = err.data);
     },
 
-    showMessage(status){
-      if(status == 200){
-        this.successModal = true;
-      }
-      else if(status == 500){
+    checkKosong(){
+      console.log("list project: " + this.list_project)
+      console.log("list income: " +this.list_income)
+      console.log("list expense: " +this.list_expense)
+      if(this.list_project == null && this.list_income == null && this.list_expense == null){
         this.failedModal = true;
       }
     },
@@ -398,6 +402,18 @@ export default {
           }
         ]
       };
+
+      this.optionsBar = {
+          responsive :true,
+          maintainAspectRatio: false,
+          scales: {
+            xAxes: [{
+              ticks: {
+                suggestedMin: 0
+              }
+            }]
+          }
+      }
     },
 
     createProjectData(){
