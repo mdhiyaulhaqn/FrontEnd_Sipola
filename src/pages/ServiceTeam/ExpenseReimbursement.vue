@@ -71,6 +71,7 @@ export default {
 .expense_row{
     margin-bottom: 10px;
     margin-right: 0px;
+    margin-left: -6px;
 }
 .label{
   font-weight: 600;

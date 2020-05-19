@@ -225,8 +225,8 @@ export default {
             send : {objects : null},
             url_local: "http://localhost:8080/api/reimbursement/",
             url_deploy: "https://sipola-sixab.herokuapp.com/api/reimbursement/",
-            url_attachment_local: "http://localhost:8080/api/attachment",
-            url_attachment_deploy: "https://sipola-sixab.herokuapp.com/api/attachment"
+            url_attachment_local: "http://localhost:8080/api/attachment/",
+            url_attachment_deploy: "https://sipola-sixab.herokuapp.com/api/attachment/"
         }
     },
 
@@ -246,7 +246,9 @@ export default {
         },
 
         deleteRow(id_expense){
+          if (this.expenses.length > 1) {
             this.expenses = this.expenses.filter(result => result.id_expense !== id_expense);
+          }
         },
 
         onSubmit(evt) {

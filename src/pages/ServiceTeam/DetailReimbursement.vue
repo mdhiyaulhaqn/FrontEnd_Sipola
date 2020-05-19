@@ -277,6 +277,7 @@
 
 import axios from 'axios';
 import authHeader from '../../services/auth-header';
+import JSZip from 'jszip';
 
 export default {
     data() {
