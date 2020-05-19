@@ -1,4 +1,5 @@
 import axios from 'axios';
+import authHeader from '../services/auth-header';
 
 const API_URL = 'https://sipola-sixab.herokuapp.com/api/auth/';
 const API_URL_LOCAL = 'http://localhost:8080/api/auth/';
