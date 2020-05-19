@@ -1,12 +1,23 @@
 <template>
     <div class="row">
         <div class = "col-12">
-           <b-breadcrumb id="breadcrumb">
+           <b-breadcrumb id="breadcrumb" v-if="currentUser().roles.includes('ROLE_SALES_MARKETING')">
                 <b-breadcrumb-item :to="{name: 'sales-order'}">
                 Sales Order
                 </b-breadcrumb-item>
                 <b-breadcrumb-item active>
                 Detail Sales Order
+                </b-breadcrumb-item>
+            </b-breadcrumb>
+            <b-breadcrumb id="breadcrumb" v-if="currentUser().roles.includes('ROLE_FINANCE')">
+                <b-breadcrumb-item :to="{name: 'invoice'}">
+                    Invoice List
+                </b-breadcrumb-item>
+                <b-breadcrumb-item :to="{name: 'sales-order-for-invoice'}">
+                    Sales Order List
+                </b-breadcrumb-item>
+                <b-breadcrumb-item active>
+                    Detail Sales Order
                 </b-breadcrumb-item>
             </b-breadcrumb>
             <h3 class="judul"><strong>Detail Sales Order</strong></h3>
@@ -16,74 +27,79 @@
             <card class="col">
               <h5 class="text-center">Sales Order</h5>
                 <div class="container-fluid">
-                <b-row>
-                    <div class = "col-lg-7 col-sm-7 col-xs-6 nama-perusahaan">{{company.nama}}</div>
-                    <div class = "col-lg-5 col-sm-5 col-xs-6">
-                        <div class ="row">
-                            <div class = "col-lg-5 col-sm-5 col-5">Created by</div>
-                            <div class = "col-lg-7 col-sm-7 col-7">: {{sales_order.createdBy}} </div>
-                            <div class = "col-lg-5 col-sm-5 col-5">Created at</div>
-                            <div class = "col-lg-7 col-sm-7 col-7">: {{sales_order.createdAt.slice(0, 19) | moment('lll') }}</div>
-                        </div>
-                    </div>
-                </b-row>
-                <b-row>
-                    <div class = "col-lg-3 col-sm-4 col-5">Sales Order Number</div>
-                    <div class = "col-lg-6 col-sm-8 col-7">: {{sales_order.noSalesOrder}}</div>
-                </b-row>
-                <b-row>
-                    <div class = "col-lg-3 col-sm-4 col-5">Sales Order Date</div>
-                    <div class = "col-lg-6 col-sm-8 col-7">: {{ sales_order.date | moment('ll') }}</div>
-                </b-row>
-                <b-row>
-                    <div class = "col-lg-3 col-sm-4 col-5">Address</div>
-                    <div class = "col-lg-6 col-sm-8 col-7">: {{company.alamat}}</div>
-                </b-row>
-                <b-row>
-                    <div class = "col-lg-6 col-sm-4 col-12"><br>Service Order</div>
-                </b-row>
-
-                <b-row>
-                    <b-col >
-                        <div class="tabel-service">
-                            <div slot="raw-content" class="table-responsive" style="font-size:12px">
-                                <b-table
-                                :items="sales_order.serviceOrder"
-                                :fields="fields">
-                                 <template v-slot:cell(nomer)="row">
-                                    {{sales_order.serviceOrder.indexOf(row.item) + 1}}
-                                </template>
-                                </b-table>
+                    <b-row>
+                        <div class = "col-lg-7 col-sm-7 col-xs-6 nama-perusahaan">{{company.nama}}</div>
+                        <div class = "col-lg-5 col-sm-5 col-xs-6">
+                            <div class ="row">
+                                <div class = "col-lg-5 col-sm-5 col-5">Created by</div>
+                                <div class = "col-lg-7 col-sm-7 col-7">: {{sales_order.createdBy}} </div>
+                                <div class = "col-lg-5 col-sm-5 col-5">Created at</div>
+                                <div class = "col-lg-7 col-sm-7 col-7">: {{sales_order.createdAt.slice(0, 19) | moment('lll') }}</div>
                             </div>
                         </div>
-                    </b-col>
+                    </b-row>
+                    <b-row>
+                        <div class = "col-lg-3 col-sm-4 col-5">Sales Order Number</div>
+                        <div class = "col-lg-6 col-sm-8 col-7">: {{sales_order.noSalesOrder}}</div>
+                    </b-row>
+                    <b-row>
+                        <div class = "col-lg-3 col-sm-4 col-5">Sales Order Date</div>
+                        <div class = "col-lg-6 col-sm-8 col-7">: {{ sales_order.date | moment('ll') }}</div>
+                    </b-row>
+                    <b-row>
+                        <div class = "col-lg-3 col-sm-4 col-5">Address</div>
+                        <div class = "col-lg-6 col-sm-8 col-7">: {{company.alamat}}</div>
+                    </b-row>
+                    <b-row>
+                        <div class = "col-lg-6 col-sm-4 col-12"><br>Service Order</div>
+                    </b-row>
 
-                </b-row>
+                    <b-row>
+                        <b-col >
+                            <div class="tabel-service">
+                                <div slot="raw-content" class="table-responsive" style="font-size:12px">
+                                    <b-table
+                                    :items="sales_order.serviceOrder"
+                                    :fields="fields">
+                                    <template v-slot:cell(nomer)="row">
+                                        {{sales_order.serviceOrder.indexOf(row.item) + 1}}
+                                    </template>
+                                    </b-table>
+                                </div>
+                            </div>
+                        </b-col>
+                    </b-row>
 
-                  <b-row>
-                    <div class = "col-3">Total</div>
-                    <div class = "col-9"> : {{sales_order.total_harga_semua}}
-                    </div>
-                </b-row>
+                    <b-row>
+                        <div class = "col-3">Total</div>
+                        <div class = "col-9"> : {{sales_order.total_harga_semua}}
+                        </div>
+                    </b-row>
 
 
-                <b-row>
-                    <div class = "col-12"><br>Terms and Condition</div>
-                    <div class = "col-12" id="terms-condition" v-html=sales_order.termsCondition>
-                    </div>
-                </b-row>
+                    <b-row>
+                        <div class = "col-12"><br>Terms and Condition</div>
+                        <div class = "col-12" id="terms-condition" v-html=sales_order.termsCondition>
+                        </div>
+                    </b-row>
 
-                <b-row>
-                    <div class = "button-group col-sm-12">
-                        <b-button v-b-modal.modal-delete id="delete-button" class="btn btn-primary">Delete</b-button>
-                        <router-link :to="{name: 'update-sales-order'}">
-                            <b-button id="edit-button" class="btn btn-primary">Edit</b-button>
-                        </router-link>
-                    </div>
-                </b-row>
+                    <b-row v-if="currentUser().roles.includes('ROLE_SALES_MARKETING')">
+                        <div class = "button-group col-sm-12">
+                            <b-button v-b-modal.modal-delete id="delete-button" class="btn btn-primary">Delete</b-button>
+                            <router-link :to="{name: 'update-sales-order'}">
+                                <b-button id="edit-button" class="btn btn-primary">Edit</b-button>
+                            </router-link>
+                        </div>
+                    </b-row>
 
+                    <b-row v-if="currentUser().roles.includes('ROLE_FINANCE')">
+                        <div class = "button-group col-sm-12">
+                            <router-link :to="{name: 'invoice-add', params: {id: sales_order.id}}">
+                                <b-button id="generate-button" class="btn btn-primary">Generate Invoice</b-button>
+                            </router-link>
+                        </div>
+                    </b-row>
                 </div>
-
             </card>
             </div>
             </div>
@@ -248,7 +264,11 @@ export default {
 
         hideModal(){
             this.$refs['modal-download'].hide();
-    },
+        },
+        
+        currentUser() {
+            return this.$store.state.auth.user;
+        },
   }
 };
 </script>
@@ -260,6 +280,17 @@ export default {
   color: black;
   margin: 11px 0 24px 0;
 }
+#generate-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  width: 130px;
+  line-height: 15px;
+  font-size: 12px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
+}
+
 #edit-button{
   background-color: #109CF1;
   color:white;
