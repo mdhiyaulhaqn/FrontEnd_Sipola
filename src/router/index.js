@@ -55,22 +55,26 @@ router.beforeEach((to, from, next) => {
         next('/forbidden')
       }
     }
-    else if(to.matched.some(record => record.meta.is_finance)) {
-      if(loggedIn.roles[0] == ("ROLE_FINANCE")){
+    else if(to.matched.some(record => record.meta.is_service_team)) {
+      if(loggedIn.roles.includes("ROLE_SERVICE_TEAM")){
           next()
-      } else{
+      }
+      else if(loggedIn.roles.includes("ROLE_FINANCE")){
+        next()
+      } 
+      else{
         next('/forbidden')
       }
     }
-    else if(to.matched.some(record => record.meta.is_service_team)) {
-      if(loggedIn.roles.includes("ROLE_SERVICE_TEAM")){
+    else if(to.matched.some(record => record.meta.is_finance)) {
+      if(loggedIn.roles.includes("ROLE_FINANCE")){
           next()
       } else{
         next('/forbidden')
       }
     }
     else if(to.matched.some(record => record.meta.is_logistik)) {
-      if(loggedIn.role.includes("ROLE_LOGISTIK")){
+      if(loggedIn.roles.includes("ROLE_LOGISTIK")){
           next()
       } else{
           next('/forbidden')
