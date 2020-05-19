@@ -145,7 +145,7 @@ const routes = [
         name: "add-delivery-order",
         component: AddDeliveryOrder,
         meta : {
-          is_sales : true
+          is_pm : true
         }
       },
       {
