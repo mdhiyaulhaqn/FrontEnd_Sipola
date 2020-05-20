@@ -92,7 +92,7 @@
                 </b-row>
 
                 <b-row style="margin-top: 2px;">
-                    <div class ="col-md-4 col-12">
+                    <div class ="col-md-6 col-12">
                         <b-button class="btn btn-primary add-button" @click="addRow()">Add Scope of Works <span><img src="@/assets/img/add-circle-blue-icon.png" alt="" width="18px" style="margin-top: -4px;"></span></b-button>
                     </div>
                 </b-row>

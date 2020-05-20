@@ -14,7 +14,7 @@ router.beforeEach((to, from, next) => {
   const publicPages = ['/login'];
   const authRequired = !publicPages.includes(to.path);
   const login = localStorage.getItem('user');
-  
+
 
   // // const loggedIn = JSON.parse(localStorage.getItem('user'));
 
@@ -32,14 +32,14 @@ router.beforeEach((to, from, next) => {
       } else {
         next('/forbidden')
       }
-    } 
+    }
     else if(to.matched.some(record => record.meta.is_dirut)) {
       if(loggedIn.roles.includes("ROLE_DIREKTUR_UTAMA")){
           next()
       } else {
         next('/forbidden')
       }
-    } 
+    }
     else if(to.matched.some(record => record.meta.is_pm)) {
       if(loggedIn.roles.includes("ROLE_PROJECT_MANAGER")){
           next()
@@ -61,7 +61,7 @@ router.beforeEach((to, from, next) => {
       }
       else if(loggedIn.roles.includes("ROLE_FINANCE")){
         next()
-      } 
+      }
       else{
         next('/forbidden')
       }

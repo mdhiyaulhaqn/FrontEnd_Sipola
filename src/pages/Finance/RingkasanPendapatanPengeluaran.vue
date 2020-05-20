@@ -102,7 +102,7 @@
                 small
                 stacked="md"
                 :items="incomeItems"
-                :fields="fields"
+                :fields="fieldsInvoice"
                 :current-page="currentPage"
                 :per-page="perPage"
                 :sort-by.sync="sortBy"
@@ -114,10 +114,10 @@
               <template v-slot:head(index)="data">
                 <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
               </template>
-              <template v-slot:head(nama)="data">
+              <template v-slot:head(noInvoice)="data">
                 <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
               </template>
-              <template v-slot:head(tanggal)="data">
+              <template v-slot:head(dateInvoice)="data">
                 <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
               </template>
               <template v-slot:head(nominal)="data">
@@ -132,8 +132,8 @@
                   Rp{{formatPrice(row.item.nominal)}}
                 </template>
 
-                <template v-slot:cell(tanggal)="row">
-                  {{row.item.tanggal | moment("ll")}}
+                <template v-slot:cell(dateInvoice)="row">
+                  {{row.item.dateInvoice | moment("ll")}}
                 </template>
               </b-table>
 
@@ -308,6 +308,12 @@ export default {
     return {
       pengeluaranList: [],
       pendapatanList: [],
+      fieldsInvoice: [
+        { key: 'index', label: 'No', sortable: false },
+        { key: 'noInvoice', label: 'No Invoice', sortable: true, },
+        { key: 'dateInvoice', label: 'Date', sortable: true, },
+        { key: 'nominal', label: 'Nominal', sortable: true, },
+      ],
       fields: [
         { key: 'index', label: 'No', sortable: false },
         { key: 'nama', label: 'Description', sortable: true, },
