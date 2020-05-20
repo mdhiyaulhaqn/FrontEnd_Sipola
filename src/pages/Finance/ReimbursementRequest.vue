@@ -86,16 +86,17 @@
                 </template>
 
             <template v-slot:cell(statusReimburse)="row">
-                    <b-badge  v-if="row.item.statusReimburse === 2" pill variant="info" size=sm id ="status_reimbursement">
-                      Not reviewed
+                    <b-badge  v-if="row.item.statusReimburse === 2" pill variant="info" size=md id ="status_reimbursement">
+                      Not reviewed <i class="fas fa-spinner"></i>
                     </b-badge>
-                    <b-badge  v-if="row.item.statusReimburse === 3" pill variant="success" size=sm id ="status_reimbursement">
-                      Accepted
+                    <b-badge  v-if="row.item.statusReimburse === 3" pill variant="success" size=md id ="status_reimbursement">
+                      Accepted <i class="fas fa-check"></i>
                     </b-badge>
-                    <b-badge v-if="row.item.statusReimburse === 4" size=sm id ="status_reimbursement" style="background-color:#F89133; color:black">
-                      On Revision</b-badge>
-                    <b-badge  v-if="row.item.statusReimburse === 5" pill variant="danger" size=sm id ="status_reimbursement">
-                      Rejected
+                    <b-badge v-if="row.item.statusReimburse === 4" size=md id ="status_reimbursement" style="background-color:#F89133; color:black">
+                      On Revision <i class="fas fa-wrench"></i>
+                    </b-badge>
+                    <b-badge  v-if="row.item.statusReimburse === 5" pill variant="danger" size=md id ="status_reimbursement">
+                      Rejected <i class="fas fa-times"></i>
                     </b-badge>
             </template>
 
