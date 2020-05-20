@@ -48,10 +48,7 @@
 
     <span class = "col-md-1 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none"></span>
     <div class = "col-md-1 col-sm-8 col-xs-8 col-7">
-        <b-button id="popover-button-variant" @click="$emit('del-expense', expense.id_expense)" variant="danger"><i class="fas fa-trash-alt"></i></b-button>
-        <b-popover target="popover-button-variant" variant="danger" triggers="focus">
-            This field is required
-        </b-popover>
+        <b-button @click="$emit('del-expense', expense.id_expense)" variant="danger"><i class="fas fa-trash-alt"></i></b-button>
     </div>
 
 </b-row>
