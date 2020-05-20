@@ -65,7 +65,7 @@
                         <img src="@/assets/img/delete-confirm-icon.png" alt="" width="60px">
                     </b-col>
                     <b-col cols="9">
-                        <p id="modal-message">{{pengeluaran.nama}} will be removed from the list.</p>
+                        <p id="modal-message">{{pengeluaran.nama}} expense will be removed from the list.</p>
                     </b-col>
                 </b-row>
                 </div>
