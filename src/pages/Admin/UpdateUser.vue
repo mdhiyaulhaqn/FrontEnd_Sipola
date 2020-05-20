@@ -26,7 +26,8 @@
                                 class="form-control"
                                 name="name"
                                 required
-                                placeholder="Name">
+                                placeholder="Name"
+                                disabled>
                             </b-form-input>
                         </b-form-group>
                     </div>
@@ -339,7 +340,7 @@ h5{
 }
 #breadcrumb{
     font-size: 12px;
-    text-decoration: underline;
+    /* text-decoration: underline; */
     margin: -35px 0 -5px -15px;
     color: #FF3E1D;
     background: none;

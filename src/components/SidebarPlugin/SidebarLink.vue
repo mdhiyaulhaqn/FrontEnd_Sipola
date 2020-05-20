@@ -11,7 +11,7 @@
             <i v-if="icon" :class="icon"></i>
           </div>
           <div class = "col-10">
-            <p style="margin-right: 50px;">{{name}}</p>
+            <p style="margin-right: 80px;">{{name}}</p>
           </div>
         </b-row>
       </slot>

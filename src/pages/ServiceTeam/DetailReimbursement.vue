@@ -100,7 +100,7 @@
                   <b-collapse id="collapse-2" v-if="reimbursement.listAttachment != undefined && reimbursement.listAttachment.length > 0">
                     <b-card-body>
                       <b-row>
-                        <b-col class="col-xs-12 col-sm-12 col-md-2 grup-attachment" v-bind:key="file" v-for="file in reimbursement.listAttachment" >
+                        <b-col class="col-xs-12 col-sm-12 col-md-2 grup-attachment" v-bind:key="index" v-for="(file, index) in reimbursement.listAttachment" >
                           <b-img thumbnail fluid v-if="file.type === 'image/jpeg'" :src="untukPreview+file.image" alt="Image" class="image"></b-img>
                           <img v-else thumbnail fluid src="@/assets/img/document.png" alt="Image" class="img-fluid img-thumbnail">
                           <a @click="downloadFile(file)"><i class="fas fa-download"></i></a>
@@ -114,9 +114,10 @@
                 </div>
 
                 <b-row v-if="reimbursement.keterangan != undefined && reimbursement.keterangan.length > 0">
-                    <div class = "col-lg-2 col-sm-2 col-4"><i class='fas fa-exclamation-triangle' style='color:red'></i>
-                    Notes from finance</div>
-                    <div class = "col-lg-5 col-sm-5 col-8">: {{reimbursement.keterangan}}</div>
+                    <div class = "col-lg-3 col-sm-2 col-md-2 col-12"><i class='fas fa-exclamation-triangle' style='color:red'></i>
+                      Notes from Finance :
+                    </div>
+                    <div class = "col-lg-6 col-sm-2 col-md-2 col-12">{{reimbursement.keterangan}}</div>
                 </b-row>
 
                 <b-row>
@@ -219,7 +220,7 @@
                   <img src="@/assets/img/delete-confirm-icon.png" alt="" width="50px">
               </b-col>
               <b-col class="col-10">
-                  <p id="modal-message">It will be removed from the list.</p>
+                  <p id="modal-message">Reimbursement report for project {{reimbursement.projectName}} will be removed from the list.</p>
               </b-col>
           </b-row>
         </div>
@@ -254,7 +255,7 @@
               <img src="@/assets/img/success-icon.png" alt="" width="50px">
             </b-col>
             <b-col class="col-10">
-              <p id="modal-message">Reimbursement Report for project {{reimbursement.projectName}} was successfully deleted from list.</p>
+              <p id="modal-message">Reimbursement report for project {{reimbursement.projectName}} was successfully deleted from list.</p>
             </b-col>
           </b-row>
         </div>

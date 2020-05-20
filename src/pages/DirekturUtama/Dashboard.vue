@@ -188,6 +188,10 @@ export default {
       this.getProject();
   },
 
+  mounted(){
+      this.checkKosong();
+  },
+
   methods: {
 
     checkUrl(){
@@ -208,12 +212,12 @@ export default {
     getProject : function(){
       console.log(this.selected)
       axios.get(this.url_deploy_project + this.$route.params.year, { headers: authHeader() })
-          .then(res => {this.list_project = res.data.result, this.getIncome(), this.selected = this.$route.params.year})
+          .then(res => {this.list_project = res.data.result, this.getIncome(), this.selected = this.$route.params.year, console.log("list-project: " + this.list_project)})
           .catch(err => this.list_project = err.data);
     },
     getIncome: function(){
         axios.get(this.url_deploy_income + this.$route.params.year, { headers: authHeader() })
-          .then(res => {this.list_income = res.data.result, this.getPengeluaran()})
+          .then(res => {this.list_income = res.data.result, this.getPengeluaran(), console.log("list-income: " +this.list_income)})
           .catch(err => this.list_income = err.data);
     },
     getPengeluaran: function(){
