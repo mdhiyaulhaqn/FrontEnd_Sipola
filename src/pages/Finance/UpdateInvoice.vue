@@ -142,7 +142,7 @@
                 </b-row>
 
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-6 col-12">
                         <b-form-group class="required">
                             <label class="label" for="paymentTerms">Payment Terms</label>
                             <b-form-input
@@ -157,7 +157,7 @@
                         </b-form-group>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-md-6 col-12">
                         <b-form-group class="required">
                             <label class="label" for="termsOfDelivery">Terms of Delivery</label>
                             <b-form-input
