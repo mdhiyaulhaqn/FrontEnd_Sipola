@@ -51,39 +51,40 @@
           </div>
         </div>
 
-         <b-modal id="modal-delete" ref="modal-delete" hide-footer centered>
+         <b-modal id="modal-delete" ref="modal-delete" centered>
             <template v-slot:modal-title>
                 <div class="container">
                     <h5 id="modal-title-delete-confirm">Delete Expense?</h5>
                 </div>
             </template>
             <template v-slot:default>
-            <div class = "container">
-                <div class = "info">
-                <b-row>
-                    <b-col cols="3" class="modal-icon">
-                        <img src="@/assets/img/delete-confirm-icon.png" alt="" width="60px">
-                    </b-col>
-                    <b-col cols="9">
-                        <p id="modal-message">{{pengeluaran.nama}} expense will be removed from the list.</p>
-                    </b-col>
-                </b-row>
-                </div>
-                <b-row class="button-confirm-group">
+              <div class = "container">
+                  <div class = "info">
+                  <b-row>
+                      <b-col cols="2" class="modal-icon">
+                          <img src="@/assets/img/delete-confirm-icon.png" alt="" width="60px">
+                      </b-col>
+                      <b-col cols="10">
+                          <p id="modal-message">{{pengeluaran.nama}} expense will be removed from the list.</p>
+                      </b-col>
+                  </b-row>
+                  </div>
+              </div>
+            </template>
+              <template v-slot:modal-footer="{ cancel }">
+                <b-col class="button-confirm-group">
                   <b-button @click="deletePengeluaran()" id ="confirm_delete_button" variant="outline-danger">
-                      Yes, delete it
+                    Yes, delete it
                   </b-button>
-                  <b-button @click="hideModal" id ="cancel_delete_button" class="btn btn-danger">
-                      Cancel
+                  <b-button @click="cancel()" id ="cancel_delete_button" class="btn btn-danger">
+                    Cancel
                   </b-button>
-                </b-row>
-            </div>
-        </template>
+                </b-col>
+              </template>
         </b-modal>
         <b-modal
             id="modal-success"
             ref="modal-success"
-            hide-footer
             centered
             v-model="successModal"
             @ok="redirect()"
@@ -103,21 +104,15 @@
                     <p id="modal-message">{{pengeluaran.nama}} expense was successfully deleted from list.</p>
                     </b-col>
                 </b-row>
-
-                <b-row class="button-detail-group">
-                    <b-button @click="redirect()" id="ok-button">
-                        OK
-                    </b-button>
-                </b-row>
                 </div>
             </template>
-            <!-- <template v-slot:modal-footer="{ ok }">
-                <b-col class="button-confirm-group">
-                <b-button @click="ok()" id="ok-button" variant="outline-primary">
-                    OK
+            <template v-slot:modal-footer="{ ok }">
+              <b-col class="button-confirm-group">
+                <b-button @click="ok()" id="ok-button">
+                  OK
                 </b-button>
-                </b-col>
-            </template> -->
+              </b-col>
+            </template>
         </b-modal>
 
     </div>
@@ -276,9 +271,7 @@ export default {
 }
 
 .button-confirm-group{
-    float: right;
-    margin-top: 20px;
-    margin-bottom: -2px;
+  text-align: right;
 }
 
 #confirm_delete_button{
