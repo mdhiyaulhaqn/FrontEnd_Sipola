@@ -208,7 +208,9 @@ export default {
             this.services.push(service)
         },
         deleteRow(id_service){
-            this.services = this.services.filter(result => result.id_service !== id_service);
+            if (this.services.length > 1) {
+                this.services = this.services.filter(result => result.id_service !== id_service);
+            }
         },
         currentUser() {
             return this.$store.state.auth.user;
