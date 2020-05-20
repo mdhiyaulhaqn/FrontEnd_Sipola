@@ -16,7 +16,7 @@
             <template v-slot:first>
               <b-form-select-option :value="null" disabled>-- Year --</b-form-select-option>
             </template>
-            <option v-bind:key="year.index" v-for="year in currentYear" :value="year" v-b-scrollspy:nav-scroller>{{ year }}</option>
+            <option v-bind:key="year.index" v-for="year in currentYear" :value="year">{{ year }}</option>
           </b-form-select>
         </div>
         <div class="col">
@@ -263,51 +263,51 @@ export default {
       var profit_nov = 0; var profit_dec = 0;
       for(let i = 0; i < this.list_income.length; i++){
         if(this.list_income[i].date.substring(5,7) == 1){
-          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+          for(let j = 0 ; j < this.list_income[i].salesOrder.serviceOrder.length; j++){
             jan += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
           }
         }else if(this.list_income[i].date.substring(5,7) == 2){
-          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+          for(let j = 0 ; j < this.list_income[i].salesOrder.serviceOrder.length; j++){
             feb += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
           }
         }else if(this.list_income[i].date.substring(5,7) == 3){
-          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+          for(let j = 0 ; j < this.list_income[i].salesOrder.serviceOrder.length; j++){
             mar += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
           }
         }else if(this.list_income[i].date.substring(5,7) == 4){
-          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+          for(let j = 0 ; j < this.list_income[i].salesOrder.serviceOrder.length; j++){
             apr += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
           }
         }else if(this.list_income[i].date.substring(5,7) == 5){
-          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+          for(let j = 0 ; j < this.list_income[i].salesOrder.serviceOrder.length; j++){
             may += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
           }
         }else if(this.list_income[i].date.substring(5,7) == 6){
-          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+          for(let j = 0 ; j < this.list_income[i].salesOrder.serviceOrder.length; j++){
             jun += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
           }
         }else if(this.list_income[i].date.substring(5,7) == 7){
-          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+          for(let j = 0 ; j < this.list_income[i].salesOrder.serviceOrder.length; j++){
             jul += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
           }
         }else if(this.list_income[i].date.substring(5,7) == 8){
-          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+          for(let j = 0 ; j < this.list_income[i].salesOrder.serviceOrder.length; j++){
             aug += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
           }
         }else if(this.list_income[i].date.substring(5,7) == 9){
-          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+          for(let j = 0 ; j < this.list_income[i].salesOrder.serviceOrder.length; j++){
             sep += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
           }
         }else if(this.list_income[i].date.substring(5,7) == 10){
-          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+          for(let j = 0 ; j < this.list_income[i].salesOrder.serviceOrder.length; j++){
             oct += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
           }
         }else if(this.list_income[i].date.substring(5,7) == 11){
-          for(let j = 0 ; j < this.list_income[i].serviceOrder.length; j++){
+          for(let j = 0 ; j < this.list_income[i].salesOrder.serviceOrder.length; j++){
             nov += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
           }
         }else{
-          for(let j = 0 ; j < this.date[i].serviceOrder.length; j++){
+          for(let j = 0 ; j < this.income[i].serviceOrder.length; j++){
             dec += this.list_income[i].serviceOrder[j].quantity * this.list_income[i].serviceOrder[j].pricePerUnit
           }
         }
