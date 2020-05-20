@@ -266,7 +266,9 @@ export default {
         },
 
         deleteRow(id_product){
-            this.products = this.products.filter(result => result.id_product !== id_product);
+            if (this.products.length > 1) {
+                this.products = this.products.filter(result => result.id_product !== id_product);
+            }
         },
 
         onModal(evt) {
