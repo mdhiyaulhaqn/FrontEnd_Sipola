@@ -113,7 +113,7 @@
               <img src="@/assets/img/update-confirm-icon.png" alt="" width="50px">
             </b-col>
             <b-col class="col-10">
-              <p id="modal-message">Activity list schedule will be changed soon once you click the save button.</p>
+              <p id="modal-message">Activity list schedule for project {{activityListSchedule.namaProyek}} will be changed soon once you click the save button.</p>
             </b-col>
           </b-row>
         </div>

@@ -76,7 +76,7 @@
                   <img src="@/assets/img/delete-confirm-icon.png" alt="" width="50px">
               </b-col>
               <b-col class="col-10">
-                  <p id="modal-message">It will be removed from the list.</p>
+                  <p id="modal-message">Activity list schedule for project {{activityListSchedule.namaProyek}} will be removed from the list.</p>
               </b-col>
           </b-row>
         </div>
