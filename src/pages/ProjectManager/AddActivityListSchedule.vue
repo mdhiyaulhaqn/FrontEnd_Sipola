@@ -43,8 +43,8 @@
                   </b-form-input>
                 </b-form-group>
 
-                <div class="col-12 d-none d-md-block d-lg-block">
-                  <div class="row">
+                <div class="d-none d-md-block d-lg-block">
+                  <div class="row" style="margin: 0 -15px -12px -15px;">
                     <div class = "col-md-5 required">
                       <label class="label">Activity Name</label>
                     </div>
@@ -60,15 +60,15 @@
                   </div>
                 </div>
 
-                <b-row class="activities" v-bind:key="item.id_activity" v-for="item in activities">
+                <b-row class="activities" v-bind:key="item.id_activity" v-for="item in activities" >
                   <b-col>
                     <Activity v-bind:activity="item" v-on:del-activity="deleteRow" />
                   </b-col>
                 </b-row>
 
-                <b-row>
-                  <div class ="col-12 col-sm-5">
-                    <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">Add More Activity <span><img src="@/assets/img/add-circle-blue-icon.png" alt="" width="25px"></span></button>
+                <b-row style="margin-top: 2px;">
+                  <div class ="col-12 col-md-4">
+                    <button class="btn btn-primary add-button" @click="addRow()">Add More Activity <span><img src="@/assets/img/add-circle-blue-icon.png" alt="" width="25px"></span></button>
                   </div>
                 </b-row>
 
@@ -221,15 +221,15 @@ export default {
 
 .add-button{
   width: 100%;
+  color:#109CF1;
+  border-color:#109CF1;
   background-color: white;
-  color : #109cf1;
-  border-color: #109cf1;
-  margin-bottom: 10px;
-  border-width: 1.5px;
-  line-height: 12px;
+  border-width: 2px;
+  line-height: 20px;
   text-align: center;
   font-size: 14px;
-  font-weight: 500;
+  margin-bottom: 10px;
+  border-radius: 5px;
 }
 .judul{
   text-align: center;
