@@ -89,7 +89,7 @@
                 </b-row>
 
                 <div class="d-none d-md-block d-lg-block">
-                    <div class="row">
+                    <div class="row" style="margin: 0 -20px -12px -15px;">
                         <div class = "col-md-6 required">
                             <label class="label" >Description</label>
                         </div>
@@ -111,9 +111,9 @@
                     </b-col>
                 </b-row>
 
-                <b-row>
-                    <div class ="col-md-6 col-12">
-                        <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">+ Add Description</button>
+                <b-row style="margin-top: 2px;">
+                    <div class ="col-md-4 col-12">
+                        <b-button class="btn btn-primary add-button" @click="addRow()">Add Description <span><img src="@/assets/img/add-circle-blue-icon.png" alt="" width="18px" style="margin-top: -4px;"></span></b-button>
                     </div>
                 </b-row>
 
@@ -289,12 +289,16 @@ export default {
 }
 
 .add-button{
-    width: 100%;
-    background-color: white;
-    color : #109cf1;
-    border-color: #109cf1;
-    margin-top: 0px;
-    margin-bottom: 10px;
+  width: 100%;
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  border-width: 2px;
+  line-height: 20px;
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 10px;
+  border-radius: 5px;
 }
 .judul{
   text-align: center;

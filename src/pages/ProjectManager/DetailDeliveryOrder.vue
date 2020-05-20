@@ -151,7 +151,7 @@
                         <img src="@/assets/img/delete-confirm-icon.png" alt="" width="50px">
                     </b-col>
                     <b-col class="col-10">
-                        <p id="modal-message">Delivery order no {{delivery_order.noDeliveryOrder}} will be removed from the list.</p>
+                        <p id="modal-message">Delivery order no. {{delivery_order.noDeliveryOrder}} will be removed from the list.</p>
                     </b-col>
                 </b-row>
                 </div>
@@ -261,10 +261,10 @@ export default {
         },
 
         deleteDeliveryOrder(deliveryOrder){
-            axios.put( this.url_deploy + 'change-status/' + this.$route.params.id, 
+            axios.put( this.url_deploy + 'change-status/' + this.$route.params.id,
                 deliveryOrder,
-                { 
-                    headers: authHeader() 
+                {
+                    headers: authHeader()
                 }
             )
             .then(res => {this.showMessage(res.data.status)});
