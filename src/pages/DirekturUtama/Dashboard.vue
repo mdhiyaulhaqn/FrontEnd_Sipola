@@ -222,14 +222,11 @@ export default {
     },
     getPengeluaran: function(){
         axios.get(this.url_deploy_expense + this.$route.params.year, { headers: authHeader() })
-          .then(res => {this.list_expense = res.data.result, this.computeTotal(), this.createProjectData(), console.log("list-expense: " +this.list_expense)})
+          .then(res => {this.list_expense = res.data.result, this.computeTotal(), this.createProjectData(), this.checkKosong()})
           .catch(err => this.list_expense = err.data);
     },
 
     checkKosong(){
-      console.log("list project: " + this.list_project)
-      console.log("list income: " +this.list_income)
-      console.log("list expense: " +this.list_expense)
       if(this.list_project.length == 0 && this.list_income.length == 0 && this.list_expense.length == 0){
         this.failedModal = true;
       }

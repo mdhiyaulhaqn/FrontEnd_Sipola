@@ -116,7 +116,7 @@
               <div v-if="perPage > pengeluaranList.length" class="my-2">
                 <b-card-sub-title>Showing {{ pengeluaranList.length }} of {{ pengeluaranList.length }}</b-card-sub-title>
               </div>
-              <div v-else-if="currentPage != 1" class="my-2">
+              <div v-else-if="currentPage != 1 && currentPage === Math.ceil(pengeluaranList.length/perPage)" class="my-2">
                 <b-card-sub-title>Showing {{ pengeluaranList.length % perPage }} of {{ pengeluaranList.length }}</b-card-sub-title>
               </div>
               <div v-else class="my-2">
