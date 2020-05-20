@@ -274,7 +274,9 @@ export default {
         },
 
         deleteRow(id_service){
-            this.services = this.services.filter(result => result.id_service !== id_service);
+            if (this.services.length > 1) {
+                this.services = this.services.filter(result => result.id_service !== id_service);
+            }
         },
 
         onModal(evt) {
