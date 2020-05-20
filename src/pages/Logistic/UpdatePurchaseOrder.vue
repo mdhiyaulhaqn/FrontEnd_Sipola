@@ -148,7 +148,7 @@
                             </div>
                         </b-row>
 
-                        <b-form-group>
+                        <b-form-group class="required">
                             <label for="paymentNote" class="label">Payment Notes</label>
                             <ckeditor :editor="editor" v-model="purchaseOrder.paymentNote"></ckeditor>
                         </b-form-group>
@@ -294,7 +294,9 @@ export default {
         },
 
         deleteRow(id_purchased_item){
-            this.purchasedItems = this.purchasedItems.filter(result => result.id_purchased_item !== id_purchased_item);
+            if(this.purchasedItems.length > 1){
+                this.purchasedItems = this.purchasedItems.filter(result => result.id_purchased_item !== id_purchased_item);
+            }
         },
 
         onModal(evt){
