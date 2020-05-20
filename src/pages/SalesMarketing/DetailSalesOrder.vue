@@ -215,7 +215,7 @@ export default {
         onSubmit(evt) {
             evt.preventDefault();
             this.sales_order.status = 'Inactive';
-            this.deleteSalesOrder(JSON.stringify(this.sales_order));
+            this.deleteSalesOrder(this.sales_order);
         },
 
         showMessage(status){
