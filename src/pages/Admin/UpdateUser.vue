@@ -26,7 +26,8 @@
                                 class="form-control"
                                 name="name"
                                 required
-                                placeholder="Name">
+                                placeholder="Name"
+                                disabled>
                             </b-form-input>
                         </b-form-group>
                     </div>
