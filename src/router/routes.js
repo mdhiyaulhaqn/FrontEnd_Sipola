@@ -447,13 +447,24 @@ const routes = [
         name: "noaccess",
         component: Forbidden
       },
+      // {
+      //   path: "*",
+      //   name: "page-not-found",
+      //   component: NotFoundPage
+      // }
+    ]
+  },
+  {
+    path: "*",
+    component: DashboardLayout,
+    children : [
       {
         path: "*",
         name: "page-not-found",
         component: NotFoundPage
       }
     ]
-  },
+  }
 ];
 
 /**
