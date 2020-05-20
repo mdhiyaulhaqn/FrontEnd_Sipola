@@ -112,7 +112,7 @@
                         <div v-if="perPage > invoices.length" class="my-2">
                             <b-card-sub-title>Showing {{ invoices.length }} of {{ invoices.length }}</b-card-sub-title>
                         </div>
-                        <div v-else-if="currentPage != 1" class="my-2">
+                        <div v-else-if="currentPage != 1 && currentPage === Math.ceil(invoices.length/perPage)" class="my-2">
                             <b-card-sub-title>Showing {{ invoices.length % perPage }} of {{ invoices.length }}</b-card-sub-title>
                         </div>
                         <div v-else class="my-2">

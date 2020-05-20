@@ -142,7 +142,7 @@
                   <div v-if="perPage > pendapatanList.length" class="my-2">
                     <b-card-sub-title>Showing {{ pendapatanList.length }} of {{ pendapatanList.length }}</b-card-sub-title>
                   </div>
-                  <div v-else-if="currentPage != 1" class="my-2">
+                  <div v-else-if="currentPage != 1 && currentPage === Math.ceil(pendapatanList.length/perPage)" class="my-2">
                     <b-card-sub-title>Showing {{ pendapatanList.length % perPage }} of {{ pendapatanList.length }}</b-card-sub-title>
                   </div>
                   <div v-else class="my-2">
@@ -242,7 +242,7 @@
                   <div v-if="perPage > pengeluaranList.length" class="my-2">
                     <b-card-sub-title>Showing {{ pengeluaranList.length }} of {{ pengeluaranList.length }}</b-card-sub-title>
                   </div>
-                  <div v-else-if="currentPage != 1" class="my-2">
+                  <div v-else-if="currentPage != 1 && currentPage === Math.ceil(pengeluaranList.length/perPage)" class="my-2">
                     <b-card-sub-title>Showing {{ pengeluaranList.length % perPage }} of {{ pengeluaranList.length }}</b-card-sub-title>
                   </div>
                   <div v-else class="my-2">
@@ -363,17 +363,17 @@ export default {
         linkTanggal = 'tanggalAkhir=' + this.endDate
       }
 
-      axios.get(this.url_deploy + 'invoice?' + linkTanggal, { headers: authHeader() })	
-      .then(response => this.pendapatanList = response.data.result);	
-      axios.get(this.url_deploy + 'pengeluaran?' + linkTanggal, { headers: authHeader() })	
-      .then(response => this.pengeluaranList = response.data.result);	
-      axios.get(this.url_deploy + 'invoice/calculate?' + linkTanggal, { headers: authHeader() })	
-      .then(response => {	
-        this.totalPendapatan = response.data.result; 	
-        });	
-      axios.get(this.url_deploy + 'pengeluaran/calculate?' + linkTanggal, { headers: authHeader() })	
-      .then(response => {	
-        this.totalPengeluaran = response.data.result; 	
+      axios.get(this.url_deploy + 'invoice?' + linkTanggal, { headers: authHeader() })
+      .then(response => this.pendapatanList = response.data.result);
+      axios.get(this.url_deploy + 'pengeluaran?' + linkTanggal, { headers: authHeader() })
+      .then(response => this.pengeluaranList = response.data.result);
+      axios.get(this.url_deploy + 'invoice/calculate?' + linkTanggal, { headers: authHeader() })
+      .then(response => {
+        this.totalPendapatan = response.data.result;
+        });
+      axios.get(this.url_deploy + 'pengeluaran/calculate?' + linkTanggal, { headers: authHeader() })
+      .then(response => {
+        this.totalPengeluaran = response.data.result;
         });
     },
     formatPrice(value) {
