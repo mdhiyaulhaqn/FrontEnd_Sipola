@@ -153,7 +153,6 @@ export default {
     },
     data() {
       return {
-
             // variabel for attachment
             uploading : false,
             file: '',

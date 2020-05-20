@@ -16,18 +16,19 @@
                 <b-row>
                     <h5 class = "col-lg-7 col-sm-7 col-6 sub-judul"><strong>Reimbursement Report</strong></h5>
                     <div class="col-lg-3 col-sm-3 col-6 grup-status" style="float:right;">
-                      <div class="col-lg-5 col-sm-5 col-12 status" >Status</div>
-                      <div class="col-lg-7 col-sm-7 col-8">
-                        <b-badge  v-if="reimbursement.statusReimburse === 2" pill variant="info" size=sm id ="status_reimbursement">
-                          Not Reviewed
+                      <div class="col-lg-6 col-sm-6 col-12 status" >Status</div>
+                      <div class="col-lg-6 col-sm-6 col-8">
+                        <b-badge  v-if="reimbursement.statusReimburse === 2" pill variant="info" size=md id ="status_reimbursement">
+                          Not Reviewed <i class="fas fa-spinner"></i>
                         </b-badge>
-                        <b-badge  v-if="reimbursement.statusReimburse === 3" pill variant="success" size=sm id ="status_reimbursement">
-                          Accepted
+                        <b-badge  v-if="reimbursement.statusReimburse === 3" pill variant="success" size=md id ="status_reimbursement">
+                          Accepted <i class="fas fa-check"></i>
                         </b-badge>
-                        <b-badge v-if="reimbursement.statusReimburse === 4" size=sm id ="status_reimbursement" style="background-color:#F89133; color:black">
-                          On Revision</b-badge>
-                        <b-badge  v-if="reimbursement.statusReimburse === 5" pill variant="danger" size=sm id ="status_reimbursement">
-                          Rejected
+                        <b-badge v-if="reimbursement.statusReimburse === 4" size=md id ="status_reimbursement" style="background-color:#F89133; color:black">
+                          On Revision <i class="fas fa-wrench"></i>
+                        </b-badge>
+                        <b-badge  v-if="reimbursement.statusReimburse === 5" pill variant="danger" size=md id ="status_reimbursement">
+                          Rejected <i class="fas fa-times"></i>
                         </b-badge>
                       </div>
                     </div>
@@ -188,16 +189,6 @@
           </b-row>
         </div>
       </template>
-      <!-- <template v-slot:modal-footer="{ cancel }">
-        <b-col class="button-reject-group">
-          <b-button @click="submitReject" id ="confirm_reject_button" variant="outline-danger" type="submit">
-            Reject
-          </b-button>
-          <b-button @click="cancel()" id ="cancel_reject_button" class="btn btn-danger">
-            Cancel
-          </b-button>
-        </b-col>
-      </template> -->
 
     </b-modal>
 
