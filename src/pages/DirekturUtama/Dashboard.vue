@@ -16,7 +16,7 @@
             <template v-slot:first>
               <b-form-select-option :value="null" disabled>-- Year --</b-form-select-option>
             </template>
-            <option v-bind:key="year.index" v-for="year in currentYear" :value="year" style="max-height: 50px">{{ year }}</option>
+            <option v-bind:key="year.index" v-for="year in currentYear" :value="year" v-b-scrollspy:nav-scroller>{{ year }}</option>
           </b-form-select>
         </div>
         <div class="col">
@@ -196,7 +196,7 @@ export default {
 
     checkUrl(){
       let tahun = new Date().getFullYear();
-      for(let i = 2000; i <= tahun; i++){
+      for(let i = 2014; i <= tahun; i++){
         this.currentYear.push(i);
       }
       if (this.$route.params.year == null){
