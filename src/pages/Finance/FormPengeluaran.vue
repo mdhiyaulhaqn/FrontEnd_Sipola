@@ -73,7 +73,7 @@
         </div>
     </div>
 
-    <b-modal id="modal-success" v-model="successModal" hide-footer centered>
+    <b-modal id="modal-success" v-model="successModal" @ok="toDetailPage()" centered>
         <template v-slot:modal-title>
         <div class="container">
           <h5 id="modal-title-success">Success!</h5>
@@ -83,23 +83,25 @@
             <div class = "container">
                 <div class = "info">
                 <b-row>
-                    <b-col cols="3" class="modal-icon">
+                    <b-col cols="2" class="modal-icon">
                         <img src="@/assets/img/success-icon.png" alt="" width="60px">
                     </b-col>
-                    <b-col cols="9">
-                        <p id="modal-success">{{newPengeluaran.nama}} expense was successfully added.</p>
+                    <b-col cols="10">
+                        <p id="modal-success">Expense was successfully added.</p>
                     </b-col>
                 </b-row>
-                </div>
-                <b-row class="button-detail-group">
-                    <router-link :to="{name: 'expense'}">
-                      <b-button class="back-button">Back to List</b-button>
-                    </router-link>
-                    <b-button @click="toDetailPage" class="see-button">
-                        See Details
-                    </b-button>
-                </b-row>
+              </div>
             </div>
+        </template>
+        <template v-slot:modal-footer="{ ok }">
+          <b-col class="button-confirm-group">
+            <router-link :to="{name: 'expense'}">
+              <b-button class="back-button">Back to List</b-button>
+            </router-link>
+            <b-button @click="ok()" class="see-button">
+              See Details
+            </b-button>
+          </b-col>
         </template>
         </b-modal>
 
@@ -278,7 +280,9 @@ import authHeader from '../../services/auth-header';
 .modal-icon{
     text-align: center;
 }
-
+.button-confirm-group{
+  text-align: right;
+}
 .button-detail-group{
     float:right;
     margin-top: 50px;

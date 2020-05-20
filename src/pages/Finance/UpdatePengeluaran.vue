@@ -77,7 +77,7 @@
         </div>
     </div>
 
-    <b-modal id="modal-confirm" v-model="confirmationModal" hide-footer centered>
+    <b-modal id="modal-confirm" v-model="confirmationModal" centered>
         <template v-slot:modal-title>
                 <div class="container">
                     <h5 id="modal-title-success">Save Changes?</h5>
@@ -87,26 +87,28 @@
             <div class = "container">
                 <div class = "info">
                 <b-row>
-                    <b-col cols="3" class="modal-icon">
+                    <b-col cols="2" class="modal-icon">
                         <img src="@/assets/img/update-confirm-icon.png" alt="" width="60px">
                     </b-col>
-                    <b-col cols="9">
-                        <p id="modal-message">Expense will be changed soon once you click the save button.</p>
+                    <b-col cols="10">
+                        <p id="modal-message">{{pengeluaran.nama}} expense will be changed soon once you click the save button.</p>
                     </b-col>
                 </b-row>
                 </div>
-                <b-row class="button-confirm-group">
-                  <b-button @click="updatePengeluaran()" type="submit" class="save-button" v-b-modal.modal-success>
-                      Save
-                  </b-button>
-                  <b-button @click="hideModal" class="cancel-button">
-                      Cancel
-                  </b-button>
-                </b-row>
             </div>
         </template>
+        <template v-slot:modal-footer>
+          <b-row class="button-confirm-group">
+            <b-button @click="updatePengeluaran()" type="submit" class="save-button" v-b-modal.modal-success>
+                Save
+            </b-button>
+            <b-button @click="hideModal" class="cancel-button">
+                Cancel
+            </b-button>
+          </b-row>
+        </template>
         </b-modal>
-        <b-modal id="modal-success" v-model="successModal" hide-footer centered title="Success!">
+        <b-modal id="modal-success" v-model="successModal" @ok="toDetailPage()" centered title="Success!">
             <template v-slot:modal-title>
                 <div class="container">
                     <h5 id="modal-title-success">Success!</h5>
@@ -116,23 +118,25 @@
                 <div class = "container">
                     <div class = "info">
                     <b-row>
-                        <b-col cols="3" class="modal-icon">
+                        <b-col cols="2" class="modal-icon">
                             <img src="@/assets/img/success-icon.png" alt="" width="60px">
                         </b-col>
-                        <b-col cols="9">
+                        <b-col cols="10">
                             <p id="modal-message">{{pengeluaran.nama}} expense was successfully changed.</p>
                         </b-col>
                     </b-row>
                     </div>
-                    <b-row class="button-detail-group">
-                        <router-link :to="{name: 'expense'}">
-                          <b-button class="back-button">Back to List</b-button>
-                        </router-link>
-                        <b-button @click="toDetailPage" class="see-button">
-                            See Details
-                        </b-button>
-                    </b-row>
                 </div>
+            </template>
+            <template v-slot:modal-footer="{ ok }">
+              <b-col class="button-confirm-group">
+                <router-link :to="{name: 'expense'}">
+                  <b-button class="back-button">Back to List</b-button>
+                </router-link>
+                <b-button @click="ok()" class="see-button">
+                  See Details
+                </b-button>
+              </b-col>
             </template>
         </b-modal>
   </div>
@@ -177,15 +181,15 @@ import authHeader from '../../services/auth-header';
         hideModal(){
             this.confirmationModal = false;
         },
-        getDetail: function(){    	
-            axios.get(this.url_deploy + this.$route.params.id, { headers: authHeader() })	
-            .then(res => {	
-                this.pengeluaran = res.data.result	
-                this.pengeluaran.tanggal = res.data.result.tanggal.substring(0,10)                	
-                })	
-            .catch(err => this.pengeluaran = err.data);	
-        },	
-        updatePengeluaran(){	
+        getDetail: function(){
+            axios.get(this.url_deploy + this.$route.params.id, { headers: authHeader() })
+            .then(res => {
+                this.pengeluaran = res.data.result
+                this.pengeluaran.tanggal = res.data.result.tanggal.substring(0,10)
+                })
+            .catch(err => this.pengeluaran = err.data);
+        },
+        updatePengeluaran(){
             axios.put(this.url_deploy + this.$route.params.id + '/update', this.pengeluaran, { headers: authHeader() })
             // .then(res => {this.showMessage(res.data.status), this.hideModal();});
             // axios.put("http://localhost:8080/api/pengeluaran/add", {
@@ -310,9 +314,7 @@ import authHeader from '../../services/auth-header';
 }
 
 .button-confirm-group{
-    float: right;
-    margin-top: 20px;
-    margin-bottom: -2px;
+  text-align: right;
 }
 
 .modal-icon{
