@@ -1,6 +1,6 @@
 import DashboardLayout from "@/layout/dashboard/DashboardLayout.vue";
 // GeneralViews
-import NotFound from "@/pages/NotFoundPage.vue";
+import NotFoundPage from "@/pages/NotFoundPage.vue";
 import Forbidden from "@/pages/ForbiddenPage.vue";
 
 // Admin pagesc
@@ -446,10 +446,14 @@ const routes = [
         path: "forbidden",
         name: "noaccess",
         component: Forbidden
+      },
+      {
+        path: "*",
+        name: "page-not-found",
+        component: NotFoundPage
       }
     ]
   },
-  { path: "*", component: NotFound },
 ];
 
 /**
