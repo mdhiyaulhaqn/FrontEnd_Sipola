@@ -10,23 +10,23 @@
   <div>
     <!--Stats cards-->
     <b-form>
-          <div class="row">
-          <div class="col-md-3">
-          <b-form-select v-model="selected" class="mb-3">
+      <div class="row">
+        <div class="col-md-3 col-sm-8 col-xs-8 col-7">
+          <b-form-select v-model="selected">
             <template v-slot:first>
               <b-form-select-option :value="null" disabled>-- Year --</b-form-select-option>
             </template>
             <option v-bind:key="year.index" v-for="year in currentYear" :value="year">{{ year }}</option>
           </b-form-select>
-          </div>
-          <div class="col">
-            <b-button class ="find-button" @click="redirect">
-              Find
-              <i class="fa fa-search" style="color: white; margin-left: 5px;"></i>
-            </b-button>
-               </div>
-            </div>
-      </b-form>
+        </div>
+        <div class="col">
+          <b-button class ="find-button" @click="redirect">
+            Find
+            <i class="fa fa-search" style="color: white; margin-left: 5px;"></i>
+          </b-button>
+        </div>
+      </div>
+    </b-form>
 
     <div class="row">
        <div class="col-md-6 col-xl-3" >
@@ -159,9 +159,9 @@ export default {
       optionsBar: null,
       borderColour : ['#315C9C',"#FF6F61", '#6B5B95', '#9B1B30', '#F5D6C6', '#5A3E36', '#E08119'],
       projectData : null,
-      list_income : {},
-      list_project : {},
-      list_expense : {},
+      list_income : null,
+      list_project : null,
+      list_expense : null,
       expense : '',
       income : '',
       order : '',
@@ -230,7 +230,7 @@ export default {
       console.log("list project: " + this.list_project)
       console.log("list income: " +this.list_income)
       console.log("list expense: " +this.list_expense)
-      if(this.list_project.length == 0 && this.list_income.length == 0 && this.list_expense.length == 0){
+      if(this.list_project == null && this.list_income == null && this.list_expense == null){
         this.failedModal = true;
       }
     },
