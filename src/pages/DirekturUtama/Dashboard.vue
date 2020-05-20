@@ -196,12 +196,12 @@ export default {
         this.currentYear.push(i);
       }
       if (this.$route.params.year == null){
-        this.$router.push({ name: 'dashboard',  params: {year:tahun}});
+        this.$router.push({ name: 'dashboard-year',  params: {year:tahun}});
       }
     },
 
     redirect(){
-      this.$router.push({ name: 'dashboard',  params: {year:this.selected}});
+      this.$router.push({ name: 'dashboard-year',  params: {year:this.selected}});
       this.$router.go(0)
     },
 
