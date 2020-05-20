@@ -33,13 +33,13 @@
         </div>
       </template>
       <mobile-menu>
-        <li class="nav-item">
+        <li class="nav-item" style="padding: 0 0 0 20px;">
           <a class="nav-link" href @click.prevent="profile">
             <i class="ti ti-user"></i>
             <p>Profile</p>
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" style="padding: 0 0 0 20px;">
           <a class="nav-link" href @click.prevent="logOut">
             <i class="ti ti-shift-right"></i>
             <p>Sign Out</p>

@@ -5,7 +5,6 @@ import Forbidden from "@/pages/ForbiddenPage.vue";
 
 // Admin pagesc
 import Dashboard from "@/pages/DirekturUtama/Dashboard.vue";
-import UserProfile from "@/pages/UserProfile.vue";
 import Quotation from "@/pages/SalesMarketing/Quotation.vue";
 import SalesOrder from "@/pages/SalesMarketing/SalesOrder.vue";
 import FormSalesOrder from "@/pages/SalesMarketing/FormSalesOrder.vue";
@@ -61,16 +60,16 @@ const routes = [
     redirect: "/login",
     children: [
       {
-        path: "dashboard/:year",
-        name: "dashboard-year",
+        path: "dashboard",
+        name: "dashboard",
         component: Dashboard,
         meta : {
           is_dirut : true
         }
       },
       {
-        path: "dashboard/",
-        name: "dashboard",
+        path: "dashboard/:year",
+        name: "dashboard-year",
         component: Dashboard,
         meta : {
           is_dirut : true
@@ -145,7 +144,7 @@ const routes = [
         name: "add-delivery-order",
         component: AddDeliveryOrder,
         meta : {
-          is_sales : true
+          is_pm : true
         }
       },
       {
@@ -221,12 +220,22 @@ const routes = [
         }
       },
       {
-        path: "invoice/add",
+        path: "invoice/sales-order/:id/add",
         name: "invoice-add",
         component: FormInvoice,
         meta : {
           is_finance : true
         }
+      },
+      {
+        path: "invoice/sales-order",
+        name: "sales-order-for-invoice",
+        component: SalesOrder
+      },
+      {
+        path: "invoice/sales-order/:id",
+        name: "detail-sales-order-for-invoice",
+        component: DetailSalesOrder
       },
       {
         path: "invoice/:id/update",
@@ -389,9 +398,7 @@ const routes = [
       {
         path: '/profile',
         name: 'profile',
-        // lazy-loaded
-        component: () => import('@/pages/Profile.vue')
-        // Profile
+        component: Profile,
       },
       {
         path: '/user',

@@ -3,29 +3,26 @@
         <div class = "col-12">
             <b-breadcrumb id="breadcrumb">
                 <b-breadcrumb-item :to="{name: 'invoice'}">
-                    Invoice List
+                    Invoice
                 </b-breadcrumb-item>
                 <b-breadcrumb-item active>
                     Detail Invoice
                 </b-breadcrumb-item>
             </b-breadcrumb>
-
-            <div class="judul">
-                <strong>
-                    Detail Invoice
-                </strong>
-            </div>
-
-            <card>
+            <h3 class="judul"><strong>Detail Invoice</strong></h3>
+            <div class = "row">
+            <div class="col-md-12 col-sm-12 col-xs-12 col-12 d-block d-xs-block d-sm-block center">
+            <card class="col">
+              <h5 class="text-center">Invoice</h5>
             <div class="container-fluid">
                 <b-row>
-                    <div class = "company-name"><strong>{{ invoice.salesOrder.company.nama }}</strong></div>
+                    <div class = "col-12 company-name"><strong>{{ company.nama }}</strong></div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-2 col-6">Invoice No</div>
                     <div class = "col-md-5 col-6">: {{ invoice.noInvoice }}</div>
                     <div class = "col-md-2 col-6">Sales Order No</div>
-                    <div class = "col-md-3 col-6">: {{ invoice.salesOrder.noSalesOrder }}</div>
+                    <div class = "col-md-3 col-6">: {{ salesOrder.noSalesOrder }}</div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-2 col-6">Invoice Date</div>
@@ -35,20 +32,20 @@
                 </b-row>
                 <b-row>
                     <div class = "col-md-2 col-6">Purchase Order No</div>
-                    <div class = "col-md-5 col-6">: {{ invoice.salesOrder.poNumber }}</div>
+                    <div class = "col-md-5 col-6">: {{ salesOrder.poNumber }}</div>
                     <div class = "col-md-2 col-6">Created by</div>
                     <div class = "col-md-3 col-6">: {{ invoice.createdBy }}</div>
                 </b-row>
                   <b-row>
                     <div class = "col-md-2 col-6">Purchase Order Date</div>
-                    <div class = "col-md-5 col-6">: {{ invoice.salesOrder.poDate | moment('ll') }}</div>
+                    <div class = "col-md-5 col-6">: {{ salesOrder.poDate | moment('ll') }}</div>
                     <div class = "col-md-2 col-6">Created at</div>
                     <div class = "col-md-3 col-6">: {{ invoice.createdAt.slice(0, 19) | moment('lll') }}</div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-2 col-6">Address</div>
-                    <div class = "col-md-5 col-6">: {{invoice.salesOrder.company.alamat}}</div>
-                    <div class = "col-md-2 col-6"> Terms Of Delivery
+                    <div class = "col-md-5 col-6">: {{company.alamat}}</div>
+                    <div class = "col-md-2 col-6">Terms Of Delivery
                         <br> Payment Terms
                     </div>
                     <div class = "col-md-3 col-6">: {{invoice.termsOfDelivery}}
@@ -73,11 +70,11 @@
                         <div class="tabel-service">
                             <div slot="raw-content" class="table-responsive" style="font-size:12px">
                                 <b-table
-                                :items="invoice.salesOrder.serviceOrder"
+                                :items="salesOrder.serviceOrder"
                                 :fields="fields"
                                 >
                                     <template v-slot:cell(No)="row">
-                                        {{invoice.salesOrder.service.indexOf(row.item) + 1}}
+                                        {{salesOrder.service.indexOf(row.item) + 1}}
                                     </template>
                                     <template v-slot:cell(Value(IDR))="row">
                                         <div class="text-center">
@@ -94,7 +91,7 @@
                                     </template> -->
                                 </b-table>
                                 <br>
-                                <b-row align-content="right">
+                                <b-row align-content="end">
                                     <div class="col-md-7"></div>
                                     <div class = "col-md-2 col-6">
                                         <strong>Sub-total Price</strong>
@@ -103,7 +100,7 @@
                                         Rp{{formatPrice(this.invoice.sub_total_price)}}
                                     </div>
                                 </b-row>
-                                <b-row align-content="rigt">
+                                <b-row align-content="end">
                                     <div class="col-md-7"></div>
                                     <div class = "col-md-2 col-6">
                                         <strong>VAT Price</strong>
@@ -112,7 +109,7 @@
                                         Rp{{formatPrice(this.invoice.price_vat)}}
                                     </div>
                                 </b-row>
-                                <b-row align-content="right">
+                                <b-row align-content="end">
                                     <div class="col-md-7"></div>
                                     <div class = "col-md-2 col-6">
                                         <strong>Grand-total Price</strong>
@@ -128,11 +125,11 @@
 
                 <b-row>
                     <div class="button-group col-sm-12">
-                        <button v-b-modal.modal-delete id ="delete_button" class="btn btn-primary">
+                        <button v-b-modal.modal-delete id ="delete-button" class="btn btn-primary">
                             Delete
                         </button>
                          <router-link :to="{name: 'update-invoice'}">
-                            <button id ="edit_button" class="btn btn-primary">
+                            <button id ="edit-button" class="btn btn-primary">
                                 Edit
                             </button>
                          </router-link>
@@ -140,6 +137,8 @@
                 </b-row>
             </div>
             </card>
+            </div>
+            </div>
         </div>
 
         <!-- Modal Delete Confirmation -->
@@ -157,7 +156,7 @@
                             <img src="@/assets/img/delete-confirm-icon.png" alt="" width="50px">
                         </b-col>
                         <b-col class="col-10">
-                            <p id="modal-message"> Invoice no {{invoice.noInvoice}} will be removed from the list.</p>
+                            <p id="modal-message">Invoice no {{invoice.noInvoice}} will be removed from the list.</p>
                         </b-col>
                     </b-row>
                 </div>
@@ -176,7 +175,7 @@
         </b-modal>
 
         <!-- Modal Delete Success -->
-        <b-modal id="modal-success" ref="modal-success" centered v-model="sucessModal" @ok="redirect()">
+        <b-modal id="modal-success" ref="modal-success" centered v-model="successModal" @ok="redirect()">
             <template v-slot:modal-title>
                 <div class="container">
                     <h5 id="modal-title-success">Success!</h5>
@@ -207,7 +206,7 @@
         <b-modal id="modal-download" ref="modal-download" centered>
             <template v-slot:modal-title>
                 <div class="container">
-                    <h5 id="modal-title-download">Download Purchase Order</h5>
+                    <h5 id="modal-title-download">Downloading Invoice ...</h5>
                 </div>
             </template>
             <template v-slot:default>
@@ -217,14 +216,14 @@
                             <img src="@/assets/img/download-icon.png" alt="" width="50px">
                         </b-col>
                         <b-col class="col-10">
-                            <p id="modal-message"> The system is downloading purchase order no. {{purchaseOrder.noPurchaseOrder}}</p>
+                            <p id="modal-message">The system is downloading invoice no. {{invoice.noInvoice}}</p>
                         </b-col>
                     </b-row>
                 </div>
             </template>
             <template v-slot:modal-footer="{ ok }">
                 <b-col class="button-confirm-group">
-                    <b-button @click="ok()" id="ok-button" variant="outline-primary">
+                    <b-button @click="ok()" id="ok-button">
                         OK
                     </b-button>
                 </b-col>
@@ -245,22 +244,36 @@ import authHeader from '../../services/auth-header';
 export default {
     data() {
         return {
-            invoice : '',
+            invoice : {
+              createdAt: []
+            },
             successModal : false,
             url_local: 'http://localhost:8080/api/invoice/',
             url_deploy : 'https://sipola-sixab.herokuapp.com/api/invoice/',
             fields: [
-                {key: 'id', label: 'No', sortable: true},
+                {key: 'id', label: 'No'},
                 {key: 'deskripsi', label: 'Description', sortable: true},
                 {key: 'uom', label: 'UOM', sortable: true},
                 {key: 'quantity', label: 'Quantity', sortable: true},
-                {key: 'pricePerUnit', label: 'Unit Price(IDR)', formatter: value =>{
+                {key: 'pricePerUnit', label: 'Unit Price (IDR)', formatter: value =>{
                     return value.toLocaleString('id-ID', {maximumFractionDigits:2})
                 }},
-                {key: 'total_price', label:  'Value(IDR)', formatter: value => {
+                {key: 'total_price', label:  'Value (IDR)', formatter: value => {
                     return value.toLocaleString('id-ID', {maximumFractionDigits:2})
                 }},
-            ]
+            ],
+            company: {
+              id: '',
+              nama: '',
+              alamat: ''
+            },
+            salesOrder: {
+              noSalesOrder: '',
+              poNumber: '',
+              poDate: '',
+              service: '',
+              serviceOrder: [],
+            }
         };
     },
     beforeMount(){
@@ -293,7 +306,7 @@ export default {
 
         getDetail: function(){
             axios.get(this.url_deploy +this.$route.params.id, { headers: authHeader() })
-            .then(res => {this.invoice = res.data, this.computePrice()})
+            .then(res => {this.invoice = res.data, this.computePrice(), this.company = res.data.salesOrder.company, this.salesOrder = res.data.salesOrder})
             .catch(err => this.invoice = err.data);
         },
 
@@ -521,48 +534,33 @@ export default {
 .modal-header{
     background-color: #FF3E1D;
 }
-.button_back{
-    background-color: #FF3E1D;
-    color:white;
-    border-color: white;
-    float:right;
-    margin-top: 40px;
+p{
+    font-size: 12px;
 }
-.button_oke{
-    background-color:white;
-    color:#FF3E1D;
-    border-color: #FF3E1D;
-    float:right;
-    margin-top: 40px;
+#edit-button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  width: 110px;
+  margin-left: 10px;
+  line-height: 15px;
+  font-size: 12px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
 }
-.ok-bttn{
-    float:right;
+
+#delete-button{
+  background-color: #FF3E1D;
+  border-color: #FF3E1D;
+  width: 80px;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
 }
-#manage-button{
-    margin-left: auto;
-    margin-right: auto;
-}
-#delete_button{
-    font-size: 10px;
-    width: 56;
-    background-color: #ff3e1d;
-    color:white;
-    border-color: white;
-}
+
 .button-group{
-    text-align: center;
-}
-button{
-    border-radius: 8px;
-}
-#edit_button{
-    background-color: #109CF1;
-    color:white;
-    border-color: transparent;
-    width: 110px;
-    margin-left: 10px;
-    font-size: 10px;
-    box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 .ti-trash{
     font-size: 50px;
@@ -573,28 +571,23 @@ button{
     text-align: right;
 }
 #confirm_delete_button{
-    font-size: 10px;
-    width: 130px;
-    border-color: #ff3e1d;
-    border-width: 1px;
-    margin-right: 10px;
+  font-size: 12px;
+  width: 110px;
+  border-color: #ff3e1d;
+  border-width: 1px;
+  margin-right: 10px;
+  line-height: 15px;
 }
 #cancel_delete_button{
-    font-size: 10px;
-    background-color: #ff3e1d;
-    color:white;
-    border-color: white;
-    border-width: 1px;
-}
-#breadcrumb{
   font-size: 12px;
-  /* text-decoration: underline; */
-  margin: -35px 0 -5px -15px;
-  color: #FF3E1D;
-  background: none;
+  background-color: #ff3e1d;
+  color:white;
+  border-color: white;
+  border-width: 1px;
+  line-height: 15px;
 }
 h5{
-    margin-bottom: -4px;
+  font-weight: bold;
 }
 #modal-message{
     font-size: 16px;
@@ -602,13 +595,17 @@ h5{
 #modal-title-delete{
     color:#FF3E1D;
     font-weight: 1000;
+    margin-bottom: -4px;
 }
 #modal-title-download{
     color: #109CF1;
     font-weight: 1000;
+    margin-bottom: -4px;
 }
 #modal-title-success{
     color: #109CF1;
+    font-weight: 1000;
+    margin-bottom: -4px;
 }
 #ok-button{
   color:#109CF1;
@@ -617,5 +614,12 @@ h5{
   font-size: 12px;
   line-height: 15px;
   border-width: 1px;
+}
+#breadcrumb{
+    font-size: 12px;
+    /* text-decoration: underline; */
+    margin: -35px 0 -5px -15px;
+    color: #FF3E1D;
+    background: none;
 }
 </style>

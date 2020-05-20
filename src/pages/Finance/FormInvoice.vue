@@ -2,10 +2,10 @@
     <div>
         <b-breadcrumb id="breadcrumb">
             <b-breadcrumb-item :to="{name: 'invoice'}">
-                Invoice List
+                    Invoice
             </b-breadcrumb-item>
-            <b-breadcrumb-item :to="{name: 'sales-order'}">
-                Sales Order List
+            <b-breadcrumb-item :to="{name: 'sales-order-for-invoice'}">
+                Sales Order
             </b-breadcrumb-item>
             <b-breadcrumb-item :to="{name: 'detail-sales-order'}">
                 Detail Sales Order
@@ -22,7 +22,7 @@
         <div class = "row">
             <div class = "col-md-8 col-sm-8 col-xs-8 col-12 d-block d-xs-block d-sm-block isi-form">
                 <card class="col">
-                    <h5 class = "title-form">Add Invoice Form - Sales Order {{sales_order.noSalesOrder}} </h5>
+                    <h5 class = "title-form">Add Invoice Form - Sales Order {{sales_order.noSalesOrder}}</h5>
                     <b-form @submit="onSubmit" v-if="show">
                         <div class = "row">
                             <div class = "col-md-6 col-12">
@@ -67,10 +67,10 @@
                             </div>
                         </div>
 
-                        <div class = "row">
+                        <div class = "row" style="margin-top: -5px;">
                             <div class = "col-md-7 col-12">
                                 <b-form-group class="required">
-                                    <label class="label" for="noPurchaseOrder">PO No</label>
+                                    <label class="label" for="noPurchaseOrder">Purchase Order No</label>
                                     <b-form-input
                                         id="noPurchaseOrder"
                                         v-model="sales_order.poNumber"
@@ -84,7 +84,7 @@
                             <div class = "col-md-5 col-12">
                                 <div style="color:black">
                                 <b-form-group class="required">
-                                    <label class="label" for="purchaseOrderDate">PO Date</label>
+                                    <label class="label" for="purchaseOrderDate">Purchase Order Date</label>
                                     <b-form-input
                                         id="date"
                                         v-model="sales_order.poDate"
@@ -101,7 +101,7 @@
                             <label class="label" for="companyName">Company Name</label>
                             <b-form-input
                                 id="companyName"
-                                v-model="sales_order.company.nama"
+                                v-model="company.nama"
                                 type="text"
                                 required
                                 disabled
@@ -113,7 +113,7 @@
                             <label class="label" for="companyAddress">Company Address</label>
                             <b-form-input
                                 id="companyAddress"
-                                v-model="sales_order.company.alamat"
+                                v-model="company.alamat"
                                 type="text"
                                 required
                                 disabled
@@ -122,29 +122,29 @@
                         </b-form-group>
 
                         <div class="d-none d-md-block d-lg-block">
-                            <b-row>
-                                <b-col md="5 required">
-                                    <label>Service Order</label>
-                                </b-col>
-                                <b-col md="2 required">
-                                    <label>UOM</label>
-                                </b-col>
-                                <b-col md="2 required">
-                                    <label>Qty</label>
-                                </b-col>
-                                <b-col md="3 required">
-                                    <label>UnitPrice</label>
-                                </b-col>
-                            </b-row>
+                            <div class="row" style="margin: 0 -20px 0 -15px;">
+                                <div class="col-md-5 required">
+                                    <label class="label">Service Order</label>
+                                </div>
+                                <div class="col-md-2 required">
+                                    <label class="label">UOM</label>
+                                </div>
+                                <div class="col-md-2 required">
+                                    <label class="label">Quantity</label>
+                                </div>
+                                <div class="col-md-3 required">
+                                    <label class="label">Unit Price (IDR)</label>
+                                </div>
+                            </div>
                         </div>
 
-                        <b-row class="service_orders" v-bind:key="item.id_service_orders" v-for="item in sales_order.serviceOrder">
+                        <b-row class="service_orders" v-bind:key="item.id_service_orders" v-for="item in sales_order.serviceOrder" style="margin-bottom: 10px;">
                             <b-col disabled>
                                 <ServiceOrder v-bind:service_order="item"/>
                             </b-col>
                         </b-row>
 
-                        <div class="row">
+                        <div class="row" style="margin-top: 10px;">
                             <div class="col-md-6 col-12">
                                 <b-form-group class="required">
                                     <label class="label" for="paymentTerms">Payment Terms</label>
@@ -178,7 +178,7 @@
 
                         <!-- Add and Cancel Button -->
                         <div class = "button-group">
-                            <b-button class = "add-invoice-button" type="submit">Add</b-button>
+                            <b-button class = "save-button" type="submit">Save</b-button>
                             <b-button class = "cancel-button" type="reset">Cancel</b-button>
                         </div>
                     </b-form>
@@ -214,7 +214,7 @@
                     <router-link :to="{name: 'invoice'}">
                         <b-button class="back-button">Back to List</b-button>
                     </router-link>
-                    <b-button @click="ok()" class="ok-button">
+                    <b-button @click="ok()" class="see-button">
                         See Details
                     </b-button>
                 </b-col>
@@ -243,6 +243,11 @@ export default {
             service_orders: [],
             id_service_orders : {id:0},
             createdAt: "",
+            company: {
+              id: '',
+              nama: '',
+              alamat: '',
+            },
 
             invoice : {
                 noInvoice : '',
@@ -278,10 +283,10 @@ export default {
         getDetailSalesOrder: function(){
             console.log("TEST");
             axios.get(this.url_deploy_so + this.$route.params.id, { headers: authHeader() })
-            .then(res => {this.sales_order = res.data, this.fetchData()})
+            .then(res => {this.sales_order = res.data, this.fetchData(), this.company = res.data.company})
             .catch(err => this.sales_order = err.data);
         },
-        
+
         currentUser() {
             return this.$store.state.auth.user;
         },
@@ -326,13 +331,16 @@ export default {
   color: black;
   margin: 11px 0 24px 0;
 }
-
+.title-form {
+  font-weight: 600;
+  margin-bottom: 20px;
+}
 .isi-form{
     margin-left: auto;
     margin-right: auto;
 }
 
-.add-invoice-button{
+.save-button{
   background-color: #109CF1;
   color:white;
   border-color: transparent;
@@ -372,7 +380,7 @@ export default {
     content: " *";
     color: red;
 }
-.ok-button{
+.see-button{
   background-color: #109CF1;
   color:white;
   border-color: transparent;
@@ -383,6 +391,7 @@ export default {
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
   text-align: center;
 }
+
 .back-button{
   color:#109CF1;
   border-color:#109CF1;
@@ -394,6 +403,24 @@ export default {
   font-size: 12px;
 }
 .label{
-    font-weight: 600;
+  font-weight: 600;
+}
+#modal-message{
+  font-size: 16px;
+}
+#modal-title-success{
+  color: #109CF1;
+  font-weight: 1000;
+}
+#ok-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+}
+.button-confirm-group{
+  text-align: right;
+}
+h5{
+  margin-bottom: -4px;
 }
 </style>

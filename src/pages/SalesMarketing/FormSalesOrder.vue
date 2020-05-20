@@ -78,40 +78,32 @@
                 </b-row>
 
                 <div class="d-none d-md-block d-lg-block">
-                    <b-row>
-                        <b-col md="4 required">
-                        <label class="label" >Description</label>
-                        </b-col><br>
-
-                        <b-col md="2 required">
-                        <label class="label" >Quantity</label>
-                        </b-col><br>
-
-                        <b-col md="2 required">
-                        <label class="label" >UOM</label>
-                        </b-col>
-                        <br>
-
-                        <b-col md="3 required">
-                        <label class="label" >Unit Price (IDR)</label>
-                        </b-col>
-                        <br>
-
-                        <b-col md="1">
-
-                        </b-col>
-                    </b-row>
+                    <div class="row" style="margin: 0 -15px 0 -15px;">
+                        <div class="col-md-4 required">
+                            <label class="label">Service Order</label>
+                        </div>
+                        <div class="col-md-2 required">
+                            <label class="label">UOM</label>
+                        </div>
+                        <div class="col-md-2 required">
+                            <label class="label">Quantity</label>
+                        </div>
+                        <div class="col-md-3 required">
+                            <label class="label">Unit Price (IDR)</label>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
                 </div>
 
                 <b-row class="service_orders" v-bind:key="item.id_service_order" v-for="item in service_orders">
                     <b-col>
-                    <ServiceOrder v-bind:service_order="item" v-on:del-service-order="deleteRow" />
+                    <ServiceOrder v-bind:service_order="item" v-on:del-service-order="deleteRow" style="margin-right: 15px;" />
                     </b-col>
                 </b-row>
 
-              <b-row>
+                <b-row style="margin-top: 7px;">
                     <b-col md="4">
-                        <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">+ Add Description</button>
+                        <b-button class="btn btn-primary add-button" @click="addRow()" >Add Description <span><img src="@/assets/img/add-circle-blue-icon.png" alt="" width="18px" style="margin-top: -4px;"></span></b-button>
                     </b-col>
                 </b-row>
 
@@ -225,7 +217,7 @@ export default {
         currentUser() {
             return this.$store.state.auth.user;
         },
-        
+
         addRow(){
             this.new_service_order.id_service_order++;
             let service = Object.assign({}, this.new_service_order);
@@ -304,10 +296,15 @@ export default {
 }
 .add-button{
   width: 100%;
+  color:#109CF1;
+  border-color:#109CF1;
   background-color: white;
-  color : #109cf1;
-  border-color: #109cf1;
+  border-width: 2px;
+  line-height: 20px;
+  text-align: center;
+  font-size: 13px;
   margin-bottom: 10px;
+  border-radius: 5px;
 }
 
 .judul{

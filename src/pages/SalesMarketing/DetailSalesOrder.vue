@@ -11,10 +11,10 @@
             </b-breadcrumb>
             <b-breadcrumb id="breadcrumb" v-if="currentUser().roles.includes('ROLE_FINANCE')">
                 <b-breadcrumb-item :to="{name: 'invoice'}">
-                    Invoice List
+                    Invoice
                 </b-breadcrumb-item>
                 <b-breadcrumb-item :to="{name: 'sales-order-for-invoice'}">
-                    Sales Order List
+                    Sales Order
                 </b-breadcrumb-item>
                 <b-breadcrumb-item active>
                     Detail Sales Order
@@ -94,7 +94,7 @@
 
                     <b-row v-if="currentUser().roles.includes('ROLE_FINANCE')">
                         <div class = "button-group col-sm-12">
-                            <router-link :to="{name: 'invoice-add', params: {id: sales_order.id}}">
+                            <router-link :to="{name: 'invoice-add'}">
                                 <b-button id="generate-button" class="btn btn-primary">Generate Invoice</b-button>
                             </router-link>
                         </div>
@@ -189,13 +189,13 @@ export default {
             },
             successModal : false,
             fields: [
-                {key: 'nomer', label: 'No', sortable: true},
+                {key: 'nomer', label: 'No'},
                 {key: 'deskripsi', label: 'Description', sortable: true},
                 {key: 'uom', label: 'UOM', sortable: true},
                 {key: 'quantity', label: 'Quantity', sortable: true},
-                {key: 'harga_satuan', label: 'Unit Price(IDR)', formatter: value => {
+                {key: 'harga_satuan', label: 'Unit Price (IDR)', formatter: value => {
                     return value.toLocaleString('de-DE')}},
-                {key: 'total_harga', label:  'Total_Price(IDR)', formatter: value => {
+                {key: 'total_harga', label:  'Total Price (IDR)', formatter: value => {
                     return value.toLocaleString('de-DE')}},
             ],
             company:{
@@ -251,9 +251,9 @@ export default {
         deleteSalesOrder(salesOrder){
             axios.put(this.url_deploy + 'change-status/' + this.$route.params.id,
             salesOrder,
-                { headers: 
+                { headers:
                    authHeader()
-                
+
             })
             .then(res => {this.showMessage(res.data.status)});
         },
@@ -265,7 +265,7 @@ export default {
         hideModal(){
             this.$refs['modal-download'].hide();
         },
-        
+
         currentUser() {
             return this.$store.state.auth.user;
         },
@@ -284,7 +284,6 @@ export default {
   background-color: #109CF1;
   color:white;
   border-color: transparent;
-  width: 130px;
   line-height: 15px;
   font-size: 12px;
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);

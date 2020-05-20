@@ -184,7 +184,7 @@ export default {
           {key: 'index', label: 'No'},
           {key: 'projectName', label: 'Project Description', sortable: true},
           {key: 'totalReimburse', label: 'Total (IDR)', sortable:true},
-          {key: 'createdBy', label: 'Requester', sortable:true},
+          {key: 'createdBy', label: 'Requested by', sortable:true},
           {key: 'statusReimburse', label: 'Status', sortable:true},
           {key: 'action', label: 'Action'},
         ],
