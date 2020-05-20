@@ -15,23 +15,23 @@
                 <!-- <div class = "nama-pengeluaran">Tiket Pesawat CGK - Sawangan</div> -->
                 <div class = "nama-pengeluaran">{{pengeluaran.nama}}</div>
                 <b-row align-h="end">
-                    <b-col class="detail-label col-5 col-md-2">Nominal</b-col>
+                    <b-col class="detail-label col-6 col-md-2">Nominal</b-col>
                     <b-col cols="6" class="detail-text">: Rp{{formatPrice(pengeluaran.nominal)}}</b-col>
                 </b-row>
                 <b-row align-h="end">
-                    <b-col class="detail-label col-5 col-md-2">Expense Date</b-col>
+                    <b-col class="detail-label col-6 col-md-2">Expense Date</b-col>
                     <b-col cols="6" class="detail-text">: {{pengeluaran.tanggal | moment("ll")}}</b-col>
                 </b-row>
                 <b-row align-h="end">
-                    <b-col class="detail-label col-5 col-md-2">Paid by</b-col>
+                    <b-col class="detail-label col-6 col-md-2">Paid by</b-col>
                     <b-col cols="6" class="detail-text">: {{pengeluaran.paidBy}}</b-col>
                 </b-row>
                 <b-row align-h="end">
-                    <b-col class="detail-label col-5 col-md-2">Created at</b-col>
+                    <b-col class="detail-label col-6 col-md-2">Created at</b-col>
                     <b-col cols="6" class="detail-text">: {{pengeluaran.createdAt.slice(0, 19) | moment('lll')}}</b-col>
                 </b-row>
                 <b-row align-h="end">
-                    <b-col class="detail-label col-5 col-md-2">Created by</b-col>
+                    <b-col class="detail-label col-6 col-md-2">Created by</b-col>
                     <b-col cols="6" class="detail-text">: {{pengeluaran.createdBy}}</b-col>
                 </b-row>
                 <b-row>
@@ -44,8 +44,8 @@
                     </b-button>
                   </div>
                 </b-row>
-                <b-row align-h="end" v-if="pengeluaran.anyReimbursement">
-                    <b-col class="detail-label col-12 col-md-10" style="color:red">*This expense can’t be edited because it’s part of reimbursement</b-col>
+                <b-row v-if="pengeluaran.anyReimbursement">
+                    <b-col class="col-md-12 text-center" style="color:red; font-weight: bold;">*This expense can’t be edited because it’s part of reimbursement.</b-col>
                 </b-row>
             </card>
           </div>
@@ -151,7 +151,7 @@ export default {
     hideModal(){
         this.$refs['modal-delete'].hide();
     },
-    getDetail: function(){    
+    getDetail: function(){
             axios.get(this.url_deploy + this.$route.params.id, { headers: authHeader() })
             .then(res => {this.pengeluaran = res.data.result})
             .catch(err => this.pengeluaran = err.data);
