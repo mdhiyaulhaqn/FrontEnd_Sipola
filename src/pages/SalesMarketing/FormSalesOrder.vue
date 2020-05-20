@@ -225,7 +225,9 @@ export default {
         },
 
         deleteRow(id_service_order){
-            this.service_orders = this.service_orders.filter(result => result.id_service_order !== id_service_order);
+            if (this.service_orders.length > 1) {
+                this.service_orders = this.service_orders.filter(result => result.id_service_order !== id_service_order);
+            }
         },
 
         onSubmit(evt) {
