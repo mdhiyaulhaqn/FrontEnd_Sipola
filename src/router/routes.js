@@ -60,16 +60,16 @@ const routes = [
     redirect: "/login",
     children: [
       {
-        path: "dashboard/:year",
-        name: "dashboard-year",
+        path: "dashboard",
+        name: "dashboard",
         component: Dashboard,
         meta : {
           is_dirut : true
         }
       },
       {
-        path: "dashboard/",
-        name: "dashboard",
+        path: "dashboard/:year",
+        name: "dashboard-year",
         component: Dashboard,
         meta : {
           is_dirut : true
