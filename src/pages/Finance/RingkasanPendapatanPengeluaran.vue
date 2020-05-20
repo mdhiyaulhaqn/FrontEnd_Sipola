@@ -102,7 +102,7 @@
                 small
                 stacked="md"
                 :items="incomeItems"
-                :fields="fields"
+                :fields="fieldsInvoice"
                 :current-page="currentPage"
                 :per-page="perPage"
                 :sort-by.sync="sortBy"
@@ -114,10 +114,10 @@
               <template v-slot:head(index)="data">
                 <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
               </template>
-              <template v-slot:head(nama)="data">
+              <template v-slot:head(noInvoice)="data">
                 <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
               </template>
-              <template v-slot:head(tanggal)="data">
+              <template v-slot:head(dateInvoice)="data">
                 <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
               </template>
               <template v-slot:head(nominal)="data">
@@ -132,8 +132,8 @@
                   Rp{{formatPrice(row.item.nominal)}}
                 </template>
 
-                <template v-slot:cell(tanggal)="row">
-                  {{row.item.tanggal | moment("ll")}}
+                <template v-slot:cell(dateInvoice)="row">
+                  {{row.item.dateInvoice | moment("ll")}}
                 </template>
               </b-table>
 
@@ -142,7 +142,7 @@
                   <div v-if="perPage > pendapatanList.length" class="my-2">
                     <b-card-sub-title>Showing {{ pendapatanList.length }} of {{ pendapatanList.length }}</b-card-sub-title>
                   </div>
-                  <div v-else-if="currentPage != 1" class="my-2">
+                  <div v-else-if="currentPage != 1 && currentPage === Math.ceil(pendapatanList.length/perPage)" class="my-2">
                     <b-card-sub-title>Showing {{ pendapatanList.length % perPage }} of {{ pendapatanList.length }}</b-card-sub-title>
                   </div>
                   <div v-else class="my-2">
@@ -242,7 +242,7 @@
                   <div v-if="perPage > pengeluaranList.length" class="my-2">
                     <b-card-sub-title>Showing {{ pengeluaranList.length }} of {{ pengeluaranList.length }}</b-card-sub-title>
                   </div>
-                  <div v-else-if="currentPage != 1" class="my-2">
+                  <div v-else-if="currentPage != 1 && currentPage === Math.ceil(pengeluaranList.length/perPage)" class="my-2">
                     <b-card-sub-title>Showing {{ pengeluaranList.length % perPage }} of {{ pengeluaranList.length }}</b-card-sub-title>
                   </div>
                   <div v-else class="my-2">
@@ -308,6 +308,12 @@ export default {
     return {
       pengeluaranList: [],
       pendapatanList: [],
+      fieldsInvoice: [
+        { key: 'index', label: 'No', sortable: false },
+        { key: 'noInvoice', label: 'No Invoice', sortable: true, },
+        { key: 'dateInvoice', label: 'Date', sortable: true, },
+        { key: 'nominal', label: 'Nominal', sortable: true, },
+      ],
       fields: [
         { key: 'index', label: 'No', sortable: false },
         { key: 'nama', label: 'Description', sortable: true, },
@@ -363,17 +369,17 @@ export default {
         linkTanggal = 'tanggalAkhir=' + this.endDate
       }
 
-      axios.get(this.url_deploy + 'invoice?' + linkTanggal, { headers: authHeader() })	
-      .then(response => this.pendapatanList = response.data.result);	
-      axios.get(this.url_deploy + 'pengeluaran?' + linkTanggal, { headers: authHeader() })	
-      .then(response => this.pengeluaranList = response.data.result);	
-      axios.get(this.url_deploy + 'invoice/calculate?' + linkTanggal, { headers: authHeader() })	
-      .then(response => {	
-        this.totalPendapatan = response.data.result; 	
-        });	
-      axios.get(this.url_deploy + 'pengeluaran/calculate?' + linkTanggal, { headers: authHeader() })	
-      .then(response => {	
-        this.totalPengeluaran = response.data.result; 	
+      axios.get(this.url_deploy + 'invoice?' + linkTanggal, { headers: authHeader() })
+      .then(response => this.pendapatanList = response.data.result);
+      axios.get(this.url_deploy + 'pengeluaran?' + linkTanggal, { headers: authHeader() })
+      .then(response => this.pengeluaranList = response.data.result);
+      axios.get(this.url_deploy + 'invoice/calculate?' + linkTanggal, { headers: authHeader() })
+      .then(response => {
+        this.totalPendapatan = response.data.result;
+        });
+      axios.get(this.url_deploy + 'pengeluaran/calculate?' + linkTanggal, { headers: authHeader() })
+      .then(response => {
+        this.totalPengeluaran = response.data.result;
         });
     },
     formatPrice(value) {

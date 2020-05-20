@@ -72,7 +72,7 @@
               <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
             </template>
             <template v-slot:head(namaPerusahaan)="data">
-              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+              <div class="te3xt-nowrap" style="font-size: 13px;">{{ data.label }}</div>
             </template>
             <template v-slot:head(startDate)="data">
               <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
@@ -108,7 +108,7 @@
               <div v-if="perPage > activityListSchedule.length" class="my-2">
                 <b-card-sub-title>Showing {{ activityListSchedule.length }} of {{ activityListSchedule.length }}</b-card-sub-title>
               </div>
-              <div v-else-if="currentPage != 1" class="my-2">
+              <div v-else-if="currentPage != 1 && currentPage === Math.ceil(activityListSchedule.length/perPage)" class="my-2">
                 <b-card-sub-title>Showing {{ activityListSchedule.length % perPage }} of {{ activityListSchedule.length }}</b-card-sub-title>
               </div>
               <div v-else class="my-2">

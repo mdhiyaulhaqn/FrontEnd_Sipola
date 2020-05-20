@@ -182,7 +182,7 @@
                             <img src="@/assets/img/success-icon.png" alt="" width="50px">
                         </b-col>
                         <b-col class="col-10">
-                            <p id="modal-message">Purchase Order no. {{purchaseOrder.noPurchaseOrder}} was successfully deleted from list.</p>
+                            <p id="modal-message">Purchase order no. {{purchaseOrder.noPurchaseOrder}} was successfully deleted from list.</p>
                         </b-col>
                     </b-row>
                 </div>
@@ -589,6 +589,7 @@ h5{
 }
 #modal-title-success{
     color: #109CF1;
+    margin-bottom: -4px;
 }
 #price{
     text-align: center;

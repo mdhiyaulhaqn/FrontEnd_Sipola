@@ -1,5 +1,6 @@
 <template>
-  <div>
+<div class="row">
+  <div class="col-12">
     <b-breadcrumb id="breadcrumb">
       <b-breadcrumb-item :to="{name: 'user'}">
         User
@@ -10,15 +11,14 @@
     </b-breadcrumb>
     <h3 class="judul"><strong>Add User</strong></h3>
     <div class = "row">
-        <div class = "col-10 isi-form">
-            <card>
+        <div class = "col-md-8 col-sm-8 col-xs-8 col-12 d-block d-xs-block d-sm-block isi-form">
+            <card class="col">
             <form name="form" @submit.prevent="handleRegister">
-                
                 <h5 class = "title-form">Personal Information </h5>
                 <b-row>
                     <div class = "col-md-12 col-12">
-                        <b-form-group>
-                            <label for="Name">Name</label>
+                        <b-form-group class="required">
+                            <label class="label" for="Name">Name</label>
                             <b-form-input
                                 id="Name"
                                 v-model="user.name"
@@ -29,12 +29,12 @@
                                 placeholder="Name">
                             </b-form-input>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-12 col-12">
-                        <b-form-group>
-                            <label for="Address">Address</label>
+                        <b-form-group class="required">
+                            <label class="label" for="Address">Address</label>
                             <b-form-input
                                 id="Address"
                                 v-model="user.alamat"
@@ -45,12 +45,12 @@
                                 placeholder="Address">
                             </b-form-input>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-12 col-12">
-                        <b-form-group>
-                            <label for="Phone Number">Phone Number</label>
+                        <b-form-group class="required">
+                            <label class="label" for="Phone Number">Phone Number</label>
                             <b-form-input
                                 id="Phone Number"
                                 v-model="user.noHP"
@@ -61,12 +61,12 @@
                                 placeholder="Phone Number">
                             </b-form-input>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-12 col-12">
-                        <b-form-group>
-                            <label for="Email">Email</label>
+                        <b-form-group class="required">
+                            <label class="label" for="Email">Email</label>
                             <b-form-input
                                 id="Email"
                                 v-model="user.email"
@@ -77,13 +77,13 @@
                                 placeholder="Email">
                             </b-form-input>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <h5 class = "title-form">Account Information </h5>
                 <b-row>
                     <div class = "col-md-12 col-12">
-                        <b-form-group>
-                            <label for="Role">Role</label>
+                        <b-form-group class="required">
+                            <label class="label" for="Role">Role</label>
                             <b-form-select v-model="selectedRole" :options="roles" required>
                                 <!-- <input :required="!selected"> -->
                             </b-form-select>
@@ -92,12 +92,12 @@
                                 class="alert-danger"
                                 >{{errors.first('role')}}</div>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-12 col-12">
-                        <b-form-group>
-                            <label for="Username">Username</label>
+                        <b-form-group class="required">
+                            <label class="label" for="Username">Username</label>
                             <b-form-input
                                 id="Username"
                                 v-model="user.username"
@@ -108,12 +108,12 @@
                                 placeholder="Username">
                             </b-form-input>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-12 col-12">
-                        <b-form-group>
-                            <label for="Password">Password</label>
+                        <b-form-group class="required">
+                            <label class="label" for="Password">Password</label>
                             <b-form-input
                                 id="Password"
                                 v-model="user.password"
@@ -126,12 +126,12 @@
                                 placeholder="Password">
                             </b-form-input>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-12 col-12">
-                        <b-form-group>
-                            <label for="password_confirmation">Password Confirmation</label>
+                        <b-form-group class="required">
+                            <label class="label" for="password_confirmation">Password Confirmation</label>
                             <b-form-input
                                 id="password_confirmation"
                                 v-model="PasswordConfirmation"
@@ -144,7 +144,7 @@
                                 placeholder="Password Confirmation">
                             </b-form-input>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <div class="alert alert-danger" v-show="errors.any()">
                     <div v-if="errors.has('password')">
@@ -162,7 +162,7 @@
                     <b-button class = "cancel-button" type="reset" v-on:click="redirect()">Cancel</b-button>
                 </div>
             </form>
-           
+
             <!-- <div
                 v-if="message && !successful"
                 class="alert"
@@ -179,6 +179,7 @@
             </card>
         </div>
     </div>
+    </div>
    <b-modal id="modal-success" v-model="successful" hide-footer centered title="Success!">
             <template v-slot:modal-title>
                 <div class="container">
@@ -189,17 +190,17 @@
                 <div class = "container">
                     <div class = "info">
                     <b-row>
-                        <b-col cols="3" class="modal-icon">
+                        <b-col cols="2" class="modal-icon">
                             <img src="@/assets/img/success-icon.png" alt="" width="60px">
                         </b-col>
-                        <b-col cols="9">
-                            <p id="modal-message">User was successfully updated.</p>
+                        <b-col cols="10">
+                            <p id="modal-message">User was successfully created.</p>
                         </b-col>
                     </b-row>
                     </div>
                     <b-row class="button-detail-group">
                         <router-link :to="{name: 'user'}">
-                          <b-button class="back-button">Ok</b-button>
+                          <b-button id="ok-button">OK</b-button>
                         </router-link>
                         <!-- <b-button @click="toDetailPage" class="see-button">
                             See Details
@@ -296,18 +297,17 @@ export default {
     margin-bottom: 10px;
 }
 .judul{
-    text-align: center;
-    color: black;
-    margin: 5px 0 24px 0;
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
 }
 .title-form {
-    text-align: center;
-    font-weight: 600;
-    margin-bottom: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 .isi-form{
-    margin-left: auto;
-    margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .save-button{
@@ -334,8 +334,9 @@ export default {
 }
 
 .button-group{
-    margin-top: 30px;
-    text-align: center;
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 .label{
     font-weight: 600;
@@ -347,11 +348,7 @@ export default {
     color: #109CF1;
     font-weight: 1000;
 }
-#ok-button{
-    color:#109CF1;
-    border-color:#109CF1;
-    background-color: white;
-}
+
 .button-confirm-group{
     text-align: right;
 }
@@ -372,9 +369,11 @@ h5{
 .button-detail-group{
     float:right;
     margin-top: 20px;
-    margin-bottom: -2px;
 }
-
+.required label:after {
+  content:" *";
+  color: red;
+}
 .back-button{
   color:#109CF1;
   border-color:#109CF1;
@@ -384,5 +383,13 @@ h5{
   line-height: 15px;
   text-align: center;
   font-size: 12px;
+}
+#ok-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  font-size: 12px;
+  line-height: 15px;
+  border-width: 1px;
 }
 </style>

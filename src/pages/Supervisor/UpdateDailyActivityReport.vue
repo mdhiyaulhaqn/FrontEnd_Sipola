@@ -262,7 +262,7 @@
               <img src="@/assets/img/update-confirm-icon.png" alt="" width="50px">
             </b-col>
             <b-col class="col-10">
-              <p id="modal-message">Daily activity report will be changed soon once you click the save button.</p>
+              <p id="modal-message">Daily activity report for site {{ dailyActivityReport.site }} will be changed soon once you click the save button.</p>
             </b-col>
           </b-row>
         </div>

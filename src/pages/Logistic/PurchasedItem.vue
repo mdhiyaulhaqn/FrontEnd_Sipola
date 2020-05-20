@@ -1,7 +1,7 @@
 <template>
-    <b-row class="items_row">
+    <b-row class="items_row" style="margin: 0 -15px 5px -7px;">
         <span class="col-md-4 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
-            <label class="label">Item</label>
+            <label class="label" style="margin-left: -8px;">Item</label>
         </span>
         <div class="col-md-4 col-sm-8 col-xs-8 col-7">
             <b-form-input
@@ -15,7 +15,7 @@
         </div>
 
         <span class="col-md-2 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
-            <label class="label">Quantity</label>
+            <label class="label" style="margin-left: -8px;">Quantity</label>
         </span>
         <div class="col-md-2 col-sm-8 col-xs-8 col-7">
             <b-form-input
@@ -30,7 +30,7 @@
         </div>
 
         <span class="col-md-2 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
-            <label class="label">UOM</label>
+            <label class="label" style="margin-left: -8px;">UOM</label>
         </span>
         <div class="col-md-2 col-sm-8 col-xs-8 col-7">
             <b-form-input
@@ -45,9 +45,9 @@
         </div>
 
         <span class="col-md-3 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
-            <label class="label">Unit Price (IDR)</label>
+            <label class="label" style="margin-left: -8px;">Unit Price (IDR)</label>
         </span>
-        <div class="col-md-3 col-sm-8 col-xs-8 col-7 text-center">
+        <div class="col-md-3 col-sm-8 col-xs-8 col-7 text-center" style="margin-bottom: 5px;">
             <b-form-input
                 id="price"
                 v-model="purchasedItem.pricePerUnit"
@@ -61,7 +61,7 @@
         </div>
 
         <span class="col-md-1 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none"></span>
-        <div class="col-md-1 col-sm-8 col-xs-8 col-7">
+        <div class="col-md-1 col-sm-8 col-xs-8 col-7" style="margin-bottom: 5px;">
             <b-button @click="$emit('delete-item', purchasedItem.id_purchased_item)" variant="danger"><i class="fas fa-trash-alt"></i></b-button>
         </div>
     </b-row>

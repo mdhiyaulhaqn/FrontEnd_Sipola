@@ -47,14 +47,14 @@
                 </b-form-group>
 
                 <div class="d-none d-md-block d-lg-block">
-                  <div class="row">
-                    <div class = "col-md-5">
+                  <div class="row" style="margin: 0 -15px -12px -15px;">
+                    <div class = "col-md-5 required">
                       <label class="label">Activity Name</label>
                     </div>
-                    <div class = "col-md-3">
+                    <div class = "col-md-3 required">
                       <label class="label">Start Date</label>
                     </div>
-                    <div class = "col-md-3">
+                    <div class = "col-md-3 required">
                       <label class="label">End Date</label>
                     </div>
                     <div class = "col-md-1">
@@ -69,9 +69,9 @@
                     </b-col>
                 </b-row>
 
-                <b-row>
-                    <div class ="col-sm-5 col-12">
-                      <button class="btn btn-primary add-button" @click="addRow()" variant="outline-primary">Add More Activity <span><img src="@/assets/img/add-circle-blue-icon.png" alt="" width="25px"></span></button>
+                <b-row style="margin-top: 2px;">
+                    <div class ="col-md-4 col-12">
+                      <b-button class="btn btn-primary add-button" @click="addRow()">Add More Activity <span><img src="@/assets/img/add-circle-blue-icon.png" alt="" width="18px" style="margin-top: -4px;"></span></b-button>
                     </div>
                 </b-row>
 
@@ -113,7 +113,7 @@
               <img src="@/assets/img/update-confirm-icon.png" alt="" width="50px">
             </b-col>
             <b-col class="col-10">
-              <p id="modal-message">Activity list schedule will be changed soon once you click the save button.</p>
+              <p id="modal-message">Activity list schedule for project {{activityListSchedule.namaProyek}} will be changed soon once you click the save button.</p>
             </b-col>
           </b-row>
         </div>
@@ -285,15 +285,15 @@ export default {
 
 .add-button{
   width: 100%;
+  color:#109CF1;
+  border-color:#109CF1;
   background-color: white;
-  color : #109cf1;
-  border-color: #109cf1;
-  margin-bottom: 10px;
-  border-width: 1.5px;
-  line-height: 12px;
+  border-width: 2px;
+  line-height: 20px;
   text-align: center;
   font-size: 14px;
-  font-weight: 500;
+  margin-bottom: 10px;
+  border-radius: 5px;
 }
 .judul{
   text-align: center;
