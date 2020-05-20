@@ -120,7 +120,7 @@
               <div v-if="perPage > users.length" class="my-2">
                 <b-card-sub-title>Showing {{ users.length }} of {{ users.length }}</b-card-sub-title>
               </div>
-              <div v-else-if="currentPage != 1" class="my-2">
+              <div v-else-if="currentPage != 1 && currentPage === Math.ceil(users.length/perPage)" class="my-2">
                 <b-card-sub-title>Showing {{ users.length % perPage }} of {{ users.length }}</b-card-sub-title>
               </div>
               <div v-else class="my-2">

@@ -114,7 +114,7 @@
               <div v-if="perPage > reimbursement.length" class="my-2">
                 <b-card-sub-title>Showing {{ reimbursement.length }} of {{ reimbursement.length }}</b-card-sub-title>
               </div>
-              <div v-else-if="currentPage != 1" class="my-2">
+              <div v-else-if="currentPage != 1 && currentPage === Math.ceil(reimbursement.length/perPage)" class="my-2">
                 <b-card-sub-title>Showing {{ reimbursement.length % perPage }} of {{ reimbursement.length }}</b-card-sub-title>
               </div>
               <div v-else class="my-2">
