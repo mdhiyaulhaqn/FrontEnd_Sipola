@@ -354,11 +354,11 @@ const routes = [
           is_finance : true
         }
       },
-      // {
-      //   path: "/",
-      //   name: "home",
-      //   component: Homepage
-      // }
+      {
+        path: "/home",
+        name: "home",
+        component: Homepage
+      },
       {
         path: "purchase-order",
         name: "purchase-order",
