@@ -294,7 +294,9 @@ export default {
         },
 
         deleteRow(id_purchased_item){
-            this.purchasedItems = this.purchasedItems.filter(result => result.id_purchased_item !== id_purchased_item);
+            if(this.purchasedItems.length > 1){
+                this.purchasedItems = this.purchasedItems.filter(result => result.id_purchased_item !== id_purchased_item);
+            }
         },
 
         onModal(evt){
