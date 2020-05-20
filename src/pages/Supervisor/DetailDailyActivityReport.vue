@@ -210,7 +210,7 @@
                   <img src="@/assets/img/delete-confirm-icon.png" alt="" width="50px">
               </b-col>
               <b-col class="col-10">
-                  <p id="modal-message">It will be removed from the list.</p>
+                  <p id="modal-message">Daily activity report for site {{dailyActivityReport.site}} will be removed from the list.</p>
               </b-col>
           </b-row>
         </div>
