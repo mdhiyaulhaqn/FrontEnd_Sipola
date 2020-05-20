@@ -8,7 +8,8 @@
       </b-breadcrumb>
       <h3 class="judul"><strong>User</strong></h3>
       <card>
-          <b-row align-h="between">
+        <b-container fluid>
+          <b-row align-h="between" style="margin-top: 12px;">
             <b-col md="2">
               <router-link :to="{name: 'user-add'}">
                 <b-button id ="add_user_button" class="btn btn-primary">
@@ -36,7 +37,7 @@
                     v-model="filter"
                     type="search"
                     id="filterInput"
-                    placeholder="user ... "
+                    placeholder="User ... "
                   ></b-form-input>
                   <b-input-group-append>
                     <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
@@ -62,34 +63,54 @@
             :sort-direction="sortDirection"
             @filtered="onFiltered"
             :borderless="true"
-            sort-icon-left
+            sort-icon-right
             :sticky-header="true"
             >
+            <template v-slot:head(index)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(username)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(role)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(name)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(noHP)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(email)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(edit)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
+            <template v-slot:head(delete)="data">
+              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+            </template>
 
-            <template v-slot:cell(id)="row">
-              {{items.indexOf(row.item) + 1}}
+            <template v-slot:cell(index)="row">
+              {{row.index + 1}}
             </template>
 
             <template v-slot:cell(role)="row">
               <div v-for="(role,index) in row.item.roles" :key="index">
-                <span id="role" v-if="role != 'ROLE_USER'">{{generateRole(role)}}</span>
+                <span v-if="role != 'ROLE_USER'">{{generateRole(role)}}</span>
               </div>
             </template>
 
-            <template v-slot:cell(date)="row">
-              {{ row.item.date | moment("ll") }}
-            </template>
-
-            <template v-slot:cell(update)="row">
+            <template v-slot:cell(edit)="row">
               <router-link :to="{name: 'user-update', params: {username:row.item.username}}">
                 <b-button id="view_button" class="btn btn-primary">
-                  Update
+                  Edit
                 </b-button>
               </router-link>
             </template>
 
             <template v-slot:cell(delete)="row">
-              <button v-b-modal.modal-delete id ="delete_button" class="btn btn-primary" @click="selectUser(row.item)">
+              <button v-b-modal.modal-delete id ="delete_button" class="btn btn-danger" @click="selectUser(row.item)">
                   Delete
               </button>
             </template>
@@ -149,30 +170,31 @@
               </div>
             </b-col>
           </b-row>
+        </b-container>
       </card>
     </div>
     <b-modal id="modal-delete" ref="modal-delete" hide-footer centered>
         <template v-slot:modal-title>
             <div class="container">
-                <h5 id="modal-title-delete-confirm">Delete User</h5>
+                <h5 id="modal-title-delete-confirm">Delete User?</h5>
             </div>
         </template>
         <template v-slot:default>
           <div class = "container">
               <div class = "info">
               <b-row>
-                  <b-col cols="3" class="modal-icon">
+                  <b-col cols="2" class="modal-icon">
                       <img src="@/assets/img/delete-confirm-icon.png" alt="" width="60px">
                   </b-col>
-                  <b-col cols="9">
-                      {{selectedUser.name}} will be deleted.
+                  <b-col cols="10">
+                      <p id="modal-message">User {{selectedUser.name}} will be deleted.</p>
                   </b-col>
               </b-row>
               </div>
               <b-row>
                   <b-col class="button-confirm-group">
                         <b-button @click="deleteUser()" id ="confirm_delete_button" variant="outline-danger">
-                          Yes, Delete it
+                          Yes, delete it
                       </b-button>
                       <b-button @click="hideModal" id ="cancel_delete_button" class="btn btn-danger">
                           Cancel
@@ -203,12 +225,12 @@
                     <img src="@/assets/img/success-icon.png" alt="" width="50px">
                     </b-col>
                     <b-col class="col-10">
-                    <p id="modal-message">{{selectedUser.name}} was successfully deleted.</p>
+                    <p id="modal-message">User {{selectedUser.name}} was successfully deleted.</p>
                     </b-col>
                 </b-row>
                 </div>
                 <b-row class="button-detail-group">
-                    <b-button @click="reload()" id="ok-button" variant="outline-primary">
+                    <b-button @click="reload()" id="ok-button">
                         OK
                     </b-button>
                 </b-row>
@@ -232,22 +254,22 @@ export default {
     return {
       users: [],
       fields: [
-        { key: 'id', label: 'No', sortable: false, },
+        { key: 'index', label: 'No'},
         { key: 'username', label: 'Username', sortable: true, },
         { key: 'role', label: 'Role', sortable: true, },
         { key: 'name', label: 'Nama', sortable: true, },
         { key: 'noHP', label: 'No HP', sortable: true, },
         { key: 'email', label: 'Email', sortable: true, },
-        { key: 'update', label: 'Update', },
+        { key: 'edit', label: 'Edit', },
         { key: 'delete', label: 'Delete', }
       ],
       totalRows: 1,
       currentPage: 1,
       perPage: 5,
       pageOptions: [5, 10, 25, 50, 100],
-      sortBy: '',
-      sortDesc: false,
-      sortDirection: 'asc',
+      sortBy: 'id',
+      sortDesc: true,
+      sortDirection: 'desc',
       filter: null,
       filterOn: [],
       selectedUser: null,
@@ -338,7 +360,7 @@ export default {
   color:white;
   border-color: transparent;
   font-size: 10px;
-  width: 136px;
+  width: 125px;
   height: 36px;
   margin-bottom: 4px;
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
@@ -355,7 +377,7 @@ export default {
 .judul{
   text-align: center;
   color: black;
-  margin: 5px 0 24px 0;
+  margin: 11px 0 24px 0;
 }
 #breadcrumb{
   font-size: 12px;
@@ -367,25 +389,21 @@ export default {
 .table{
   font-size: 12px;
 }
-#role{
-  font-size: 12px;
-}
 
 .button-group{
-    text-align: center;
-}
-
-button{
-    border-radius: 8px;
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 #delete_button{
-    font-size: 10px;
-    width: 56;
-    background-color: #ff3e1d;
-    color:white;
-    border-color: white;
-    line-height: 15px;
+  background-color: #FF3E1D;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  line-height: 8px;
+  width: 80px;
+  box-shadow: 0px 0px 1px #FF3E1D;
 }
 
 .button-confirm-group{
@@ -394,18 +412,21 @@ button{
 }
 
 #confirm_delete_button{
-    font-size: 10px;
-    width: 130px;
-    border-color: #ff3e1d;
-    border-width: 1px;
-    margin-right: 10px;
+  font-size: 12px;
+  width: 110px;
+  border-color: #ff3e1d;
+  border-width: 1px;
+  margin-right: 10px;
+  line-height: 15px;
 }
 
 #cancel_delete_button{
-    font-size: 10px;
-    background-color: #ff3e1d;
-    color:white;
-    border-color: white;
+  font-size: 12px;
+  background-color: #ff3e1d;
+  color:white;
+  border-color: white;
+  border-width: 1px;
+  line-height: 15px;
 }
 .button-detail-group{
     float:right;
@@ -430,7 +451,9 @@ button{
 #ok-button{
   color:#109CF1;
   border-color:#109CF1;
-  border-width: 1px;
   background-color: white;
+  font-size: 12px;
+  line-height: 15px;
+  border-width: 1px;
 }
 </style>

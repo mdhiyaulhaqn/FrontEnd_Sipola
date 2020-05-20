@@ -228,7 +228,7 @@
                         <img src="@/assets/img/success-icon.png" alt="" width="50px">
                         </b-col>
                         <b-col class="col-10">
-                        <p id="modal-message">Invoice no {{invoice.noInvoice}} was successfully changed.</p>
+                        <p id="modal-message">Invoice no. {{invoice.noInvoice}} was successfully changed.</p>
                     </b-col>
                 </b-row>
             </div>

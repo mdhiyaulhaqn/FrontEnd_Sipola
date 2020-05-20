@@ -1,5 +1,6 @@
 <template>
-  <div>
+<div class="row">
+  <div class="col-12">
     <b-breadcrumb id="breadcrumb">
       <b-breadcrumb-item :to="{name: 'user'}">
         User
@@ -10,14 +11,14 @@
     </b-breadcrumb>
     <h3 class="judul"><strong>Update User</strong></h3>
     <div class = "row">
-        <div class = "col-10 isi-form">
-            <card>
+        <div class = "col-md-8 col-sm-8 col-xs-8 col-12 d-block d-xs-block d-sm-block isi-form">
+            <card class="col">
             <form name="form" @submit.prevent="onConfirmation">
-                <h5 class = "title-form">Personal Information </h5>
+                <h5 class = "title-form">Personal Information</h5>
                 <b-row>
                     <div class = "col-md-12 col-12">
-                        <b-form-group>
-                            <label for="name">Name</label>
+                        <b-form-group class="required">
+                            <label class="label" for="name">Name</label>
                             <b-form-input
                                 id="Name"
                                 v-model="user.name"
@@ -28,12 +29,12 @@
                                 placeholder="Name">
                             </b-form-input>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-12 col-12">
-                        <b-form-group>
-                            <label for="Address">Address</label>
+                        <b-form-group class="required">
+                            <label class="label" for="Address">Address</label>
                             <b-form-input
                                 id="Address"
                                 v-model="user.alamat"
@@ -44,12 +45,12 @@
                                 placeholder="Address">
                             </b-form-input>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-12 col-12">
-                        <b-form-group>
-                            <label for="Phone Number">Phone Number</label>
+                        <b-form-group class="required">
+                            <label class="label" for="Phone Number">Phone Number</label>
                             <b-form-input
                                 id="Phone Number"
                                 v-model="user.noHP"
@@ -60,12 +61,12 @@
                                 placeholder="Phone Number">
                             </b-form-input>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <b-row>
                     <div class = "col-md-12 col-12">
-                        <b-form-group>
-                            <label for="Email">Email</label>
+                        <b-form-group class="required">
+                            <label class="label" for="Email">Email</label>
                             <b-form-input
                                 id="Email"
                                 v-model="user.email"
@@ -76,27 +77,27 @@
                                 placeholder="Email">
                             </b-form-input>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <h5 class = "title-form">Account Information </h5>
                 <b-row>
                     <div class = "col-md-12 col-12">
-                        <b-form-group>
-                            <label for="roles">Role</label>
+                        <b-form-group class="required">
+                            <label class="label" for="roles">Role</label>
                             <b-form-select v-model="selectedRole" :options="roles" required></b-form-select>
                             <div
                                 v-if="submitted && errors.has('role')"
                                 class="alert-danger"
                                 >{{errors.first('role')}}</div>
                         </b-form-group>
-                    </div>  
+                    </div>
                 </b-row>
                 <div class = "button-group">
                     <b-button class = "save-button" type="submit">Save</b-button>
                     <b-button class = "cancel-button" type="reset" v-on:click="redirect()">Cancel</b-button>
                 </div>
             </form>
-           
+
             <!-- <div
                 v-if="message && !successful"
                 class="alert"
@@ -113,6 +114,7 @@
             </card>
         </div>
     </div>
+    </div>
     <b-modal id="modal-confirm" v-model="confirmationModal" hide-footer centered>
         <template v-slot:modal-title>
                 <div class="container">
@@ -123,11 +125,11 @@
             <div class = "container">
                 <div class = "info">
                 <b-row>
-                    <b-col cols="3" class="modal-icon">
+                    <b-col cols="2" class="modal-icon">
                         <img src="@/assets/img/update-confirm-icon.png" alt="" width="60px">
                     </b-col>
-                    <b-col cols="9">
-                        <p id="modal-message">User will be changed soon once you click the save button.</p>
+                    <b-col cols="10">
+                        <p id="modal-message">User {{ user.username }} will be changed soon once you click the save button.</p>
                     </b-col>
                 </b-row>
                 </div>
@@ -142,7 +144,7 @@
             </div>
         </template>
         </b-modal>
-        <b-modal id="modal-success" v-model="successModal" hide-footer centered title="Success!">
+        <b-modal id="modal-success" v-model="successful" hide-footer centered title="Success!">
             <template v-slot:modal-title>
                 <div class="container">
                     <h5 id="modal-title-success">Success!</h5>
@@ -152,17 +154,17 @@
                 <div class = "container">
                     <div class = "info">
                     <b-row>
-                        <b-col cols="3" class="modal-icon">
+                        <b-col cols="2" class="modal-icon">
                             <img src="@/assets/img/success-icon.png" alt="" width="60px">
                         </b-col>
-                        <b-col cols="9">
-                            <p id="modal-message">User was successfully updated.</p>
+                        <b-col cols="10">
+                            <p id="modal-message">User {{ user.username }} was successfully changed.</p>
                         </b-col>
                     </b-row>
                     </div>
                     <b-row class="button-detail-group">
                         <router-link :to="{name: 'user'}">
-                          <b-button class="back-button">Ok</b-button>
+                          <b-button id="ok-button">OK</b-button>
                         </router-link>
                         <!-- <b-button @click="toDetailPage" class="see-button">
                             See Details
@@ -171,68 +173,6 @@
                 </div>
             </template>
         </b-modal>
-    <!-- <b-modal id="modal-confirm" v-model="confirmationModal" hide-footer centered>
-        <template v-slot:modal-title>
-                <div class="container">
-                    <h5 id="modal-title-success">Update User</h5>
-                </div>
-        </template>
-        <template v-slot:default>
-            <div class = "container">
-                <div class = "info">
-                <b-row>
-                    <b-col cols="3" class="modal-icon">
-                        <img src="@/assets/img/update-confirm-icon.png" alt="" width="60px">
-                    </b-col>
-                    <b-col cols="9">
-                        User will be changed soon once you click the save button
-                    </b-col>
-                </b-row>
-                </div>
-                <b-row>
-                    <b-col class="button-confirm-group">
-                        <b-button @click="hideModal" id ="cancel_update_button" class="cancel-button"> 
-                            Cancel
-                        </b-button>
-                        <b-button @click="updateUser()" type="submit" id ="confirm_delete_button" class="update-pengeluaran-button" v-b-modal.modal-success>
-                            Save
-                        </b-button>
-                    </b-col>
-                </b-row>
-            </div>
-        </template>
-    </b-modal>
-    <b-modal
-        id="modal-success"
-        centered
-        v-model="successful"
-        @ok="redirect()"
-        >
-        <template v-slot:modal-title>
-        <div class="container">
-            <h5 id="modal-title-success">Success!</h5>
-        </div>
-        </template>
-        <template v-slot:default>
-        <div class="container">
-            <b-row>
-            <b-col class="modal-icon col-2">
-                <img src="@/assets/img/success-icon.png" alt="" width="50px">
-            </b-col>
-            <b-col class="col-10">
-                <p id="modal-message">User was successfully updated.</p>
-            </b-col>
-            </b-row>
-        </div>
-        </template>
-        <template v-slot:modal-footer="{ ok }">
-        <b-col class="button-confirm-group">
-            <b-button @click="ok()" id="ok-button" variant="outline-primary">
-                Ok
-            </b-button>
-        </b-col>
-        </template>
-    </b-modal> -->
   </div>
 </template>
 
@@ -283,7 +223,7 @@ export default {
         this.getDetail();
     },
   methods: {
-    getDetail: function(){    
+    getDetail: function(){
         axios.get(this.url_deploy +this.$route.params.username, { headers: authHeader() })
         .then(res => {
             this.user = res.data.result;
@@ -304,7 +244,7 @@ export default {
     updateUser(){
         let roleId = this.getRoleId(this.selectedRole);
         this.selectedRole = "ROLE_" + this.selectedRole.toUpperCase();
-        
+
         this.role = new Role(roleId, this.selectedRole)
         this.user.roles.push(this.role);
         axios.put(this.url_deploy + this.$route.params.username + '/update', this.user, { headers: authHeader() })
@@ -376,9 +316,9 @@ export default {
     margin-bottom: 10px;
 }
 .judul{
-    text-align: center;
-    color: black;
-    margin: 5px 0 24px 0;
+  text-align: center;
+  color: black;
+  margin: 11px 0 24px 0;
 }
 .title-form {
     text-align: center;
@@ -390,30 +330,10 @@ export default {
     margin-right: auto;
 }
 
-.button-group{
-    margin-top: 30px;
-    text-align: center;
-}
 .label{
     font-weight: 600;
 }
-#modal-message{
-    font-size: 16px;
-}
-#modal-title-success{
-    color: #109CF1;
-    font-weight: 1000;
-}
-#ok-button{
-    color:#109CF1;
-    border-color:#109CF1;
-    background-color: white;
-}
-.button-confirm-group{
-    float: right;
-    margin-top: 20px;
-    margin-bottom: -2px;
-}
+
 h5{
     margin-bottom: -4px;
 }
@@ -427,7 +347,14 @@ h5{
 #termsConditions{
     height: 200px;
 }
-
+#ok-button{
+  color:#109CF1;
+  border-color:#109CF1;
+  background-color: white;
+  font-size: 12px;
+  line-height: 15px;
+  border-width: 1px;
+}
 .save-button{
   background-color: #109CF1;
   color:white;
@@ -483,23 +410,19 @@ h5{
 .button-confirm-group{
     float: right;
     margin-top: 20px;
-    margin-bottom: -2px;
+}
+.button-detail-group{
+    float:right;
+    margin-top: 20px;
 }
 
 .modal-icon{
     text-align: center;
 }
 
-.button-detail-group{
-    float:right;
-    margin-top: 20px;
-    margin-bottom: -2px;
-}
-
 #modal-title-success{
   color: #109CF1;
   font-weight: 1000;
-  margin-bottom: -4px;
 }
 
 #modal-message{
