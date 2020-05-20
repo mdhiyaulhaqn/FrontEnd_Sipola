@@ -16,7 +16,7 @@
             <template v-slot:first>
               <b-form-select-option :value="null" disabled>-- Year --</b-form-select-option>
             </template>
-            <option v-bind:key="year.index" v-for="year in currentYear" :value="year">{{ year }}</option>
+            <option v-bind:key="year.index" v-for="year in currentYear" :value="year" style="max-height: 50px">{{ year }}</option>
           </b-form-select>
         </div>
         <div class="col">
@@ -159,9 +159,9 @@ export default {
       optionsBar: null,
       borderColour : ['#315C9C',"#FF6F61", '#6B5B95', '#9B1B30', '#F5D6C6', '#5A3E36', '#E08119'],
       projectData : null,
-      list_income : null,
-      list_project : null,
-      list_expense : null,
+      list_income : {},
+      list_project : {},
+      list_expense : {},
       expense : '',
       income : '',
       order : '',
@@ -230,7 +230,7 @@ export default {
       console.log("list project: " + this.list_project)
       console.log("list income: " +this.list_income)
       console.log("list expense: " +this.list_expense)
-      if(this.list_project == null && this.list_income == null && this.list_expense == null){
+      if(this.list_project.length == 0 && this.list_income.length == 0 && this.list_expense.length == 0){
         this.failedModal = true;
       }
     },
