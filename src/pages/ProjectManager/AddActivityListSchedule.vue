@@ -68,7 +68,7 @@
 
                 <b-row style="margin-top: 2px;">
                   <div class ="col-12 col-md-4">
-                    <button class="btn btn-primary add-button" @click="addRow()">Add More Activity <span><img src="@/assets/img/add-circle-blue-icon.png" alt="" width="25px"></span></button>
+                    <b-button class="btn btn-primary add-button" @click="addRow()">Add More Activity <span><img src="@/assets/img/add-circle-blue-icon.png" alt="" width="18px" style="margin-top: -4px;"></span></b-button>
                   </div>
                 </b-row>
 

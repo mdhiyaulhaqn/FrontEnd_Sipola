@@ -107,7 +107,7 @@
 
                 <b-row style="margin-top: 7px;">
                     <b-col md="4">
-                        <button class="btn btn-primary add-button" @click="addRow()">+ Add Description</button>
+                        <button class="btn btn-primary add-button" @click="addRow()">Add Description <span><img src="@/assets/img/add-circle-blue-icon.png" alt="" width="18px" style="margin-top: -4px;"></span></button>
                     </b-col>
                 </b-row>
 
