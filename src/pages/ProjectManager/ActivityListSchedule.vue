@@ -72,7 +72,7 @@
               <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
             </template>
             <template v-slot:head(namaPerusahaan)="data">
-              <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+              <div class="te3xt-nowrap" style="font-size: 13px;">{{ data.label }}</div>
             </template>
             <template v-slot:head(startDate)="data">
               <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
