@@ -103,7 +103,9 @@
                 <label class="label">Working Conditions</label>
                 <div class = "row">
                   <div class = "col-md-4 col-12">
-                    <b-form-group class="required">
+                    <b-form-group class="required"
+                      :invalid-feedback="invalidFeedback1"
+                      :state="state">
                         <label class="label" for="start">Start Working Hour</label>
                         <b-form-input
                             id="start"
@@ -111,10 +113,13 @@
                             type="text"
                             :maxlength="255"
                             required
+                            :state="state"
                             placeholder="Start Working Hour">
                         </b-form-input>
                     </b-form-group>
-                    <b-form-group class="required">
+                    <b-form-group class="required"
+                    :invalid-feedback="invalidFeedback2"
+                    :state="state">
                         <label class="label" for="end">End Working Hour</label>
                         <b-form-input
                             id="end"
@@ -122,6 +127,7 @@
                             type="text"
                             :maxlength="255"
                             required
+                            :state="state"
                             placeholder="End Working Hour">
                         </b-form-input>
                     </b-form-group>
@@ -229,7 +235,8 @@
                   </div>
                 </div>
                 <div class = "button-group">
-                  <b-button class = "save-button" type="submit">Save</b-button>
+                  <b-button v-if="state" class = "save-button" type="submit">Save</b-button>
+                  <b-button v-else class = "save-button" type="submit" disabled>Save</b-button>
                   <b-button class = "cancel-button" type="reset">Cancel</b-button>
                 </div>
             </b-form>
@@ -332,6 +339,27 @@ export default {
       url_local: 'http://localhost:8080/api/daily-activity-report/',
       url_deploy: 'https://sipola-sixab.herokuapp.com/api/daily-activity-report/'
     }
+  },
+  computed:{
+    state() {
+        return this.newDailyActivityReport.end > this.newDailyActivityReport.start ? true : false
+    },
+    invalidFeedback1() {
+      if (this.newDailyActivityReport.start === '') return ''
+      if (this.newDailyActivityReport.end > this.newDailyActivityReport.start) {
+        return ''
+      } else {
+        return 'Start hour must be less than end hour.'
+      }
+    },
+    invalidFeedback2() {
+      if (this.newDailyActivityReport.end === '') return ''
+      if (this.newDailyActivityReport.end > this.newDailyActivityReport.start) {
+        return ''
+      } else {
+        return 'End hour must be more than start hour.'
+      }
+    },
   },
 
   methods: {
