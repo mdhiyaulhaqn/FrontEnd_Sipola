@@ -83,10 +83,10 @@
                             <label class="label">Service Order</label>
                         </div>
                         <div class="col-md-2 required">
-                            <label class="label">UOM</label>
+                            <label class="label">Quantity</label>
                         </div>
                         <div class="col-md-2 required">
-                            <label class="label">Quantity</label>
+                            <label class="label">UOM</label>
                         </div>
                         <div class="col-md-3 required">
                             <label class="label">Unit Price (IDR)</label>
@@ -140,7 +140,7 @@
                 <img src="@/assets/img/success-icon.png" alt="" width="50px">
                 </b-col>
                 <b-col class="col-10">
-                <p id="modal-message">Sales order was successfully added.</p>
+                <p id="modal-message">Sales order with PO number {{new_sales_order.poNumber}}  was successfully added.</p>
                 </b-col>
             </b-row>
             </div>
