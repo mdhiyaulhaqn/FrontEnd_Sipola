@@ -43,6 +43,11 @@
             </b-form>
           </b-row>
 
+          <div v-if="this.invalidDate" style="text-align:center; color: red;">
+            <p class="invalid-date-text">Date is invalid ! </p>
+            <p class="invalid-date-text">End date must be greater or equal to start date.</p>
+          </div>
+
           <!-- SUMMARY STATEMENT -->
           <b-container class="summary_statement">
             <b-row>
@@ -268,10 +273,10 @@
                       class="mb-0"
                     >
                       <b-form-select
-                        v-model="perPage"
+                        v-model="perPagePengeluaran"
                         id="perPageSelect"
                         size="sm"
-                        :options="pageOptions"
+                        :options="pageOptionsPengeluaran"
                       ></b-form-select>
                     </b-form-group>
                   </div>
@@ -281,8 +286,8 @@
                 <b-col>
                   <div style="margin: 10px 0 0 0;">
                     <b-pagination
-                      v-model="currentPage"
-                      :total-rows="totalRows"
+                      v-model="currentPagePengeluaran"
+                      :total-rows="totalRowsPengeluaran"
                       :per-page="perPage"
                       align="center"
                       size="sm"
@@ -336,10 +341,12 @@ export default {
       sortDescPengeluaran: true,
       sortDirectionPengeluaran: 'desc',
 
-      startDate : null,
-      endDate : null,
+      startDate : '',
+      endDate : '',
       totalPendapatan: 0,
       totalPengeluaran: 0,
+
+      invalidDate: false,
 
       url_local: "http://localhost:8080/api/",
       url_deploy: "https://sipola-sixab.herokuapp.com/api/",
@@ -353,7 +360,7 @@ export default {
     items() {
       this.totalRowsPengeluaran = this.pengeluaranList.length
       return this.pengeluaranList;
-    }
+    },
   },
   beforeMount(){
     this.getPendapatanPengeluaran();
@@ -390,15 +397,27 @@ export default {
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     },
     onSubmit(evt) {
-      if(this.startDate != null && this.endDate != null) {
-        this.$router.replace('?tanggalAwal=' + this.startDate + '&tanggalAkhir=' + this.endDate);
-      } else if (this.startDate != null){
-        this.$router.replace('?tanggalAwal=' + this.startDate);
-      } else if (this.endDate != null){
-        this.$router.replace('?tanggalAkhir=' + this.startDate);
+      if(this.startDate != '' && this.endDate != '' && this.startDate > this.endDate){
+        this.invalidDate = true;
+        this.$router.replace('');
+        console.log("INVALID");
       }
-      // this.$router.push({ name: 'income-expense-summary', query: {tanggalAwal:this.startDate, tanggalAkhir: this.endDate}});
-      this.getPendapatanPengeluaran()
+      else{
+        console.log("VALID");
+        if(this.startDate != '' && this.endDate != '') {
+          this.$router.replace('?tanggalAwal=' + this.startDate + '&tanggalAkhir=' + this.endDate);
+          console.log("Date Valid");
+        } else if (this.startDate != ''){
+          this.$router.replace('?tanggalAwal=' + this.startDate);
+        } else if (this.endDate != ''){
+          this.$router.replace('?tanggalAkhir=' + this.endDate);
+        } else {
+          console.log("VALID 0");
+          this.$router.replace('');
+        }
+        this.invalidDate = false;
+      }
+      this.getPendapatanPengeluaran();
     },
     redirect(){
         this.$router.push({ name: 'expense'});
@@ -451,6 +470,10 @@ export default {
     border-width: 1px;
     background-color: #109CF1;
     color:white;
+}
+
+.invalid-date-text{
+   font-size:14px;
 }
 
 p{
