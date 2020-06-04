@@ -150,7 +150,7 @@
                 <img src="@/assets/img/success-icon.png" alt="" width="50px">
             </b-col>
             <b-col class="col-10">
-                <p id="modal-message">Delivery order was successfully added.</p>
+                <p id="modal-message">Delivery order with PO number {{new_delivery_order.poNumber}} was successfully added.</p>
             </b-col>
             </b-row>
         </div>
@@ -233,7 +233,9 @@ export default {
         },
 
         deleteRow(id_product){
-            this.products = this.products.filter(result => result.id_product !== id_product);
+            if (this.products.length > 1) {
+                this.products = this.products.filter(result => result.id_product !== id_product);
+            }
         },
 
         onSubmit(evt) {

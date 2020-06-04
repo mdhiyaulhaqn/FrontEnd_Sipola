@@ -220,6 +220,7 @@ export default {
     },
 
     deleteRow(id_activity){
+      if (this.activities.length > 1)
         this.activities = this.activities.filter(result => result.id_activity !== id_activity);
     },
 

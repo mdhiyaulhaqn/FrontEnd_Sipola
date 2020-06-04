@@ -2,6 +2,9 @@
   <div class="wrapper">
     <side-bar v-if="currentUser">
       <template slot="links">
+        <div>
+          <sidebar-link to="/home" name="Homepage" icon="ti ti-home"/>
+        </div>
         <div v-if="showAdminBoard">
           <sidebar-link to="/user" name="Manage User" icon="ti ti-id-badge"/>
         </div>

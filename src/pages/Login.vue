@@ -1,14 +1,16 @@
 <template>
+<div class="row">
+<div class="col-12">
 <div class = "row">
-<div class = "col-md-6">
-  <div class = "logo-luar">
-        <img class="logo-sipola" src="@/assets/img/sipola-icon.png" alt="">
-        <div class = "logo-text">
-          PT SIXAB TEHNIK INDUSTRI
-        </div>
-    </div>
-</div>
-  <div class="col-md-6">
+  <div class = "col-md-6 col-sm-6 col-xs-6 col-12 d-block d-xs-block d-sm-block">
+    <div class = "logo-luar">
+          <img class="logo-sipola" src="@/assets/img/sipola-icon.png" alt="">
+          <div class = "logo-text">
+            PT SIXAB TEHNIK INDUSTRI
+          </div>
+      </div>
+  </div>
+  <div class="col-md-6 col-sm-6 col-xs-6 col-12 d-block d-xs-block d-sm-block">
     <div class="card card-container">
        <img class = "profile-img-card" src="@/assets/img/user-icon.png" alt="" width="30px" style="margin-top:5px">
       <form name="form" @submit.prevent="handleLogin">
@@ -51,7 +53,7 @@
         <div class="form-group">
           <button class="btn btn-primary btn-block" :disabled="loading">
             <span v-show="loading" class="spinner-border spinner-border-sm" style="margin-right:10px;"></span>
-            <span>Login</span>
+            <span style="font-size: 14px;">Login</span>
           </button>
         </div>
         <div class="form-group">
@@ -60,6 +62,8 @@
       </form>
     </div>
   </div>
+</div>
+</div>
 </div>
 </template>
 
@@ -82,7 +86,7 @@ export default {
   },
   created() {
     if (this.loggedIn) {
-      this.$router.push('/profile');
+      this.$router.push('/home');
     }
   },
   methods: {
@@ -97,7 +101,7 @@ export default {
         if (this.user.username && this.user.password) {
           this.$store.dispatch('auth/login', this.user).then(
             () => {
-              this.$router.push('/profile');
+              this.$router.push('/home');
             },
             error => {
               this.loading = false;
@@ -143,8 +147,8 @@ label {
 }
 
 .card-container.card {
-  max-width: 350px !important;
-  padding: 40px 40px;
+  max-width: 400px !important;
+  padding: 60px 40px;
 }
 
 .card {
@@ -152,7 +156,7 @@ label {
   padding: 20px 25px 30px;
   margin: 0 auto 25px;
   margin-top: 50px;
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .profile-img-card {

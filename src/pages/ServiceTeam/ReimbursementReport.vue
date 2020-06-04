@@ -104,19 +104,20 @@
                 </template>
 
                 <template v-slot:cell(statusReimburse)="row">
-                    <b-badge  v-if="row.item.statusReimburse === 1" pill variant="info" size=sm id ="status_reimbursement">
-                      On Progress
+                    <b-badge  v-if="row.item.statusReimburse === 1" pill variant="info" size=md id ="status_reimbursement">
+                      On Progress <i class="fas fa-spinner"></i>
                     </b-badge>
-                    <b-badge  v-if="row.item.statusReimburse === 2" pill variant="warning" size=sm id ="status_reimbursement">
-                      Sent
+                    <b-badge  v-if="row.item.statusReimburse === 2" pill variant="warning" size=md id ="status_reimbursement">
+                      Sent <i class="fas fa-paper-plane"></i>
                     </b-badge>
-                    <b-badge  v-if="row.item.statusReimburse === 3" pill variant="success" size=sm id ="status_reimbursement">
-                      Accepted
+                    <b-badge  v-if="row.item.statusReimburse === 3" pill variant="success" size=md id ="status_reimbursement">
+                      Accepted <i class="fas fa-check"></i>
                     </b-badge>
-                    <b-badge v-if="row.item.statusReimburse === 4" size=sm id ="status_reimbursement" style="background-color:#F89133; color:black">
-                      On Revision</b-badge>
-                    <b-badge  v-if="row.item.statusReimburse === 5" pill variant="danger" size=sm id ="status_reimbursement">
-                      Rejected
+                    <b-badge v-if="row.item.statusReimburse === 4" size=md id ="status_reimbursement" style="background-color:#F89133; color:black">
+                      On Revision <i class="fas fa-wrench"></i>
+                    </b-badge>
+                    <b-badge  v-if="row.item.statusReimburse === 5" pill variant="danger" size=md id ="status_reimbursement">
+                      Rejected <i class="fas fa-times"></i>
                     </b-badge>
                 </template>
 
@@ -203,7 +204,7 @@ export default {
   data() {
     return {
       reimbursement : [],
-
+      unfilteredReimbursement: [],
       totalRows: 1,
       currentPage: 1,
       perPage: 5,
@@ -242,6 +243,7 @@ export default {
 
   beforeMount(){
       this.getAllReimbursement();
+      this.filterUser();
   },
   methods:{
       onFiltered(filteredItems) {
@@ -251,8 +253,20 @@ export default {
       },
 
       getAllReimbursement: function(){
-          axios.get(this.url_deploy+ 'all', { headers: authHeader() })
-          .then(result => this.reimbursement = result.data.result);
+          axios.get(this.url_deploy + 'all', { headers: authHeader() })
+          .then(result => {this.unfilteredReimbursement = result.data.result, this.filterUser()});
+          
+      },
+      currentUser() {
+          return this.$store.state.auth.user;
+      },
+
+      filterUser() {
+        for (let i = 0; i < this.unfilteredReimbursement.length; i++){
+          if (this.unfilteredReimbursement[i].createdBy == this.currentUser().name) {
+            this.reimbursement.push(this.unfilteredReimbursement[i])
+          }
+        }
       },
   }
 };

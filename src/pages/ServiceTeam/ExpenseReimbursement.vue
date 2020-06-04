@@ -1,8 +1,8 @@
 <template>
-<b-row class="expense_row">
+<b-row class="expense_row" style="margin: 0 -15px 5px -7px;">
 
     <span class = "col-md-5 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
-        <label class="label">Expense Name</label>
+        <label class="label" style="margin-left: -8px;">Expense Name</label>
     </span>
 
     <div class = "col-md-5 col-sm-8 col-xs-8 col-7">
@@ -18,7 +18,7 @@
     </div>
 
     <span class = "col-md-3 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
-        <label class="label">Price (IDR)</label>
+        <label class="label" style="margin-left: -8px;">Price (IDR)</label>
     </span>
     <div class= "col-md-3 col-sm-8 col-xs-8 col-7">
            <b-form-input
@@ -34,9 +34,9 @@
     </div>
 
     <span class = "col-md-3 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
-        <label class="label">Date</label>
+        <label class="label" style="margin-left: -8px;">Date</label>
     </span>
-    <div class = "col-md-3 col-sm-8 col-xs-8 col-7">
+    <div class = "col-md-3 col-sm-8 col-xs-8 col-7" style="margin-bottom: 5px;">
            <b-form-input
             id="tanggal"
             v-model="expense.tanggal"
@@ -47,8 +47,8 @@
     </div>
 
     <span class = "col-md-1 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none"></span>
-    <div class = "col-md-1 col-sm-8 col-xs-8 col-7">
-        <b-button @click="$emit('del-expense', expense.id_expense)" variant="danger"><i class="fas fa-trash-alt"></i></b-button>
+    <div class = "col-md-1 col-sm-8 col-xs-8 col-7" style="margin-bottom: 5px;">
+        <b-button id="popover-button-variant" @click="$emit('del-expense', expense.id_expense)" variant="danger"><i class="fas fa-trash-alt"></i></b-button>
     </div>
 
 </b-row>
