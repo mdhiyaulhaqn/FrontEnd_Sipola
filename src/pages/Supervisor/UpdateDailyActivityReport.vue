@@ -80,6 +80,31 @@
                   <b-form-group class="required">
                     <label class="label">Manpower</label>
                     <b-table striped responsive="md" :small="true" stacked="md" :items="items" :fields="fields">
+                      <template v-slot:head(engineer)="data">
+                        <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                      </template>
+                      <template v-slot:head(technician)="data">
+                        <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                      </template>
+                      <template v-slot:head(foreman)="data">
+                        <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                      </template>
+                      <template v-slot:head(electrician)="data">
+                        <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                      </template>
+                      <template v-slot:head(dWorker)="data">
+                        <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                      </template>
+                      <template v-slot:head(driver)="data">
+                        <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                      </template>
+                      <template v-slot:head(misc)="data">
+                        <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                      </template>
+                      <template v-slot:head(supervisor)="data">
+                        <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                      </template>
+
                       <template v-slot:cell(engineer)>
                         <b-form-input v-model="dailyActivityReport.engineer" type="number" min="0"/>
                       </template>
@@ -110,27 +135,43 @@
                 <label class="label">Working Conditions</label>
                 <div class = "row">
                   <div class = "col-md-4 col-12">
-                    <b-form-group class="required">
+                    <b-form-group class="required"
+                      :invalid-feedback="invalidFeedback1"
+                      :state="state">
                         <label class="label" for="start">Start Working Hour</label>
-                        <b-form-input
+                        <b-form-timepicker
                             id="start"
                             v-model="dailyActivityReport.start"
-                            type="text"
-                            :maxlength="255"
                             required
-                            placeholder="Start Working Hour">
-                        </b-form-input>
+                            now-button
+                            now-button-variant="success"
+                            reset-button
+                            reset-button-variant="danger"
+                            close-button-variant="primary"
+                            label-now-button="Now"
+                            dropleft
+                            :hour12="false"
+                            :state="state">
+                        </b-form-timepicker>
                     </b-form-group>
-                    <b-form-group class="required">
+                    <b-form-group class="required"
+                      :invalid-feedback="invalidFeedback2"
+                      :state="state">
                         <label class="label" for="end">End Working Hour</label>
-                        <b-form-input
+                        <b-form-timepicker
                             id="end"
                             v-model="dailyActivityReport.end"
-                            type="text"
-                            :maxlength="255"
                             required
-                            placeholder="End Working Hour">
-                        </b-form-input>
+                            now-button
+                            now-button-variant="success"
+                            reset-button
+                            reset-button-variant="danger"
+                            close-button-variant="primary"
+                            label-now-button="Now"
+                            dropleft
+                            :hour12="false"
+                            :state="state">
+                        </b-form-timepicker>
                     </b-form-group>
                     <b-form-group>
                         <label class="label" for="overtime">Overtime</label>
@@ -139,7 +180,7 @@
                             v-model="dailyActivityReport.overtime"
                             :maxlength="255"
                             type="text"
-                            placeholder="Overtime">
+                            placeholder="Ex: 30 mins">
                         </b-form-input>
                     </b-form-group>
                   </div>
@@ -151,7 +192,7 @@
                             v-model="dailyActivityReport.morningWeather"
                             :maxlength="255"
                             type="text"
-                            placeholder="Morning Weather">
+                            placeholder="Ex: Clear">
                         </b-form-input>
                     </b-form-group>
                     <b-form-group>
@@ -161,7 +202,7 @@
                             v-model="dailyActivityReport.afternoonWeather"
                             :maxlength="255"
                             type="text"
-                            placeholder="Afternoon Weather">
+                            placeholder="Ex: Rainy">
                         </b-form-input>
                     </b-form-group>
                     <b-form-group>
@@ -171,7 +212,7 @@
                             v-model="dailyActivityReport.eveningWeather"
                             :maxlength="255"
                             type="text"
-                            placeholder="Evening Weather">
+                            placeholder="Ex: Fine">
                         </b-form-input>
                     </b-form-group>
                   </div>
@@ -182,7 +223,7 @@
                             id="remarks"
                             v-model="dailyActivityReport.remarks"
                             type="text"
-                            placeholder="Remarks"
+                            placeholder="Add notes here"
                             rows="9">
                         </b-form-textarea>
                     </b-form-group>
@@ -201,7 +242,7 @@
                           id="encounterProblem"
                           v-model="dailyActivityReport.encounterProblem"
                           type="text"
-                          placeholder="Encounter Problem"
+                          placeholder="Ex: Permission, tools, weather, etc."
                           >
                       </b-form-textarea>
                   </b-form-group>
@@ -365,6 +406,7 @@ export default {
         responsible : '',
         approvedBy : '',
       },
+      users: [],
       dailyActivityReport: '',
       show: true,
       successModal : false,
@@ -372,12 +414,35 @@ export default {
       confirmationModal : false,
       send : {objects : null},
       url_local: 'http://localhost:8080/api/daily-activity-report/',
-      url_deploy: 'https://sipola-sixab.herokuapp.com/api/daily-activity-report/'
+      url_deploy: 'https://sipola-sixab.herokuapp.com/api/daily-activity-report/',
+      url_deploy_users: 'https://sipola-sixab.herokuapp.com/api/user/'
     }
+  },
+  computed:{
+    state() {
+        return this.newDailyActivityReport.end > this.newDailyActivityReport.start ? true : false
+    },
+    invalidFeedback1() {
+      if (this.newDailyActivityReport.start === '') return ''
+      if (this.newDailyActivityReport.end > this.newDailyActivityReport.start) {
+        return ''
+      } else {
+        return 'Start hour must be less than end hour.'
+      }
+    },
+    invalidFeedback2() {
+      if (this.newDailyActivityReport.end === '') return ''
+      if (this.newDailyActivityReport.end > this.newDailyActivityReport.start) {
+        return ''
+      } else {
+        return 'End hour must be more than start hour.'
+      }
+    },
   },
 
   beforeMount() {
     this.getDetail();
+    this.getAllUser();
   },
 
   methods: {
@@ -401,6 +466,11 @@ export default {
 
     convertDate: function(){
       this.dailyActivityReport.date = this.dailyActivityReport.date.substring(0,10);
+    },
+
+    getAllUser: function(){
+      axios.get(this.url_deploy_users + 'all', { headers: authHeader() })
+      .then(response => this.users = response.data.result);
     },
 
     getDetail: function(){
