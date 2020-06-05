@@ -57,7 +57,7 @@
               <b-col class="">
                 <b-row align-h="between">
                   <p>:</p>
-                  <p>Rp{{formatPrice(totalPendapatan)}}</p>
+                  <p>Rp{{formatPrice(totalPendapatan)}}</p> 
                 </b-row>
               </b-col>
             </b-row>
