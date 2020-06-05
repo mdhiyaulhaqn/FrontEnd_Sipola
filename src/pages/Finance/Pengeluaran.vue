@@ -89,8 +89,8 @@
               {{row.index + 1}}
             </template>
 
-            <template v-slot:cell(nominal)="row">
-              Rp {{formatPrice(row.item.nominal)}}
+            <template v-slot:cell(nominal)="row"> 
+              Rp{{formatPrice(row.item.nominal)}}
             </template>
 
             <template v-slot:cell(tanggal)="row">
