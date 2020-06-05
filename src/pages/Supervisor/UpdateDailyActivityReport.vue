@@ -291,7 +291,8 @@
                   </div>
                 </div>
                 <div class = "button-group">
-                  <b-button class = "save-button" type="submit">Save</b-button>
+                  <b-button v-if="state" class = "save-button" type="submit">Save</b-button>
+                  <b-button v-else class = "save-button" type="submit" disabled>Save</b-button>
                   <router-link :to="{name: 'detail-daily-activity-report'}">
                     <b-button class="cancel-button" type="reset">Cancel</b-button>
                   </router-link>

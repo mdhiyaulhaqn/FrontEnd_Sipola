@@ -23,7 +23,7 @@
                     type="text"
                     required
                     :maxlength="255"
-                    placeholder="Project Name"
+                    placeholder="Ex: Replacement Radiators of Transformer UAT 2A, 54MVA"
                     pattern=".*[a-zA-Z].*"
                     >
                   </b-form-input>
@@ -36,11 +36,13 @@
                     v-model="newActivityListSchedule.namaPerusahaan"
                     type="text"
                     required
+                    list="list-name-company"
                     :maxlength="255"
-                    placeholder="Company Name"
+                    placeholder="Ex: PT TJB Power Services"
                     pattern=".*[a-zA-Z].*"
                     >
                   </b-form-input>
+                  <b-form-datalist id="list-name-company" :options="companyName"></b-form-datalist>
                 </b-form-group>
 
                 <div class="d-none d-md-block d-lg-block">
@@ -78,7 +80,7 @@
                         id="notes"
                         v-model="newActivityListSchedule.catatan"
                         type="text"
-                        placeholder="Notes"
+                        placeholder="Ex: Power supply provided by TJB, Top up oil , passivator prepared by TJB"
                         >
                     </b-form-textarea>
                 </b-form-group>
@@ -160,24 +162,28 @@ export default {
         tanggalSelesaiTugas : '',
         daftarTugas : '',
       },
+      companies: [],
+      companyName: [],
       show: true,
       successModal : false,
       failedModal : false,
       send : {objects : null},
       url_local: 'http://localhost:8080/api/activity-list-schedule/',
-      url_deploy: 'https://sipola-sixab.herokuapp.com/api/activity-list-schedule/'
+      url_deploy: 'https://sipola-sixab.herokuapp.com/api/activity-list-schedule/',
+      url_deploy_company: 'https://sipola-sixab.herokuapp.com/api/company/'
     }
   },
 
   beforeMount() {
     this.addRow();
+    this.getAllCompany();
   },
 
   methods: {
     addRow(){
       this.newActivity.id_activity++;
       let activity = Object.assign({}, this.newActivity);
-      this.activities.push(activity)
+      this.activities.push(activity);
     },
 
     deleteRow(id_activity){
@@ -205,6 +211,17 @@ export default {
     addActivityListSchedule(activityListSchedule){
         axios.post(this.url_deploy + 'add', activityListSchedule, { headers: authHeader() })
         .then(res => {this.newActivityListSchedule = res.data.result, this.showMessage(res.data.status)});
+    },
+
+    getAllCompany: function(){
+        axios.get( this.url_deploy_company + 'all', {headers : authHeader()})
+        .then(result => {this.companies = result.data.result, this.getCompanyName();});
+    },
+
+    getCompanyName(){
+      this.companies.map((company) => {
+        this.companyName.push(company.nama);
+      });
     },
 
     redirect(){
