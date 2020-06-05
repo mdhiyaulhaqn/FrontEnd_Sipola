@@ -173,7 +173,7 @@
                     <img src="@/assets/img/success-icon.png" alt="" width="50px">
                     </b-col>
                     <b-col class="col-10">
-                    <p id="modal-message">Quotation no. {{quotation.noQuotation}} was successfully deleted from list.list.</p>
+                    <p id="modal-message">Quotation no. {{quotation.noQuotation}} was successfully deleted from list.</p>
                     </b-col>
                 </b-row>
                 </div>
