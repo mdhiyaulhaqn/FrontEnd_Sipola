@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row" ontouchstart>
     <div class="col-12">
     <b-breadcrumb id="breadcrumb">
       <b-breadcrumb-item :to="{name: 'daily-activity-report'}">
@@ -51,13 +51,22 @@
                   <div class = "col-md-4 col-12">
                     <b-form-group class="required">
                         <label class="label" for="date">Date</label>
-                        <b-form-input
+                        <b-form-datepicker
                             id="date"
                             v-model="dailyActivityReport.date"
-                            type="date"
+                            size="sm"
+                            dark
+                            today-button
+                            reset-button
+                            close-button
+                            today-button-variant="success"
+                            label-today-button="Today"
+                            reset-button-variant="danger"
+                            close-button-variant="info"
+                            :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit', weekday: 'short' }"
                             required
                             disabled>
-                        </b-form-input>
+                        </b-form-datepicker>
                     </b-form-group>
                   </div>
                 </div>
@@ -141,6 +150,7 @@
                         <label class="label" for="start">Start Working Hour</label>
                         <b-form-timepicker
                             id="start"
+                            size="sm"
                             v-model="dailyActivityReport.start"
                             required
                             now-button
@@ -160,6 +170,7 @@
                         <label class="label" for="end">End Working Hour</label>
                         <b-form-timepicker
                             id="end"
+                            size="sm"
                             v-model="dailyActivityReport.end"
                             required
                             now-button
@@ -257,9 +268,10 @@
                             type="text"
                             required
                             :maxlength="255"
-                            placeholder="Responsible"
+                            list="list-name-responsible"
                             pattern=".*[a-zA-Z].*">
                         </b-form-input>
+                        <b-form-datalist id="list-name-responsible" :options="userName"></b-form-datalist>
                     </b-form-group>
                   </div>
                   <div class = "col-md-6 col-12">
@@ -270,9 +282,11 @@
                             v-model="dailyActivityReport.approvedBy"
                             type="text"
                             :maxlength="255"
-                            placeholder="Approved By"
+                            list="list-name-approvedBy"
+                            placeholder="Please fill with a person name"
                             pattern=".*[a-zA-Z].*">
                         </b-form-input>
+                        <b-form-datalist id="list-name-approvedBy" :options="userName"></b-form-datalist>
                     </b-form-group>
                   </div>
                 </div>
@@ -407,6 +421,7 @@ export default {
         approvedBy : '',
       },
       users: [],
+      userName: [],
       dailyActivityReport: '',
       show: true,
       successModal : false,
@@ -420,19 +435,19 @@ export default {
   },
   computed:{
     state() {
-        return this.newDailyActivityReport.end > this.newDailyActivityReport.start ? true : false
+      return this.dailyActivityReport.end > this.dailyActivityReport.start ? true : false
     },
     invalidFeedback1() {
-      if (this.newDailyActivityReport.start === '') return ''
-      if (this.newDailyActivityReport.end > this.newDailyActivityReport.start) {
+      if (this.dailyActivityReport.start === '') return ''
+      if (this.dailyActivityReport.end > this.dailyActivityReport.start) {
         return ''
       } else {
         return 'Start hour must be less than end hour.'
       }
     },
     invalidFeedback2() {
-      if (this.newDailyActivityReport.end === '') return ''
-      if (this.newDailyActivityReport.end > this.newDailyActivityReport.start) {
+      if (this.dailyActivityReport.end === '') return ''
+      if (this.dailyActivityReport.end > this.dailyActivityReport.start) {
         return ''
       } else {
         return 'End hour must be more than start hour.'
@@ -470,7 +485,13 @@ export default {
 
     getAllUser: function(){
       axios.get(this.url_deploy_users + 'all', { headers: authHeader() })
-      .then(response => this.users = response.data.result);
+      .then(response => {this.users = response.data.result, this.getUserName();});
+    },
+
+    getUserName(){
+      this.users.map((user) => {
+        this.userName.push(user.name);
+      });
     },
 
     getDetail: function(){

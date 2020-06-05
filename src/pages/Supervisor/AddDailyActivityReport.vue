@@ -46,12 +46,24 @@
                   <div class = "col-md-4 col-12">
                     <b-form-group class="required">
                         <label class="label" for="date">Date</label>
-                        <b-form-input
+                        <b-form-datepicker
                             id="date"
                             v-model="newDailyActivityReport.date"
-                            type="date"
+                            placeholder="Choose a date"
+                            size="sm"
+                            dark
+                            :min="min"
+                            :max="max"
+                            today-button
+                            reset-button
+                            close-button
+                            today-button-variant="success"
+                            label-today-button="Today"
+                            reset-button-variant="danger"
+                            close-button-variant="info"
+                            :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit', weekday: 'short' }"
                             required>
-                        </b-form-input>
+                        </b-form-datepicker>
                     </b-form-group>
                   </div>
                 </div>
@@ -248,19 +260,17 @@
                   <div class = "col-md-6 col-12">
                     <b-form-group class="required">
                         <label class="label" for="responsible">Responsible</label>
-                        <b-form-select
+                        <b-form-input
                             id="responsible"
                             v-model="newDailyActivityReport.responsible"
-                            required
+                            type="text"
                             :maxlength="255"
+                            required
+                            list="list-name-responsible"
+                            placeholder="Please fill with a person name"
                             pattern=".*[a-zA-Z].*">
-                          <template slot="responsible">
-                              <option :value="null" disabled>-- Choose Responsible --</option>
-                          </template>
-                          <option v-for="user in users" :key="user.id" :value="user">
-                              {{ user.name }}
-                          </option>
-                        </b-form-select>
+                        </b-form-input>
+                        <b-form-datalist id="list-name-responsible" :options="userName"></b-form-datalist>
                     </b-form-group>
                   </div>
                   <div class = "col-md-6 col-12">
@@ -271,9 +281,11 @@
                             v-model="newDailyActivityReport.approvedBy"
                             type="text"
                             :maxlength="255"
-                            placeholder="Approved By"
+                            list="list-name-approvedBy"
+                            placeholder="Please fill with a person name"
                             pattern=".*[a-zA-Z].*">
                         </b-form-input>
+                        <b-form-datalist id="list-name-approvedBy" :options="userName"></b-form-datalist>
                     </b-form-group>
                   </div>
                 </div>
@@ -336,6 +348,12 @@ import authHeader from '../../services/auth-header';
 
 export default {
   data() {
+    const now = new Date()
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    const minDate = new Date(today)
+    minDate.setFullYear(minDate.getFullYear() - 5)
+    const maxDate = new Date(today)
+    maxDate.setFullYear(maxDate.getFullYear() + 2)
     return {
       editor: ClassicEditor,
       fields: [
@@ -375,7 +393,10 @@ export default {
         approvedBy : '',
         createdBy: '',
       },
+      min: minDate,
+      max: maxDate,
       users: [],
+      userName: [],
       show: true,
       successModal : false,
       failedModal : false,
@@ -387,7 +408,8 @@ export default {
   },
   computed:{
     state() {
-        return this.newDailyActivityReport.end > this.newDailyActivityReport.start ? true : false
+      if ((this.newDailyActivityReport.end && this.newDailyActivityReport.start) === '') return null
+      return this.newDailyActivityReport.end > this.newDailyActivityReport.start ? true : false
     },
     invalidFeedback1() {
       if (this.newDailyActivityReport.start === '') return ''
@@ -435,7 +457,13 @@ export default {
 
     getAllUser: function(){
       axios.get(this.url_deploy_users + 'all', { headers: authHeader() })
-      .then(response => this.users = response.data.result);
+      .then(response => {this.users = response.data.result, this.getUserName();});
+    },
+
+    getUserName(){
+      this.users.map((user) => {
+        this.userName.push(user.name);
+      });
     },
 
     getManpower(){
