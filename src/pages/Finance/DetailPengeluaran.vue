@@ -16,7 +16,7 @@
                 <div class = "nama-pengeluaran">{{pengeluaran.nama}}</div>
                 <b-row align-h="end">
                     <b-col class="detail-label col-6 col-md-2">Nominal</b-col>
-                    <b-col cols="6" class="detail-text">: Rp {{formatPrice(pengeluaran.nominal)}}</b-col>
+                    <b-col cols="6" class="detail-text">: Rp{{formatPrice(pengeluaran.nominal)}}</b-col>
                 </b-row>
                 <b-row align-h="end">
                     <b-col class="detail-label col-6 col-md-2">Expense Date</b-col>
