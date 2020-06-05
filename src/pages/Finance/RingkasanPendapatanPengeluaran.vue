@@ -116,18 +116,18 @@
                 :borderless="true"
                 :sticky-header="true"
               >
-              <template v-slot:head(index)="data">
-                <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
-              </template>
-              <template v-slot:head(noInvoice)="data">
-                <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
-              </template>
-              <template v-slot:head(dateInvoice)="data">
-                <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
-              </template>
-              <template v-slot:head(nominal)="data">
-                <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
-              </template>
+                <template v-slot:head(index)="data">
+                  <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                </template>
+                <template v-slot:head(noInvoice)="data">
+                  <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                </template>
+                <template v-slot:head(dateInvoice)="data">
+                  <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                </template>
+                <template v-slot:head(nominal)="data">
+                  <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                </template>
 
                 <template v-slot:cell(index)="row">
                   {{ row.index + 1}}
@@ -142,7 +142,7 @@
                 </template>
               </b-table>
 
-              <b-row align-h="between">
+              <b-row align-h="between" id="income_row" v-if="this.isWindowSmall">
                 <b-col cols="4" style="width:300px">
                   <div v-if="perPage > pendapatanList.length" class="my-2">
                     <b-card-sub-title>Showing {{ pendapatanList.length }} of {{ pendapatanList.length }}</b-card-sub-title>
@@ -182,7 +182,7 @@
                   </div>
                 </b-col>
               </b-row>
-              <b-row>
+              <b-row v-if="this.isWindowSmall">
                 <b-col>
                   <div style="margin: 10px 0 0 0;">
                     <b-pagination
@@ -242,7 +242,124 @@
                 </template>
               </b-table>
 
-              <b-row align-h="between">
+              <b-row align-h="between" id="expense_row" v-if="this.isWindowSmall">
+                <b-col cols="4" style="width:300px">
+                  <div v-if="perPage > pengeluaranList.length" class="my-2">
+                    <b-card-sub-title>Showing {{ pengeluaranList.length }} of {{ pengeluaranList.length }}</b-card-sub-title>
+                  </div>
+                  <div v-else-if="currentPage != 1 && currentPage === Math.ceil(pengeluaranList.length/perPage)" class="my-2">
+                    <b-card-sub-title>Showing {{ pengeluaranList.length % perPage }} of {{ pengeluaranList.length }}</b-card-sub-title>
+                  </div>
+                  <div v-else class="my-2">
+                    <b-card-sub-title>Showing {{ perPage }} of {{ pengeluaranList.length }}</b-card-sub-title>
+                  </div>
+                </b-col>
+                <b-col cols="8">
+                  <div>
+                    <b-form-group
+                      label="Rows per page:"
+                      label-cols="8"
+                      label-cols-sm="8"
+                      label-cols-md="8"
+                      label-cols-xl="10"
+                      label-cols-lg="8"
+                      label-align="right"
+                      label-align-md="right"
+                      label-align-sm="right"
+                      label-align-lg="right"
+                      label-align-xl="right"
+                      label-size="sm"
+                      label-for="perPageSelect"
+                      class="mb-0"
+                    >
+                      <b-form-select
+                        v-model="perPagePengeluaran"
+                        id="perPageSelect"
+                        size="sm"
+                        :options="pageOptionsPengeluaran"
+                      ></b-form-select>
+                    </b-form-group>
+                  </div>
+                </b-col>
+              </b-row>
+              <b-row v-if="this.isWindowSmall">
+                <b-col>
+                  <div style="margin: 10px 0 0 0;">
+                    <b-pagination
+                      v-model="currentPagePengeluaran"
+                      :total-rows="totalRowsPengeluaran"
+                      :per-page="perPage"
+                      align="center"
+                      size="sm"
+                      class="my-1"
+                      style="margin-left: 0;"
+                    ></b-pagination>
+                  </div>
+                </b-col>
+              </b-row>
+            </b-col>
+          </b-row>
+
+          <b-row v-if="!this.isWindowSmall">
+            <b-col>
+              <b-row align-h="between" id="income_row">
+                <b-col cols="4" style="width:300px">
+                  <div v-if="perPage > pendapatanList.length" class="my-2">
+                    <b-card-sub-title>Showing {{ pendapatanList.length }} of {{ pendapatanList.length }}</b-card-sub-title>
+                  </div>
+                  <div v-else-if="currentPage != 1 && currentPage === Math.ceil(pendapatanList.length/perPage)" class="my-2">
+                    <b-card-sub-title>Showing {{ pendapatanList.length % perPage }} of {{ pendapatanList.length }}</b-card-sub-title>
+                  </div>
+                  <div v-else class="my-2">
+                    <b-card-sub-title>Showing {{ perPage }} of {{ pendapatanList.length }}</b-card-sub-title>
+                  </div>
+                </b-col>
+                <b-col cols="8">
+                  <div>
+                    <b-form-group
+                      label="Rows per page:"
+                      label-cols="8"
+                      label-cols-sm="8"
+                      label-cols-md="8"
+                      label-cols-xl="10"
+                      label-cols-lg="8"
+                      label-align="right"
+                      label-align-md="right"
+                      label-align-sm="right"
+                      label-align-lg="right"
+                      label-align-xl="right"
+                      label-size="sm"
+                      label-for="perPageSelect"
+                      class="mb-0"
+                    >
+                      <b-form-select
+                        v-model="perPage"
+                        id="perPageSelect"
+                        size="sm"
+                        :options="pageOptions"
+                      ></b-form-select>
+                    </b-form-group>
+                  </div>
+                </b-col>
+              </b-row>
+              <b-row>
+                <b-col>
+                  <div style="margin: 10px 0 0 0;">
+                    <b-pagination
+                      v-model="currentPage"
+                      :total-rows="totalRows"
+                      :per-page="perPage"
+                      align="center"
+                      size="sm"
+                      class="my-1"
+                      style="margin-left: 0;"
+                    ></b-pagination>
+                  </div>
+                </b-col>
+              </b-row>
+            </b-col>
+            <b-col>
+              <b-row align-h="between" id="expense_row">
                 <b-col cols="4" style="width:300px">
                   <div v-if="perPage > pengeluaranList.length" class="my-2">
                     <b-card-sub-title>Showing {{ pengeluaranList.length }} of {{ pengeluaranList.length }}</b-card-sub-title>
@@ -346,10 +463,11 @@ export default {
       totalPendapatan: 0,
       totalPengeluaran: 0,
 
-      invalidDate: false,
-
       url_local: "http://localhost:8080/api/",
       url_deploy: "https://sipola-sixab.herokuapp.com/api/",
+
+      invalidDate: false,
+      isWindowSmall: false,
     }
   },
   computed: {
@@ -364,6 +482,16 @@ export default {
   },
   beforeMount(){
     this.getPendapatanPengeluaran();
+  },
+  mounted(){
+    this.getPaginationCoordinate();
+  },
+  created() {
+      window.addEventListener('resize', this.handleResize);
+      this.handleResize();
+  },
+  destroyed() {
+      window.removeEventListener('resize', this.handleResize);
   },
   methods: {
     getPendapatanPengeluaran: function(){
@@ -401,6 +529,11 @@ export default {
         this.invalidDate = true;
         this.$router.replace('');
         console.log("INVALID");
+        // Reset data
+        this.totalPendapatan = 0;
+        this.totalPengeluaran = 0;
+        this.pengeluaranList = [];
+        this.pendapatanList = [];
       }
       else{
         console.log("VALID");
@@ -416,8 +549,16 @@ export default {
           this.$router.replace('');
         }
         this.invalidDate = false;
+        this.getPendapatanPengeluaran();
       }
-      this.getPendapatanPengeluaran();
+      
+    },
+    handleResize() {
+        if(window.innerWidth <= 659){
+          this.isWindowSmall = true;
+        } else {
+          this.isWindowSmall = false;
+        }
     },
     redirect(){
         this.$router.push({ name: 'expense'});
