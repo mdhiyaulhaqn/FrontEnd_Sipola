@@ -57,7 +57,7 @@
               <b-col class="">
                 <b-row align-h="between">
                   <p>:</p>
-                  <p>Rp {{formatPrice(totalPendapatan)}}</p>
+                  <p>Rp{{formatPrice(totalPendapatan)}}</p> 
                 </b-row>
               </b-col>
             </b-row>
@@ -68,7 +68,7 @@
               <b-col class="">
                 <b-row align-h="between">
                   <p>:</p>
-                  <p>Rp {{formatPrice(this.totalPengeluaran)}}</p>
+                  <p>Rp{{formatPrice(this.totalPengeluaran)}}</p>
                 </b-row>
               </b-col>
             </b-row>
@@ -80,7 +80,7 @@
               <b-col class="">
                 <b-row align-h="between">
                   <p class="profit">:</p>
-                  <p class="profit">Rp {{formatPrice(this.totalPendapatan - this.totalPengeluaran)}}</p>
+                  <p class="profit">Rp{{formatPrice(this.totalPendapatan - this.totalPengeluaran)}}</p>
                 </b-row>
               </b-col>
             </b-row>
@@ -92,7 +92,7 @@
               <b-col class="">
                 <b-row align-h="between">
                   <p class="loss">:</p>
-                  <p class="loss">Rp {{formatPrice(this.totalPendapatan - this.totalPengeluaran)}}</p>
+                  <p class="loss">Rp{{formatPrice(this.totalPendapatan - this.totalPengeluaran)}}</p>
                 </b-row>
               </b-col>
             </b-row>
@@ -134,7 +134,7 @@
                 </template>
 
                 <template v-slot:cell(nominal)="row">
-                  Rp {{formatPrice(row.item.nominal)}}
+                  Rp{{formatPrice(row.item.nominal)}}
                 </template>
 
                 <template v-slot:cell(dateInvoice)="row">
@@ -234,7 +234,7 @@
                 </template>
 
                 <template v-slot:cell(nominal)="row">
-                  Rp {{formatPrice(row.item.nominal)}}
+                  Rp{{formatPrice(row.item.nominal)}}
                 </template>
 
                 <template v-slot:cell(tanggal)="row">
