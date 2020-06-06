@@ -106,6 +106,14 @@
               {{ row.value | moment("ll") }}
             </template>
 
+            <template v-slot:cell(start)="row">
+              {{ row.value.slice(0, 5) }}
+            </template>
+
+            <template v-slot:cell(end)="row">
+              {{ row.value.slice(0, 5) }}
+            </template>
+
             <template v-slot:cell(approvedBy)="row">
               <div v-if="row.value != ''">
                 {{ row.value }}
