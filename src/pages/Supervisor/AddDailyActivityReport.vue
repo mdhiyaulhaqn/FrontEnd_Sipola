@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row" ontouchstart>
     <div class="col-12">
     <b-breadcrumb id="breadcrumb">
       <b-breadcrumb-item :to="{name: 'daily-activity-report'}">
@@ -25,7 +25,7 @@
                             type="text"
                             required
                             :maxlength="255"
-                            placeholder="Site Name"
+                            placeholder="Ex: PLTU TJB 2 x 660MW"
                             pattern=".*[a-zA-Z].*">
                         </b-form-input>
                     </b-form-group>
@@ -39,19 +39,31 @@
                             type="text"
                             required
                             :maxlength="255"
-                            placeholder="Purchase Order No.">
+                            placeholder="Ex: TJB-PC 20202">
                         </b-form-input>
                     </b-form-group>
                   </div>
                   <div class = "col-md-4 col-12">
                     <b-form-group class="required">
                         <label class="label" for="date">Date</label>
-                        <b-form-input
+                        <b-form-datepicker
                             id="date"
                             v-model="newDailyActivityReport.date"
-                            type="date"
+                            placeholder="Choose a date"
+                            size="sm"
+                            dark
+                            :min="min"
+                            :max="max"
+                            today-button
+                            reset-button
+                            close-button
+                            today-button-variant="success"
+                            label-today-button="Today"
+                            reset-button-variant="danger"
+                            close-button-variant="info"
+                            :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit', weekday: 'short' }"
                             required>
-                        </b-form-input>
+                        </b-form-datepicker>
                     </b-form-group>
                   </div>
                 </div>
@@ -73,6 +85,31 @@
                   <b-form-group class="required">
                     <label class="label">Manpower</label>
                     <b-table striped responsive="md" :small="true" stacked="md" :items="items" :fields="fields">
+                      <template v-slot:head(engineer)="data">
+                        <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                      </template>
+                      <template v-slot:head(technician)="data">
+                        <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                      </template>
+                      <template v-slot:head(foreman)="data">
+                        <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                      </template>
+                      <template v-slot:head(electrician)="data">
+                        <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                      </template>
+                      <template v-slot:head(dWorker)="data">
+                        <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                      </template>
+                      <template v-slot:head(driver)="data">
+                        <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                      </template>
+                      <template v-slot:head(misc)="data">
+                        <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                      </template>
+                      <template v-slot:head(supervisor)="data">
+                        <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                      </template>
+
                       <template v-slot:cell(engineer)="row">
                         <b-form-input v-model="row.item.engineer" type="number" min="0"/>
                       </template>
@@ -103,27 +140,47 @@
                 <label class="label">Working Conditions</label>
                 <div class = "row">
                   <div class = "col-md-4 col-12">
-                    <b-form-group class="required">
+                    <b-form-group class="required"
+                      :invalid-feedback="invalidFeedback1"
+                      :state="state">
                         <label class="label" for="start">Start Working Hour</label>
-                        <b-form-input
+                        <b-form-timepicker
                             id="start"
+                            size="sm"
                             v-model="newDailyActivityReport.start"
-                            type="text"
-                            :maxlength="255"
                             required
-                            placeholder="Start Working Hour">
-                        </b-form-input>
+                            now-button
+                            now-button-variant="success"
+                            reset-button
+                            reset-button-variant="danger"
+                            close-button-variant="primary"
+                            label-now-button="Now"
+                            dropleft
+                            :hour12="false"
+                            :state="state"
+                            placeholder="Choose a time">
+                        </b-form-timepicker>
                     </b-form-group>
-                    <b-form-group class="required">
+                    <b-form-group class="required"
+                    :invalid-feedback="invalidFeedback2"
+                    :state="state">
                         <label class="label" for="end">End Working Hour</label>
-                        <b-form-input
+                        <b-form-timepicker
                             id="end"
+                            size="sm"
                             v-model="newDailyActivityReport.end"
-                            type="text"
-                            :maxlength="255"
                             required
-                            placeholder="End Working Hour">
-                        </b-form-input>
+                            now-button
+                            now-button-variant="success"
+                            reset-button
+                            reset-button-variant="danger"
+                            close-button-variant="primary"
+                            label-now-button="Now"
+                            dropleft
+                            :hour12="false"
+                            :state="state"
+                            placeholder="Choose a time">
+                        </b-form-timepicker>
                     </b-form-group>
                     <b-form-group>
                         <label class="label" for="overtime">Overtime</label>
@@ -132,7 +189,7 @@
                             v-model="newDailyActivityReport.overtime"
                             type="text"
                             :maxlength="255"
-                            placeholder="Overtime">
+                            placeholder="Ex: 30 mins">
                         </b-form-input>
                     </b-form-group>
                   </div>
@@ -144,7 +201,7 @@
                             v-model="newDailyActivityReport.morningWeather"
                             type="text"
                             :maxlength="255"
-                            placeholder="Morning Weather">
+                            placeholder="Ex: Clear">
                         </b-form-input>
                     </b-form-group>
                     <b-form-group>
@@ -154,7 +211,7 @@
                             v-model="newDailyActivityReport.afternoonWeather"
                             type="text"
                             :maxlength="255"
-                            placeholder="Afternoon Weather">
+                            placeholder="Ex: Rainy">
                         </b-form-input>
                     </b-form-group>
                     <b-form-group>
@@ -164,7 +221,7 @@
                             v-model="newDailyActivityReport.eveningWeather"
                             type="text"
                             :maxlength="255"
-                            placeholder="Evening Weather">
+                            placeholder="Ex: Fine">
                         </b-form-input>
                     </b-form-group>
                   </div>
@@ -175,7 +232,7 @@
                             id="remarks"
                             v-model="newDailyActivityReport.remarks"
                             type="text"
-                            placeholder="Remarks"
+                            placeholder="Add notes here"
                             rows="9">
                         </b-form-textarea>
                     </b-form-group>
@@ -194,7 +251,7 @@
                           id="encounterProblem"
                           v-model="newDailyActivityReport.encounterProblem"
                           type="text"
-                          placeholder="Encounter Problem"
+                          placeholder="Ex: Permission, tools, weather, etc."
                           >
                       </b-form-textarea>
                   </b-form-group>
@@ -207,11 +264,13 @@
                             id="responsible"
                             v-model="newDailyActivityReport.responsible"
                             type="text"
-                            required
                             :maxlength="255"
-                            placeholder="Responsible"
+                            required
+                            list="list-name-responsible"
+                            placeholder="Please fill with a person name"
                             pattern=".*[a-zA-Z].*">
                         </b-form-input>
+                        <b-form-datalist id="list-name-responsible" :options="userName"></b-form-datalist>
                     </b-form-group>
                   </div>
                   <div class = "col-md-6 col-12">
@@ -222,14 +281,17 @@
                             v-model="newDailyActivityReport.approvedBy"
                             type="text"
                             :maxlength="255"
-                            placeholder="Approved By"
+                            list="list-name-approvedBy"
+                            placeholder="Please fill with a person name"
                             pattern=".*[a-zA-Z].*">
                         </b-form-input>
+                        <b-form-datalist id="list-name-approvedBy" :options="userName"></b-form-datalist>
                     </b-form-group>
                   </div>
                 </div>
                 <div class = "button-group">
-                  <b-button class = "save-button" type="submit">Save</b-button>
+                  <b-button v-if="state" class = "save-button" type="submit">Save</b-button>
+                  <b-button v-else class = "save-button" type="submit" disabled>Save</b-button>
                   <b-button class = "cancel-button" type="reset">Cancel</b-button>
                 </div>
             </b-form>
@@ -286,6 +348,12 @@ import authHeader from '../../services/auth-header';
 
 export default {
   data() {
+    const now = new Date()
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    const minDate = new Date(today)
+    minDate.setFullYear(minDate.getFullYear() - 5)
+    const maxDate = new Date(today)
+    maxDate.setFullYear(maxDate.getFullYear() + 2)
     return {
       editor: ClassicEditor,
       fields: [
@@ -325,13 +393,44 @@ export default {
         approvedBy : '',
         createdBy: '',
       },
+      min: minDate,
+      max: maxDate,
+      users: [],
+      userName: [],
       show: true,
       successModal : false,
       failedModal : false,
       send : {objects : null},
       url_local: 'http://localhost:8080/api/daily-activity-report/',
-      url_deploy: 'https://sipola-sixab.herokuapp.com/api/daily-activity-report/'
+      url_deploy: 'https://sipola-sixab.herokuapp.com/api/daily-activity-report/',
+      url_deploy_users: 'https://sipola-sixab.herokuapp.com/api/user/'
     }
+  },
+  computed:{
+    state() {
+      if ((this.newDailyActivityReport.end && this.newDailyActivityReport.start) === '') return null
+      return this.newDailyActivityReport.end > this.newDailyActivityReport.start ? true : false
+    },
+    invalidFeedback1() {
+      if (this.newDailyActivityReport.start === '') return ''
+      if (this.newDailyActivityReport.end > this.newDailyActivityReport.start) {
+        return ''
+      } else {
+        return 'Start hour must be less than end hour.'
+      }
+    },
+    invalidFeedback2() {
+      if (this.newDailyActivityReport.end === '') return ''
+      if (this.newDailyActivityReport.end > this.newDailyActivityReport.start) {
+        return ''
+      } else {
+        return 'End hour must be more than start hour.'
+      }
+    },
+  },
+
+  beforeMount() {
+    this.getAllUser();
   },
 
   methods: {
@@ -354,6 +453,17 @@ export default {
     addDailyActivityReport(dailyActivityReport){
         axios.post(this.url_deploy + 'add', dailyActivityReport, { headers: authHeader() })
         .then(res => {this.newDailyActivityReport = res.data.result, this.showMessage(res.data.status)});
+    },
+
+    getAllUser: function(){
+      axios.get(this.url_deploy_users + 'all', { headers: authHeader() })
+      .then(response => {this.users = response.data.result, this.getUserName();});
+    },
+
+    getUserName(){
+      this.users.map((user) => {
+        this.userName.push(user.name);
+      });
     },
 
     getManpower(){

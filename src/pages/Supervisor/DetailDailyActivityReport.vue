@@ -321,8 +321,13 @@ export default {
 
     getDetail: function(){
       axios.get(this.url_deploy + this.$route.params.id, { headers: authHeader() })
-      .then(response => {this.dailyActivityReport = response.data.result, this.all.push(response.data.result)})
+      .then(response => {this.dailyActivityReport = response.data.result, this.all.push(response.data.result), this.sliceTime()})
       .catch(err => this.dailyActivityReport = err.data);
+    },
+
+    sliceTime(){
+      this.dailyActivityReport.start = this.dailyActivityReport.start.slice(0, 5);
+      this.dailyActivityReport.end = this.dailyActivityReport.end.slice(0, 5);
     },
 
     deleteDailyActivityReport(dailyActivityReport){
