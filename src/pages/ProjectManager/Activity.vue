@@ -1,6 +1,6 @@
 <template>
 
-<b-row class="activity_row" style="margin: 0 -15px 5px -7px;">
+<b-row class="activity_row" style="margin: 0 -15px -12px -7px;">
     <span class="col-md-5 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
         <label class="label" style="margin-left: -8px;">Activity Name</label>
     </span>
@@ -38,7 +38,7 @@
     <span class="col-md-3 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
         <label class="label" style="margin-left: -8px;">End Date</label>
     </span>
-    <div class = "col-md-3 col-sm-8 col-xs-8 col-7" style="margin-bottom: 5px;">
+    <div class = "col-md-3 col-sm-8 col-xs-8 col-7">
       <b-form-group :invalid-feedback="invalidFeedback2" :state="state">
         <b-form-input
             id="tanggalSelesaiTugas"
@@ -52,7 +52,7 @@
     </div>
 
     <span class = "col-md-1 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none"></span>
-    <div class = "col-md-1 col-sm-8 col-xs-8 col-7" style="margin-bottom: 5px;">
+    <div class = "col-md-1 col-sm-8 col-xs-8 col-7" style="margin-bottom: 20px;">
         <b-button @click="$emit('del-activity', activity.id_activity)" variant="danger"><i class="fas fa-trash-alt"></i></b-button>
     </div>
 

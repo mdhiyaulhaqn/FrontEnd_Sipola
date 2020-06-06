@@ -46,7 +46,7 @@
                 </b-form-group>
 
                 <div class="d-none d-md-block d-lg-block">
-                  <div class="row" style="margin: 0 -15px -12px -15px;">
+                  <div class="row" style="margin: 0 -22px -12px -15px;">
                     <div class = "col-md-5 required">
                       <label class="label">Activity Name</label>
                     </div>
@@ -68,7 +68,7 @@
                   </b-col>
                 </b-row>
 
-                <b-row style="margin-top: 2px;">
+                <b-row>
                   <div class ="col-12 col-md-4">
                     <b-button class="btn btn-primary add-button" @click="addRow()">Add More Activity <span><img src="@/assets/img/add-circle-blue-icon.png" alt="" width="18px" style="margin-top: -4px;"></span></b-button>
                   </div>
