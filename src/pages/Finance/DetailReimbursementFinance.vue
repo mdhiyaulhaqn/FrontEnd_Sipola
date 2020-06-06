@@ -15,9 +15,11 @@
             <card class="col">
                 <b-row>
                     <h5 class = "col-lg-7 col-sm-7 col-6 sub-judul"><strong>Reimbursement Report</strong></h5>
-                    <div class="col-lg-3 col-sm-3 col-6 grup-status" style="float:right;">
-                      <div class="col-lg-6 col-sm-6 col-12 status" >Status</div>
-                      <div class="col-lg-6 col-sm-6 col-8">
+                </b-row>
+                <b-row>
+                    <div class="grup-status">
+                      <div class="col-lg-10 col-sm-10 col-12 " >Status</div>
+                      <div class="col-lg-10 col-sm-10 col-12">
                         <b-badge  v-if="reimbursement.statusReimburse === 2" pill variant="info" size=md id ="status_reimbursement">
                           Not Reviewed <i class="fas fa-spinner"></i>
                         </b-badge>
@@ -34,23 +36,23 @@
                     </div>
                 </b-row>
                 <b-row>
-                    <div class = "col-lg-2 col-sm-2 col-6">Created By</div>
+                    <div class = "col-lg-3 col-sm-2 col-6">Created By</div>
                     <div class = "col-lg-5 col-sm-5 col-6">: {{reimbursement.createdBy}}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-lg-2 col-sm-2 col-6">Created at</div>
+                    <div class = "col-lg-3 col-sm-2 col-6">Created at</div>
                     <div class = "col-lg-5 col-sm-5 col-6">: {{ reimbursement.createdAt.slice(0, 19) | moment('lll')}}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-lg-2 col-sm-2 col-6">ID Report</div>
+                    <div class = "col-lg-3 col-sm-2 col-6">ID Report</div>
                     <div class = "col-lg-5 col-sm-5 col-6">: {{reimbursement.id}}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-lg-2 col-sm-2 col-6">Project Description</div>
+                    <div class = "col-lg-3 col-sm-2 col-6">Project Description</div>
                     <div class = "col-lg-5 col-sm-5 col-6">: {{ reimbursement.projectName}}</div>
                 </b-row>
                 <b-row>
-                    <div class = "col-lg-2 col-sm-2 col-6">Total</div>
+                    <div class = "col-lg-3 col-sm-2 col-6">Total</div>
                     <div class = "col-lg-5 col-sm-5 col-6">: {{reimbursement.totalReimburse | currency}}</div>
                 </b-row>
                 <b-row>
@@ -584,11 +586,6 @@ img {
   border: solid 1px gray;
 }
 
-.grup-status{
-  position: absolute;
-  right: 16px;
-}
-
 .download-all {
   float: right;
   cursor: pointer;
@@ -602,6 +599,20 @@ img {
   line-height: 8px;
   width: 80px;
   box-shadow: 0px 0px 15px rgba(16, 156, 241, 0.2);
+}
+
+.grup-status{
+  position: absolute;
+  right: 16px;
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .grup-status {
+    position: relative;
+    float: none;
+    right: 0px;
+  }
 }
 
 </style>
