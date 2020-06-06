@@ -249,7 +249,7 @@ export default {
         },
 
         getDetail: function(){
-            axios.get(this.url_local +this.$route.params.id, { headers: authHeader() })
+            axios.get(this.url_deploy +this.$route.params.id, { headers: authHeader() })
             .then(res => {this.delivery_order = res.data, this.getNumber(), this.company = res.data.company})
             .catch(err => this.delivery_order = err.data);
         },
