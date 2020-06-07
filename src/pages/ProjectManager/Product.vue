@@ -40,7 +40,7 @@
             id="projectNo"
             v-model="product.projectNo"
             type="text"
-            placeholder="Project / Service No"
+            placeholder="Pro / Serv No"
             pattern=".*[a-zA-Z0-9-].*"
             >
         </b-form-input>
