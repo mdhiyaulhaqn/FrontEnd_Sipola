@@ -23,7 +23,7 @@
                             v-model="new_sales_order.noSalesOrder"
                             type="text"
                             required
-                            placeholder="Sales Order Number">
+                            placeholder="Ex : R19022">
                         </b-form-input>
                     </b-form-group>
                     </b-col>
@@ -47,7 +47,7 @@
                         v-model="new_sales_order.poNumber"
                         type="text"
                         required
-                        placeholder="Sales Order Number">
+                        placeholder="Ex : POO5-C06190400007">
                     </b-form-input>
                 </b-form-group>
 
