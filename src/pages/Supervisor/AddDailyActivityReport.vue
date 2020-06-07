@@ -39,7 +39,8 @@
                             type="text"
                             required
                             :maxlength="255"
-                            placeholder="Ex: TJB-PC 20202">
+                            placeholder="Ex: TJB-PC 20202"
+                            pattern=".*[a-zA-Z0-9].*">
                         </b-form-input>
                     </b-form-group>
                   </div>
@@ -189,7 +190,8 @@
                             v-model="newDailyActivityReport.overtime"
                             type="text"
                             :maxlength="255"
-                            placeholder="Ex: 30 mins">
+                            placeholder="Ex: 30 mins"
+                            pattern="[a-zA-Z0-9]">
                         </b-form-input>
                     </b-form-group>
                   </div>
@@ -201,7 +203,8 @@
                             v-model="newDailyActivityReport.morningWeather"
                             type="text"
                             :maxlength="255"
-                            placeholder="Ex: Clear">
+                            placeholder="Ex: Clear"
+                            pattern="[a-zA-Z]">
                         </b-form-input>
                     </b-form-group>
                     <b-form-group>
@@ -211,7 +214,8 @@
                             v-model="newDailyActivityReport.afternoonWeather"
                             type="text"
                             :maxlength="255"
-                            placeholder="Ex: Rainy">
+                            placeholder="Ex: Rainy"
+                            pattern="[a-zA-Z]">
                         </b-form-input>
                     </b-form-group>
                     <b-form-group>
@@ -221,7 +225,8 @@
                             v-model="newDailyActivityReport.eveningWeather"
                             type="text"
                             :maxlength="255"
-                            placeholder="Ex: Fine">
+                            placeholder="Ex: Fine"
+                            pattern="[a-zA-Z]">
                         </b-form-input>
                     </b-form-group>
                   </div>
@@ -268,7 +273,7 @@
                             required
                             list="list-name-responsible"
                             placeholder="Please fill with a person name"
-                            pattern=".*[a-zA-Z].*">
+                            pattern="[a-zA-Z]">
                         </b-form-input>
                         <b-form-datalist id="list-name-responsible" :options="userName"></b-form-datalist>
                     </b-form-group>
@@ -283,7 +288,7 @@
                             :maxlength="255"
                             list="list-name-approvedBy"
                             placeholder="Please fill with a person name"
-                            pattern=".*[a-zA-Z].*">
+                            pattern="[a-zA-Z]">
                         </b-form-input>
                         <b-form-datalist id="list-name-approvedBy" :options="userName"></b-form-datalist>
                     </b-form-group>
