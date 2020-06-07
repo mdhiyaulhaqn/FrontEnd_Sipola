@@ -57,7 +57,7 @@
               <b-col class="">
                 <b-row align-h="between">
                   <p>:</p>
-                  <p>Rp{{formatPrice(totalPendapatan)}}</p> 
+                  <p>Rp{{formatPrice(totalPendapatan)}}</p>
                 </b-row>
               </b-col>
             </b-row>
@@ -129,8 +129,12 @@
                   <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
                 </template>
 
-                <template v-slot:cell(index)="row">
-                  {{ row.index + 1}}
+                <template v-if="currentPage === 1" v-slot:cell(index)="row">
+                  {{ row.index + 1 }}
+                </template>
+
+                <template v-else v-slot:cell(index)="row">
+                  {{ row.index + 1 + (perPage * (currentPage - 1)) }}
                 </template>
 
                 <template v-slot:cell(nominal)="row">
@@ -229,8 +233,12 @@
                   <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
                 </template>
 
-                <template v-slot:cell(index)="row">
-                  {{row.index + 1}}
+                <template v-if="currentPage === 1" v-slot:cell(index)="row">
+                  {{ row.index + 1 }}
+                </template>
+
+                <template v-else v-slot:cell(index)="row">
+                  {{ row.index + 1 + (perPage * (currentPage - 1)) }}
                 </template>
 
                 <template v-slot:cell(nominal)="row">
@@ -551,7 +559,7 @@ export default {
         this.invalidDate = false;
         this.getPendapatanPengeluaran();
       }
-      
+
     },
     handleResize() {
         if(window.innerWidth <= 659){

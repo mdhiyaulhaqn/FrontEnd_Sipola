@@ -90,8 +90,12 @@
                 <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
               </template>
 
-              <template v-slot:cell(index)="row">
-                  {{row.index + 1}}
+              <template v-if="currentPage === 1" v-slot:cell(index)="row">
+                {{ row.index + 1 }}
+              </template>
+
+              <template v-else v-slot:cell(index)="row">
+                {{ row.index + 1 + (perPage * (currentPage - 1)) }}
               </template>
 
               <template v-slot:cell(date)="row">
