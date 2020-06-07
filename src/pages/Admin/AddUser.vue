@@ -122,9 +122,18 @@
                                 class="form-control"
                                 name="password"
                                 ref="password"
+                                :state="checkPassword"
+                                aria-describedby="password-help password-feedback"
                                 required
+                                pattern="^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$"
                                 placeholder="Password">
                             </b-form-input>
+
+                            <b-form-invalid-feedback id="password-feedback">
+                              {{ invalidFeedbackPassword }}
+                            </b-form-invalid-feedback>
+
+                            <b-form-text id="password-help">Password must be alphanumeric and at least 6 characters.</b-form-text>
                         </b-form-group>
                     </div>
                 </b-row>
@@ -138,11 +147,15 @@
                                 type="password"
                                 class="form-control"
                                 name="password_confirmation"
-                                v-validate="'required|confirmed:password'"
+                                :state="checkPasswordConfirmation"
+                                aria-describedby="confirm-password-feedback"
                                  data-vv-as="password"
                                 required
                                 placeholder="Password Confirmation">
                             </b-form-input>
+                            <b-form-invalid-feedback id="confirm-password-feedback">
+                              {{ invalidFeedbackPasswordConfirmation }}
+                            </b-form-invalid-feedback>
                         </b-form-group>
                     </div>
                 </b-row>
@@ -242,7 +255,25 @@ export default {
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
-    }
+    },
+    checkPassword(){
+      if (this.user.password === '') return null
+      return this.user.password.length >= 6 && new RegExp("^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$").test(this.user.password)? true : false
+    },
+    checkPasswordConfirmation(){
+      if (this.user.password === '') return null
+      if (this.PasswordConfirmation === '') return null
+      return this.user.password === this.PasswordConfirmation ? true : false
+    },
+    invalidFeedbackPassword(){
+      if (this.user.password === '') return ''
+      if (this.user.password.length < 6) return 'Please enter at least 6 characters.'
+      if (!new RegExp("^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$").test(this.user.password)) return 'Please enter a combination of letter and number.'
+    },
+    invalidFeedbackPasswordConfirmation(){
+      if (this.PasswordConfirmation === null) return ''
+      else if (this.user.password != this.PasswordConfirmation) return 'Password did not match.'
+    },
   },
   mounted() {
     // if (this.loggedIn) {
