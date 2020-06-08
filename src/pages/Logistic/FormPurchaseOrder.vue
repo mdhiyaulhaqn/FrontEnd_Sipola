@@ -173,7 +173,7 @@
                         <img src="@/assets/img/success-icon.png" alt="" width="50px">
                     </b-col>
                     <b-col class="col-10">
-                        <p id="modal-message">Purchase order was successfully added.</p>
+                        <p id="modal-message">Purchase order no. {{purchaseOrder.noPurchaseOrder}} was successfully added.</p>
                     </b-col>
                     </b-row>
                 </div>
@@ -202,6 +202,7 @@ import PurchasedItem from '@/pages/Logistic/PurchasedItem.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
 import authHeader from '../../services/auth-header';
+import VTooltip from 'v-tooltip';
 
 export default {
     components : {
@@ -214,6 +215,9 @@ export default {
 
             purchasedItems: [],
             id_purchased_item : {id:0},
+
+            text: null,
+            msg: "Lot/Pcs/Set/Liter",
 
             purchaseOrder : {
                 noPurchaseOrder : '',
