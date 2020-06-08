@@ -33,7 +33,7 @@
                                         v-model="invoice.noInvoice"
                                         type="text"
                                         required
-                                        placeholder="Invoice Number">
+                                        placeholder="Invoice Number (Ex. 001/I/2020)">
                                     </b-form-input>
                                 </b-form-group>
                             </div>
@@ -153,7 +153,7 @@
                                         v-model="invoice.paymentTerms"
                                         type="text"
                                         required
-                                        placeholder="Payment Terms"
+                                        placeholder="Payment Terms (Ex. 90 days after invoice)"
                                         pattern="[a-zA-Z0-9\s]+"
                                         >
                                     </b-form-input>
@@ -168,7 +168,7 @@
                                         v-model="invoice.termsOfDelivery"
                                         type="text"
                                         required
-                                        placeholder="Terms of Delivery"
+                                        placeholder="Terms of Delivery (Ex. Franco)"
                                         pattern="[a-zA-Z\s]+"
                                         >
                                     </b-form-input>
@@ -200,7 +200,7 @@
                         <img src="@/assets/img/success-icon.png" alt="" width="50px">
                     </b-col>
                     <b-col class="col-10">
-                        <p id="modal-message">Invoice was successfully added.</p>
+                        <p id="modal-message">Invoice no.{{invoice.noInvoice}} was successfully added.</p>
                     </b-col>
                     </b-row>
                 </div>
