@@ -49,6 +49,7 @@
                         <div class = "col-md-3 col-6">: {{ purchaseOrder.createdAt.slice(0, 19) | moment('lll') }}</div>
                     </b-row>
 
+                    <br>
                     <b-row>
                         <div class = "col-lg-6 col-sm-4 col-12"><br>
                             Purchased Items
