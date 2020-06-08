@@ -39,6 +39,7 @@
                 type="text"
                 required
                 placeholder="UOM"
+                pattern = "[a-zA-Z]+"
                 >
             </b-form-input>
         </div>
