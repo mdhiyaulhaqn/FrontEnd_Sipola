@@ -40,10 +40,13 @@
           <input
             v-model="user.password"
             v-validate="'required'"
-            type="password"
+            :type="passwordFieldType"
             class="form-control"
             name="password"
           />
+          <a class="field-view" v-show="invisible" @click="viewPassword()"><i class="fas fa-eye"></i></a>
+          <a class="field-notview" v-show="!invisible" @click="viewPassword()"><i class="fas fa-eye-slash"></i></a>
+
           <div
             v-if="errors.has('password')"
             class="alert alert-danger"
@@ -76,7 +79,10 @@ export default {
     return {
       user: new User('', ''),
       loading: false,
-      message: ''
+      message: '',
+      passwordFieldType: 'password',
+      invisible: true,
+      icon: 'fas fa-eye'
     };
   },
   computed: {
@@ -113,6 +119,16 @@ export default {
           );
         }
       });
+    },
+    viewPassword() {
+      if (this.passwordFieldType === 'password') {
+        this.passwordFieldType = 'text'
+        this.invisible = false;
+        console.log(this.icon)
+      } else {
+        this.passwordFieldType = 'password'
+        this.invisible = true;
+      }
     }
   }
 };
@@ -167,5 +183,19 @@ label {
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   border-radius: 50%;
+}
+
+.field-view {
+  position: relative;
+  float: right;
+  margin-top: -30px;
+  margin-right: 10px;
+}
+
+.field-notview {
+  position: relative;
+  float: right;
+  margin-top: -30px;
+  margin-right: 10px;
 }
 </style>
