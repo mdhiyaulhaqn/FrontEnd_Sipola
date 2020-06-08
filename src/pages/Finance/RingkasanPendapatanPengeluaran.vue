@@ -43,6 +43,11 @@
             </b-form>
           </b-row>
 
+          <div v-if="this.invalidDate" style="text-align:center; color: red;">
+            <p class="invalid-date-text">Date is invalid ! </p>
+            <p class="invalid-date-text">End date must be greater or equal to start date.</p>
+          </div>
+
           <!-- SUMMARY STATEMENT -->
           <b-container class="summary_statement">
             <b-row>
@@ -111,21 +116,25 @@
                 :borderless="true"
                 :sticky-header="true"
               >
-              <template v-slot:head(index)="data">
-                <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
-              </template>
-              <template v-slot:head(noInvoice)="data">
-                <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
-              </template>
-              <template v-slot:head(dateInvoice)="data">
-                <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
-              </template>
-              <template v-slot:head(nominal)="data">
-                <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
-              </template>
+                <template v-slot:head(index)="data">
+                  <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                </template>
+                <template v-slot:head(noInvoice)="data">
+                  <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                </template>
+                <template v-slot:head(dateInvoice)="data">
+                  <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                </template>
+                <template v-slot:head(nominal)="data">
+                  <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                </template>
 
-                <template v-slot:cell(index)="row">
-                  {{ row.index + 1}}
+                <template v-if="currentPage === 1" v-slot:cell(index)="row">
+                  {{ row.index + 1 }}
+                </template>
+
+                <template v-else v-slot:cell(index)="row">
+                  {{ row.index + 1 + (perPage * (currentPage - 1)) }}
                 </template>
 
                 <template v-slot:cell(nominal)="row">
@@ -137,7 +146,171 @@
                 </template>
               </b-table>
 
-              <b-row align-h="between">
+              <b-row align-h="between" id="income_row" v-if="this.isWindowSmall">
+                <b-col cols="4" style="width:300px">
+                  <div v-if="perPage > pendapatanList.length" class="my-2">
+                    <b-card-sub-title>Showing {{ pendapatanList.length }} of {{ pendapatanList.length }}</b-card-sub-title>
+                  </div>
+                  <div v-else-if="currentPage != 1 && currentPage === Math.ceil(pendapatanList.length/perPage)" class="my-2">
+                    <b-card-sub-title>Showing {{ pendapatanList.length % perPage }} of {{ pendapatanList.length }}</b-card-sub-title>
+                  </div>
+                  <div v-else class="my-2">
+                    <b-card-sub-title>Showing {{ perPage }} of {{ pendapatanList.length }}</b-card-sub-title>
+                  </div>
+                </b-col>
+                <b-col cols="8">
+                  <div>
+                    <b-form-group
+                      label="Rows per page:"
+                      label-cols="8"
+                      label-cols-sm="8"
+                      label-cols-md="8"
+                      label-cols-xl="10"
+                      label-cols-lg="8"
+                      label-align="right"
+                      label-align-md="right"
+                      label-align-sm="right"
+                      label-align-lg="right"
+                      label-align-xl="right"
+                      label-size="sm"
+                      label-for="perPageSelect"
+                      class="mb-0"
+                    >
+                      <b-form-select
+                        v-model="perPage"
+                        id="perPageSelect"
+                        size="sm"
+                        :options="pageOptions"
+                      ></b-form-select>
+                    </b-form-group>
+                  </div>
+                </b-col>
+              </b-row>
+              <b-row v-if="this.isWindowSmall">
+                <b-col>
+                  <div style="margin: 10px 0 0 0;">
+                    <b-pagination
+                      v-model="currentPage"
+                      :total-rows="totalRows"
+                      :per-page="perPage"
+                      align="center"
+                      size="sm"
+                      class="my-1"
+                      style="margin-left: 0;"
+                    ></b-pagination>
+                  </div>
+                </b-col>
+              </b-row>
+            </b-col>
+
+            <!-- EXPENSE TABLE -->
+            <b-col style="width: 200px">
+              <p class="list-label">Expense List</p>
+              <b-table
+                show-empty
+                small
+                stacked="md"
+                :items="items"
+                :fields="fields"
+                :current-page="currentPagePengeluaran"
+                :per-page="perPagePengeluaran"
+                :sort-by.sync="sortByPengeluaran"
+                :sort-desc.sync="sortDescPengeluaran"
+                :sort-direction="sortDirectionPengeluaran"
+                :borderless="true"
+                :sticky-header="true"
+              >
+                <template v-slot:head(index)="data">
+                  <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                </template>
+                <template v-slot:head(nama)="data">
+                  <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                </template>
+                <template v-slot:head(tanggal)="data">
+                  <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                </template>
+                <template v-slot:head(nominal)="data">
+                  <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
+                </template>
+
+                <template v-if="currentPage === 1" v-slot:cell(index)="row">
+                  {{ row.index + 1 }}
+                </template>
+
+                <template v-else v-slot:cell(index)="row">
+                  {{ row.index + 1 + (perPage * (currentPage - 1)) }}
+                </template>
+
+                <template v-slot:cell(nominal)="row">
+                  Rp{{formatPrice(row.item.nominal)}}
+                </template>
+
+                <template v-slot:cell(tanggal)="row">
+                  {{row.item.tanggal | moment("ll")}}
+                </template>
+              </b-table>
+
+              <b-row align-h="between" id="expense_row" v-if="this.isWindowSmall">
+                <b-col cols="4" style="width:300px">
+                  <div v-if="perPage > pengeluaranList.length" class="my-2">
+                    <b-card-sub-title>Showing {{ pengeluaranList.length }} of {{ pengeluaranList.length }}</b-card-sub-title>
+                  </div>
+                  <div v-else-if="currentPage != 1 && currentPage === Math.ceil(pengeluaranList.length/perPage)" class="my-2">
+                    <b-card-sub-title>Showing {{ pengeluaranList.length % perPage }} of {{ pengeluaranList.length }}</b-card-sub-title>
+                  </div>
+                  <div v-else class="my-2">
+                    <b-card-sub-title>Showing {{ perPage }} of {{ pengeluaranList.length }}</b-card-sub-title>
+                  </div>
+                </b-col>
+                <b-col cols="8">
+                  <div>
+                    <b-form-group
+                      label="Rows per page:"
+                      label-cols="8"
+                      label-cols-sm="8"
+                      label-cols-md="8"
+                      label-cols-xl="10"
+                      label-cols-lg="8"
+                      label-align="right"
+                      label-align-md="right"
+                      label-align-sm="right"
+                      label-align-lg="right"
+                      label-align-xl="right"
+                      label-size="sm"
+                      label-for="perPageSelect"
+                      class="mb-0"
+                    >
+                      <b-form-select
+                        v-model="perPagePengeluaran"
+                        id="perPageSelect"
+                        size="sm"
+                        :options="pageOptionsPengeluaran"
+                      ></b-form-select>
+                    </b-form-group>
+                  </div>
+                </b-col>
+              </b-row>
+              <b-row v-if="this.isWindowSmall">
+                <b-col>
+                  <div style="margin: 10px 0 0 0;">
+                    <b-pagination
+                      v-model="currentPagePengeluaran"
+                      :total-rows="totalRowsPengeluaran"
+                      :per-page="perPage"
+                      align="center"
+                      size="sm"
+                      class="my-1"
+                      style="margin-left: 0;"
+                    ></b-pagination>
+                  </div>
+                </b-col>
+              </b-row>
+            </b-col>
+          </b-row>
+
+          <b-row v-if="!this.isWindowSmall">
+            <b-col>
+              <b-row align-h="between" id="income_row">
                 <b-col cols="4" style="width:300px">
                   <div v-if="perPage > pendapatanList.length" class="my-2">
                     <b-card-sub-title>Showing {{ pendapatanList.length }} of {{ pendapatanList.length }}</b-card-sub-title>
@@ -193,51 +366,8 @@
                 </b-col>
               </b-row>
             </b-col>
-
-            <!-- EXPENSE TABLE -->
-            <b-col style="width: 200px">
-              <p class="list-label">Expense List</p>
-              <b-table
-                show-empty
-                small
-                stacked="md"
-                :items="items"
-                :fields="fields"
-                :current-page="currentPagePengeluaran"
-                :per-page="perPagePengeluaran"
-                :sort-by.sync="sortByPengeluaran"
-                :sort-desc.sync="sortDescPengeluaran"
-                :sort-direction="sortDirectionPengeluaran"
-                :borderless="true"
-                :sticky-header="true"
-              >
-                <template v-slot:head(index)="data">
-                  <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
-                </template>
-                <template v-slot:head(nama)="data">
-                  <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
-                </template>
-                <template v-slot:head(tanggal)="data">
-                  <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
-                </template>
-                <template v-slot:head(nominal)="data">
-                  <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
-                </template>
-
-                <template v-slot:cell(index)="row">
-                  {{row.index + 1}}
-                </template>
-
-                <template v-slot:cell(nominal)="row">
-                  Rp{{formatPrice(row.item.nominal)}}
-                </template>
-
-                <template v-slot:cell(tanggal)="row">
-                  {{row.item.tanggal | moment("ll")}}
-                </template>
-              </b-table>
-
-              <b-row align-h="between">
+            <b-col>
+              <b-row align-h="between" id="expense_row">
                 <b-col cols="4" style="width:300px">
                   <div v-if="perPage > pengeluaranList.length" class="my-2">
                     <b-card-sub-title>Showing {{ pengeluaranList.length }} of {{ pengeluaranList.length }}</b-card-sub-title>
@@ -268,10 +398,10 @@
                       class="mb-0"
                     >
                       <b-form-select
-                        v-model="perPage"
+                        v-model="perPagePengeluaran"
                         id="perPageSelect"
                         size="sm"
-                        :options="pageOptions"
+                        :options="pageOptionsPengeluaran"
                       ></b-form-select>
                     </b-form-group>
                   </div>
@@ -281,8 +411,8 @@
                 <b-col>
                   <div style="margin: 10px 0 0 0;">
                     <b-pagination
-                      v-model="currentPage"
-                      :total-rows="totalRows"
+                      v-model="currentPagePengeluaran"
+                      :total-rows="totalRowsPengeluaran"
                       :per-page="perPage"
                       align="center"
                       size="sm"
@@ -336,13 +466,16 @@ export default {
       sortDescPengeluaran: true,
       sortDirectionPengeluaran: 'desc',
 
-      startDate : null,
-      endDate : null,
+      startDate : '',
+      endDate : '',
       totalPendapatan: 0,
       totalPengeluaran: 0,
 
       url_local: "http://localhost:8080/api/",
       url_deploy: "https://sipola-sixab.herokuapp.com/api/",
+
+      invalidDate: false,
+      isWindowSmall: false,
     }
   },
   computed: {
@@ -353,10 +486,20 @@ export default {
     items() {
       this.totalRowsPengeluaran = this.pengeluaranList.length
       return this.pengeluaranList;
-    }
+    },
   },
   beforeMount(){
     this.getPendapatanPengeluaran();
+  },
+  mounted(){
+    this.getPaginationCoordinate();
+  },
+  created() {
+      window.addEventListener('resize', this.handleResize);
+      this.handleResize();
+  },
+  destroyed() {
+      window.removeEventListener('resize', this.handleResize);
   },
   methods: {
     getPendapatanPengeluaran: function(){
@@ -390,15 +533,40 @@ export default {
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     },
     onSubmit(evt) {
-      if(this.startDate != null && this.endDate != null) {
-        this.$router.replace('?tanggalAwal=' + this.startDate + '&tanggalAkhir=' + this.endDate);
-      } else if (this.startDate != null){
-        this.$router.replace('?tanggalAwal=' + this.startDate);
-      } else if (this.endDate != null){
-        this.$router.replace('?tanggalAkhir=' + this.startDate);
+      if(this.startDate != '' && this.endDate != '' && this.startDate > this.endDate){
+        this.invalidDate = true;
+        this.$router.replace('');
+        console.log("INVALID");
+        // Reset data
+        this.totalPendapatan = 0;
+        this.totalPengeluaran = 0;
+        this.pengeluaranList = [];
+        this.pendapatanList = [];
       }
-      // this.$router.push({ name: 'income-expense-summary', query: {tanggalAwal:this.startDate, tanggalAkhir: this.endDate}});
-      this.getPendapatanPengeluaran()
+      else{
+        console.log("VALID");
+        if(this.startDate != '' && this.endDate != '') {
+          this.$router.replace('?tanggalAwal=' + this.startDate + '&tanggalAkhir=' + this.endDate);
+          console.log("Date Valid");
+        } else if (this.startDate != ''){
+          this.$router.replace('?tanggalAwal=' + this.startDate);
+        } else if (this.endDate != ''){
+          this.$router.replace('?tanggalAkhir=' + this.endDate);
+        } else {
+          console.log("VALID 0");
+          this.$router.replace('');
+        }
+        this.invalidDate = false;
+        this.getPendapatanPengeluaran();
+      }
+
+    },
+    handleResize() {
+        if(window.innerWidth <= 659){
+          this.isWindowSmall = true;
+        } else {
+          this.isWindowSmall = false;
+        }
     },
     redirect(){
         this.$router.push({ name: 'expense'});
@@ -451,6 +619,10 @@ export default {
     border-width: 1px;
     background-color: #109CF1;
     color:white;
+}
+
+.invalid-date-text{
+   font-size:14px;
 }
 
 p{

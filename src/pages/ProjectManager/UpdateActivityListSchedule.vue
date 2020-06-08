@@ -26,7 +26,7 @@
                     type="text"
                     required
                     :maxlength="255"
-                    placeholder="Project Name"
+                    placeholder="Ex: Replacement Radiators of Transformer UAT 2A, 54MVA"
                     pattern=".*[a-zA-Z].*"
                     disabled>
                   </b-form-input>
@@ -39,15 +39,17 @@
                     v-model="activityListSchedule.namaPerusahaan"
                     type="text"
                     required
+                    list="list-name-company"
                     :maxlength="255"
-                    placeholder="Company Name"
+                    placeholder="Ex: PT TJB Power Services"
                     pattern=".*[a-zA-Z].*"
                     disabled>
                   </b-form-input>
+                  <b-form-datalist id="list-name-company" :options="companyName"></b-form-datalist>
                 </b-form-group>
 
                 <div class="d-none d-md-block d-lg-block">
-                  <div class="row" style="margin: 0 -15px -12px -15px;">
+                  <div class="row" style="margin: 0 -22px -12px -15px;">
                     <div class = "col-md-5 required">
                       <label class="label">Activity Name</label>
                     </div>
@@ -69,7 +71,7 @@
                     </b-col>
                 </b-row>
 
-                <b-row style="margin-top: 2px;">
+                <b-row>
                     <div class ="col-md-4 col-12">
                       <b-button class="btn btn-primary add-button" @click="addRow()">Add More Activity <span><img src="@/assets/img/add-circle-blue-icon.png" alt="" width="18px" style="margin-top: -4px;"></span></b-button>
                     </div>
@@ -81,13 +83,13 @@
                         id="notes"
                         v-model="activityListSchedule.catatan"
                         type="text"
-                        placeholder="Notes"
+                        placeholder="Ex: Power supply provided by TJB, Top up oil , passivator prepared by TJB"
                         >
                     </b-form-textarea>
                 </b-form-group>
 
                 <div class = "button-group">
-                  <b-button class="save-button" type="submit">Save</b-button>
+                  <b-button class = "save-button" type="submit">Save</b-button>
                   <router-link :to="{name: 'detail-activity-list-schedule'}">
                     <b-button class="cancel-button" type="reset">Cancel</b-button>
                   </router-link>
@@ -198,18 +200,22 @@ export default {
         tanggalSelesaiTugas : '',
         daftarTugas : '',
       },
+      companies: [],
+      companyName: [],
       show: true,
       successModal : false,
       failedModal : false,
       confirmationModal : false,
       send : {objects : null},
       url_local: 'http://localhost:8080/api/activity-list-schedule/',
-      url_deploy: 'https://sipola-sixab.herokuapp.com/api/activity-list-schedule/'
+      url_deploy: 'https://sipola-sixab.herokuapp.com/api/activity-list-schedule/',
+      url_deploy_company: 'https://sipola-sixab.herokuapp.com/api/company/'
     }
   },
 
   beforeMount() {
     this.getDetail();
+    this.getAllCompany();
   },
 
   methods: {
@@ -270,7 +276,16 @@ export default {
       axios.put(this.url_deploy + this.$route.params.id + '/update', activityListSchedule, { headers: authHeader() })
       .then(res => {this.activityListSchedule = res.data.result, this.showMessage(res.data.status)});
     },
+    getAllCompany: function(){
+        axios.get( this.url_deploy_company + 'all', {headers : authHeader()})
+        .then(result => {this.companies = result.data.result, this.getCompanyName();});
+    },
 
+    getCompanyName(){
+      this.companies.map((company) => {
+        this.companyName.push(company.nama);
+      });
+    },
     redirect(){
         this.$router.push({ name: 'detail-activity-list-schedule',  params: {id:this.activityListSchedule.id}});
     },

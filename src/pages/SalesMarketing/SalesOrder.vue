@@ -97,8 +97,12 @@
                     <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
                   </template>
 
-                  <template v-slot:cell(index)="row">
-                    {{ row.index + 1}}
+                  <template v-if="currentPage === 1" v-slot:cell(index)="row">
+                    {{ row.index + 1 }}
+                  </template>
+
+                  <template v-else v-slot:cell(index)="row">
+                    {{ row.index + 1 + (perPage * (currentPage - 1)) }}
                   </template>
 
                   <template v-slot:cell(date)="row">
@@ -248,7 +252,7 @@ export default {
                 this.sales_orders[i].serviceOrder[j].total_harga = this.sales_orders[i].serviceOrder[j].pricePerUnit * this.sales_orders[i].serviceOrder[j].quantity;
                 total_harga_semua +=  this.sales_orders[i].serviceOrder[j].total_harga;
             }
-            this.sales_orders[i].total_harga_semua = 'Rp ' + total_harga_semua.toLocaleString('de-DE') + ',00';
+            this.sales_orders[i].total_harga_semua = 'Rp' + total_harga_semua.toLocaleString('de-DE') + ',00';
           }
       },
   }

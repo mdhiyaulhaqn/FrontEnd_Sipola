@@ -283,6 +283,7 @@ export default {
             var doc = new jsPDF()
             let noDeliveryOrder = this.delivery_order.noDeliveryOrder
             let qcPassed = this.delivery_order.qcPassed
+            let shipBy = this.delivery_order.shipBy
             let purchaseOrderNo = this.delivery_order.poNumber
             let termsCondition = this.delivery_order.termsCondition
             let company = this.delivery_order.company
@@ -314,7 +315,7 @@ export default {
             doc.text('Delivery Order No ', startX, startY+35); doc.text(': ' + noDeliveryOrder, 65,startY+35);
             doc.text('QC Passed / Delivery ', startX, startY+41); doc.text(': '+ qcPassed, 65,startY+41);
             doc.text('Purchase Order ', startX, startY+47); doc.text(': '+ purchaseOrderNo, 65,startY+47);
-            doc.text('Ship By ', startX, startY+53); doc.text(': ', 65,startY+53);
+            doc.text('Ship By ', startX, startY+53); doc.text(': '+ shipBy, 65,startY+53);
 
             doc.setFontStyle("bold");
             doc.text('Customer,', widthPaper-85, startY+35);

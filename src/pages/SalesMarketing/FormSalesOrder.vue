@@ -23,7 +23,7 @@
                             v-model="new_sales_order.noSalesOrder"
                             type="text"
                             required
-                            placeholder="Sales Order Number">
+                            placeholder="Ex : R19022">
                         </b-form-input>
                     </b-form-group>
                     </b-col>
@@ -47,7 +47,7 @@
                         v-model="new_sales_order.poNumber"
                         type="text"
                         required
-                        placeholder="Sales Order Number">
+                        placeholder="Ex : POO5-C06190400007">
                     </b-form-input>
                 </b-form-group>
 
@@ -83,10 +83,10 @@
                             <label class="label">Service Order</label>
                         </div>
                         <div class="col-md-2 required">
-                            <label class="label">UOM</label>
+                            <label class="label">Quantity</label>
                         </div>
                         <div class="col-md-2 required">
-                            <label class="label">Quantity</label>
+                            <label class="label">UOM</label>
                         </div>
                         <div class="col-md-3 required">
                             <label class="label">Unit Price (IDR)</label>
@@ -140,7 +140,7 @@
                 <img src="@/assets/img/success-icon.png" alt="" width="50px">
                 </b-col>
                 <b-col class="col-10">
-                <p id="modal-message">Sales order was successfully added.</p>
+                <p id="modal-message">Sales order with PO number {{new_sales_order.poNumber}}  was successfully added.</p>
                 </b-col>
             </b-row>
             </div>

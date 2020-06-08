@@ -173,7 +173,7 @@
                     <img src="@/assets/img/success-icon.png" alt="" width="50px">
                     </b-col>
                     <b-col class="col-10">
-                    <p id="modal-message">Quotation no. {{quotation.noQuotation}} was successfully deleted from list.list.</p>
+                    <p id="modal-message">Quotation no. {{quotation.noQuotation}} was successfully deleted from list.</p>
                     </b-col>
                 </b-row>
                 </div>
@@ -244,8 +244,8 @@ export default {
             this.quotation.total_harga_semua = total_harga_semua;
             for(let a = 0;a <  this.quotation.service.length; a++){
                  this.quotation.service[a].quantity_new =  this.quotation.service[a].quantity + ' Lot'
-                 this.quotation.service[a].harga_new = 'Rp ' +  this.quotation.service[a].harga.toLocaleString('de-DE') + ',00'
-                 this.quotation.service[a].total_harga = 'Rp ' +  this.quotation.service[a].total_harga.toLocaleString('de-DE') + ',00'
+                 this.quotation.service[a].harga_new = 'Rp' +  this.quotation.service[a].harga.toLocaleString('de-DE') + ',00'
+                 this.quotation.service[a].total_harga = 'Rp' +  this.quotation.service[a].total_harga.toLocaleString('de-DE') + ',00'
             }
         },
         getDetail: function(){
@@ -334,7 +334,7 @@ export default {
             doc.setFontStyle("bold");
             doc.text('Syarat dan Kondisi Penawaran : ', startX, finalY+20);
             doc.setFontStyle("light");
-            var termsSplit = termsCondition.split("-")
+            // var termsSplit = termsCondition.split("-")
             var newY = finalY+20
             var lMargin=20; //left margin in mm
             var rMargin=20; //right margin in mm
