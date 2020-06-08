@@ -27,7 +27,7 @@
                     v-model="filter"
                     type="search"
                     id="filterInput"
-                    placeholder="Project, Requester, Date"
+                    placeholder="Project Name, Requester"
                   ></b-form-input>
                   <b-input-group-append>
                     <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
