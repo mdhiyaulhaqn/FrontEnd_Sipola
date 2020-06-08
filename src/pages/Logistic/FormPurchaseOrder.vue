@@ -23,7 +23,7 @@
                                         v-model="purchaseOrder.noPurchaseOrder"
                                         type="text"
                                         required
-                                        placeholder="Purchase Order Number"
+                                        placeholder="Purchase Order Number (Ex. 001/PO/01-2020)"
                                     ></b-form-input>
                                 </b-form-group>
                             </div>
@@ -51,7 +51,8 @@
                                         v-model="purchaseOrder.noCustRef"
                                         type="text"
                                         required
-                                        placeholder="Customer Reference Number"
+                                        placeholder="Cust Ref. No. (Ex. 001/ADM/STI/Mtn/I/2020)"
+                                        pattern="[a-zA-Z0-9\s]+"
                                     ></b-form-input>
                                 </b-form-group>
                             </div>
@@ -63,7 +64,8 @@
                                         v-model="purchaseOrder.noProject"
                                         type="text"
                                         required
-                                        placeholder="Project Number"
+                                        placeholder="Project Number (Ex. R19016)"
+                                        pattern="[a-zA-Z0-9\s]+"
                                     ></b-form-input>
                                 </b-form-group>
                             </div>
@@ -93,6 +95,7 @@
                                         type="text"
                                         required
                                         placeholder="Attn Name"
+                                        pattern="[a-zA-Z\s]+"
                                         >
                                     </b-form-input>
                                 </b-form-group>
@@ -173,7 +176,7 @@
                         <img src="@/assets/img/success-icon.png" alt="" width="50px">
                     </b-col>
                     <b-col class="col-10">
-                        <p id="modal-message">Purchase order was successfully added.</p>
+                        <p id="modal-message">Purchase order no. {{purchaseOrder.noPurchaseOrder}} was successfully added.</p>
                     </b-col>
                     </b-row>
                 </div>
@@ -202,6 +205,7 @@ import PurchasedItem from '@/pages/Logistic/PurchasedItem.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
 import authHeader from '../../services/auth-header';
+import VTooltip from 'v-tooltip';
 
 export default {
     components : {
@@ -214,6 +218,9 @@ export default {
 
             purchasedItems: [],
             id_purchased_item : {id:0},
+
+            text: null,
+            msg: "Lot/Pcs/Set/Liter",
 
             purchaseOrder : {
                 noPurchaseOrder : '',
