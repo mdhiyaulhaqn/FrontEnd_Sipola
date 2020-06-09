@@ -104,7 +104,9 @@
           <div class = "card-header"><div class = "judul-card">Project Statistics <i class="ti ti-pie-chart" style="color:black"></i> </div> for year {{selected}}</div>
           <div class = "card-body">
             <PieChart :width="300" :height="300" :chartData="datacollection" :options="options"></PieChart>
+            <h6>*Number shown when hover is in percent</h6>
           </div>
+
 
         </div>
       </div>
@@ -408,7 +410,20 @@ export default {
               ticks: {
                 suggestedMin: 0
               }
-            }]
+            }],
+            yAxes: [{
+              ticks: {
+                beginAtZero: true,
+                userCallback: function(value, index, values) {
+                  // Convert the number to a string and splite the string every 3 charaters from the end
+                  value = value.toString();
+                  value = value.split(/(?=(?:...)*$)/);
+                  // Convert the array to a string and format the output
+                  value = value.join('.');
+                  return 'Rp' + value;
+               }
+              }
+            }],
           }
       }
     },
@@ -431,7 +446,7 @@ export default {
       var persen_belum_selesai = parseFloat(belom_selesai) / total_project * 100
       var persen_sudah_selesai = parseFloat(sudah_selesai) / total_project * 100
 
-      var label_data = [" Sudah Selesai", "Belum Selesai"]
+      var label_data = ["Done", "In Progress"]
       var series_data = [persen_sudah_selesai, persen_belum_selesai]
 
       // this.projectData = {

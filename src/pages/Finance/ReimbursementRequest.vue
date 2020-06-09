@@ -27,7 +27,7 @@
                     v-model="filter"
                     type="search"
                     id="filterInput"
-                    placeholder="Project, Requester, Date"
+                    placeholder="Project Name, Requester"
                   ></b-form-input>
                   <b-input-group-append>
                     <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
@@ -77,8 +77,12 @@
               <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
             </template>
 
-            <template v-slot:cell(index)="row">
-                {{ row.index + 1}}
+            <template v-if="currentPage === 1" v-slot:cell(index)="row">
+              {{ row.index + 1 }}
+            </template>
+
+            <template v-else v-slot:cell(index)="row">
+              {{ row.index + 1 + (perPage * (currentPage - 1)) }}
             </template>
 
              <template v-slot:cell(totalReimburse)="row">

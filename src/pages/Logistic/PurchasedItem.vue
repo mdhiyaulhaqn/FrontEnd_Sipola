@@ -22,7 +22,7 @@
             id="quantity"
                 v-model="purchasedItem.quantity"
                 type="number"
-                min="0"
+                min="1"
                 required
                 placeholder="0"
             >
@@ -38,7 +38,7 @@
                 v-model="purchasedItem.unitOfMeasurement"
                 type="text"
                 required
-                placeholder="UOM"
+                placeholder="Pcs/Lot/Ltr/Set"
                 pattern="[a-zA-Z\s]+"
             >
             </b-form-input>

@@ -98,12 +98,24 @@
               <div class="text-nowrap" style="font-size: 13px;">{{ data.label }}</div>
             </template>
 
-            <template v-slot:cell(index)="row">
+            <template v-if="currentPage === 1" v-slot:cell(index)="row">
               {{ row.index + 1 }}
+            </template>
+
+            <template v-else v-slot:cell(index)="row">
+              {{ row.index + 1 + (perPage * (currentPage - 1)) }}
             </template>
 
             <template v-slot:cell(date)="row">
               {{ row.value | moment("ll") }}
+            </template>
+
+            <template v-slot:cell(start)="row">
+              {{ row.value.slice(0, 5) }}
+            </template>
+
+            <template v-slot:cell(end)="row">
+              {{ row.value.slice(0, 5) }}
             </template>
 
             <template v-slot:cell(approvedBy)="row">
