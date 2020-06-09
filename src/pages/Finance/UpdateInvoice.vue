@@ -150,7 +150,7 @@
                                 v-model="invoice.paymentTerms"
                                 type="text"
                                 required
-                                placeholder="Payment Terms"
+                                placeholder="Payment Terms (Ex. 90 days after invoice)"
                                 pattern="[a-zA-Z0-9\s]+"
                                 >
                             </b-form-input>
@@ -165,7 +165,7 @@
                                 v-model="invoice.termsOfDelivery"
                                 type="text"
                                 required
-                                placeholder="Terms of Delivery"
+                                placeholder="Terms of Delivery (Ex. Franco)"
                                 pattern="[a-zA-Z\s]+"
                                 >
                             </b-form-input>
