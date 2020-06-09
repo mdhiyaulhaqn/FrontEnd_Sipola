@@ -67,19 +67,43 @@
 
                  <b-row>
                     <b-col md="12">
-                        <b-form-group>
-                            <label class="label" for="companyName" >Company Name</label>
-                            <b-form-select v-model="sales_order.company" required>
-                                <template slot="companyName">
-                                    <option :value="null" disabled>-- Choose Company --</option>
-                                </template>
-                                <option v-for="company in companies" :key="company.id" :value="company">
-                                    {{ company.nama }} - {{ company.alamat }}
-                                </option>
-                            </b-form-select>
+                        <b-form-group size="sm" class="required">
+                            <label for="company" class="label">Company Name</label>
+                                <b-form-input
+                                    id="companyName"
+                                    v-model="company.nama"
+                                    type="text"
+                                    required
+                                    placeholder="Company Name"
+                                    list="companyList"
+                                >
+                                </b-form-input>
+                                <b-form-datalist id="companyList" :options="company_names">
+                                </b-form-datalist>
                         </b-form-group>
                     </b-col>
                 </b-row>
+
+                <b-row>
+                    <b-col md="12">
+                        <b-form-group size="sm" class="required">
+                            <label for="company" class="label">Company Address</label>
+                                <b-form-input
+                                    id="companyAddress"
+                                    v-model="company.alamat"
+                                    type="text"
+                                    required
+                                    placeholder="Company Name"
+                                    list="addressList"
+                                >
+                                </b-form-input>
+                                <b-form-datalist id="addressList" :options="company_address">
+                                </b-form-datalist>
+                        </b-form-group>
+                       
+                    </b-col>
+                </b-row>
+
 
                 <div class="d-none d-md-block d-lg-block">
                     <div class="row" style="margin: 0 -15px 0 -15px;">
@@ -219,7 +243,8 @@ export default {
             editor: ClassicEditor,
             service_orders: [],
             timestamp:"",
-
+            company_names : [],
+            company_address : [],
             sales_order : {
             },
 
@@ -231,6 +256,12 @@ export default {
                 quantity : '',
                 sales_order : '',
             },
+
+            company : {
+                nama : '',
+                alamat : '',
+            },
+
             show: true,
             successModal : false,
             failedModal : false,
@@ -246,7 +277,6 @@ export default {
 
     beforeMount() {
         this.getAllCompany();
-        this.getDetail();
 	},
 
     methods: {
@@ -267,11 +297,9 @@ export default {
         },
 
         onSubmit(evt) {
-
             evt.preventDefault();
-
+            this.sales_order.company = this.company;
             this.sales_order.serviceOrder = this.service_orders;
-
             this.updateSalesOrder(this.sales_order);
         },
 
@@ -304,11 +332,15 @@ export default {
                 this.new_service_order.uom = ''
                 this.new_service_order.sales_order = ''
             }
+            for(let i = 0 ; i < this.companies.length ; i ++){
+                this.company_names.push(this.companies[i].nama);
+                this.company_address.push(this.companies[i].alamat);
+            }
         },
 
         getDetail: function(){
             axios.get(this.url_deploy + +this.$route.params.id, { headers: authHeader() })
-            .then(res => {this.sales_order = res.data, this.fetchData()})
+            .then(res => {this.sales_order = res.data, this.fetchData(), this.company = res.data.company})
             .catch(err => this.sales_order = err.data);
         },
 
@@ -325,7 +357,7 @@ export default {
 
         getAllCompany: function(){
             axios.get( this.url_deploy_company + 'all', { headers: authHeader() })
-            .then(result => this.companies = result.data.result);
+            .then(result => {this.companies = result.data.result, this.getDetail()});
         },
 
         redirect(){

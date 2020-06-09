@@ -61,10 +61,12 @@
                         v-model="pengeluaran.paidBy"
                         type="text"
                         required
+                        list="list-name-responsible"
                         placeholder="Paid by"
                         pattern="[a-zA-Z0-9\s]+"
                         >
                     </b-form-input>
+                    <b-form-datalist id="list-name-responsible" :options="userName"></b-form-datalist>
                 </b-form-group>
                 <div class = "button-group">
                   <b-button class = "save-button" type="submit">Save</b-button>
@@ -162,16 +164,19 @@ import authHeader from '../../services/auth-header';
                 tanggal : null,
                 paidBy : null
             },
+            userName: [],
             successModal: false,
             confirmationModal: false,
             show: true,
             url_local: "http://localhost:8080/api/pengeluaran/",
             url_deploy: "https://sipola-sixab.herokuapp.com/api/pengeluaran/",
+            url_deploy_users: 'https://sipola-sixab.herokuapp.com/api/user/'
         }
     },
 
     beforeMount(){
         this.getDetail();
+        this.getAllUser();
     },
 
     methods: {
@@ -221,7 +226,17 @@ import authHeader from '../../services/auth-header';
         toDetailPage(){
             console.log(" ID 2 : " + this.pengeluaran.id)
             this.$router.replace("/expense/" + this.pengeluaran.id)
-        }
+        },
+        getAllUser: function(){
+            axios.get(this.url_deploy_users + 'all', { headers: authHeader() })
+            .then(response => {this.users = response.data.result, this.getUserName();});
+            },
+
+            getUserName(){
+            this.users.map((user) => {
+                this.userName.push(user.name);
+            });
+        },
     }
 }
 </script>
