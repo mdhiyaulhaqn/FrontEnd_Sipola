@@ -188,17 +188,17 @@ const routes = [
         }
       },
       {
-        path: "expense/:id/update",
-        name: "expense-update",
-        component: UpdatePengeluaran,
+        path: "expense/add",
+        name: "expense-add",
+        component: FormPengeluaran,
         meta : {
           is_finance : true
         }
       },
       {
-        path: "expense/add",
-        name: "expense-add",
-        component: FormPengeluaran,
+        path: "expense/:id/update",
+        name: "expense-update",
+        component: UpdatePengeluaran,
         meta : {
           is_finance : true
         }
@@ -212,17 +212,17 @@ const routes = [
         }
       },
       {
-        path: "invoice/:id",
-        name: "detail-invoice",
-        component: DetailInvoice,
+        path: "invoice/sales-order/:id/add",
+        name: "invoice-add",
+        component: FormInvoice,
         meta : {
           is_finance : true
         }
       },
       {
-        path: "invoice/sales-order/:id/add",
-        name: "invoice-add",
-        component: FormInvoice,
+        path: "invoice/:id",
+        name: "detail-invoice",
+        component: DetailInvoice,
         meta : {
           is_finance : true
         }
@@ -368,17 +368,17 @@ const routes = [
         }
       },
       {
-        path: "purchase-order/:id",
-        name: "detail-purchase-order",
-        component: DetailPurchaseOrder,
+        path: "purchase-order/add",
+        name: "purchase-order-add",
+        component: FormPurchaseOrder,
         meta : {
           is_logistik : true
         }
       },
       {
-        path: "purchase-order/add",
-        name: "purchase-order-add",
-        component: FormPurchaseOrder,
+        path: "purchase-order/:id",
+        name: "detail-purchase-order",
+        component: DetailPurchaseOrder,
         meta : {
           is_logistik : true
         }
