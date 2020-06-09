@@ -43,30 +43,44 @@
                     </div>
                 </div>
 
-                <b-form-group class="required">
-                    <label class="label"  for="companyName">Company Name</label>
-                    <b-form-input
-                        id="companyName"
-                        v-model="new_company.nama"
-                        type="text"
-                        required
-                        placeholder="Company Name"
-                        pattern=".*[a-zA-Z0-9-].*"
-                        >
-                    </b-form-input>
-                </b-form-group>
+                <b-row>
+                    <b-col md="12">
+                        <b-form-group size="sm" class="required">
+                            <label for="company" class="label">Company Name</label>
+                                <b-form-input
+                                    id="companyName"
+                                    v-model="new_company.nama"
+                                    type="text"
+                                    required
+                                    placeholder="Company Name"
+                                    list="companyList"
+                                >
+                                </b-form-input>
+                                <b-form-datalist id="companyList" :options="company_names">
+                                </b-form-datalist>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
 
-                <b-form-group class="required">
-                    <label class="label"  for="companyAddress">Company Address</label>
-                    <b-form-input
-                        id="companyAddress"
-                        v-model="new_company.alamat"
-                        type="text"
-                        required
-                        placeholder="Company Address"
-                        >
-                    </b-form-input>
-                </b-form-group>
+                <b-row>
+                    <b-col md="12">
+                        <b-form-group size="sm" class="required">
+                            <label for="company" class="label">Company Address</label>
+                                <b-form-input
+                                    id="companyAddress"
+                                    v-model="new_company.alamat"
+                                    type="text"
+                                    required
+                                    placeholder="Company Name"
+                                    list="addressList"
+                                >
+                                </b-form-input>
+                                <b-form-datalist id="addressList" :options="company_address">
+                                </b-form-datalist>
+                        </b-form-group>
+                       
+                    </b-col>
+                </b-row>
 
                 <div class="d-none d-md-block d-lg-block">
                     <div class="row" style="margin: 0 -20px 0 -15px;">
@@ -167,8 +181,11 @@ export default {
       return {
            editor: ClassicEditor,
             services: [],
+            companies : [],
             id_services : {id:0},
             timestamp:"",
+            company_names : [],
+            company_address : [],
             new_quotation : {
                 createdBy : '',
                 date : '',
@@ -195,11 +212,14 @@ export default {
             failedModal : false,
             send : {objects : null},
             url_local: 'http://localhost:8080/api/quotation/',
-            url_deploy: 'https://sipola-sixab.herokuapp.com/api/quotation/'
+            url_deploy: 'https://sipola-sixab.herokuapp.com/api/quotation/',
+            url_local_company: 'http://localhost:8080/api/company/',
+            url_deploy_company: 'https://sipola-sixab.herokuapp.com/api/company/'
         }
     },
     beforeMount() {
-      this.addRow();
+        this.getAllCompany();
+        this.addRow();
 	},
     methods: {
         addRow(){
@@ -234,6 +254,19 @@ export default {
             axios.post(this.url_deploy + 'add',  quot, { headers: authHeader() })
             .then(res => {this.new_quotation = res.data.result, this.showMessage(res.data.status)});
         },
+
+        getAllCompany: function(){
+            axios.get( this.url_deploy_company + 'all', { headers: authHeader() })
+            .then(result => {this.companies = result.data.result, this.fetchCompany()});
+        },
+
+        fetchCompany : function(){
+            for(let i = 0 ; i < this.companies.length ; i ++){
+                this.company_names.push(this.companies[i].nama);
+                this.company_address.push(this.companies[i].alamat);
+            }
+        },
+        
         redirect(){
             this.$router.push({ name: 'detail-quotation',  params: {id:this.new_quotation.id}});
         },

@@ -11,7 +11,7 @@
             v-model="product.nama"
             type="text"
             required
-            placeholder="Description"
+            placeholder="Item"
             pattern=".*[a-zA-Z0-9-].*"
             >
         </b-form-input>
@@ -27,20 +27,21 @@
             type="number"
             required
             placeholder="0"
+            min="0"
             >
         </b-form-input>
     </div>
 
      <span class = "col-md-6 col-sm-4 col-xs-4 col-5 d-block d-xs-block d-sm-block d-md-none required">
-        <label class="label" style="margin-left: -8px;">Project/Service No</label>
+        <label class="label" style="margin-left: -8px;">UOM</label>
     </span>
 
     <div class = "col-md-3 col-sm-8 col-xs-8 col-7" style="margin-bottom: 5px;">
         <b-form-input
-            id="projectNo"
-            v-model="product.projectNo"
+            id="uom"
+            v-model="product.uom"
             type="text"
-            placeholder="Pro / Serv No"
+            placeholder="Uom"
             pattern=".*[a-zA-Z0-9-].*"
             >
         </b-form-input>

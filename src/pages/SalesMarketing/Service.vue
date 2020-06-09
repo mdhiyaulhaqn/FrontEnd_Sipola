@@ -43,6 +43,7 @@
             required
             placeholder="0"
             lang="de-DE"
+            min="0"
             >
         </b-form-input>
     </div>

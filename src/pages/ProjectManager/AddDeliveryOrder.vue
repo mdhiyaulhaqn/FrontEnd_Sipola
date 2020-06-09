@@ -72,32 +72,55 @@
                     </div>
              </b-row>
 
-                  <b-row>
+                 <b-row>
                     <b-col md="12">
-                        <b-form-group class="required">
-                            <label class="label" for="companyName" >Company</label>
-                            <b-form-select v-model="new_delivery_order.company" required>
-                                <template slot="companyName">
-                                    <option :value="null" disabled>-- Choose Company --</option>
-                                </template>
-                                <option v-for="company in companies" :key="company.id" :value="company">
-                                    {{ company.nama }} - {{ company.alamat }}
-                                </option>
-                            </b-form-select>
+                        <b-form-group size="sm" class="required">
+                            <label for="company" class="label">Company Name</label>
+                                <b-form-input
+                                    id="companyName"
+                                    v-model="new_company.nama"
+                                    type="text"
+                                    required
+                                    placeholder="Company Name"
+                                    list="companyList"
+                                >
+                                </b-form-input>
+                                <b-form-datalist id="companyList" :options="company_names">
+                                </b-form-datalist>
                         </b-form-group>
+                    </b-col>
+                </b-row>
+
+                <b-row>
+                    <b-col md="12">
+                        <b-form-group size="sm" class="required">
+                            <label for="company" class="label">Company Address</label>
+                                <b-form-input
+                                    id="companyAddress"
+                                    v-model="new_company.alamat"
+                                    type="text"
+                                    required
+                                    placeholder="Company Name"
+                                    list="addressList"
+                                >
+                                </b-form-input>
+                                <b-form-datalist id="addressList" :options="company_address">
+                                </b-form-datalist>
+                        </b-form-group>
+                       
                     </b-col>
                 </b-row>
 
                 <div class="d-none d-md-block d-lg-block">
                     <div class="row" style="margin: 0 -20px -12px -15px;">
                         <div class = "col-md-6 required">
-                            <label class="label" >Description</label>
+                            <label class="label" >Item</label>
                         </div>
                         <div class = "col-md-2 required">
                             <label class="label" >Quantity</label>
                         </div>
                         <div class = "col-md-3">
-                            <label class="label" >Project / Service No</label>
+                            <label class="label" >UOM</label>
                         </div>
                         <div class = "col-md-1">
                         </div>
@@ -113,7 +136,7 @@
 
                 <b-row style="margin-top: 2px;">
                     <div class ="col-md-6 col-12">
-                        <b-button class="btn btn-primary add-button" @click="addRow()">Add Description <span><img src="@/assets/img/add-circle-blue-icon.png" alt="" width="18px" style="margin-top: -4px;"></span></b-button>
+                        <b-button class="btn btn-primary add-button" @click="addRow()">Add Item <span><img src="@/assets/img/add-circle-blue-icon.png" alt="" width="18px" style="margin-top: -4px;"></span></b-button>
                     </div>
                 </b-row>
 
@@ -187,6 +210,8 @@ export default {
 
             products: [],
             companies : [],
+            company_names : [],
+            company_address : [],
             timestamp:"",
 
             new_delivery_order : {
@@ -204,7 +229,11 @@ export default {
                 id_product : 0,
                 nama : '',
                 quantity : '',
-                project_No : '',
+                uom : '',
+            },
+            new_company : {
+                nama : '',
+                alamat : '',
             },
             show: true,
             successModal : false,
@@ -240,6 +269,7 @@ export default {
 
         onSubmit(evt) {
             evt.preventDefault();
+            this.new_delivery_order.company = this.new_company;
             this.new_delivery_order.product = this.products;
             this.new_delivery_order.createdBy = this.$store.state.auth.user.name;
             this.addDeliveryOrder(this.new_delivery_order);
@@ -264,7 +294,14 @@ export default {
 
         getAllCompany: function(){
             axios.get( this.url_deploy_company + 'all', {headers : authHeader()})
-            .then(result => this.companies = result.data.result);
+            .then(result => {this.companies = result.data.result, this.fetchCompany()});
+        },
+
+        fetchCompany: function(){
+            for(let i = 0 ; i < this.companies.length ; i ++){
+                this.company_names.push(this.companies[i].nama);
+                this.company_address.push(this.companies[i].alamat);
+            }
         },
 
 
