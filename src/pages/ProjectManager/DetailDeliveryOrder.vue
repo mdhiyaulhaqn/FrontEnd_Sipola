@@ -219,9 +219,9 @@ export default {
             successModal : false,
             fields: [
                 {key: 'id', label: 'No', sortable: true},
-                {key: 'nama', label: 'Name', sortable: true},
+                {key: 'nama', label: 'Item', sortable: true},
                 {key: 'quantity', label: 'Quantity', sortable: true},
-                {key: 'projectNo', label: 'ProjectNo', sortable: true},
+                {key: 'uom', label: 'UOM', sortable: true},
             ],
             company: {
               id: '',
@@ -332,9 +332,9 @@ export default {
 
             var columns = [
                 {title: "No", dataKey: "nomer"},
-                {title: "Description", dataKey: "nama"},
+                {title: "Item", dataKey: "nama"},
                 {title: "Quantity", dataKey: "quantity"},
-                {title: "Project / Serv. No.", dataKey: "projectNo"},
+                {title: "Uom", dataKey: "uom"},
             ]
 
             doc.autoTable(columns, product, {
@@ -363,10 +363,19 @@ export default {
 
             var newY = finalY+40
 
-            doc.setFontSize(11)
+            doc.setFontSize(11);
+            
+            var specialElementHandlers = {
+                // element with id of "bypass" - jQuery style selector
+                '#bypassme': function (element, renderer) {
+                    // true = "handled elsewhere, bypass text extraction"
+                    return true
+                }
+            };
             doc.fromHTML(termsCondition, startX, newY, {
                 pagesplit: true,
                 'width':160,
+                'elementHandlers': specialElementHandlers
             });
 
             //FOOTER

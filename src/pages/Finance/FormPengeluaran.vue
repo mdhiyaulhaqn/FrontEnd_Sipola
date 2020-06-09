@@ -58,10 +58,12 @@
                         v-model="newPengeluaran.paidBy"
                         type="text"
                         required
+                        list="list-name-responsible"
                         placeholder="Paid by"
                         pattern="[a-zA-Z\s]+"
                         >
                     </b-form-input>
+                    <b-form-datalist id="list-name-responsible" :options="userName"></b-form-datalist>
                 </b-form-group>
 
                 <div class = "button-group">
@@ -133,12 +135,19 @@ import authHeader from '../../services/auth-header';
                 anyReimbursement : false,
             },
 
+            userName: [],
+
             successModal : false,
             failedModal : false,
             show: true,
             url_local: "http://localhost:8080/api/pengeluaran/",
             url_deploy: "https://sipola-sixab.herokuapp.com/api/pengeluaran/",
+            url_deploy_users: 'https://sipola-sixab.herokuapp.com/api/user/'
         }
+    },
+
+    beforeMount() {
+      this.getAllUser();
     },
 
     methods: {
@@ -184,6 +193,15 @@ import authHeader from '../../services/auth-header';
         },
         currentUser() {
           return this.$store.state.auth.user;
+        },
+        getAllUser: function(){
+          axios.get(this.url_deploy_users + 'all', { headers: authHeader() })
+          .then(response => {this.users = response.data.result, this.getUserName();});
+        },
+        getUserName(){
+          this.users.map((user) => {
+            this.userName.push(user.name);
+          });
         },
     }
 }

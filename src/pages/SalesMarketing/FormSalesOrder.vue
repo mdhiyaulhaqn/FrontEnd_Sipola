@@ -63,17 +63,40 @@
 
                 <b-row>
                     <b-col md="12">
-                        <b-form-group class="required">
-                            <label class="label" for="companyName" >Company Name</label>
-                            <b-form-select v-model="new_sales_order.company" required>
-                                <template slot="companyName">
-                                    <option :value="null" disabled>-- Choose Company --</option>
-                                </template>
-                                <option v-for="company in companies" :key="company.id" :value="company">
-                                    {{ company.nama }} - {{ company.alamat }}
-                                </option>
-                            </b-form-select>
+                        <b-form-group size="sm" class="required">
+                            <label for="company" class="label">Company Name</label>
+                                <b-form-input
+                                    id="companyName"
+                                    v-model="new_company.nama"
+                                    type="text"
+                                    required
+                                    placeholder="Company Name"
+                                    list="companyList"
+                                >
+                                </b-form-input>
+                                <b-form-datalist id="companyList" :options="company_names">
+                                </b-form-datalist>
                         </b-form-group>
+                    </b-col>
+                </b-row>
+
+                <b-row>
+                    <b-col md="12">
+                        <b-form-group size="sm" class="required">
+                            <label for="company" class="label">Company Address</label>
+                                <b-form-input
+                                    id="companyAddress"
+                                    v-model="new_company.alamat"
+                                    type="text"
+                                    required
+                                    placeholder="Company Name"
+                                    list="addressList"
+                                >
+                                </b-form-input>
+                                <b-form-datalist id="addressList" :options="company_address">
+                                </b-form-datalist>
+                        </b-form-group>
+                       
                     </b-col>
                 </b-row>
 
@@ -178,6 +201,8 @@ export default {
             editor: ClassicEditor,
             service_orders: [],
             companies : [],
+            company_names : [],
+            company_address : [],
             new_sales_order : {
                 createdBy : "",
                 poDate : '',
@@ -196,6 +221,10 @@ export default {
                 uom : '',
                 quantity : '',
                 sales_order : '',
+            },
+            new_company : {
+                nama : '',
+                alamat : '',
             },
             show: true,
             successModal : false,
@@ -232,6 +261,7 @@ export default {
 
         onSubmit(evt) {
             evt.preventDefault();
+            this.new_sales_order.company = this.new_company;
             this.new_sales_order.serviceOrder = this.service_orders;
             this.new_sales_order.createdBy = this.$store.state.auth.user.name;
             this.addSalesOrder(this.new_sales_order);
@@ -253,7 +283,14 @@ export default {
 
         getAllCompany: function(){
             axios.get( this.url_deploy_company + 'all', {headers : authHeader()})
-            .then(result => this.companies = result.data.result);
+            .then(result => {this.companies = result.data.result, this.fetchCompany()});
+        },
+
+        fetchCompany: function(){
+            for(let i = 0 ; i < this.companies.length ; i ++){
+                this.company_names.push(this.companies[i].nama);
+                this.company_address.push(this.companies[i].alamat);
+            } 
         },
 
         redirect(){

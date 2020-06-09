@@ -56,7 +56,6 @@
                                         type="text"
                                         required
                                         placeholder="Cust Ref. No. (Ex. 001/ADM/STI/Mtn/I/2020)"
-                                        pattern="[a-zA-Z0-9\s]+"
                                     ></b-form-input>
                                 </b-form-group>
                             </div>
