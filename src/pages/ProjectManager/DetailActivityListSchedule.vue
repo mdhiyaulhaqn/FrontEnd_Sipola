@@ -23,6 +23,9 @@
             <div class="vue-app col-sm-12">
               <kendo-gantt id="gantt"
                           :height="'400'"
+                          :toolbar="tools"
+                          :pdf="pdf"
+                          :tooltip="tooltip"
                           :editable-create="false"
                           :show-work-hours="false"
                           :show-work-days="false"
@@ -133,6 +136,18 @@ import authHeader from '../../services/auth-header';
 export default {
   data() {
     return {
+      pdf: {
+        fileName: 'Activity List Schedule (Gantt Chart)',
+        proxyURL: '',
+        title: 'Activity List Schedule (Gantt Chart)'
+      },
+      tools: [
+        { name: "pdf"},
+      ],
+      tooltip: {
+        visible: true,
+        template: "Task: #= task.title #"
+      },
       activityListSchedule: {
         namaProyek: '',
         namaPerusahaan: '',
@@ -150,9 +165,13 @@ export default {
   },
   beforeMount() {
     this.getDetail();
+    this.toPDF();
   },
 
   methods: {
+    toPDF(){
+      this.proxyURL = this.url_deploy + this.$route.params.id + "/export";
+    },
     parameterMap: function(options, operation) {
       if (operation !== 'read') {
         return {models: kendo.stringify(options.models || [options])}
@@ -166,16 +185,6 @@ export default {
     showMessage(status){
       this.successModal = true;
     },
-    // addData(){
-    //   var datasource= new kendo.data.DataSource({
-    //     data: [
-    //       this.activityListSchedule.listTugas
-    //     ]
-    //   });
-    //   datasource.add(this.activityListSchedule.listTugas);
-    //   this.dataSource = datasource.data();
-    //   this.dataSource.push(datasource.data());
-    // },
     getDetail: function(){
       axios.get(this.url_deploy + this.$route.params.id, { headers: authHeader() })
       .then(response => {this.activityListSchedule = response.data.result, this.getActivity()})
@@ -203,7 +212,6 @@ export default {
       parentActivity.end = new Date(this.activityListSchedule.listTugas.slice(-1)[0].tanggalSelesaiTugas);
 
       this.activityListSchedule.listTugas.push(parentActivity);
-      console.log(this.activityListSchedule.listTugas);
     },
     deleteActivityListSchedule(activityListSchedule){
       axios.put(this.url_deploy + this.$route.params.id + '/delete', activityListSchedule, { headers: authHeader() })

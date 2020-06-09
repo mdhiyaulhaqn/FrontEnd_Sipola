@@ -44,6 +44,7 @@
                             required
                             :maxlength="255"
                             placeholder="Purchase Order No."
+                            pattern=".*[a-zA-Z0-9].*"
                             disabled>
                         </b-form-input>
                     </b-form-group>
@@ -191,7 +192,8 @@
                             v-model="dailyActivityReport.overtime"
                             :maxlength="255"
                             type="text"
-                            placeholder="Ex: 30 mins">
+                            placeholder="Ex: 30 mins"
+                            pattern="^[a-zA-Z0-9 ]*$">
                         </b-form-input>
                     </b-form-group>
                   </div>
@@ -203,7 +205,8 @@
                             v-model="dailyActivityReport.morningWeather"
                             :maxlength="255"
                             type="text"
-                            placeholder="Ex: Clear">
+                            placeholder="Ex: Clear"
+                            pattern="^[a-zA-Z]+$">
                         </b-form-input>
                     </b-form-group>
                     <b-form-group>
@@ -213,7 +216,8 @@
                             v-model="dailyActivityReport.afternoonWeather"
                             :maxlength="255"
                             type="text"
-                            placeholder="Ex: Rainy">
+                            placeholder="Ex: Rainy"
+                            pattern="^[a-zA-Z]+$">
                         </b-form-input>
                     </b-form-group>
                     <b-form-group>
@@ -223,7 +227,8 @@
                             v-model="dailyActivityReport.eveningWeather"
                             :maxlength="255"
                             type="text"
-                            placeholder="Ex: Fine">
+                            placeholder="Ex: Fine"
+                            pattern="^[a-zA-Z]+$">
                         </b-form-input>
                     </b-form-group>
                   </div>
