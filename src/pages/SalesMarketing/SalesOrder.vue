@@ -252,7 +252,7 @@ export default {
                 this.sales_orders[i].serviceOrder[j].total_harga = this.sales_orders[i].serviceOrder[j].pricePerUnit * this.sales_orders[i].serviceOrder[j].quantity;
                 total_harga_semua +=  this.sales_orders[i].serviceOrder[j].total_harga;
             }
-            this.sales_orders[i].total_harga_semua = 'Rp ' + total_harga_semua.toLocaleString('de-DE') + ',00';
+            this.sales_orders[i].total_harga_semua = 'Rp' + total_harga_semua.toLocaleString('de-DE') + ',00';
           }
       },
   }

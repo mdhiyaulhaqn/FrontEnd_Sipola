@@ -23,7 +23,7 @@
                                 v-model="new_quotation.noQuotation"
                                 type="text"
                                 required
-                                placeholder="Quotation Number">
+                                placeholder="Ex : QS.19/XII/5010">
                             </b-form-input>
                         </b-form-group>
                     </div>

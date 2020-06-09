@@ -363,10 +363,19 @@ export default {
 
             var newY = finalY+40
 
-            doc.setFontSize(11)
+            doc.setFontSize(11);
+            
+            var specialElementHandlers = {
+                // element with id of "bypass" - jQuery style selector
+                '#bypassme': function (element, renderer) {
+                    // true = "handled elsewhere, bypass text extraction"
+                    return true
+                }
+            };
             doc.fromHTML(termsCondition, startX, newY, {
                 pagesplit: true,
                 'width':160,
+                'elementHandlers': specialElementHandlers
             });
 
             //FOOTER

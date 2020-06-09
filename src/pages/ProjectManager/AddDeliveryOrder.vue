@@ -23,7 +23,7 @@
                                 v-model="new_delivery_order.noDeliveryOrder"
                                 type="text"
                                 required
-                                placeholder="Delivery Order Number">
+                                placeholder="Ex : R19030/AMNT/2019">
                             </b-form-input>
                         </b-form-group>
                     </div>
@@ -37,7 +37,7 @@
                                 v-model="new_delivery_order.poNumber"
                                 type="text"
                                 required
-                                placeholder="Purchase Order Number">
+                                placeholder="Ex : POO5-C06190400007">
                             </b-form-input>
                         </b-form-group>
                     </div>
@@ -112,7 +112,7 @@
                 </b-row>
 
                 <b-row style="margin-top: 2px;">
-                    <div class ="col-md-4 col-12">
+                    <div class ="col-md-6 col-12">
                         <b-button class="btn btn-primary add-button" @click="addRow()">Add Description <span><img src="@/assets/img/add-circle-blue-icon.png" alt="" width="18px" style="margin-top: -4px;"></span></b-button>
                     </div>
                 </b-row>
