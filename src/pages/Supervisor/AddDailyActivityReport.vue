@@ -273,7 +273,7 @@
                             required
                             list="list-name-responsible"
                             placeholder="Please fill with a person name"
-                            pattern=".*[a-zA-Z].*">
+                            pattern="^[a-zA-Z. ]+$">
                         </b-form-input>
                         <b-form-datalist id="list-name-responsible" :options="userName"></b-form-datalist>
                     </b-form-group>
@@ -288,7 +288,7 @@
                             :maxlength="255"
                             list="list-name-approvedBy"
                             placeholder="Please fill with a person name"
-                            pattern=".*[a-zA-Z].*">
+                            pattern="^[a-zA-Z. ]+$">
                         </b-form-input>
                         <b-form-datalist id="list-name-approvedBy" :options="userName"></b-form-datalist>
                     </b-form-group>
