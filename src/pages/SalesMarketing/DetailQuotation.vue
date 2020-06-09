@@ -334,15 +334,26 @@ export default {
             doc.setFontStyle("bold");
             doc.text('Syarat dan Kondisi Penawaran : ', startX, finalY+20);
             doc.setFontStyle("light");
+            
             // var termsSplit = termsCondition.split("-")
             var newY = finalY+20
             var lMargin=20; //left margin in mm
             var rMargin=20; //right margin in mm
             var pdfInMM=210; // width of A4 in mm
             // var lines = doc.splitTextoSize(termsCondition, (pdfInMM-lMargin-rMargin));
+
+            var specialElementHandlers = {
+                // element with id of "bypass" - jQuery style selector
+                '#bypassme': function (element, renderer) {
+                    // true = "handled elsewhere, bypass text extraction"
+                    return true
+                }
+            };
+
             doc.fromHTML(termsCondition, startX, newY, {
                 pagesplit: true,
-                'width':165
+                'width':165,
+                'elementHandlers': specialElementHandlers
             });
             // doc.text(source, startX, newY+5);
             // if(termsSplit.length == 1 ){
