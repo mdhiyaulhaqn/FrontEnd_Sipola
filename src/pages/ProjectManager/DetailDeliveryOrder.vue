@@ -219,9 +219,9 @@ export default {
             successModal : false,
             fields: [
                 {key: 'id', label: 'No', sortable: true},
-                {key: 'nama', label: 'Name', sortable: true},
+                {key: 'nama', label: 'Item', sortable: true},
                 {key: 'quantity', label: 'Quantity', sortable: true},
-                {key: 'projectNo', label: 'ProjectNo', sortable: true},
+                {key: 'uom', label: 'UOM', sortable: true},
             ],
             company: {
               id: '',
@@ -332,9 +332,9 @@ export default {
 
             var columns = [
                 {title: "No", dataKey: "nomer"},
-                {title: "Description", dataKey: "nama"},
+                {title: "Item", dataKey: "nama"},
                 {title: "Quantity", dataKey: "quantity"},
-                {title: "Project / Serv. No.", dataKey: "projectNo"},
+                {title: "Uom", dataKey: "uom"},
             ]
 
             doc.autoTable(columns, product, {

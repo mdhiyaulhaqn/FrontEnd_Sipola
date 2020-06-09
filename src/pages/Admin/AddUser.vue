@@ -228,7 +228,6 @@
 
 <script>
 import User from '../../models/user';
-
 export default {
   name: 'Register',
   data() {
@@ -283,10 +282,8 @@ export default {
   methods: {
     handleRegister() {
       this.user.role.push(this.selectedRole);
-
       this.message = '';
       this.submitted = true;
-
       this.$validator.validate().then(isValid => {
         // isValid = isValid && checkPasswordConfirmation();
         if (isValid) {
@@ -318,7 +315,6 @@ export default {
 </script>
 
 <style scoped>
-
 .add-button{
     width: 100%;
     background-color: white;
@@ -340,7 +336,6 @@ export default {
   margin-left: auto;
   margin-right: auto;
 }
-
 .save-button{
   background-color: #109CF1;
   color:white;
@@ -352,7 +347,6 @@ export default {
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
   text-align: center;
 }
-
 .cancel-button{
   color:#109CF1;
   border-color:#109CF1;
@@ -363,7 +357,6 @@ export default {
   text-align: center;
   font-size: 12px;
 }
-
 .button-group{
   margin-top: 20px;
   text-align: center;
@@ -379,7 +372,6 @@ export default {
     color: #109CF1;
     font-weight: 1000;
 }
-
 .button-confirm-group{
     text-align: right;
 }
@@ -396,7 +388,6 @@ h5{
 #termsConditions{
     height: 200px;
 }
-
 .button-detail-group{
     float:right;
     margin-top: 20px;
