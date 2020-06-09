@@ -78,30 +78,53 @@
 
                   <b-row>
                     <b-col md="12">
-                        <b-form-group class="required">
-                            <label class="label" for="companyName" >Company</label>
-                            <b-form-select v-model="delivery_order.company" required>
-                                <template slot="companyName">
-                                    <option :value="null" disabled>-- Choose Company --</option>
-                                </template>
-                                <option v-for="company in companies" :key="company.id" :value="company">
-                                    {{ company.nama }} - {{ company.alamat }}
-                                </option>
-                            </b-form-select>
+                        <b-form-group size="sm" class="required">
+                            <label for="company" class="label">Company Name</label>
+                                <b-form-input
+                                    id="companyName"
+                                    v-model="company.nama"
+                                    type="text"
+                                    required
+                                    placeholder="Company Name"
+                                    list="companyList"
+                                >
+                                </b-form-input>
+                                <b-form-datalist id="companyList" :options="company_names">
+                                </b-form-datalist>
                         </b-form-group>
+                    </b-col>
+                </b-row>
+
+                <b-row>
+                    <b-col md="12">
+                        <b-form-group size="sm" class="required">
+                            <label for="company" class="label">Company Address</label>
+                                <b-form-input
+                                    id="companyAddress"
+                                    v-model="company.alamat"
+                                    type="text"
+                                    required
+                                    placeholder="Company Name"
+                                    list="addressList"
+                                >
+                                </b-form-input>
+                                <b-form-datalist id="addressList" :options="company_address">
+                                </b-form-datalist>
+                        </b-form-group>
+                       
                     </b-col>
                 </b-row>
 
                 <div class="d-none d-md-block d-lg-block">
                     <div class="row" style="margin: 0 -20px -12px -15px;">
                         <div class = "col-md-6 required">
-                            <label class="label" >Description</label>
+                            <label class="label" >Item</label>
                         </div>
                         <div class = "col-md-2 required">
                             <label class="label" >Quantity</label>
                         </div>
                         <div class = "col-md-3">
-                            <label class="label" >Project / Service No</label>
+                            <label class="label" >UOM</label>
                         </div>
                         <div class = "col-md-1">
                         </div>
@@ -117,7 +140,7 @@
 
                 <b-row style="margin-top: 2px;">
                     <div class ="col-md-4 col-12">
-                        <b-button class="btn btn-primary add-button" @click="addRow()">Add Description <span><img src="@/assets/img/add-circle-blue-icon.png" alt="" width="18px" style="margin-top: -4px;"></span></b-button>
+                        <b-button class="btn btn-primary add-button" @click="addRow()">Add Item <span><img src="@/assets/img/add-circle-blue-icon.png" alt="" width="18px" style="margin-top: -4px;"></span></b-button>
                     </div>
                 </b-row>
 
@@ -236,7 +259,12 @@ export default {
                 id_product : 0,
                 nama : '',
                 quantity : '',
-                project_no : '',
+                uom : '',
+            },
+
+            company : {
+                nama : '',
+                alamat : '',
             },
 
             show: true,
@@ -245,6 +273,8 @@ export default {
             warningModal : false,
             send : {objects : null},
             companies: [],
+            company_names : [],
+            company_address : [],
             url_local: 'http://localhost:8080/api/delivery-order/',
             url_deploy: 'https://sipola-sixab.herokuapp.com/api/delivery-order/',
             url_local_company: 'http://localhost:8080/api/company/',
@@ -254,8 +284,6 @@ export default {
 
     beforeMount() {
         this.getAllCompany();
-        this.getDetail();
-
 	},
 
     methods: {
@@ -277,6 +305,7 @@ export default {
 
         onSubmit(evt) {
             evt.preventDefault();
+            this.delivery_order.company = this.company;
             this.delivery_order.product = this.products;
             this.updateDeliveryOrder(this.delivery_order);
         },
@@ -295,28 +324,33 @@ export default {
             for(let i=0; i< product_dev.length ; i++){
                 this.new_product.id_product++;
                 this.new_product.nama = product_dev[i].nama;
-                this.new_product.projectNo = product_dev[i].projectNo;
+                this.new_product.uom = product_dev[i].uom;
                 this.new_product.quantity = product_dev[i].quantity;
 
                 let product = Object.assign({}, this.new_product);
                 this.products.push(product);
 
                 this.new_product.nama = ''
-                this.new_product.projectNo = ''
+                this.new_product.uom = ''
                 this.new_product.quantity = ''
                 this.new_product.delivery_order = ''
+            }
+
+            for(let i = 0 ; i < this.companies.length ; i ++){
+                this.company_names.push(this.companies[i].nama);
+                this.company_address.push(this.companies[i].alamat);
             }
         },
 
         getDetail: function(){
             axios.get(this.url_deploy +this.$route.params.id, { headers: authHeader() })
-            .then(res => {this.delivery_order = res.data, this.fetchData()})
+            .then(res => {this.delivery_order = res.data, this.fetchData(),  this.company = res.data.company})
             .catch(err => this.delivery_order = err.data);
         },
 
         getAllCompany: function(){
             axios.get(this.url_deploy_company + 'all', { headers: authHeader() })
-            .then(result => this.companies = result.data.result);
+            .then(result => {this.companies = result.data.result,  this.getDetail();});
         },
 
         updateDeliveryOrder(quot){
