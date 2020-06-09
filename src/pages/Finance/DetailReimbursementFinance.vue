@@ -292,7 +292,7 @@ export default {
             rejectModal : false,
             approveModal : false,
             failedModal : false,
-            revision : false,
+            revision : true,
             notValid : false,
             fields: [
                 {key: 'id', label: 'No', sortable: true},
