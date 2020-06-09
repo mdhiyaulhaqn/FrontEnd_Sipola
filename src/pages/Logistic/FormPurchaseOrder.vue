@@ -146,7 +146,7 @@
                             </div>
                         </b-row>
 
-                        <b-form-group class="required">
+                        <b-form-group>
                             <label for="paymentNote" class="label">Payment Notes</label>
                             <ckeditor :editor="editor" v-model="purchaseOrder.paymentNote"></ckeditor>
                         </b-form-group>
