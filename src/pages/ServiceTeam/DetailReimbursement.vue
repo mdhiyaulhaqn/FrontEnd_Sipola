@@ -162,10 +162,10 @@
       </template>
       <template v-slot:modal-footer="{ cancel }">
         <b-col class="button-confirm-group">
-          <b-button @click="sentFinance" id="confirm_send_button">
+          <b-button @click="sentFinance" class="btn btn-primary" id="confirm_send_button">
             Send
           </b-button>
-          <b-button @click="cancel()" id="cancel_send_button">
+          <b-button @click="cancel()" class="btn btn-primary" id="cancel_send_button">
             Cancel
           </b-button>
         </b-col>
@@ -527,18 +527,6 @@ h5{
 }
 
 #cancel_send_button{
-  background-color: #109CF1;
-  color:white;
-  border-color: transparent;
-  font-size: 12px;
-  margin-left: 10px;
-  line-height: 15px;
-  width: 110px;
-  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
-  text-align: center;
-}
-
-#confirm_send_button{
   color:#109CF1;
   border-color:#109CF1;
   background-color: white;
@@ -547,6 +535,18 @@ h5{
   line-height: 15px;
   text-align: center;
   font-size: 12px;
+}
+
+#confirm_send_button{
+  background-color: #109CF1;
+  color:white;
+  border-color: transparent;
+  font-size: 12px;
+  margin-right: 10px;
+  line-height: 15px;
+  width: 120px;
+  box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
+  text-align: center;
 }
 
 img {
