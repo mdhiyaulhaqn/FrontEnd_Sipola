@@ -122,9 +122,18 @@
                                 class="form-control"
                                 name="password"
                                 ref="password"
+                                :state="checkPassword"
+                                aria-describedby="password-help password-feedback"
                                 required
+                                pattern="^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$"
                                 placeholder="Password">
                             </b-form-input>
+
+                            <b-form-invalid-feedback id="password-feedback">
+                              {{ invalidFeedbackPassword }}
+                            </b-form-invalid-feedback>
+
+                            <b-form-text id="password-help">Password must be alphanumeric and at least 6 characters.</b-form-text>
                         </b-form-group>
                     </div>
                 </b-row>
@@ -138,11 +147,15 @@
                                 type="password"
                                 class="form-control"
                                 name="password_confirmation"
-                                v-validate="'required|confirmed:password'"
+                                :state="checkPasswordConfirmation"
+                                aria-describedby="confirm-password-feedback"
                                  data-vv-as="password"
                                 required
                                 placeholder="Password Confirmation">
                             </b-form-input>
+                            <b-form-invalid-feedback id="confirm-password-feedback">
+                              {{ invalidFeedbackPasswordConfirmation }}
+                            </b-form-invalid-feedback>
                         </b-form-group>
                     </div>
                 </b-row>
@@ -215,7 +228,6 @@
 
 <script>
 import User from '../../models/user';
-
 export default {
   name: 'Register',
   data() {
@@ -242,7 +254,25 @@ export default {
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
-    }
+    },
+    checkPassword(){
+      if (this.user.password === '') return null
+      return this.user.password.length >= 6 && new RegExp("^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$").test(this.user.password)? true : false
+    },
+    checkPasswordConfirmation(){
+      if (this.user.password === '') return null
+      if (this.PasswordConfirmation === '') return null
+      return this.user.password === this.PasswordConfirmation ? true : false
+    },
+    invalidFeedbackPassword(){
+      if (this.user.password === '') return ''
+      if (this.user.password.length < 6) return 'Please enter at least 6 characters.'
+      if (!new RegExp("^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$").test(this.user.password)) return 'Please enter a combination of letter and number.'
+    },
+    invalidFeedbackPasswordConfirmation(){
+      if (this.PasswordConfirmation === null) return ''
+      else if (this.user.password != this.PasswordConfirmation) return 'Password did not match.'
+    },
   },
   mounted() {
     // if (this.loggedIn) {
@@ -252,10 +282,8 @@ export default {
   methods: {
     handleRegister() {
       this.user.role.push(this.selectedRole);
-
       this.message = '';
       this.submitted = true;
-
       this.$validator.validate().then(isValid => {
         // isValid = isValid && checkPasswordConfirmation();
         if (isValid) {
@@ -287,7 +315,6 @@ export default {
 </script>
 
 <style scoped>
-
 .add-button{
     width: 100%;
     background-color: white;
@@ -309,7 +336,6 @@ export default {
   margin-left: auto;
   margin-right: auto;
 }
-
 .save-button{
   background-color: #109CF1;
   color:white;
@@ -321,7 +347,6 @@ export default {
   box-shadow: 3px 3px 15px rgba(16, 156, 241, 0.2);
   text-align: center;
 }
-
 .cancel-button{
   color:#109CF1;
   border-color:#109CF1;
@@ -332,7 +357,6 @@ export default {
   text-align: center;
   font-size: 12px;
 }
-
 .button-group{
   margin-top: 20px;
   text-align: center;
@@ -348,7 +372,6 @@ export default {
     color: #109CF1;
     font-weight: 1000;
 }
-
 .button-confirm-group{
     text-align: right;
 }
@@ -365,7 +388,6 @@ h5{
 #termsConditions{
     height: 200px;
 }
-
 .button-detail-group{
     float:right;
     margin-top: 20px;
