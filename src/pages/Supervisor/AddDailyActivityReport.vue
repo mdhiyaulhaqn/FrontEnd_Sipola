@@ -191,7 +191,7 @@
                             type="text"
                             :maxlength="255"
                             placeholder="Ex: 30 mins"
-                            pattern="[a-zA-Z0-9]">
+                            pattern="^[a-zA-Z0-9 ]*$">
                         </b-form-input>
                     </b-form-group>
                   </div>
@@ -204,7 +204,7 @@
                             type="text"
                             :maxlength="255"
                             placeholder="Ex: Clear"
-                            pattern="[a-zA-Z]">
+                            pattern="^[a-zA-Z]+$">
                         </b-form-input>
                     </b-form-group>
                     <b-form-group>
@@ -215,7 +215,7 @@
                             type="text"
                             :maxlength="255"
                             placeholder="Ex: Rainy"
-                            pattern="[a-zA-Z]">
+                            pattern="^[a-zA-Z]+$">
                         </b-form-input>
                     </b-form-group>
                     <b-form-group>
@@ -226,7 +226,7 @@
                             type="text"
                             :maxlength="255"
                             placeholder="Ex: Fine"
-                            pattern="[a-zA-Z]">
+                            pattern="^[a-zA-Z]+$">
                         </b-form-input>
                     </b-form-group>
                   </div>
@@ -273,7 +273,7 @@
                             required
                             list="list-name-responsible"
                             placeholder="Please fill with a person name"
-                            pattern="[a-zA-Z]">
+                            pattern=".*[a-zA-Z].*">
                         </b-form-input>
                         <b-form-datalist id="list-name-responsible" :options="userName"></b-form-datalist>
                     </b-form-group>
@@ -288,7 +288,7 @@
                             :maxlength="255"
                             list="list-name-approvedBy"
                             placeholder="Please fill with a person name"
-                            pattern="[a-zA-Z]">
+                            pattern=".*[a-zA-Z].*">
                         </b-form-input>
                         <b-form-datalist id="list-name-approvedBy" :options="userName"></b-form-datalist>
                     </b-form-group>
